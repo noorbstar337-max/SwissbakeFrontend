@@ -1,0 +1,329 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Shipping Address";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    @Styles.Render("~/Content/Rev")
+}
+
+@section foot{
+
+    @*<script src="~/Content/js/account.js"></script>*@
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+    <script src="~/Content/js/bind/address.js"></script>
+    <script src="~/Content/js/account.js"></script>
+
+
+    @*<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+
+            $("#billing-shipping-form input").keyup(function () {
+                var val = $(this).val();
+                if (val && val != "" && $(this).attr("type") != 'password' && $(this).attr("name") != "emailid") {
+                    val = val.toUpperCase();
+                }
+                $(this).val(val);
+
+            })
+        });
+
+    </script>
+    <script>
+        function capitalizeWords(input) {
+            let value = input.value.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+            input.value = value;
+        }
+
+        function capitalizeAllFieldsBeforeSubmit() {
+            const fields = ['Email', 'Address'];
+            fields.forEach(id => {
+                const input = document.getElementById(id);
+                if (input && input.value) {
+                    capitalizeWords(input);
+                }
+            });
+        }
+
+        // Attach to form submission
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("billing-shipping-form");
+            form.addEventListener("submit", function () {
+                capitalizeAllFieldsBeforeSubmit();
+            });
+        });
+
+        
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll("select.sm-form-control").forEach(function (dropdown) {
+                    for (let i = 0; i < dropdown.options.length; i++) {
+                        dropdown.options[i].text = dropdown.options[i].text.toUpperCase();
+                    }
+                });
+        });
+   
+    </script>
+
+
+    @Scripts.Render("~/bundles/Rev")
+}
+
+@Html.Partial("_AccountMenu")
+
+
+<!-- Content
+        ============================================= -->
+
+@if (Model.Tables["TbBanner"].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables["TbBanner"].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model.Tables["TbBanner"].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-lg-1">You can add, edit or delete your various shipping locations from here.</p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="content" class="address_section" ng-controller="myAddress">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+            <div class="row" ng-show="IsVisible">
+                <div class="heading-block col-md-12">
+                    <h4>Shipping Address</h4>
+                </div>
+                <div class="clear"></div>
+                <div class="card events-meta col-lg-3 col-md-6 col-sm-6 mr-lg-1  mb-3" ng-repeat="A in Address">
+                    <div class="card-body">
+                        <span><i class="fas fa-pen" ng-click="editAdd(A.Id)"></i>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-trash" ng-if="Address.length > 1" ng-click="deleteAdd(A.Id,$index)"></i></span>
+                        <ul class="portfolio-meta nobottommargin">
+                            <li class="clientname"><span>{{A.CompName}}</span> </li>
+                            <li><span>{{A.City}}</span> </li>
+                            <li>
+                                <span>
+                                    {{A.Address.toUpperCase()}},{{A.City}}-{{A.Pin}}.
+                                    @*217, 2nd Floor, Topaz CHS, Dr. A. Nair Rd, Opp. Wockhardt Hospital, Mumbai Central, Mumbai-400011.*@
+                                </span>
+                            </li>
+                            <li><span>{{A.Telephone}}</span></li>
+                            <li><span>{{A.Gst}}</span> </li>
+                        </ul>
+                    </div>
+                </div>
+
+                @*<div class="card events-meta col-lg-3  col-md-6 col-sm-6 mr-lg-1  mb-3">
+                        <div class="card-body">
+                            <ul class="portfolio-meta nobottommargin">
+                                <li class="clientname"><span>Wasim Siddique</span> </li>
+                                <li><span>Acaira Technologies Pvt.Ltd.:</span> </li>
+                                <li><span>Mumbai</span> </li>
+                                <li>
+                                    <span>
+                                       217, 2nd Floor, Topaz CHS, Dr. A. Nair Rd, Opp. Wockhardt Hospital, Mumbai Central, Mumbai-400011.
+                                    </span>
+                                </li>
+                                <li><span>91-22-66733155</span></li>
+
+                            </ul>
+                        </div>
+                    </div>*@
+
+
+
+                <div class="card events-meta  col-lg-3 col-md-6 col-sm-6 mr-lg-1  mb-3" ng-click="ShowHide()">
+                    <div class="card-body add-new-addr">
+                        <div class="datafieldadd">
+                            <i class="fas fa-plus"></i>
+                            <span class="addnew">Add New</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*<div class="datafieldadd col-md-3">
+                        <i class="fas fa-plus"></i>
+                        <span class="addnew">Add New</span>
+                    </div>*@
+            </div>
+
+            @*<div class="clear"></div>
+
+                <div class="w-100 bottommargin"></div>*@
+
+            <div class="row" ng-show="IsHidden">
+
+                <div class="col-md-12 addressform">
+
+
+
+                    <form id="billing-shipping-form" name="billing-shipping-form" class="nobottommargin" method="POST" ng-init="CId=@Session["U_Id"].ToString()">
+
+                        @*<div class="checkbox pull-left">
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes" checked="checked"><span class="checkbox-material"><span class="check"></span></span>
+                                </label>
+                                Same As Billing Address
+                            </div>*@
+
+                        @*<div class="w-100 bottommargin"></div>*@
+
+                        <div class="heading-block">
+                            <h4>Shipping Address</h4>
+                        </div>
+
+                        @*<input type="text" class="d-none" ng-model="CId" ng-value="@Session["U_Id"].ToString()"/>*@
+                        <input type="text" class="d-none" ng-model="mode" />
+                        <input type="text" class="d-none" ng-model="add.Id" />
+                        <div class="col_one_third">
+                            <label for="shipping-form-Name">Shipping Name:</label>
+                            <input type="text" id="Name" name="Name" ng-model="add.CompName" class="sm-form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+
+                        <div class="col_one_third">
+                            <label for="shipping-form-email">Email Address:</label>
+                            @*<input type="email" id="Email" name="Email" ng-model="add.Email = add.Email.toUpperCase()" class="sm-form-control nocpc" />*@
+                            <input type="email" id="Email" name="Email" ng-model="add.Email" ng-change="add.Email = add.Email.toUpperCase()" class="sm-form-control nocpc" />
+
+                        </div>
+
+                        <div class="col_one_third col_last">
+                            <label for="shipping-form-phone">Mobile:</label>
+                            +973 <input type="text" id="Tele" minlength="8" maxlength="8" name="Tele" ng-model="add.Telephone" class="sm-form-control nocpc" onkeypress="return numkey(this);" />
+                        </div>
+
+                        <div class="col_one_third">
+                            <label for="shipping-form-street">Address:</label>
+
+                            @*<input type="text" id="Address" name="Address" ng-model="add.Address = add.Address.toUpperCase()" class="sm-form-control" />*@
+                            <input type="text" id="Address" name="Address" ng-model="add.Address" ng-change="add.Address = add.Address.toUpperCase()" class="sm-form-control" />
+
+                        </div>
+
+                        <div class="col_one_third">
+                            <label for="shipping-form-gst">VAT No:</label>
+                            <input type="text" id="Gst123" name="Gst123" ng-model="add.Gst" class="sm-form-control nocpc" maxlength="15" />
+                        </div>
+
+                        <div class="col_one_third col_last">
+                            <label for="shipping-form-pin">Pin Code:</label>
+                            <input type="text" id="Pin" name="Pin" ng-model="add.Pin" class="sm-form-control nocpc" onkeypress="return numkey(this);" maxlength="10" />
+                        </div>
+
+
+
+                        <div class="col_one_third">
+                            <label for="shipping-form-city">City / Town:</label>
+                            <input type="text" id="City" name="City" ng-model="add.City" class="sm-form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+
+                        <div class="col_one_third">
+                            <label for="shipping-form-state">State:</label>
+                            @Html.DropDownList("State", (SelectList)ViewBag.sttlist, "", new { @class = "sm-form-control", @ng_model = "add.State" })
+
+                            @*<select class="sm-form-control" id="">
+                                    <option>Bahrain</option>
+                                    <option>China</option>
+                                    <option>Australia</option>
+                                    <option>Russia</option>
+                                    <option>Germany</option>
+                                </select>*@
+
+                            @*<label for="shipping-form-state">State:</label>*@
+                            @*@Html.DropDownList("State", (SelectList)ViewBag.sttlist, "", new { @class = "sm-form-control", @ng_model="add.State" })*@
+
+
+
+                            @*<select class="sm-form-control" id="">
+                                    <option>Maharashtra</option>
+                                    <option>Andhra Pradesh</option>
+                                    <option>Gujarat</option>
+                                    <option>Haryana</option>
+                                    <option>Assam</option>
+                                </select>*@
+                        </div>
+
+
+                        <div class="col_one_third col_last">
+                            <label for="shipping-form-country">Country:</label>
+                            @Html.DropDownList("country", (SelectList)ViewBag.cntrylist, new { @class = "sm-form-control", @disabled = "disabled" })
+                        </div>
+                        <div class="clear"></div>
+                        @*<div class="col_one_third">
+                            </div>*@
+
+
+                        <div class="col_full nobottommargin">
+                            <button type="submit" class="button  nomargin save" value="Save">Save</button>
+                            <button type="reset" class="button  nomargin cancel" value="Cancel" ng-click="ShowHide()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- #content end -->

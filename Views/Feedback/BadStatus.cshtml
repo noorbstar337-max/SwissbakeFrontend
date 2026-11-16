@@ -1,0 +1,378 @@
+﻿@*@model IEnumerable<DomainModel.Model.RatingModel>*@
+@using System.Data
+@model DataTable
+
+
+@{
+    ViewBag.Title = "Bad Status";
+    Layout = null;
+    var i = -1;
+}
+<style>
+    hr.new4 {
+        border: 1px solid red;
+    }
+    .sub {
+        color: #fff;
+        background-color: #4d4d4d !important;
+        border-color: #4d4d4d !important;
+    }
+    .logoImage {
+        width: 100%;
+        margin: 0;
+        float: left;
+    }
+</style>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link href="~/Content/css/fbreview.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top example6"
+         style="background-color: #4d4d4d; border-color: #4d4d4d; padding:10px;">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="https://tripjack.com/nav/" target="_blank">
+                    <img src="~/img/logo-white.png"
+                         class="logoImage">
+                </a>
+            </div>
+            <div id="navbar6" class="navbar-collapse collapse top-nav">
+                <ul class="nav navbar-nav navbar-right" style="margin-top:5px;">
+                    <li><a target="_blank" href="https://www.tripjack.com/nav/">Home</a></li>
+                    <li><a target="_blank" href="https://www.tripjack.com/nav/agent">Agents</a></li>
+                    <li>
+                        <a target="_blank"
+                           href="https://www.tripjack.com/nav/distributor">Distributors</a>
+                    </li>
+                    <li><a target="_blank" href="https://www.tripjack.com/nav/supplier">Suppliers</a></li>
+                    <li>
+                        <a target="_blank"
+                           href="https://www.tripjack.com/nav/testimonials">Testimonials</a>
+                    </li>
+                    <li><a target="_blank" href="https://www.tripjack.com/nav/career">Careers</a></li>
+                    <li ><a target="_blank" href="https://www.tripjack.com/nav/contactus">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mainstyle">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 maindiv">
+                <div class="text-center">
+                    <h3 style="text-transform: uppercase; font-weight: 600;">Feedback History</h3>
+                </div><br />
+                <form action="/Feedback/SaveBadReview" method="post">
+                    @foreach (DataRow Item in Model.Rows)
+                    {
+                        { i = i + 1; }
+                        <div style="display:flex;background: #4d4d4d;color: #fff;padding: 0 10px;">
+                            <h4>Your feedback was on @Item["Rating_CreateDate"]</h4>
+                            <input type="hidden" name="RatingId@(i)" value="@Item["Rating_Id"]" />
+                            <input type="checkbox" name="checkbox1@(i)" value="" style="margin: 12px 10px;">
+                        </div>
+                        <br />
+                        <div id="divid">
+                            <table class="grayscale  @ViewBag.feedbackid" border="0" cellspacing="0" cellpadding="0" style=" width: 100%;">
+                                <tbody>
+                                    <tr class="listhead">
+                                        <td class="pagestyle5"><br></td>
+                                        <td class="pagestyle4"><br></td>
+                                        <td class="pagestyle3"><br></td>
+                                        <td class="pagestyle2"><br></td>
+                                        <td class="pagestyle1"><br></td>
+                                    </tr>
+                                    <tr class="listhead1">
+                                        <td class="pagetab5">
+                                            <p class="MsoNormal">
+                                                <span>Excellent</span>
+                                                @*<a href="@Url.Action("BadStatus/Feedback", new { @feedbackid = "5", AgentId = @ViewBag.AgentId})">
+
+                                                    </a>*@
+
+                                            </p>
+                                        </td>
+                                        <td class="pagetab4">
+                                            <p class="MsoNormal">
+                                                <span>Good</span>
+                                                @*<a href="@Url.Action("BadStatus/Feedback", new { @feedbackid = "4", AgentId = @ViewBag.AgentId })">
+
+                                                    </a>*@
+
+                                            </p>
+                                        </td>
+                                        <td class="pagetab3">
+                                            <p class="MsoNormal">
+                                                <span>Just okay</span>
+                                                @*<a href="@Url.Action("BadStatus/Feedback", new { @feedbackid = "3", AgentId = @ViewBag.AgentId })">
+
+                                                    </a>*@
+
+                                            </p>
+                                        </td>
+                                        <td class="pagetab2">
+                                            <p class="MsoNormal">
+                                                <span>Can improve</span>
+                                                @*<a href="@Url.Action("BadStatus/Feedback", new { @feedbackid = "2", AgentId = @ViewBag.AgentId})">
+
+                                                    </a>*@
+
+                                            </p>
+                                        </td>
+                                        <td class="pagetab1">
+                                            <p class="MsoNormal">
+                                                <span>Bad</span>
+                                                @*<a href="@Url.Action("BadStatus/Feedback", new { @feedbackid = "1", AgentId = @ViewBag.AgentId})">
+
+                                                    </a>*@
+
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <section>
+
+                                <h4>Responsive</h4>
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="0" id="star@(3*i+1)-null" @(int.Parse(Item["Rating_Listening"].ToString()) == 0 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="1" id="star@(3*i+1)-1" @(int.Parse(Item["Rating_Listening"].ToString()) == 1 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="2" id="star@(3*i+1)-2" @(int.Parse(Item["Rating_Listening"].ToString()) == 2 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="3" id="star@(3*i+1)-3" @(int.Parse(Item["Rating_Listening"].ToString()) == 3 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="4" id="star@(3*i+1)-4" @(int.Parse(Item["Rating_Listening"].ToString()) == 4 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+1)" value="5" id="star@(3*i+1)-5" @(int.Parse(Item["Rating_Listening"].ToString()) == 5 ? "checked" : "") />
+
+                                <section class="ratingblock@(3*i+1)">
+                                    <label for="star@(3*i+1)-1">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+1)-2">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+1)-3">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+1)-4">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+1)-5">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                </section>
+                            </section>
+                            <hr />
+                            <section>
+
+                                <h4>Product Knowledge</h4>
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="0" id="star@(3*i+2)-null" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 0 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="1" id="star@(3*i+2)-1" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 1 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="2" id="star@(3*i+2)-2" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 2 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="3" id="star@(3*i+2)-3" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 3 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="4" id="star@(3*i+2)-4" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 4 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+2)" value="5" id="star@(3*i+2)-5" @(int.Parse(Item["Rating_Knowledge"].ToString()) == 5 ? "checked" : "") />
+
+                                <section class="ratingblock@(3*i+2)">
+                                    <label for="star@(3*i+2)-1">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+2)-2">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+2)-3">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+2)-4">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+2)-5">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                </section>
+                            </section>
+                            <hr />
+                            <section>
+
+                                <h4> Visit Frequency</h4>
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="0" id="star@(3*i+3)-null" @(int.Parse(Item["Rating_Understandability"].ToString()) == 0 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="1" id="star@(3*i+3)-1" @(int.Parse(Item["Rating_Understandability"].ToString()) == 1 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="2" id="star@(3*i+3)-2" @(int.Parse(Item["Rating_Understandability"].ToString()) == 2 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="3" id="star@(3*i+3)-3" @(int.Parse(Item["Rating_Understandability"].ToString()) == 3 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="4" id="star@(3*i+3)-4" @(int.Parse(Item["Rating_Understandability"].ToString()) == 4 ? "checked" : "") />
+                                <input onclick="return false;" style="display:none" type="radio" name="star@(3*i+3)" value="5" id="star@(3*i+3)-5" @(int.Parse(Item["Rating_Understandability"].ToString()) == 5 ? "checked" : "") />
+
+                                <section class="ratingblock@(3*i+3)">
+                                    <label for="star@(3*i+3)-1">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+3)-2">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+3)-3">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+3)-4">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                    <label for="star@(3*i+3)-5">
+                                        <svg width="255" height="240" viewBox="0 0 51 48">
+                                            <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                        </svg>
+                                    </label>
+                                </section>
+                            </section>
+                            <hr />
+                            <h4>Remark</h4>
+                            @Html.TextArea("Remark", @Item["Rating_Remark"].ToString(), new { @class = "form-control", @placeholder = "Enter Your Remark", @rows = 4, @readonly = "readonly" })
+                            @*<textarea type="text" class="form-control;" style="width:100%" rows="4" placeholder="Text Message..."></textarea><br />*@
+                            <br />
+                        </div>
+                        <hr class="new4" />
+                    }
+
+                    <div class="starbtn">
+                        <button type="submit" class="btn btn-primary sub">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section class="contactHead">
+        <div class="container">
+            <div class="row text-center contactBoxes">
+                <div class="col-md-3 col-sm-6">
+                    <span class="uspIcons"><img src="~/KYC/images/contact1.png"></span>
+                    <span class="uspHeaders">
+                        <strong>24/7 Customer support</strong> <br>
+                        <span class="contactNumber">(022) 6250 6250</span>
+                        <a href="mailto:tasupport@tripjack.com">tasupport@tripjack.com</a>
+                    </span>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <span class="uspIcons"><img src="~/KYC/images/contact2.png"></span>
+                    <span class="uspHeaders">
+                        <strong>sales support</strong> <br>
+                        <span class="contactNumber">(022) 6250 6250</span>
+                        <a href="mailto:salessupport@tripjack.com">salessupport@tripjack.com</a>
+                    </span>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <span class="uspIcons"><img src="~/KYC/images/contact3.png"></span>
+                    <span class="uspHeaders">
+                        <strong>Technical Support</strong> <br>
+                        <span class="contactNumber">(022) 6250 6250</span>
+                        <a href="mailto:techsupport@tripjack.com">techsupport@tripjack.com</a>
+                    </span>
+                </div>
+                <div class="col-md-3 col-sm-6" style="margin-top: -46px;">
+                    <span class="uspIcons" style="height: 106px;"><img src="~/KYC/images/contact4.png" style="width: 152px; height: 152px;"></span>
+                    <span class="uspHeaders">
+                        <strong>Hotel Bookings</strong> <br>
+                        <span class="contactNumber">(022) 6250 6250</span>
+                        <a href="mailto:hotels@tripjack.com">hotels@tripjack.com</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*<footer>
+        <div class="container">
+            <div class="row">
+                <ul class="footerNav">
+                    <li><a href="https://www.tripjack.com/nav/payment_security">Payment Security</a></li>
+                    <li><a href="https://www.tripjack.com/nav/terms">Terms of Service</a></li>
+                    <li><a href="https://www.tripjack.com/nav/privacy">Privacy Policy</a></li>
+                    <li><a href="https://www.tripjack.com/nav/career">Careers</a></li>
+                    <li><a href="https://www.tripjack.com/nav/contactus">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>*@
+</body>
+</html>
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        EnableDisableControls();
+    });
+    function EnableDisableControls() {
+        $('#divid *').attr('disabled', true);
+    }
+</script>*@
+<script src="~/Content/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="~/Content/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var nav = $('.navbar').outerHeight();
+        var brd = $('.contactHead').outerHeight();
+        var foot = $('.footer').outerHeight();
+        var ttlheight = nav + brd + foot;
+        $(".mainstyle").css("min-height", ($(window).height() - ttlheight));
+
+        $(window).resize(function () {
+            win1 = $(window).width();
+
+
+            var nav = $('.navbar').outerHeight();
+            var brd = $('.contactHead').outerHeight();
+            var foot = $('.footer').outerHeight();
+            var ttlheight = nav + brd + foot;
+            $(".mainstyle").css("min-height", ($(window).height() - ttlheight));
+            //if (win1 > 1600) {
+
+            //}
+            //else {
+            //    $(".wedbg").removeAttr("style");
+            //}
+
+
+
+        });
+    });
+</script>
+

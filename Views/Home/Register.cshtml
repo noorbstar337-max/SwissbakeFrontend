@@ -1,0 +1,753 @@
+﻿
+@using SwissbakeIn.Entities
+@{
+    //Layout = null;
+}
+@*<!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon.ico">
+        <title>Register | Swissbake</title>
+        <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png" />
+        <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+        <!--     Fonts and icons     -->
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+        <!-- CSS Files -->
+        <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/css/material-bootstrap-wizard.css" rel="stylesheet" />
+        <!-- CSS Just for demo purpose, don't include it in your project -->
+        <link href="~/Content/css/demo.css" rel="stylesheet" />
+        <style>
+            label.error {
+                font-size: 11px !important;
+                color: #da0003 !important;
+            }
+        </style>
+    </head>
+    <body ng-app="MyApp">
+        <div class="image-container set-full-height" style="background-image: url('/Content/images/others/mountain4.jpg')">*@
+@{
+    ViewBag.Title = "Register | Bakery Ingredients Supplier - Swissbake";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Register | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Register | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Register" />
+    <meta name="keywords" content="Register" />
+    <meta property="og:description" content="Register" />
+    <meta property="og:url" content="http://swissbake.bh/register" />
+    <meta property="twitter:title" content="Register | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Register" />
+    <meta property="og:image" content="http://swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://swissbake.bh/register" />
+}
+@section head{
+    @*<link href="~/Content/css/bootstrap.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="~/Content/css/material-bootstrap-wizard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/Content/css/demo.css" rel="stylesheet" />
+    <style>
+        label.error {
+            font-size: 8px !important;
+            color: #da0003 !important;
+        }
+
+        .registerfrm .shad {
+            /*box-shadow: 30px 0px 40px -50px #000*/
+        }
+
+        .reg-side-info {
+            background: url('/Content/images/sbimg/bckimg.png');
+            background-size: 50%;
+            background-repeat: repeat
+        }
+
+            .reg-side-info ul {
+                font-size: 1.3rem;
+                line-height: 3;
+            }
+
+        @@media screen and (max-width:991px) {
+            .registerfrm .shad {
+                /*box-shadow: 0px 30px 40px -50px #000;*/
+                /*padding-bottom: 30px;*/
+            }
+        }
+    </style>
+
+}
+
+@section foot{
+    <!--   Core JS Files   -->
+    @*<script src="~/Content/js/register/jquery-2.2.4.min.js" type="text/javascript"></script>*@
+    <script src="~/Content/js/register/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/register/jquery.bootstrap.js" type="text/javascript"></script>
+    @*<script src="~/Content/js/angular.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js"></script>*@
+    <!--  Plugin for the Wizard -->
+    <script src="~/Content/js/register/material-bootstrap-wizard.js"></script>
+    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+    <script>
+        var app = angular.module('MyApp', ['ngRoute']);
+        app.billing = true;
+        function updateMobileNumerLength() {
+            var mobileElement = document.getElementById("mobile2")
+            var countryDropDown = document.getElementById("countryDropDown")
+            if (countryDropDown.value == '17') {
+                mobileElement.setAttribute("minlength", "8")
+                mobileElement.setAttribute("maxlength", "8")
+            }
+            else {
+                mobileElement.setAttribute("minlength", "10")
+                mobileElement.setAttribute("maxlength", "10")
+            }
+        }
+
+        $(document).ready(function () {
+            $(".registerfrm input").keyup(function () {
+                var val = $(this).val();
+                if (val && val != "" && $(this).attr("type") != 'password' && $(this).attr("name") != "emailid") {
+                    val = val.toUpperCase();
+                }
+                $(this).val(val);
+
+            })
+            $(".hdn-same-billing").hide();
+            $(".chkSameBilling").change(function () {
+                if ($(this).is(":checked")) {
+                    $(".hdn-same-billing").hide();
+                } else {
+                    $(".hdn-same-billing").show();
+                }
+            })
+
+            $(".CRNO1AVAILBLE").change(function () {
+                var val = $(this).val();
+                if (val == "0") {
+                    $(".crnumber1txt").css("visibility", "hidden");
+                    $("#CrNoVerificationMsg").show();
+
+                } else {
+                    $(".crnumber1txt").css("visibility", "visible");
+                    $("#CrNoVerificationMsg").hide();
+
+                }
+            })
+        })
+        //Cascading on Country with Country Code
+
+        function updateCountryCode() {
+            var countrySelect = document.getElementsByName('BI_country')[0];
+            var countryCodeSelect = document.getElementById('BI_countryCode');
+            var mobileElement = document.getElementById('mobile')
+            mobileElement.setAttribute("minlength", "10")
+            mobileElement.setAttribute("maxlength", "10")
+
+            if (countrySelect.value === '17') {
+                countryCodeSelect.value = '973';
+                mobileElement.setAttribute("minlength", "8")
+                mobileElement.setAttribute("maxlength", "8")
+            } else if (countrySelect.value === '229') {
+                countryCodeSelect.value = '971';
+            } else if (countrySelect.value === '178') {
+                countryCodeSelect.value = '974';
+            } else if (countrySelect.value === '965') {
+                countryCodeSelect.value = '965';
+            } else if (countrySelect.value === '968') {
+                countryCodeSelect.value = '968';
+            } else if (countrySelect.value === '966') {
+                countryCodeSelect.value = '966';
+            } else if (countrySelect.value === '964') {
+                countryCodeSelect.value = '964';
+            } else if (countrySelect.value === '967') {
+                countryCodeSelect.value = '967';
+            }
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll("select.form-control").forEach(function (dropdown) {
+                for (let i = 0; i < dropdown.options.length; i++) {
+                    dropdown.options[i].text = dropdown.options[i].text.toUpperCase();
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('mobile').addEventListener('input', function () {
+            document.getElementById('mobile2').value = this.value;
+        });
+    </script>
+
+    @Html.Raw(ViewBag.script)
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>ACCOUNT REGISTRATION</h1>
+        <span>Create a FREE account on our website. </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">ACCOUNT REGISTRATION </li>
+        </ol>
+    </div>
+
+</section>
+<!-- #page-title end -->
+@*<section class="registerfrm" style="background: url('/Content/images/others/bg_heading.jpg');background-attachment: fixed;background-position: 50% -30%;background-repeat: no-repeat;background-size: cover;">*@
+<section class="registerfrm">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-10 m-auto">
+                <!--      Wizard container        -->
+                <div class="wizard-container">
+
+                    <div class="card wizard-card" data-color="red" id="wizardProfile">
+
+                        <div class="row">
+
+                            <div class="col-lg-12 shad">
+
+                                <form action="" method="">
+                                    <input type="text" name="hfid" style="display:none;" value="@ViewBag.hfid" />
+                                    <input type="text" id="Step" style="display:none" value="@ViewBag.step" />
+                                    <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+                                    <h4 class="info-text w-100">ALREADY HAVE AN ACCOUNT? <a href="/login" class="text-danger">Login Now</a></h4>
+                                    <div class="wizard-navigation d-none">
+                                        <ul>
+                                            <li><a href="#about" data-toggle="tab">Business Information </a></li>
+                                            <li><a href="#account" data-toggle="tab">Account Type</a></li>
+                                            <li><a href="#address" data-toggle="tab">Address Information</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="nav-bar">
+                                        <b id="reg-title"></b>
+                                    </div>
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="about">
+                                            <div class="row">
+                                                <h4 class="info-text"> Let us begin with the basic account information </h4>
+                                                @*<div class="col-sm-4 col-sm-offset-1">
+                                                        <div class="picture-container">
+                                                            <div class="picture">
+                                                                <img src="assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title="" />
+                                                                <input type="file" id="wizard-picture">
+                                                            </div>
+                                                            <h6>Choose Picture</h6>
+                                                        </div>
+                                                    </div>*@
+                                                <div class="col-sm-12 mb-md-3">
+                                                    <div class="row">
+                                                        <div class="input-group col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating" style="width: 75%;">
+                                                                <label class="control-label">Company Name</label>
+                                                                <input id="fstnm" name="Companyname" type="text" value="@ViewBag.CompName" class="form-control">
+                                                                <span class="error-block"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group  col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating" style="width: 75%;">
+                                                                <label class="control-label">Full Name</label>
+                                                                <input id="lstnm" name="fullname" type="text" value="@ViewBag.Name" class="form-control nocpc" onkeypress="return charkey(this);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 mb-md-3">
+                                                    <div class="row">
+                                                        <div class="input-group col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating ml-login" style="width: 75%;">
+                                                                <label class="control-label">Email </label>
+                                                                <input name="emailid" type="text" value="@ViewBag.Email" class="form-control nocpc">
+                                                                <a class="d-none" href="/login" style="float: right;color: red;text-decoration: underline !important;">Login</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group label-floating pl-4" style="width: 75%;">
+                                                                <label class="control-label pl-4">Country</label>
+                                                                <select name="BI_country" class="form-control" onchange="updateCountryCode()">
+                                                                    <option selected="selected" value="17">BAHRAIN</option>
+                                                                    <option value="229">UNITED ARAB EMIRATES</option>
+                                                                    <option value="178">QATAR</option>
+                                                                    <option value="965">KUWAIT</option>
+                                                                    <option value="968">OMAN</option>
+                                                                    <option value="966">SAUDI ARABIA</option>
+                                                                    <option value="964">IRAQ</option>
+                                                                    <option value="967">YEMEN</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 mb-md-3">
+                                                    <div class="row">
+                                                        <div class="input-group col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating ml-login" style="width: 75%;">
+                                                                <label class="control-label">City</label>
+                                                                <input type="text" name="ACity" value="@ViewBag.ACity" class="form-control nocpc">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="input-group col-md-6">
+                                                            <div class="input-group-prepend pl-4 pr-2">
+                                                                <select name="BI_countryCode" id="BI_countryCode" class="custom-select">
+                                                                    <option selected="selected" value="973">+973 </option>
+                                                                    <option value="971">+971</option>
+                                                                    <option value="974">+974</option>
+                                                                    <option value="965">+965</option>
+                                                                    <option value="968">+968</option>
+                                                                    <option value="966">+966</option>
+                                                                    <option value="964">+964</option>
+                                                                    <option value="967">+967</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group label-floating" style="width: 55%;">
+                                                                <label class="control-label">Mobile (+973)</label>
+                                                                <input name="mobile" id="mobile" type="text" minlength="8" maxlength="10" value="@ViewBag.Mobile" class="form-control nocpc" onkeypress="return numkey(this);">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 mb-md-3">
+                                                    <div class="row">
+                                                        <div class="input-group col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating" style="width: 75%;">
+                                                                <label class="control-label">Password</label>
+                                                                <input id="pass" name="password" type="password" value="@ViewBag.Password" class="form-control error nocpc" aria-required="true" aria-invalid="true">
+                                                                <label id="password-error" class="error" for="password"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-group col-md-6">
+                                                            <span class="input-group-addon">
+                                                                <i class="material-icons"></i>
+                                                            </span>
+                                                            <div class="form-group label-floating confpass" style="width: 75%;">
+                                                                <label class="control-label">Confirm Password</label>
+                                                                <input name="CPassword" type="password" value="@ViewBag.Password" class="form-control nocpc">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="account">
+                                            <h4 class="info-text"> You are registering on behalf of </h4>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="row">
+                                                        @foreach (var item in ViewData["regtype"] as List<CommonStruct>)
+                                                        {
+                                                            var check = "";
+                                                            if (item.Id == ViewBag.Industry)
+                                                            {
+                                                                check = "Checked = 'Checked'";
+                                                            }
+
+                                                            <div class="col-sm-4">
+                                                                <div class="choice" data-toggle="wizard-radio">
+                                                                    @*<input name="typeoption" type="radio" value="@item.Id" @check>*@
+                                                                    <input name="typeoption" type="radio" value="@item.Name" @check>
+
+                                                                    <div class="icon">
+                                                                        <img src="@ViewBag.Domain/@item.Image" />
+                                                                    </div>
+                                                                    <h6>@item.Name</h6>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        @*<div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="2">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/building.svg" />
+                                                                        </div>
+                                                                        <h6>Hotel</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="2">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/cutlery.svg" />
+                                                                        </div>
+                                                                        <h6>Cafe or Restaurant</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="3">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/cake.svg" />
+                                                                        </div>
+                                                                        <h6>Bakery</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="4">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/library.svg" />
+                                                                        </div>
+                                                                        <h6>Institution</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="5">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/sell.svg" />
+                                                                        </div>
+                                                                        <h6>Trader & Distributors</h6>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="choice" data-toggle="wizard-radio">
+                                                                        <input name="typeoption" type="radio" value="6">
+                                                                        <div class="icon">
+                                                                            <img src="~/Content/images/icons/import.svg" />
+                                                                        </div>
+                                                                        <h6>Export</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                        <span id="show-error"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane container" id="address">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <h4 class="info-text">&nbsp;</h4>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">Billing Name</label>
+                                                        <input type="text" name="BillingName" value="@ViewBag.CompName" class="form-control nocpc" onkeypress="return charkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="Email" value="@ViewBag.Email" class="form-control nocpc">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Telephone (+973)</label>
+                                                        <input type="text" name="Mobile" id="mobile2" value="@ViewBag.Mobile" maxlength="10" class="form-control nocpc" onkeypress="return numkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-8 mb-2">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Street Name</label>
+                                                        <input type="text" name="StreetName" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Pincode</label>
+                                                        <input type="text" name="pinCode" class="form-control nocpc" onkeypress="return numkey(this);" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">City</label>
+                                                        <input type="text" name="City" value="@ViewBag.ACity" class="form-control nocpc" onkeypress="return charkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                    <div class="form-group label-floating" style="display:block;">
+                                                        <label class="control-label">State</label>
+                                                        @Html.DropDownList("State", (SelectList)ViewBag.sttlist, "", new { @class = "form-control", })
+                                                        @*<select name="State" class="form-control">
+                                                                <option selected="selected" value=""></option>
+                                                                <option value="29" selected >Maharashtra</option>
+                                                            </select>*@
+                                                        @*<input type="text" name="State" class="form-control">*@
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Country</label>
+                                                        <select name="country" id="countryDropDown" class="form-control"  onchange="updateMobileNumerLength()">
+                                                            <option selected="selected" value="17">BAHRAIN</option>
+                                                            <option value="117">KUWAIT</option>
+                                                            <option value="165">OMAN</option>
+                                                            <option value="178">QATAR</option>
+                                                            <option value="191">SAUDI ARABIA</option>
+                                                            <option value="229">UNITED ARAB EMIRATES</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2">
+
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">CR No. Available</label>
+                                                        <select name="CRNO1AVAILBLE" class="form-control CRNO1AVAILBLE">
+                                                            <option selected="selected" value="1">YES</option>
+                                                            <option value="0">NO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4 row mb-2 CRNO1TXT">
+                                                    <div class="form-group label-floating crnumber1txt col-4 p-0" style="visibility: visible;">
+                                                        <label class="control-label">CR No.</label>
+                                                        <input id="pan" name="pan" class="form-control p-0" minlength="4" maxlength="8">
+                                                    </div>
+                                                    <div class="form-group p-0 col-1 crnumber1txt is-empty">
+                                                        <input value="-" class="form-control p-0" disabled placeholder="-">
+                                                    </div>
+                                                    <div class="form-group label-floating crnumber1txt col-1 p-0" style="visibility: visible;">
+                                                        <input id="pan1" name="pan1" class="form-control p-0" minlength="1" maxlength="2">
+                                                    </div>
+                                                </div>
+                                                <!--<div class="col-sm-4 mb-2 CRNO1TXT">
+                                                    <div class="form-group label-floating crnumber1txt">
+                                                        <label class="control-label">CR No.</label>
+                                                        <input type="text" name="pan" class="form-control" maxlength="8">-->
+                                                @*<span class="error-block"></span>*@
+                                                <!--</div>
+                                                </div>-->
+                                                <div class="col-sm-4 mb-2">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">VAT No.</label>
+                                                        <input type="text" name="gst" class="form-control nocpc" maxlength="15">
+                                                    </div>
+                                                </div>
+                                                @*<div class="col-sm-4 mb-2">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">CR No.</label>
+                                                            <input type="text" name="crno" class="form-control nocpc" maxlength="10">
+                                                        </div>
+                                                    </div>*@
+                                                <div class="col-sm-12 mb-4">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input checked="checked" type="checkbox" name="billing" class="chkSameBilling">
+                                                        </label>
+                                                        Same as Billing Address
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1 hdn-same-billing">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">Shipping Name</label>
+                                                        <input type="text" name="ShippingName" value="@ViewBag.CompName{{companyname}}" class="form-control nocpc" onkeypress="return charkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1 hdn-same-billing">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">Email</label>
+                                                        <input type="text" name="Email2" value="@ViewBag.Email{{Email}}" class="form-control nocpc">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1 hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Telephone {+973)</label>
+                                                        <input type="text" name="Mobile2" minlength="8" maxlength="10" class="form-control nocpc" onkeypress="return numkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-10 mb-2 hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Street Name</label>
+                                                        <input type="text" name="sname" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 mb-2 hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Pincode</label>
+                                                        <input type="text" name="pin" class="form-control nocpc" onkeypress="return stop-numkey(this);" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1  hdn-same-billing">
+                                                    <div class="form-group label-floating remove-float">
+                                                        <label class="control-label">City</label>
+                                                        <input type="text" name="cty" value="@ViewBag.ACity" class="form-control nocpc" onkeypress="return charkey(this);">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2 col-sm-offset-1  hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">State</label>
+                                                        @Html.DropDownList("stt", (SelectList)ViewBag.sttlist, "", new { @class = "form-control", })
+                                                        @*<select name="stt" class="form-control">
+                                                                <option selected="selected" value=""></option>
+                                                                <option value="29">Maharashtra</option>
+                                                            </select>*@
+                                                        @*<input type="text" name="stt" class="form-control">*@
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 mb-2  hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Country</label>
+                                                        <select name="cntry" class="form-control" disabled>
+                                                            <option selected="selected" value="17">BAHRAIN</option>
+                                                            <option value="117">KUWAIT</option>
+                                                            <option value="165">OMAN</option>
+                                                            <option value="178">QATAR</option>
+                                                            <option value="191">SAUDI ARABIA</option>
+                                                            <option value="229">UNITED ARAB EMIRATES</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 mb-2  hdn-same-billing">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">VAT No.</label>
+                                                        <input type="text" name="sgst" class="form-control nocpc" maxlength="15">
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="col-sm-12">
+                                                        <h4 class="info-text">Taxation Details</h4>
+                                                    </div>
+                                                    <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">CR No.</label>
+                                                            <input type="text" name="pan" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 mb-2 col-sm-offset-1">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">VAT No.</label>
+                                                            <input type="text" name="gst" class="form-control">
+                                                        </div>
+                                                    </div>*@
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="wizard-footer">
+                                        <div class="pull-right">
+                                            <p class="pull-left text-danger pt-3 pr-1" id="CrNoVerificationMsg" style="display:none;">Our team will call you for verification</p>
+                                            <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' />
+                                            <input type='submit' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Finish' />
+                                        </div>
+                                        <div class="pull-left">
+                                            @*<input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />*@
+                                            <div class="footer-checkbox">
+                                                <div class="col-sm-12">
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes" checked="checked">
+                                                        </label>
+                                                        Subscribe to our newsletter
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <span id="check" class="d-none text-danger">Please select your bussiness type above.</span>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            @*<div class="col-lg-5 pl-lg-0 reg-side-info">
+                                    <div class="row ml-3 ">
+
+                                        <div class="col-md-12 mt-5 pt-5 pl-0 pr-5">
+                                            <h3>Create an account with us and you’ll be able to:</h3>
+                                            <ul class="list-unstyled ml-2 mt-2" style="">
+                                                <li>•	Real time order tracking </li>
+                                                <li>•	Easy product sample ordering </li>
+                                                <li>•	Calculate your food cost & yield</li>
+                                                <li>•	Multiple payment options</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>*@
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-12 hb-blk bg-white  d-none">
+                        <div class="p-5">
+                            <p>Thank you for your registration on our website www.swissbake.bh . Unfortunately we may not be able to cater to your requirements at this time as this platform currently services the requirements of commercial and industrial bakers only.</p>
+                            <p>Your details have been forwarded to our retail team and they shall get in touch with your shortly regarding your requirement.</p>
+                            <div class="text-center"><form method="post" action="/SendtoHomebaker"><input type="hidden" name="email" id="bh-mail" value="@ViewBag.Email" /><button type="submit" name="submit" class="btn btn-fill btn-success btn-wd text-white hb-btn" value="@ViewBag.Name">Go to Home Baker</button></form></div>
+                        </div>
+                    </div>
+                </div> <!-- wizard container -->
+            </div>
+        </div><!-- end row -->
+    </div> <!--  big container -->
+
+</section>
+
+
+<div class="toast-message d-none">
+    <div>
+        <p>Email Already Exist. Do you want to login with existing email id?</p>
+        @*<div class="redirect-blk">
+                <b>OR</b><br />
+                <span>You will be auto redirected to the dashboard after <i></i></span>
+            </div>*@
+        <div>
+            <a href="/" class="btn1">
+                Go To Home
+            </a>
+            <a href="/Account/Index" class="btn2">
+                Go To Dashboard
+            </a>
+            <a href="/Account/Quickorder2" class="btn3">
+                Quick Order
+            </a>
+            @*<button>Cancel</button>
+                <button>Ok</button>*@
+        </div>
+    </div>
+</div>
+
+
+
+@*</div>
+        <!--   Core JS Files   -->
+        <script src="~/Content/js/register/jquery-2.2.4.min.js" type="text/javascript"></script>
+        <script src="~/Content/js/register/bootstrap.min.js" type="text/javascript"></script>
+        <script src="~/Content/js/register/jquery.bootstrap.js" type="text/javascript"></script>
+        <script src="~/Content/js/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js"></script>
+        <!--  Plugin for the Wizard -->
+        <script src="~/Content/js/register/material-bootstrap-wizard.js"></script>
+        <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+        <script src="~/Content/js/register/jquery.validate.min.js"></script>
+        <script>
+            var app = angular.module('MyApp', ['ngRoute']);
+
+
+        </script>
+    </body>
+
+    </html>*@

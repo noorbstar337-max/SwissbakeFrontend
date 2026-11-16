@@ -1,0 +1,202 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Recipe";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+@section head{
+
+    <style>
+        .blog-card{
+            height:350px !important;
+        }
+
+            .blog-card .product {
+                transition-property: none !important;
+                transition-duration: 0s !important;
+                transition-delay: 0ms !important;
+                transform: translate3d(0px,0px,0px) !important;
+            }
+
+        @@media (max-width: 767px) {
+            .post-grid .entry, .post-masonry-full.grid-3 .entry {
+                float: left !important;
+            }
+        }
+    </style>
+
+
+}
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Recipe | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Recipe | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Know how you can use our products to amplify your baking possibilities." />
+    <meta name="keywords" content="Know how you can use our products to amplify your baking possibilities." />
+    <meta property="og:description" content="Know how you can use our products to amplify your baking possibilities." />
+    <meta property="og:url" content="http://uat.swissbake.bh/recipe" />
+    <meta property="twitter:title" content="Recipe | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Know how you can use our products to amplify your baking possibilities." />
+    <meta property="og:image" content="http://uat.swissbake.bh" />
+    <link rel="canonical" href="http://uat.swissbake.bh/recipe" />
+}
+
+@section foot{
+<script src="~/Content/js/bind/recipe.js"></script>
+}
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/Recipe.jpg');background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>BAKER RECIPE</h1>
+        <span>Knowledge base of baker recipes created by our baking experts to amplify your baking possibilities.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Recipe</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<section id="content" class="cat-grid pt-4 pb-4 blogpage blgsecgrd" ng-controller="recipegrid">
+    <div class="container">
+        <div class="row">
+            <div class="col-10 col-lg-10 pr-0 pr-md-1">
+                <input type="text" class="form-control" id="recipesearch" ng-model="searchrecipe" placeholder="Recipe Search..." />
+
+            </div>
+            <div class="col-2 col-lg-1 pl-0 pl-md-1">
+                <button type="button" class="btn btn-search-red w-100"><i class="fas fa-search"></i> </button>
+            </div>
+        </div>
+        @*<div class="row">
+            @foreach (DataRow row in Model.Tables[0].Rows)
+            {
+                string title = "";
+                string img = ViewBag.Domain + "/" + Convert.ToString(row["Recipe_ImgPath"]);
+                var tcount = row["Recipe_Name"].ToString().Length;
+                if (tcount > 35)
+                {
+                    title = Convert.ToString(row["Recipe_Name"]); //.Substring(0, 35) + "...";
+					title = title.Substring(0,title.IndexOf(" ", 35)) + "...";
+                }
+                else
+                {
+                    title = Convert.ToString(row["Recipe_Name"]);
+                }
+
+
+                <div class="col-md-3 text-center">
+                    <div class="cat-content">
+                        <a href="@Url.RouteUrl("recipedet",new { url = row["Recipe_Seourl"] })">
+                            <img src="@img" alt="@row["Recipe_Seotitle"]" title="@row["Recipe_Name"]" />
+                            <h4>@title</h4>
+                        </a>
+                    </div>
+                </div>
+            }//comment end
+
+            <div class="col-md-3 text-center" ng-repeat="r in Recipe | filter:searchrecipe">
+                <div class="cat-content">
+                    <a href="/recipe/{{r.Recipe_Seourl}}">
+                        <img src="@(ViewBag.Domain + "/"){{r.Recipe_ImgPath}}" alt="{{r.Recipe_Seotitle}}" title="{{r.Recipe_Name}}" />
+                        <h4>{{r.Recipe_Name | limitTo:35}}{{r.Recipe_Name > 35 ? '...' : ''}}</h4>
+                    </a>
+                </div>
+            </div>
+        </div>*@
+
+
+        <div class=" nobottommargin float-none w-100 mt-5 clearfix">
+
+            <!-- Posts
+        ============================================= -->
+            <div id="posts" class="post-grid grid-4 clearfix" data-layout="fitRows">
+                <div class="entry clearfix" ng-repeat="r in Recipe | filter:searchrecipe">
+                    <div class="blog-card">
+                        <div class="entry-image">
+                            <a href="/recipe/{{r.Recipe_Seourl}}"><img class="" src="@(ViewBag.Domain){{r.Recipe_ImgPath}}" alt="{{r.Recipe_Seotitle}}" title="{{r.Recipe_Name}}"></a>
+                        </div>
+                        @*<ul class="entry-meta clearfix">
+                            <li>@Convert.ToDateTime(row["Blog_CreatedDate"]).ToString("dd MMM yyyy") </li>
+					
+                        </ul>*@
+                        <div class="entry-title">
+                            <h2><a href="/recipe/{{r.Recipe_Seourl}}">
+							{{r.Recipe_Name > 35 ? r.Recipe_Name.substring(0, r.Recipe_Name.indexOf(" ", 28)) : r.Recipe_Name}}</a></h2>
+                        </div>
+
+                        <div class="read-more-blk">
+                            <a href="/recipe/{{r.Recipe_Seourl}}" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="text-center w-100 mt-5" ng-if="Recipe.length == 0">NO RECIPE FOUND</h5>
+
+
+                @*@{
+                    var i = 1;
+
+                }
+                @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+
+                    if (Model.Tables[0].Rows.Count > 0)
+                    {
+                        string title = "", Des = "";
+                        string img = ViewBag.Domain + "/" + Convert.ToString(row["Blog_imgPath"]);
+                        //string img = "/Content/images/sbimg/blog" + i + ".jpg";
+                        i++;
+                        var tcount = row["Blog_Name"].ToString().Length;
+                        var Dcount = row["Blog_ShortDesc"].ToString().Length;
+                        if (tcount > 28)
+                        {
+                            title = Convert.ToString(row["Blog_Name"]); //.Substring(0, 28) + "...";
+							title = title.Substring(0,title.IndexOf(" ", 28)) + "...";
+                        }
+                        else
+                        {
+                            title = Convert.ToString(row["Blog_Name"]);
+                        }
+                        if (Dcount > 130)
+                        {
+                            Des = Convert.ToString(row["Blog_ShortDesc"]); //.Substring(0, 130) + "...";
+							Des = Des.Substring(0,Des.IndexOf(" ", 130)) + "...";
+                        }
+                        else
+                        {
+                            Des = Convert.ToString(row["Blog_ShortDesc"]);
+                        }
+                        
+                    }
+
+
+                }
+                @if (Model.Tables[0].Rows.Count <= 0)
+                {
+                    
+                }*@
+            </div><!-- #posts end -->
+
+
+        </div>
+
+
+
+
+
+    </div>
+</section>

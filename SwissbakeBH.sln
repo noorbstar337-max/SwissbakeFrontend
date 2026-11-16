@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.33026.149
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwissbakeBH", "SwissbakeBH.csproj", "{7A5ECC96-B586-416F-8889-885B5239D63A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "prolib", "..\prolib\prolib.csproj", "{6AEE726D-E60E-4ABD-98FF-DA5DD2FF2ED1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A5ECC96-B586-416F-8889-885B5239D63A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A5ECC96-B586-416F-8889-885B5239D63A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A5ECC96-B586-416F-8889-885B5239D63A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A5ECC96-B586-416F-8889-885B5239D63A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AEE726D-E60E-4ABD-98FF-DA5DD2FF2ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AEE726D-E60E-4ABD-98FF-DA5DD2FF2ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AEE726D-E60E-4ABD-98FF-DA5DD2FF2ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AEE726D-E60E-4ABD-98FF-DA5DD2FF2ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A32E0288-C114-4F92-90E0-584B4C5D8482}
+	EndGlobalSection
+EndGlobal

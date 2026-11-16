@@ -1,0 +1,944 @@
+﻿@using SwissbakeIn.Entities;
+@using System.Data;
+
+
+@model DataSet
+@{
+    ViewBag.Title = "Premium Baking Ingredients Supplier in Bahrain - SwissBake";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="10/26/2019 6:30:06 PM" />
+    <meta property="og:title" content="Premium Baking Ingredients Supplier in Bahrain - SwissBake" />
+    <meta name="Title" content="Premium Baking Ingredients Supplier in Bahrain - SwissBake" />
+    <meta name="description" content="Our focus is on developing, manufacturing and marketing the finest Swiss quality bakery ingredients and convenience products across Asia, Middle East, Africa and Europe." />
+    <meta name="keywords" content="Bakery Ingredients Supplier, Bakery Ingredients Exporter, Bakery Ingredients Companies, Baking Mixes, Bakery Mixes, bakery ingredients companies, bread improvers Suppliers, bakery raw materials Suppliers" />
+    <meta property="og:description" content="Our focus is on developing, manufacturing and marketing the finest Swiss quality bakery ingredients and convenience products across Asia, Middle East, Africa and Europe." />
+    <meta property="og:url" content="http://swissbake.bh" />
+    <meta property="twitter:title" content="Premium Baking Ingredients Supplier in Bahrain - SwissBake" />
+    <meta property="twitter:description" content="Our focus is on developing, manufacturing and marketing the finest Swiss quality bakery ingredients and convenience products across Asia, Middle East, Africa and Europe." />
+    <meta property="og:image" content="http://swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://swissbake.bh" />
+
+}
+
+
+@section head{
+    <!-- eCommerce Demo Specific Stylesheet -->
+    <!-- / -->
+    @Styles.Render("~/Content/Rev")
+
+}
+
+
+
+
+
+@section foot{
+
+    @*<script language="javascript">
+        function step2verify() {
+            alert('verify..');
+            // e.preventDefault();
+            if (verifycaptcha()) {
+                document.getElementById('step1panel').style.display = 'none';
+                document.getElementById('sendpanel').style.display = 'none';
+                document.getElementById('captchapanel').style.display = 'none';
+                document.getElementById('step2panel').style.display = 'block';
+               // if ($("#smalContactForm").valid()) {
+                //    $("#step1panel").attr("display", "none");
+                //    $("#sendpanel").attr("display", "none");
+                //    $("#captchapanel").attr("display", "none");
+                 //   $("#step2panel").attr("display", "block");
+               // }
+            }
+        }
+
+    </script>*@
+
+    @Scripts.Render("~/bundles/Rev")
+    <script>
+
+
+        var revapi52,
+            tpj = jQuery;
+        tpj(document).ready(function () {
+            if (tpj("#rev_slider_52_1").revolution == undefined) {
+                revslider_showDoubleJqueryError("#rev_slider_52_1");
+            } else {
+                revapi52 = tpj("#rev_slider_52_1").show().revolution({
+                    sliderType: "hero",
+                    jsFileLocation: "~/Content/include/rs-plugin/js/",
+                    sliderLayout: "fullscreen",
+                    dottedOverlay: "none",
+                    delay: 9000,
+                    navigation: {
+                    },
+                    responsiveLevels: [1240, 1024, 778, 480],
+                    visibilityLevels: [1240, 1024, 778, 480],
+                    gridwidth: [1240, 1024, 778, 480],
+                    gridheight: [1000, 768, 960, 720],
+                    lazyType: "none",
+                    parallax: {
+                        type: "scroll",
+                        origo: "slidercenter",
+                        speed: 400,
+                        levels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 48, 49, 50, 51, 55],
+                    },
+                    shadow: 0,
+                    spinner: "spinner3",
+                    autoHeight: "off",
+                    fullScreenAutoWidth: "off",
+                    fullScreenAlignForce: "off",
+                    fullScreenOffsetContainer: "",
+                    fullScreenOffset: "0px",
+                    disableProgressBar: "on",
+                    hideThumbsOnMobile: "off",
+                    hideSliderAtLimit: 0,
+                    hideCaptionAtLimit: 0,
+                    hideAllCaptionAtLilmit: 0,
+                    debugMode: false,
+                    fallbacks: {
+                        simplifyAll: "off",
+                        disableFocusListener: false,
+                    }
+                });
+            }
+
+        });	/*ready*/
+
+        $('#A_ID').click(function (e) { //#A_ID is an example. Use the id of your Anchor
+            $('html, body').animate({
+                scrollTop: $('#header').offset().top //#DIV_ID is an example. Use the id of your destination on the page
+            }, 3000);
+        });
+
+
+        
+        $(document).ready(function () {
+
+            //$(window).scroll(function () {
+            //
+            //    var win1 = $(window).scrollTop();
+            //    if (win1 > 10 && win1 < 50) {
+            //        if ($("#slider.full-screen").is(':visible')) {
+            //            $('#A_ID').click();
+            //            //$('html, body').animate({
+            //            //    scrollTop: $('#header').offset().top //#DIV_ID is an example. Use the id of your destination on the page
+            //            //}, 3000);
+            //        }
+            //    }
+            //});
+
+            win = $(window).width();
+
+
+
+            var cn = 1;
+
+            var tabrepeat;
+
+            setTimeout(function () {
+
+                if (win > 992){
+                    tabrepeat = setInterval(function () {
+                        if (cn == 4) {
+                            cn = 1;
+                        }
+                        if (cn == 1){
+                            get("Featured");
+                        }
+                        else if (cn == 2){
+                            get('Best Selling');
+                        }
+                        else if (cn == 3){
+                            get('New');
+                        }
+
+
+                        //$(".latest.tabbing .prod-tabs ul li:nth-child(" + cn + ")").click();
+                        $(".latest.tabbing .prod-tabs .ui-tabs input").removeAttr("checked");
+                        $(".latest.tabbing .prod-tabs #tab" + cn + "").attr("checked","true");
+                        cn++;
+                    }, 5000);
+                }
+
+            }, 1000);
+
+            $(".latest.tabbing .prod-tabs .ui-tabs input").click(function () {
+
+                clearInterval(tabrepeat);
+
+            });
+
+
+
+
+
+
+
+
+            get("Featured");
+
+            $("#smalContactForm").validate({
+                rules: {
+                    Organisation: {
+                        required: true
+                    }, Name: {
+                        required: true
+                    }, Mobile: {
+                        required: true
+                    }, Email: {
+                        required: true
+                    }, Comment: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Organisation: {
+                        required: 'required'
+                    }, Name: {
+                        required: 'required'
+                    }, Mobile: {
+                        required: 'required'
+                    }, Email: {
+                        required: 'required',
+                        regex: "invalid"
+                    }, Comment: {
+                        required: 'required'
+                    }
+
+                }
+
+            });
+
+            $("#step2verify22").click(function (e) {
+                alert('verify..1');
+               // console.log('verifying step...');
+                e.preventDefault();
+                if (verifycaptcha()) {
+                    if ($("#smalContactForm").valid()) {
+                        alert('verify..2');
+                        $("#step1panel").attr("display", "none");
+                      //  $("#sendpanel").attr("display", "none");
+                      //  $("#captchaapanel").attr("display", "none");
+                      //  $("#step2panel").attr("display", "block");
+                    }
+                }
+            });
+
+            $("#smalContactForm2222").submit(function (e) {
+                e.preventDefault();
+                if (verifycaptcha()) {
+
+                if ($("#smalContactForm").valid()) {
+                    var form = $("#smalContactForm").serialize();
+                    $("#btnSendContact").attr("disabled", "disabled");
+                    $("#btnSendContact").text("WAIT...")
+                    $.ajax({
+                        url: '/home/Index4Contact1221', method: 'POST', data: form, success: function (d) {
+                            $("#btnSendContact").text("Submit");
+                            $("#btnSendContact").removeAttr("disabled");
+                            $("#smalContactForm").resetForm();
+                            $.confirm({
+                                backgroundDismiss: false,
+                                title: false,
+                                content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Thankyou for contacting us.</label></div>',
+                                buttons: false
+                            });
+                            setTimeout(function () {
+                                $('.jconfirm-closeIcon').click();
+                            }, 5000);
+                        }
+                    })
+                    }
+                }
+
+
+            })
+        });
+
+
+        function get(url) {
+
+            var id = '@Session["U_Id"]';
+            var m = "homepro";
+    if (id == '' || id == null) {
+        id = 0;
+    }
+    $.ajax({
+        url: '@Url.Action("Product","Access",null)',
+        type: "Post",
+        beforeSend: function () {
+            //_divPartialView.style = "Display: none";
+            //$("#divWaiting").removeClass("display-none");
+        },
+        data: { u: url, u_id: id, mode: m},
+        success: function (response) {
+
+            if (response == "false") {
+
+                $(".prod-tabs").css("display", "none");
+            }
+            //_divPartialView.style = "";
+            //$("#divWaiting").addClass("display-none");
+            $("#shop").html(response);
+            setInterval(function () {
+                $("#shop .product").removeAttr("style");
+            },100);
+
+            //window.history.pushState("state", "title", url);
+            // $('#datatable1').dataTable();
+        }
+    });
+    //  return false;// if it's a link to prevent post
+}
+
+
+
+    </script>
+
+    <style>
+        #smalContactForm .error {
+            color: yellow !important;
+            font-size:12px;
+        }
+
+        #devices-section {
+            background-image: url(../images/Josef_banner_HR.png);
+            background-repeat: no-repeat;
+            margin-bottom: 10px;
+            position: relative;
+            background-position: center center;
+            background-size: 100% auto; /* Set background image width to 100% */
+            display: block;
+        }
+
+        #devices-section {
+            @@media screen and (max-width:991px) {
+                background-size: cover;
+            }
+        }
+
+        .dual-banner .text-blk h5 {
+            border-left: 4px solid red;
+            color: #fff;
+            padding-left: 10px;
+            text-transform: uppercase;
+            text-shadow: 0px 1px 3px #000;
+        }
+
+        #contactMessage {
+            height: 200px
+        }
+
+        .bannertext {
+            position: absolute;
+            width: 550px;
+            left: 60%;
+            top: 5%;
+            z-index: 1;
+            background: transparent;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+            .bannertext h3 {
+                padding-top: 1vmin;
+                /*font-size: 1vmin;*/
+            }
+
+        h5, .h5 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        /*.bannertext h3{font-weight:bold;}*/
+        @@media screen and (max-width:1480px) {
+            .Services1, .Services2, .Services3 {
+                display: none
+            }
+        }
+    </style>
+
+}
+
+<section class="dual-banner">
+    <div class="row common-height clearfix">
+        @foreach (var item in ViewData["dualbanner"] as List<CommonStruct>)
+        {
+            <div class="col-md-6" style="background: url('@Request.Url.GetLeftPart(UriPartial.Authority)/@item.Image') center center / cover no-repeat; height: 261.656px;">
+                <div class="section-content topmargin-sm text-blk">
+                    <h5>@item.Etcstring1</h5>
+                    <h3>@item.Name</h3>
+                    <br>
+                    <a href="@item.Url" class="more-link uppercase t500">
+                        READ MORE
+                        <i class="icon-line-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        }
+
+        @*<div class="col-md-6" style="background: url('https://b2b.swissbake.ch/images/WebBanner/FRENCH MACARON MIX.jpg') center center / cover no-repeat; height: 261.656px;">
+                <div class="section-content topmargin-sm text-blk">
+                    <h5>*NEW* LAUNCH</h5>
+                    <h3>FRENCH MACARON MIX</h3>
+                    <br>
+                    <a href="http://swissbake.bh/product/french-macaron-mix" class="more-link uppercase t500">
+                        SHOP NOW
+                        <i class="icon-line-arrow-right"></i>
+                    </a>
+                </div>
+            </div>*@
+    </div>
+</section>
+
+
+@*<section class="dual-banner">
+        <div class="row common-height clearfix">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    @{
+                        var its = 0;
+                    }
+                    @foreach (var item in ViewData["dualbanner"] as List<CommonStruct>)
+                    {
+                        <div class="carousel-item active">
+                            <img class="d-block w-100" src=@item.Url alt="First slide">
+                        </div>
+
+
+                        it = its + 1;
+                    }
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </section>*@
+
+<!-- Content
+============================================= -->
+<section id="content" class="latest tabbing">
+
+    <div class="content-wrap nopadding">
+
+        <section class="pt-3 pb-3 prod-tabs bg-light">
+            <div class="container">
+                <div class="tabs">
+
+                    <input type="radio" id="tab1" name="tab-control" checked>
+                    <input type="radio" id="tab2" name="tab-control">
+                    <input type="radio" id="tab3" name="tab-control">
+                    @*<input type="radio" id="tab4" name="tab-control">*@
+                    <ul>
+                        <li title="BEST FEATURED" class="" onclick="get('Featured')">
+                            <label for="tab1" role="button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M14,2A8,8 0 0,0 6,10A8,8 0 0,0 14,18A8,8 0 0,0 22,10H20C20,13.32 17.32,16 14,16A6,6 0 0,1 8,10A6,6 0 0,1 14,4C14.43,4 14.86,4.05 15.27,4.14L16.88,2.54C15.96,2.18 15,2 14,2M20.59,3.58L14,10.17L11.62,7.79L10.21,9.21L14,13L22,5M4.93,5.82C3.08,7.34 2,9.61 2,12A8,8 0 0,0 10,20C10.64,20 11.27,19.92 11.88,19.77C10.12,19.38 8.5,18.5 7.17,17.29C5.22,16.25 4,14.21 4,12C4,11.7 4.03,11.41 4.07,11.11C4.03,10.74 4,10.37 4,10C4,8.56 4.32,7.13 4.93,5.82Z" />
+                                </svg><br><span>BEST FEATURED</span>
+                            </label>
+                        </li>
+                        <li title="TOP SELLING" class="" onclick="get('Best Selling')">
+                            <label for="tab2" role="button">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z" />
+                                </svg><br><span>TOP SELLING</span>
+                            </label>
+                        </li>
+                        <li title="NEW LAUNCHES" class="" onclick="get('New')">
+                            <label for="tab3" role="button">
+                                <svg viewBox="0 0 612.003 612.003">
+                                    <path d="M608.067,333.255l-44.973-71.364c-3.563-5.658-4.764-12.49-3.352-19.022l17.854-82.442   c2.784-12.848-4.649-25.708-17.164-29.724l-80.323-25.759c-6.366-2.043-11.679-6.5-14.795-12.413l-39.315-74.627   c-6.124-11.634-20.082-16.711-32.253-11.743l-78.094,31.902c-6.188,2.522-13.122,2.522-19.31,0L218.261,6.167   c-12.171-4.968-26.129,0.109-32.259,11.743l-39.315,74.62c-3.116,5.913-8.429,10.37-14.795,12.413l-80.322,25.759   c-12.522,4.016-19.948,16.877-17.164,29.724l17.847,82.442c1.418,6.532,0.211,13.365-3.352,19.022L3.934,333.255   c-7.011,11.123-4.425,25.746,5.964,33.805l66.664,51.677c5.287,4.099,8.754,10.102,9.661,16.73l11.424,83.573   c1.775,13.026,13.16,22.573,26.289,22.062l84.288-3.263c6.679-0.262,13.192,2.114,18.154,6.602l62.462,56.677   c9.738,8.831,24.597,8.831,34.328,0l62.469-56.677c4.949-4.495,11.468-6.864,18.154-6.602l84.281,3.263   c13.141,0.511,24.514-9.042,26.295-22.062l11.424-83.573c0.907-6.628,4.374-12.63,9.655-16.73l66.664-51.677   C612.498,359.001,615.078,344.378,608.067,333.255z M235.234,407.92l-74.435-51.99l30.593,70.904l-20.389,8.799l-46.92-108.719   l21.353-9.221l75.84,53.401l-31.34-72.602l20.389-8.806l46.933,108.725L235.234,407.92z M280.468,388.393l-46.92-108.719   l80.616-34.801l7.931,18.396l-58.669,25.318l10.402,24.099l54.589-23.562l7.905,18.32l-54.589,23.556l12.771,29.59l60.738-26.212   l7.905,18.32L280.468,388.393z M464.248,309.08l-56.735-71.945l13.492,90.597L397.2,338.006l-72.871-97.512l22.464-9.706   l48.625,67.609l-12.356-83.253l26.116-11.27l51.831,67.718l-16.091-83.145l22.1-9.54l20.516,120.123L464.248,309.08z" />
+                                </svg><br><span>NEW LAUNCHES</span>
+                            </label>
+                        </li>
+                    </ul>
+
+                    <div class="slider"><div class="indicator"></div></div>
+                    <div class="content">
+                        <section>
+                            <div id="shop" class="shop product-4 grid-container clearfix" data-layout="fitRows">
+
+                            </div>
+
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        @*<div class="container clearfix cat-big-grid pt-5">
+
+                <div class="heading-block1 center">
+                    <div class="heading-blockline">
+                        <h3>Popular Catagories</h3>
+                        <hr style="margin-bottom: -10px;" />
+                        <hr class="hrredline" />
+                    </div>
+
+                    <span>Selected categories of most sought-after products from SwissBake®</span>
+                </div>
+
+
+                <div class="row ecommerce-categories clearfix" style="padding: 5% 0 20px;">
+
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+                        string title = "";
+                        string img = ViewBag.Domain + "/" + Convert.ToString(row["PrdCategory_Image"]);
+                        var tcount = row["PrdCategory_Name"].ToString().Length;
+                        if (tcount > 35)
+                        {
+                            title = Convert.ToString(row["PrdCategory_Name"]).Substring(0, 35) + "...";
+                        }
+                        else
+                        {
+                            title = Convert.ToString(row["PrdCategory_Name"]);
+                        }
+
+
+                        <div class="col-lg-4 col-sm-6">
+                            <a href="@Url.RouteUrl("Categorypro",new { url = row["PrdCategory_Seourl"] })" style="background: url('@img') no-repeat center center; background-size: cover;" title="@row["PrdCategory_Name"]">
+                                <div class="vertical-middle dark center">
+                                    <div class="heading-block nomargin noborder">
+                                        <h3 class="capitalize font-secondary t500">@title</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                    @if (Model.Tables[0].Rows.Count == 6)
+                    {
+                        <div class="w-100 text-center more-blog mt-5">
+                            <a href="@Url.RouteUrl("Categorypro",new { url = "" })" class="more-link">VIEW ALL CATEGORIES <i class="icon-line-arrow-right"></i></a>
+                        </div>
+                    }
+
+                </div>
+            </div>*@
+
+
+
+        <div class="clear"></div>
+        <div class="heading-block1 center" style="padding-top:20px;padding-bottom:20px;">
+            <div class="heading-blockline">
+                <h3>OUR SERVICES</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+
+            <span class="divcenter">"Share with us your baking concerns /queries so that our team of experts can guide you with the appropriate solution."</span>
+        </div>
+        <div class="row" id="devices-section">
+
+            <div class="oursection-content">
+                <div class="container">
+                    <div class="row centered-columns">
+                        <div class="col-md-6 onscroll-animate centered-column centered-column-bottom fadeIn">
+                            <div class="margin-80"></div>
+                        </div>
+                        <div class="col-md-6 centered-column centered-column-middle">
+
+                            <div class="icons-opening-wrapper big-version onscroll-animate fadeIn" data-delay="300">
+                                <a href="/category">
+                                    <div class="icons-opening innovative">
+                                        <div class=" innovative">&nbsp;</div>
+                                    </div>
+
+                                    <div class="icons-opening-content">
+                                        <h2>Innovative Ingredients</h2>
+                                        <p style="color:#696969;">Our experts continuously research new bakery ingredients and global bakery trends in order to offer an innovative product range to our customers.</p>
+                                    </div>
+                                </a>
+                            </div>
+
+
+                            <div class="icons-opening-wrapper big-version onscroll-animate fadeIn" data-delay="350">
+                                <a href="/bakersupport">
+                                    <div class="icons-opening">
+                                        <div class=" customer">&nbsp;</div>
+                                    </div>
+
+                                    <div class="icons-opening-content">
+                                        <h2>Customer Collabration</h2>
+                                        <p style="color:#696969;">We work closely with our clients to formulate and manufacture products that cater to their customised market requirement.</p>
+                                    </div>
+                                </a>
+                            </div>
+
+
+                            <div class="icons-opening-wrapper big-version onscroll-animate fadeIn" data-delay="400">
+                                <a href="/bakersupport">
+                                    <div class="icons-opening">
+                                        <div class=" support">&nbsp;</div>
+                                    </div>
+
+                                    <div class="icons-opening-content">
+                                        <h2>Technical Support</h2>
+                                        <p style="color:#696969;">Our team of experts are always available to provide full support to our clients in areas of baking process, equipment selection, material sourcing and product formulation.</p>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!--<div class="col-lg-8 col-md-1 col-sm-1 col-1 centered-column Services1-img p-1" style="background-size: 10%">-->
+                        @*<div class="Services1-img"></div>*@
+                        <!--</div>-->
+                        @*<div class="col-lg-4 col-md-3 col-sm-3 centered-column col-3 p-1 Services1-text">
+                                <p class="mb-1"><b>INNOVATIVE INGREDIENTS</b></p>
+                                <p class="Services-ptext">Our experts continuously research new bakery ingredients and global bakery trends in order to offer an innovative product range to our customers.</p>
+                            </div>
+                            <div class="col-lg-8 col-md-1 col-sm-1 col-1 centered-column Services2-img p-1" style="background-size:10%">
+
+                            </div>
+                            <div class="col-lg-4 col-md-3 col-sm-3 col-3 p-1 centered-column Services2-text">
+                                <p class="mb-1"><b>CUSTOMER COLLABORATION</b></p>
+                                <p class="Services-ptext">We work closely with our clients to formulate and manufacture products that cater to their customised market requirement.</p>
+                            </div>
+                            <div class="col-lg-8 col-md-1 col-sm-1 col-1  centered-column Services3-img p-1" style="background-size: 10%">
+
+                            </div>
+                            <div class="col-lg-4 col-md-3 col-sm-3 col-3 p-1 centered-column Services3-text">
+                                <p class="mb-1"><b>TECHNICAL SUPPORT</b></p>
+                                <p class="Services-ptext">Our team of experts are always available to provide full support to our clients in areas of baking process, equipment selection, material souring and product formulation.</p>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="position:absolute;">
+                <div class="row Services">
+
+                </div>
+
+            </div>
+            <!--<div class="bannertext">
+            <div class="row">
+                <div class="Services1">
+
+                </div>
+                <br />
+                <div class="Services2">
+                    <div class="row">
+
+                    </div>
+                </div>
+                <br />
+                <div class="Services3">
+                    <div class="row">
+
+                    </div>
+                </div>
+            </div>-->
+            @*<div class="row">
+                    <i class="fa fa-pen-alt pr-4"></i>
+                    <h3>INNOVATIVE INGREDIENTS</h3>
+                    <p>Our experts continuously research new bakery ingredients and global bakery trends in order to offer an innovative product range to our customers.</p>
+
+                </div>
+
+                <h3>CUSTOMER COLLABRATION</h3>
+                <p>We work closely with our clients to formulate and manufacture products that cater to their customised market requirement.</p>
+
+                <h3>TECHNICAL SUPPORT</h3>
+                <p>Our team of experts are always available to provide full support to our clients in areas of baking process, equipment selection, material souring and product formulation.</p>*@
+
+            <!--</div>-->
+        </div>
+
+        <div class="clear"></div>
+        <div class="register-divider">
+            <div class="container">
+                @if (Session["U_Id"] == null)
+                {
+                    <h5>DON’T HAVE AN ACCOUNT? REGISTER NOW FOR UNRESTRICTED ACCESS</h5><a href="/register">CREATE ACCOUNT</a>
+                }
+
+            </div>
+        </div>
+
+
+        <div class="section notopmargin bg-white latest-group nobottommargin text-center" style="padding: 50px 0;">
+            <div class="container clearfix">
+                <div class="heading-block1 center">
+                    <div class="heading-blockline">
+                        <h3>APPLICATIONS</h3>
+                        <hr style="margin-bottom: -10px;" />
+                        <hr class="hrredline" />
+                    </div>
+                    <span>Baked products and applications using SwissBake® products. </span>
+                </div>
+                <div class="row grid-item clearfix" style="padding-top:5%">
+                    @{
+                        var j = 1;
+
+                    }
+                    @foreach (DataRow row in Model.Tables[2].Rows)
+                    {
+
+                        if (Model.Tables[2].Rows.Count > 0)
+                        {
+                            string title = "", Des = "";
+                            //string img = ViewBag.Domain + "/" + Convert.ToString(row["ProdSolution_Image"]);
+                            string img = "/" + Convert.ToString(row["ProdSolution_Image"]);
+                            //string img = "/Content/images/sbimg/stat" + j + ".jpg";
+                            j++;
+                            var tcount = row["ProdSolution_Name"].ToString().Length;
+                            if (tcount > 28)
+                            {
+                                title = Convert.ToString(row["ProdSolution_Name"]).Substring(0, 28) + "...";
+                            }
+                            else
+                            {
+                                title = Convert.ToString(row["ProdSolution_Name"]);
+                            }
+                            <div class="col-md-4 grid-image mb-4">
+                                <div class="app-blk">
+                                    <a href="@Url.RouteUrl("Solution",new { url = row["ProdSolution_Seourl"] })"><img src="@img" alt="@title" /></a>
+                                    <div class="heading-block nomargin noborder">
+                                        <h3 class="capitalize font-secondary t500"><a href="@Url.RouteUrl("Solution",new { url = row["ProdSolution_Seourl"] })">@title</a></h3>
+                                        <span class="one-linedesc">@row["ProdSolution_ShortDesc"]</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    @if (Model.Tables[2].Rows.Count == 3)
+                    {
+                        <div class="w-100 text-center more-blog mt-5">
+                            <a href="@Url.RouteUrl("Solution",new { url = "" })" class="more-link">VIEW ALL APPLICATIONS  <i class="icon-line-arrow-right"></i></a>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="clear"></div>
+        <div class="row">
+            @*@using (Html.BeginForm())
+        {*@
+            
+               
+            <div id="st" class="col-md-4 nopadding" style="background-color: #d70003">
+
+                <form id="smalContactForm" method="post" action="Index4Contact" style="margin-bottom:0px !important;">
+                    @*action="@Url.Action("Index4Contact", "Home")"*@
+                    <div id="step1panel" class="row" style="padding:50px; font-size:12px;padding-bottom: 5px;">
+                        <div class="col-sm-6">
+                            <div class="form-group center w-90">
+                                <input class="form-control" placeholder="Company Name" name="Organisation" id="Organisation" />
+                            </div>
+                            <div class="form-group center w-90">
+                                <input class="form-control" placeholder="Your Name" name="Name" id="Name" />
+                            </div>
+                            <div class="form-group center w-90">
+                                <input class="form-control" placeholder="Contact Number" name="Mobile" id="Mobile" maxlength="8" minlength="8" />
+                            </div>
+                            <div class="form-group center w-90" style="color:#000000;">
+                                <input class="form-control" placeholder="Email ID" name="Email" type="email" id="email" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6 h-100">
+                            <div class="form-group center w-90 h-100">
+                                <textarea placeholder="Your Message" class="form-control" id="contactMessage" name="Comment"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="captchaapanel"  class="row" style="padding:5px;">
+                        <div class="col-sm-12 center">
+
+                            <div id="captchaBackground1">
+
+                                <div class="row" style="padding:5px;">
+                                    <div class="col-sm-6 center">
+                                        <canvas id="captcha" width="250" height="50">captcha text</canvas>
+                                    </div>
+                                    <div class="col-sm-6 center">
+                                        <div class="row" style="padding:5px;">
+                                            <div class="col-sm-9 right">
+                                                <input id="textBox" type="text" name="text" style="width: 80%;" />
+                                                <img id="refreshButton" src="~/images/refresh.png" style="float:right;"></img>
+                                            </div>
+                                            <div class="col-sm-3 left">
+                                                &nbsp;
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sendpanel"  class="row">
+                        <div class="col-sm-12 center">
+                            <span id="output"></span>
+                            <span class="btn pl-4" id="step2verifystp" onclick="step2verify-stop()" style="color: #fff; FONT-WEIGHT: BOLD; ">SEND</span>
+                            &nbsp;
+                        </div>
+                    </div>
+
+            </div>
+            <div id="step2panel" class="col-md-4 nopadding" style="display:none;background-color: #d70003">
+
+
+                <div class="row">
+                    <div class="col-sm-12 center">
+                        <span>5 + 3 = ?  <br\><br\></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 center">
+                        <input id="textBox" type="text" name="text" style="width: 80%;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 center">
+                        <button class="btn pl-4" id="btnSendContact_123" style="color: #d70003; FONT-WEIGHT: BOLD; ">SUBMIT</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+            
+
+                @* }*@
+                <div class="col-md-8 nopadding">
+                    <div class="about" style="background-image:url(/Content/images/others/bg_heading.jpg)">
+                        <div class="container">
+                            <div class="row">
+
+
+                                <img src="~/Content/images/others/about_banner.png" class="m-auto" />
+
+                                @*<h5>ABOUT SWISSBAKE</h5>
+                            <br />
+                            <span>
+                                Swiss Bake Ingredients Pvt. Ltd is the manufacturing and marketing arm of trade ‘n bake Switzerland.
+                            </span>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container topmargin bottommargin clearfix cat-icon-grid">
+                <div class="heading-block1 bottommargin center">
+                    <div class="heading-blockline">
+                        <h3 class="">BLOG ARTICLES</h3>
+                        <hr style="margin-bottom: -10px;" />
+                        <hr class="hrredline" />
+                    </div>
+                    <span>Articles covering bakery trends, insights, know-how and science behind baking.</span>
+                </div>
+
+                <div class="blogpage blgsecgrd clearfix">
+                    <!-- Post Content
+            ============================================= -->
+                    <div class="postcontent nobottommargin col_last clearfix w-100">
+
+                        <!-- Posts
+                ============================================= -->
+                        <div id="posts" class="post-grid grid-container grid-4 othblog clearfix" data-layout="fitRows">
+                            @{
+                                var i = 1;
+
+                            }
+                            @foreach (DataRow row in Model.Tables[1].Rows)
+                            {
+
+                                if (Model.Tables[1].Rows.Count > 0)
+                                {
+                                    string title = "", Des = "";
+                                    //string img = ViewBag.Domain + "/" + Convert.ToString(row["Blog_imgPath"]);
+                                    string img = Convert.ToString(row["Blog_imgPath"]);
+                                    //string img = "/Content/images/sbimg/blog" + i + ".jpg";
+                                    i++;
+                                    var tcount = row["Blog_Name"].ToString().Length;
+                                    var Dcount = row["Blog_ShortDesc"].ToString().Length;
+                                    if (tcount > 28)
+                                    {
+                                        title = Convert.ToString(row["Blog_Name"]); //.Substring(0, 28) + "...";
+                                        title = title.Substring(0, title.IndexOf(" ", 28)) + "...";
+                                    }
+                                    else
+                                    {
+                                        title = Convert.ToString(row["Blog_Name"]);
+                                    }
+                                    if (Dcount > 120)
+                                    {
+                                        Des = Convert.ToString(row["Blog_ShortDesc"]); //.Substring(0, 170) + "...";
+                                        if (Des != null && Des.Length > 169)
+                                        { Des = Des.Substring(0, Des.IndexOf(" ", 170)) + "..."; }
+                                    }
+                                    else
+                                    {
+                                        Des = Convert.ToString(row["Blog_ShortDesc"]);
+                                    }
+                                    <div class="entry clearfix">
+                                        <div class="blog-card">
+                                            <div class="entry-image">
+                                                <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" title="@row["Blog_Name"]"><img class="" src="@img" alt="@row["Blog_Name"]"></a>
+                                            </div>
+                                            <ul class="entry-meta clearfix">
+                                                <li>@Convert.ToDateTime(row["Blog_Date"]).ToString("dd MMM yyyy") </li>
+                                                @*<li><i class="fas fa-eye"></i> 13 Views</li>*@
+                                            </ul>
+                                            <div class="entry-title">
+                                                <h2><a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })">@title</a></h2>
+                                            </div>
+
+                                            <div class="entry-content">
+                                                <p>@Des</p>
+
+                                            </div>
+                                            <div class="read-more-blk">
+                                                <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            }
+                            @if (Model.Tables[1].Rows.Count <= 0)
+                            {
+                                <h5 class="text-center w-100 mt-5">NO BLOGS FOUND</h5>
+                            }
+                            @if (Model.Tables[1].Rows.Count == 4)
+                            {
+                                <div class="w-100 text-center more-blog">
+                                    <a href="@Url.RouteUrl("Categoryblog",new { url = "All" })" class="more-link">VIEW ALL BLOGS <i class="icon-line-arrow-right"></i></a>
+                                </div>
+                            }
+                        </div><!-- #posts end -->
+
+
+                    </div><!-- .postcontent end -->
+                </div>
+            </div>
+
+        </div>
+
+</section><!-- #content end -->

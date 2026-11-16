@@ -1,0 +1,1971 @@
+﻿@using System.Data;
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{    string imageBasePath = "https://b2b.swissbake.bh/";
+
+    ViewBag.Title = Model.Tables[0].Rows[0]["Product_Seotitle"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = "http://localhost:56361";
+    }
+    else
+    {
+        //ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+        ViewBag.Domain = "https://b2b.swissbake.bh/";
+    }
+    string pdfurl = "";
+    if (Model.Tables[0].Rows[0]["Product_Recipes"] != null && !string.IsNullOrEmpty(Model.Tables[0].Rows[0]["Product_Recipes"].ToString()))
+    {
+        pdfurl = Model.Tables[0].Rows[0]["Product_Recipes"].ToString();
+        var parts = pdfurl.Split('/');
+        if (parts.Length > 0 && parts[0] == "ipes")
+        {
+            parts[0] = "Recipes";
+        }
+        pdfurl = string.Join("/", parts);
+    }
+    string quotePdfurl = "";
+    if (Model.Tables[0].Rows[0]["Product_Msdc"] != null && !string.IsNullOrEmpty(Model.Tables[0].Rows[0]["Product_Msdc"].ToString()))
+    {
+        quotePdfurl = Model.Tables[0].Rows[0]["Product_Msdc"].ToString();
+        var parts = quotePdfurl.Split('/');
+        if (parts.Length > 0 && parts[0] == "_MSDC")
+        {
+            parts[0] = "PDS_MSDC";
+        }
+        quotePdfurl = string.Join("/", parts);
+    }
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="@Model.Tables[0].Rows[0]["Product_Seotitle"]" />
+    <meta name="Title" content="@Model.Tables[0].Rows[0]["Product_Seotitle"]" />
+    <meta name="description" content="@Model.Tables[0].Rows[0]["Product_Seodesc"]" />
+    <meta name="keywords" content="@Model.Tables[0].Rows[0]["Product_Seokeywords"]" />
+    <meta property="og:description" content="@Model.Tables[0].Rows[0]["Product_Seodesc"]" />
+    <meta property="og:url" content="https://www.swissbake.bh/product/@Model.Tables[0].Rows[0]["Product_Seourl"]" />
+    <meta property="twitter:title" content="@Model.Tables[0].Rows[0]["Product_Seotitle"]" />
+    <meta property="twitter:description" content="@Model.Tables[0].Rows[0]["Product_Seodesc"]" />
+    @if (@Model.Tables[1].Rows.Count > 0)
+    {
+
+        <meta property="og:image" content="@ViewBag.Domain@Model.Tables[1].Rows[0]["Img_Path"]" />
+    }
+    <link rel="canonical" href="https://www.swissbake.bh/product/@Model.Tables[0].Rows[0]["Product_Seourl"]" />
+}
+
+@section head{
+    @Styles.Render("~/Content/PDetail")
+    @*<link href="~/Content/include/angularrange/rzslider.min.css" rel="stylesheet" />
+        <link href="~/Content/css/rangeslider.css" rel="stylesheet" />
+        <link href="~/Content/images/icons/swiss-attributes/style.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/Content/css/components/bs-rating.css" type="text/css" />*@
+    <link rel="stylesheet/less" type="text/css" href="~/Content/css/less/detail.less" />
+    @*<style>
+            /* For Firefox */
+            input[type='number'] {
+                -moz-appearance: textfield;
+            }
+            /* Webkit browsers like Safari and Chrome */
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        </style>*@
+    <style>
+        .content-wrap {
+            padding: 20px 0;
+        }
+
+        .white-section {
+            background-color: #FFF;
+            padding: 25px 20px;
+            -webkit-box-shadow: 0px 1px 1px 0px #dfdfdf;
+            box-shadow: 0px 1px 1px 0px #dfdfdf;
+            border-radius: 3px;
+        }
+
+            .white-section label {
+                margin-bottom: 15px;
+            }
+
+        .dark .white-section {
+            background-color: #111;
+            -webkit-box-shadow: 0px 1px 1px 0px #444;
+            box-shadow: 0px 1px 1px 0px #444;
+        }
+
+        .rating-stars i {
+            color: #676767;
+        }
+
+
+
+        .v-recipe .oc-item {
+            text-align: center;
+            background: #efefef;
+            padding: 0 0 10px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+
+        .oc-item {
+            text-align: center;
+        }
+
+        .v-recipe img {
+            margin: 0 auto 10px;
+        }
+
+        .dtlrelprod h4 {
+            font-weight: 700;
+        }
+    </style>
+}
+@section foot{
+
+    @Scripts.Render("~/bundles/PDetail")
+    @*<script src="~/Content/js/register/jquery.validate.min.js"></script>
+        <script src="~/Content/js/rangeslider.min.js"></script>
+        <script src="~/Content/include/angularrange/rzslider.min.js"></script>
+        <script src="~/Content/js/components/star-rating.js"></script>*@
+    <script src="~/Content/js/detail-func.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            // $('#datatable1').dataTable();
+    //get("@Request.Url.Segments[2]",'getproductbyurl',@Session["U_Id"]);
+            $('.skurange').removeClass('active');
+            $('.skurange#' + @ViewBag.PID).addClass('active');
+            angular.bootstrap(document.getElementById('divpricing'), ['MyApp']);
+            angular.bootstrap(document.getElementById('side-cart'), ['MyApp1']);
+            angular.bootstrap(document.getElementById('yield'), ['MyApp2']);
+           // angular.bootstrap(document.getElementsByTagName('body'), ['MyApp']);
+           // get("@ViewBag.sku");
+            //$('select[name=Year]').click(function () {
+            //    //$('button[name=yearsubmit]').click();
+            //    getOrder($("select[name=Year]").val(), $("#type").val());
+            //});
+        });
+        function checkbtn(type) {
+
+            if (type=='sample') {
+                $('#buysample').addClass('d-none');
+                $('#buyProduct').removeClass('d-none');
+                $('#divsku').addClass('d-none');
+
+            }
+            else {
+                $('#buyProduct').addClass('d-none');
+                $('#buysample').removeClass('d-none');
+                $('#divsku').removeClass('d-none');
+                var Pid = 315;//$('.skurange.active').attr('id');
+               // $('.drop-content li label#' + Pid + ' input').click();
+                var name = $('.skurange.active span').text();
+
+                $('.selected span').text(name);
+              //  alert(name);
+            }
+
+
+        }
+
+        function requo() {
+
+            setTimeout(function () {
+                $("#req-quo").click();
+            },200);
+
+        }
+
+
+        function addcart(btn) {
+
+            var Pid = $('.skurange.active').attr('id');// @ViewBag.PID;
+                if (Pid == undefined) {
+                Pid = $('.sampleskurange').attr('id');
+            }
+
+			if ($('#category_id').length > 0) {
+                var val = $('#category_id').val();
+                var ttl = $('#category_id').data('ttlno') ?? 1;
+                console.log(val);
+                console.log(ttl);
+
+                if (ttl < val) {
+                    alert('Minimum Order for this product is ' + val + ' kg.');
+                    return false;
+                }
+            }
+
+            var qty = $('.pack-qty').val();
+            angular.element(document.getElementById('pdsingle')).scope().addcarting(Pid, qty,btn);
+            angular.element(document.getElementById('pdsingle')).scope().$apply();
+            @*$.ajax({
+                url: '/Access/addcart',
+                type: "Post",
+                beforeSend: function () {
+
+                 //   $('.la > div').remove();
+                    $.confirm({
+                        backgroundDismiss: true,
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 16px;">Preparing your cart... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                        buttons: false
+                    });
+                },
+                data: { D: @ViewBag.PID, Q: qty, A: btn },
+                success: function (response) {
+
+
+                    $("#side-cart").html(response).removeAttr("style");
+                    $("#side-cart").removeAttr("style");
+                   // var cnt = $("#cont").val();
+                    //$(".la").append("<div></div>")
+                    //$(".la > div").attr("id", "side-cart" + cnt);
+
+                    //$("#side-cart" + cnt).html(response).removeAttr("style");
+
+                    //app = angular.bootstrap(document.getElementById('side-cart' + cnt), ['MyApp']);
+                    //$("#cont").val(cnt + 1);
+                    //$(".la").removeAttr("id");
+                    //setTimeout(function () {
+                    //    $(".jconfirm-closeIcon").click();
+                    //}, 800);
+
+                }
+            });*@
+    //  return false;// if it's a link to prevent post
+        }
+        @*function get(url,m) {
+
+            var id = '@Session["U_Id"]';
+            if (id == '' || id == null)
+            {
+                id = 0;
+            }
+             $.ajax({
+                 url: '@Url.Action("Productdetail", "Access",null)',
+                    type: "Post",
+                    beforeSend: function () {
+                        $("body").removeAttr("ng-app");
+
+                },
+                    data: { u: url, u_id: id, mode: m},
+                    success: function (response) {
+                        $('#divpricing').empty();
+                        $("#divpricing").html(response).removeAttr("style");
+
+                        var cnt = $("#cont").val();
+
+                     //   //setTimeout(function () {
+                     //angular.element( document).ready( function () {
+                     //    angular.bootstrap(document, ['MyApp']);
+                     //     });
+                     //   //}, 1000);
+
+                      //  $("#_ProductDetails").html(response.data);
+
+
+
+                      //  angular.element(document).scope().$destroy();
+                        browser.ignoresynchronisation = true
+                        $("body").attr("ng-app","MyApp");
+                        angular.bootstrap(document, ['MyApp']);
+
+                   //     if (cnt == ""){
+
+                   //angular.bootstrap(document, ['MyApp']);
+                   //         $("#cont").val("stop");
+
+                   //     }
+                   //     else {
+                   //         //angular.resumeBootstrap();
+                   //        // angular.resumeBootstrap([app['MyApp']]);
+                   //         angular.bootstrap(document.getElementById('single'), ['MyApp']);
+
+                   //     }
+
+                   //     angular.element(document.getElementById('single')).scope().$apply();
+
+                       // var app = angular.module('MyApp', ['rzModule']);
+
+                     //   $("#divpricing .product").removeAttr("style");
+                    //    window.history.pushState("state", "title", url);
+
+                    }
+            });
+           //  return false;// if it's a link to prevent post
+        }*@
+
+
+        //$(function () {
+
+        //    var $document = $(document);
+        //    var selector = '[data-rangeslider]';
+        //    var $element = $(selector);
+
+        //    // For ie8 support
+        //    var textContent = ('textContent' in document) ? 'textContent' : 'innerText';
+
+        //    // Example functionality to demonstrate a value feedback
+        //    function valueOutput(element) {
+        //        var value = element.value;
+        //        var output = element.parentNode.getElementsByTagName('output')[0] || element.parentNode.parentNode.getElementsByTagName('output')[0];
+        //        output[textContent] = value;
+        //    }
+
+        //    $document.on('input', 'input[type="range"], ' + selector, function (e) {
+        //        valueOutput(e.target);
+        //    });
+
+        //    // Example functionality to demonstrate disabled functionality
+        //    $document.on('click', '#js-example-disabled button[data-behaviour="toggle"]', function (e) {
+        //        var $inputRange = $(selector, e.target.parentNode);
+
+        //        if ($inputRange[0].disabled) {
+        //            $inputRange.prop("disabled", false);
+        //        }
+        //        else {
+        //            $inputRange.prop("disabled", true);
+        //        }
+        //        $inputRange.rangeslider('update');
+        //    });
+
+        //    // Example functionality to demonstrate programmatic value changes
+        //    $document.on('click', '#js-example-change-value button', function (e) {
+        //        var $inputRange = $(selector, e.target.parentNode);
+        //        var value = $('input[type="number"]', e.target.parentNode)[0].value;
+
+        //        $inputRange.val(value).change();
+        //    });
+
+        //    // Example functionality to demonstrate programmatic attribute changes
+        //    $document.on('click', '#js-example-change-attributes button', function (e) {
+        //        var $inputRange = $(selector, e.target.parentNode);
+        //        var attributes = {
+        //            min: $('input[name="min"]', e.target.parentNode)[0].value,
+        //            max: $('input[name="max"]', e.target.parentNode)[0].value,
+        //            step: $('input[name="step"]', e.target.parentNode)[0].value
+        //        };
+
+        //        $inputRange.attr(attributes);
+        //        $inputRange.rangeslider('update', true);
+        //    });
+
+        //    // Example functionality to demonstrate destroy functionality
+        //    $document
+        //        .on('click', '#js-example-destroy button[data-behaviour="destroy"]', function (e) {
+        //            $(selector, e.target.parentNode).rangeslider('destroy');
+        //        })
+        //        .on('click', '#js-example-destroy button[data-behaviour="initialize"]', function (e) {
+        //            $(selector, e.target.parentNode).rangeslider({ polyfill: false });
+        //        });
+
+        //    // Example functionality to test initialisation on hidden elements
+        //    $document
+        //        .on('click', '#js-example-hidden button[data-behaviour="toggle"]', function (e) {
+        //            var $container = $(e.target.previousElementSibling);
+        //            $container.toggle();
+        //        });
+
+        //    // Basic rangeslider initialization
+        //    $element.rangeslider({
+
+        //        // Deactivate the feature detection
+        //        polyfill: false,
+
+        //        // Callback function
+        //        onInit: function () {
+        //            valueOutput(this.$element[0]);
+        //        },
+
+        //        // Callback function
+        //        onSlide: function (position, value) {
+        //            console.log('onSlide');
+        //            console.log('position: ' + position, 'value: ' + value);
+        //        },
+
+        //        // Callback function
+        //        onSlideEnd: function (position, value) {
+        //            console.log('onSlideEnd');
+        //            console.log('position: ' + position, 'value: ' + value);
+        //        }
+        //    });
+
+        //});
+
+        //$(document).ready(function () {
+        //    $('.owl-carousel').owlCarousel({
+        //        loop: true,
+        //        margin: 10,
+        //        responsiveClass: true,
+        //        responsive: {
+        //            0: {
+        //                items: 1,
+        //                nav: true
+        //            },
+        //            600: {
+        //                items: 3,
+        //                nav: false
+        //            },
+        //            1000: {
+        //                items: 5,
+        //                nav: true,
+        //                loop: false
+        //            }
+        //        }
+        //    })
+        //});
+        //$("#input-7").rating({
+        //    containerClass: 'is-heart',
+        //    filledStar: '<i class="icon-heart3"></i>',
+        //    emptyStar: '<i class="icon-heart-empty"></i>',
+        //    starCaptions: { 0: "Not Rated", 1: "Very Poor", 2: "Poor", 3: "Ok", 4: "Good", 5: "Very Good" },
+        //    starCaptionClasses: { 0: "text-danger", 1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success" },
+        //});
+
+        //$("#input-8").rating({
+        //    containerClass: '',
+        //    filledStar: '<i class="icon-flag2"></i>',
+        //    emptyStar: '<i class="icon-flag-alt"></i>',
+        //    starCaptions: { 0: "Not Rated", 1: "1 Flags", 2: "2 Flags", 3: "3 Flags", 4: "4 Flags", 5: "5 Flags" },
+        //    starCaptionClasses: { 0: "text-danger", 1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success" },
+        //});
+
+        //$("#input-11").rating({
+        //    starCaptions: { 0: "Not Rated", 1: "Very Poor", 2: "Poor", 3: "Ok", 4: "Good", 5: "Very Good" },
+        //    starCaptionClasses: { 0: "text-danger", 1: "text-danger", 2: "text-warning", 3: "text-info", 4: "text-primary", 5: "text-success" },
+        //});
+
+        //$("#input-13").on("rating.clear", function (event) {
+        //    $('#rating-notification-message').attr('data-notify-type', 'error').attr('data-notify-msg', 'Your rating is reset');
+        //    SEMICOLON.widget.notifications(jQuery('#rating-notification-message'));
+        //});
+        //$("#input-13").on("rating.change", function (event, value, caption) {
+        //    $('#rating-notification-message').attr('data-notify-msg', 'You rated: ' + value + ' Stars');
+        //    SEMICOLON.widget.notifications(jQuery('#rating-notification-message'));
+        //});
+
+        //$("#input-14").on("rating.change", function (event, value, caption) {
+        //    $("#input-14").rating("refresh", { disabled: true, showClear: false });
+        //});
+
+        jQuery(document).ready(function ($) {
+            var $faqItems = $('#faqs .faq');
+            if (window.location.hash != '') {
+                var getFaqFilterHash = window.location.hash;
+                var hashFaqFilter = getFaqFilterHash.split('#');
+                if ($faqItems.hasClass(hashFaqFilter[1])) {
+                    $('#portfolio-filter li').removeClass('activeFilter');
+                    $('[data-filter=".' + hashFaqFilter[1] + '"]').parent('li').addClass('activeFilter');
+                    var hashFaqSelector = '.' + hashFaqFilter[1];
+                    $faqItems.css('display', 'none');
+                    if (hashFaqSelector != 'all') {
+                        $(hashFaqSelector).fadeIn(500);
+                    } else {
+                        $faqItems.fadeIn(500);
+                    }
+                }
+            }
+
+            //$(".pack-box")(function () {
+            //    var value2 = $(".price-range-box.active input#P-Rate").val();
+            //    var value = this.value;
+            //    var sku = $("input[name=sku]").val();
+            //    var ttl = value * sku;
+            //    //ttl = ttl * value2;
+            //    //$("#ttl").text(ttl);
+
+
+            //    angular.element(document.getElementById('single')).scope().maketotal(ttl,value2);
+            //});
+
+
+            $('#portfolio-filter a').click(function () {
+                $('#portfolio-filter li').removeClass('activeFilter');
+                $(this).parent('li').addClass('activeFilter');
+                var faqSelector = $(this).attr('data-filter');
+                $faqItems.css('display', 'none');
+                if (faqSelector != 'all') {
+                    $(faqSelector).fadeIn(500);
+                } else {
+                    $faqItems.fadeIn(500);
+                }
+                return false;
+            });
+
+
+
+
+        });
+
+        function cal(id) {
+
+
+            var value = id.value;
+            if (value == '' || value==0) {
+                value = 1;
+            }
+            var sku = $("input[name=sku]").val();
+            var ttl = value * sku;
+            $("#category_id").data('ttlno', ttl);
+            angular.element(document.getElementById('pdsingle')).scope().packing(ttl);
+            angular.element(document.getElementById('pdsingle')).scope().$apply();
+            //$("input[name=P-SKU]").val(ttl);
+            //angular.element(document.getElementById('pdsingle')).scope().$apply();
+            //angular.element(document.getElementById('pdsingle')).scope().packing(ttl);
+            //angular.element(document.getElementById('pdsingle')).scope().$apply();
+            //var value2 = $(".price-range-box.active input#P-Rate").val();
+            var value2 = $(".prc-mn.active input#P-Rate").val();
+
+console.log(ttl);
+
+            value2 = value2 / sku;   // zayan injection 05sept23 
+
+            ttl = value2 * sku;
+
+            console.log(value2);
+
+           // alert(value2); //'sdfsdf');
+           // alert(ttl);
+                angular.element(document.getElementById('pdsingle')).scope().maketotal(ttl, value2);
+                angular.element(document.getElementById('pdsingle')).scope().$apply();
+                //angular.element(document.getElementById('single')).scope().prc();
+                ttl = ttl * value2;
+                $("#ttl").text(ttl);
+            //setTimeout(function () {
+            //    angular.element(document.getElementById('pdsingle')).scope().packing(ttl);
+            //    angular.element(document.getElementById('pdsingle')).scope().$apply();
+            //    angular.element(document.getElementById('pdsingle')).scope().maketotal(ttl, value2);
+            //    angular.element(document.getElementById('pdsingle')).scope().$apply();
+            //    //angular.element(document.getElementById('single')).scope().prc();
+            //    ttl = ttl * value2;
+            //    $("#ttl").text(ttl);
+            //}, 4000);
+
+
+        }
+
+
+
+    </script>
+
+    <script>
+        function getproid() {
+
+            var pd = $('.skurange.active').attr('id');
+
+            $("#ProId").val(pd);
+            return true;
+        }
+
+        function submitrequest() {
+
+
+             var Pid = $('.skurange.active').attr('id');
+             if (Pid == undefined) {
+                 Pid = $('.sampleskurange').attr('id');
+             }
+           // var qty = $('.pack-box').val();
+
+             var ty = $('.side-req h4').text();
+             if (ty == 'Get Quote/Notify') { ty = 'Quote' } else { ty ='Sample'}
+            var na = $('#Name').val();
+            var mo = $('#Mobile').val();
+            var Em = $('#Email').val();
+            var or = $('#Organisation').val();
+            var ad = $('#Address').val();
+            var ci = $('#City').val();
+            var pi = $('#Pin').val();
+            var com = $('#Comment').val();
+            var rdd = $('#redirect').val();
+            var code = $('#pdcode').text();
+            var pname = $('#protitle').text();
+            $.ajax({
+                url: '@Url.Action("RequestB", "Access",null)',
+                type: "Post",
+                beforeSend: function () {
+                    $(".req-btn").attr("disabled", "disabled");
+                    //$(".close-dialog").click();
+                    $.dialog({
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 17px;margin: 0;padding: 0;margin-top: 5px;color: #848484;">Sending Request... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                        closeIconClass: 'close-dialog',
+                    });
+                },
+                data: { t: ty, n: na, m: mo, e: Em, o: or, a: ad, c: ci, p: pi, cmm : com , rd : rdd, pi : Pid, co:code, pn:pname},
+                success: function (response) {
+                    //$('#reqest-form').clear();
+                    $(".close-dialog").click();
+                    $(".req-btn").removeAttr("disabled");
+
+                    //dont redirect to thanks you page //imteyaz
+                    $.dialog({
+                        title: false,
+                        content: `<div class="checkbox" style="text-align:center;">
+                                    <label style="font-size: 14px;margin: 0;padding: 0;margin-top: 5px;color: #848484;">
+                                      We have received your request. Our team shall contact you shortly...
+                                    </label>
+                                  </div>`,
+                        closeIconClass: 'close-dialog',
+                    });
+                    setTimeout(function () { $(".close-dialog").click(); },5000)
+                   // setTimeout(function () { location.href = "/thankyou" }, 500);
+
+                }
+            });
+            //  return false;// if it's a link to prevent post
+        }
+    $(document).ready(function () {
+
+        // Code for the Validator
+        var form = $('#faq-form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('#faq-form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                Name: {
+                    required: true,
+                    regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                    minlength: 3,
+                },
+                Email: {
+                    required: true,
+                    regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                },
+                Mobile: {
+                    required: true,
+                    regex: /([0-9]{8}$)/,
+                    minlength: 10,
+                    maxlength: 10,
+                },
+
+                Comment: {
+                    required: true
+                }
+
+            },
+
+            messages: {
+                Name: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                },
+                Email: {
+                    required: "This is required",
+                    regex: "This is invalid"
+                },
+                Mobile: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                    maxlength: "This is invalid",
+                },
+
+                Comment: {
+                    required: "This is required"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+
+                error.insertAfter(element);
+            },
+
+            submitHandler: function (form) {
+                var $valid = $('#faq-form').valid();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+
+                else {
+                    $("button[type=submit]").text("Submitting").attr("disabled", "disabled");
+                    form.submit()
+                }
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+        @Html.Raw(ViewBag.error)
+    });
+
+
+    function sucess() {
+        //$.confirm({
+        //    backgroundDismiss: false,
+        //    title: false,
+        //    content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">We have received your request, we will get back to you soon.</label></div>',
+        //    buttons: false
+        //});
+        //setTimeout(function () {
+        //    $('.jconfirm-closeIcon').click();
+        //}, 5000);
+        location.href = "/thankyou";
+    }
+
+
+
+
+    </script>
+}
+
+
+@section Req{
+    <input type="text" id="cont" class="d-none" />
+    <div class="side-req d-none">
+        <div class="widget clearfix">
+
+            <h4>Request for sample</h4>
+            <div class="mt-3">
+
+                <form id="reqest-form" action="Request" method="post">
+                    <input name="redirect" id="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label class="label-floating">Product</label>
+                            <input type="text" readonly placeholder="Product quantity" id="schproduct_req" name="schproduct_req" class="form-control sch-product nocpc" />
+                        </div>
+                        <div class="col-12 form-group hidden">
+                            <label class="label-floating">Requirement Frequency</label>
+                            @*<input type="text" id="Name" name="Name" placeholder="Name" class="form-control" />*@
+                        <select name="schtype_req" class="form-control sch-type-req" ng-model="type">
+                            <option value="Monthly">One Time</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Custom">Annually</option>
+                        </select>
+                        </div>
+                        <div class="col-12 form-group hidden">
+                            <label class="label-floating">Required Qty (KG)</label>
+                            <input type="text" placeholder="Product quantity" required name="schqty" id="schqty_req" class="form-control sch-qty nocpc" onkeypress="return numkey(this);" />
+                        </div>
+                    </div>
+                    <div class="row" @(Session["U_Id"] != null ? "hidden" : "")>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Name</label>*@
+                            <input type="text" id="Name" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0 && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_ContactPerson"].ToString() : "")" name="Name" placeholder="Name" class="form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Email</label>*@
+                            <input type="text" id="Email" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_Email"].ToString() : "")" name="Email" placeholder="Email" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Mobile</label>*@
+                            <input type="text" id="Mobile" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0 && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_Mobile"].ToString() : "")" name="Mobile" placeholder="Mobile" class="form-control nocpc" onkeypress="return numkey(this);" maxlength="10" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Organisation</label>*@
+                            <input type="text" id="Organisation" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0 && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Acc_Name"].ToString() : "")" name="Organisation" placeholder="Organisation" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Address</label>*@
+                            <input type="text" id="Address" value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_Address"].ToString() + " " + Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["StateName"].ToString() + " " + Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["CountryName"].ToString() : "")" name="Address" placeholder="Address" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">City</label>*@
+                            <input type="text" id="City" value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_City"].ToString() : "")" name="City" placeholder="City" class="form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Pin</label>*@
+                            <input type="text" id="Pin" @*@(Session["U_Id"] != null ? "disabled" : "")*@ value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_Pincode"].ToString() : "")" name="Pin" placeholder="Pin" class="form-control nocpc" onkeypress="return numkey(this);" maxlength="6" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Comment</label>*@
+                            <textarea id="Comment" name="Comment" placeholder="Message" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    @*<button type="submit" @(Session["U_Id"] == null ? "disabled" : "") @(Session["U_Id"] == null ? "title='Login Required'" : "") class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white req-btn">Submit Request</button>*@
+                    <button type="submit" class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white req-btn">Submit Request</button>
+
+                </form>
+
+                @*<a href="/login" class="bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</a>*@
+            </div>
+        </div>
+
+    </div>
+
+    <div class="side-sch d-none" ng-controller="subs">
+        <div class="widget clearfix">
+
+            <h4>Remind Me</h4>
+            <div class="mt-3">
+
+                <form id="subs-form" action="" method="post">
+                    <input name="redirect" id="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                    <input type="hidden" value="@ViewBag.PID" id="pid" />
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label class="label-floating">Requirement FREQUENCY</label>
+                            @*<input type="text" id="Name" name="Name" placeholder="Name" class="form-control" />*@
+                            <select name="schtype" class="form-control sch-type" ng-model="type">
+                                <option value="One-Time">One Time</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Custom">Annually</option>
+                            </select>
+                        </div>
+                        @*<div id="subsdate" class="col-12 form-group">
+                            <label class="label-floating">Day</label>
+                            <select name="schdate" class="form-control sch-date">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                            </select>
+                            <span class="error primary-color"></span>*@
+                            @*<input type="date" placeholder="Manual date" name="schdate" class="form-control sch-date" />*@
+                        @*</div>*@
+                        <div class="col-12 form-group">
+                            <label class="label-floating">Product</label>
+                            <input type="text" readonly placeholder="Product quantity" id="schproduct" name="schproduct" class="form-control sch-product nocpc" />
+                        </div>
+                        <div class="col-12 form-group">
+                            <label class="label-floating">REQUIREMENT Qty (KG)</label>
+                            <input type="text" placeholder="Product quantity" name="schqty" class="form-control sch-qty nocpc" onkeypress="return numkey(this);" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Comment</label>*@
+                            <textarea id="Comment-sch" name="Comment-sch" placeholder="Message" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" @(Session["U_Id"] != null ? "hidden" : "")>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Name</label>*@
+                            <input type="text" id="Name-sch" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_ContactPerson"].ToString() : "")" name="Name-sch" placeholder="Name" class="form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Email</label>*@
+                            <input type="text" id="Email-sch" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_Email"].ToString() : "")" name="Email-sch" placeholder="Email" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Mobile</label>*@
+                            <input type="text" id="Mobile-sch" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0   && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Contact_Mobile"].ToString() : "")" name="Mobile-sch" placeholder="Mobile" class="form-control nocpc" onkeypress="return numkey(this);" maxlength="10" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Organisation</label>*@
+                            <input type="text" id="Organisation-sch" @(Session["U_Id"] != null ? "disabled" : "") value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0   && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["Acc_Name"].ToString() : "")" name="Organisation-sch" placeholder="Organisation" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Address</label>*@
+                            <input type="text" id="Address-sch" value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0   && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_Address"].ToString() + " " + Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["StateName"].ToString() + " " + Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["CountryName"].ToString() : "")" name="Address-sch" placeholder="Address" class="form-control" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">City</label>*@
+                            <input type="text" id="City-sch" value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0   && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_City"].ToString() : "")" name="City-sch" placeholder="City" class="form-control nocpc" onkeypress="return charkey(this);" />
+                        </div>
+                        <div class="col-12 form-group">
+                            @*<label class="label-floating">Pin</label>*@
+                            <input type="text" id="Pin-sch" @*@(Session["U_Id"] != null ? "disabled" : "")*@ value="@(Session["U_Id"] != null && ((Model.Tables?[Model.Tables.Count - 8]).Rows.Count>0  && (Model.Tables?[Model.Tables.Count - 8]).Rows[0] != null ) ? Model.Tables?[Model.Tables.Count - 8]?.Rows[0]["AccAddr_Pincode"].ToString() : "")" name="Pin-sch" placeholder="Pin" class="form-control nocpc" onkeypress="return numkey(this);" maxlength="6" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white sub-btn">Subscribe</button>
+                </form>
+
+                @*<a href="/login" class="bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</a>*@
+            </div>
+        </div>
+
+    </div>
+
+
+
+}
+
+
+
+<div id="productdetails">
+    <section id="content" class="pt-9 of-none">
+        <div class="detail-title-blk bdc">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.RouteUrl("Categorypro",new { url = Model.Tables[0].Rows[0]["PrdCategory_Seourl"] })">@Model.Tables[0].Rows[0]["PrdCategory_Name"]</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Tables[0].Rows[0]["Product_Name"]</li>
+            </ol>
+        </div>
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div class="single-product" id="single">
+                    @*<div class="detail-title-blk">
+                            <h1>@Model.Tables[0].Rows[0]["Product_Name"]</h1>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.RouteUrl("Categorypro",new { url = Model.Tables[0].Rows[0]["PrdCategory_Seourl"] })">@Model.Tables[0].Rows[0]["PrdCategory_Name"]</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">@Model.Tables[0].Rows[0]["Product_Name"]</li>
+                            </ol>
+                        </div>
+                        <hr />*@
+
+                    <div class="product">
+
+                        <div class="col_two_fifth">
+
+                            <!-- Product Single - Gallery
+    ============================================= -->
+
+                            @{
+                                string productflag = "product clearfix";
+
+
+                                //  if (row.Product_New.ToString() == "True")
+                                //  {
+                                //      productflag += " new";
+                                //  }
+
+                                if (Model.Tables[0].Rows[0]["Product_Stock"].ToString() == "In Stock99999")
+                                {
+                                    productflag += " instock";
+                                }
+
+                                if (Model.Tables[0].Rows[0]["Product_Onorder"].ToString() == "True")
+                                {
+                                    productflag += " onorder";
+                                }
+                            }
+                            <div class=" @productflag">
+                                <div class="product-image">
+                                    <div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
+                                        <div class="flexslider">
+                                            <div class="slider-wrap" data-lightbox="gallery">
+                                                @if (Model.Tables[1].Rows.Count > 0)
+                                                {
+                                                    foreach (DataRow i in Model.Tables[1].Rows)
+                                                    {
+                                                        <div class="slide" data-thumb="@ViewBag.Domain@i["Img_Path"]"><a href="@ViewBag.Domain@i["Img_Path"]" title="@i["Product_Name"]" data-lightbox="gallery-item"><img src="@ViewBag.Domain@i["Img_Path"]" alt="@i["Product_Name"]"></a></div>
+                                                    }
+                                                }
+                                                else
+                                                {
+
+                                                    <div class="slide" data-thumb="/images/noimage.jpg"><a href="@ViewBag.Domain/images/noimage.jpg" title="@Model.Tables[0].Rows[0]["Product_Name"]" data-lightbox="gallery-item"><img src="/images/noimage.jpg" style="width:430px; height:350px;" alt="@Model.Tables[0].Rows[0]["Product_Name"]"></a></div>
+
+                                                }
+                                                @*<div class="slide" data-thumb="/Content/images/others/rye-bread2.png"><a href="/Content/images/others/rye-bread2.png" title="" data-lightbox="gallery-item"><img src="~/Content/images/others/rye-bread2.png" alt=""></a></div>
+                            <div class="slide" data-thumb="/Content/images/others/waffle2.png"><a href="/Content/images/others/Waffle2.png" title="" data-lightbox="gallery-item"><img src="~/Content/images/others/waffle2.png" alt=""></a></div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="sale-flash">Sale!</div>*@
+                                </div><!-- Product Single - Gallery End -->
+                                @*ATTRIBUTES STARTS*@
+                                <div class="mt-3 pb-4">
+                                    @foreach (DataRow i in Model.Tables[2].Rows)
+                                    {
+                                        <span class="swiss" data-toggle="tooltip" data-original-title="@i["Attribute_Name"]" style="font-size: 50px;" @*data-content="@i["Attribute_Name"].ToString()"*@>
+                                            <img src="@i["Attribute_imgPath"]" alt="@i["Attribute_Name"].ToString()" />
+                                        </span>
+
+                                    }
+                                </div>
+                                @*ATTRIBUTES ENDS*@
+
+                            </div>
+                        </div>
+
+                            <div class="col_three_fifth col_last product-desc">
+                                <div class="detail-title-blk">
+                                    <h1 id="protitle">@Model.Tables[0].Rows[0]["Product_Name"]</h1>
+                                    <span id="pdcode" class="mb-1 ">CODE - @Model.Tables[0].Rows[0]["Product_code"] </span>
+                                </div>
+                                <p class="mb-1">@Model.Tables[0].Rows[0]["Product_OneLineDesc"]...<a class="cursor-pointer" onclick="scrllto('tb2')">Read More</a></p>
+                                @Html.Raw(Model.Tables[0].Rows[0]["FrontProduct_Desc"])
+                                @*Product Description:  <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>
+            Usage: <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>
+            Dosage: <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>*@
+                                <div class="dos-use mt-1">
+                                    <p><b>USAGE : </b>@Model.Tables[0].Rows[0]["Product_Usage"]</p>
+                                    <p><b>DOSAGE : </b>@Model.Tables[0].Rows[0]["Product_Dosage"]</p>
+                                </div>
+                                @*@foreach (DataRow i in Model.Tables[3].Rows)
+            {
+                if (i["Attribute_Name"].ToString() == "New")
+                {
+
+                    <span class="new">New</span>
+                }
+                else if (i["Attribute_Name"].ToString() == "Exclusive")
+                {
+
+                    <span class="exclusive">Exclusive</span>
+                }
+                else
+                {
+                    <span class="new">@i["Attribute_Name"].ToString()</span>
+                }
+            }*@
+
+
+
+                                <div class="clear"></div>
+                                <div class="line"></div>
+                                <div class="row">
+                                    @*<div class="col-md-3">
+                    @Html.DropDownList("package", (SelectList)ViewBag.packaging, new { @class = "sm-form-control sku-drop", @disabled = "disabled" })
+                </div>*@
+                                    @if (Session["U_Id"] == null || Session["U_Id"].ToString() == "")
+                                    {
+                                    }
+                                    else
+                                    {
+                                        if (Model.Tables[0].Rows[0]["Product_Onorder"].ToString() == "True" && Model.Tables[0].Rows[0]["Product_Stock"].ToString() != "In Stock")
+                                        {
+                                            <div class="col-lg-6 quantitytitle">
+                                                <p><span>OUT OF STOCK</span></p>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="col-lg-6 skutitle" id="divsku">
+                                        <p>Available Pack Sizes :</p>
+                                        <div class="dropdown_c @(Session["U_Id"] != null ? "dropdown_click" : "not-allowed") ">
+                                            <div class="selected">
+                                                <span>@Model.Tables[Model.Tables.Count - 2].Rows[0]["Packing_Packing"]</span>
+                                            </div>
+                                            <div class="drop-content">
+                                                <ul>
+                                                    @*<li><span>5Kg Bag</span></li>
+                                <li><span>10Kg Bag</span></li>
+                                <li>
+                                    <span>20Kg Bag</span>
+                                </li>*@
+
+                                                    @foreach (DataRow i in Model.Tables[Model.Tables.Count - 2].Rows)
+                                                    {
+                                                        //ViewBag.sku = Model.Tables[Model.Tables.Count - 2].Rows[0]["Packing_Weight"];
+                                                        <li>
+                                                            <label class="price-range-box skurange" id="@i["Product_Id"]">
+
+                                                                <input type="radio" class="d-none" onclick='get(@i["Product_Id"],"getproductbyID")' />
+                                                                @*<input type="text" value="@i["Product_Id"]" id="P-Rate" class="d-none" />*@
+                                                                @*<span><small>  </small></span>*@
+                                                                <span> @i["Packing_Packing"]</span>
+                                                            </label>
+                                                        </li>
+
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="row price-range-blk pl-3">
+                    <span class="pl-2 ml-1">Pack Size:</span>
+                    <div class="clear"></div>
+                    @foreach (DataRow i in Model.Tables[Model.Tables.Count - 2].Rows)
+                    {
+                        <div class="col-md-3 col-6">
+                            <label class="price-range-box skurange" id="@i["Product_Id"]">
+
+                                <input type="radio" class="d-none" onclick='get(@i["Product_Id"],"getproductbyID")' />
+                                <span><small>  </small></span>
+                                <span> @i["Packing_Packing"]</span>
+                            </label>
+                        </div>
+
+                    }
+                </div>*@
+                                </div>
+                                @*Pricing:*@
+                                <div class="la">
+                                    <div id="divpricing">
+                                        @Html.Raw(ViewBag.partialdetails)
+                                    </div>
+
+
+
+                                </div>
+                                @*@if (Session["U_Id"] != null)
+            {
+                <div class="row">
+                    <div class="col-md-6 offset-md-6">
+                        <span class="more-qty">
+
+                            <button class="text-center req-quote side-panel-trigger prc-Quote">MORE QUANTITY? REQUEST QUOTE</button>
+                        </span>
+                    </div>
+                </div>
+            }*@
+
+
+
+                                <div class="clear"></div>
+                                <div class="line"></div>
+
+                                @*<div class="pb-4">
+
+            </div>*@
+
+
+                                <!-- Product Single - Short Description
+        ============================================= -->
+                                @*Product Description:  <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>
+            Usage: <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>
+            Dosage: <p>@Model.Tables[0].Rows[0]["Product_Desc"]</p>*@
+
+
+                                @*<div class="clear"></div><div class="line"></div>*@
+                                <div class="detailbtn">
+                                    @*  <a class="btn btn-tt text-center" target="_blank" href="@ViewBag.Domain/@Model.Tables[0].Rows[0]["Product_Recipes"]">Download Leaflet</a>*@
+
+
+                                    @if (Session["U_Id"] == null || Session["U_Id"].ToString() == "")
+                                    {
+                                        <button class="btn-schedule w-auto text-center req-quote side-panel-trigger prc-Quote">REQUEST QUOTE</button>
+
+                                        <button class="btn-sample req-form side-panel-trigger"><i class="fas fa-archive"></i> REQUEST SAMPLE</button>
+
+                                    }
+                                    else
+                                    {
+                                        <button class="btn-whatsapp cursor-pointer" id="btn-whtsap" onclick="Whatsapp();"><i class="fab fa-whatsapp"></i> ORDER&nbsp;ON&nbsp;WHATSAPP</button>
+                                        if (Model.Tables[Model.Tables.Count - 6].Rows.Count > 0)
+                                        {
+                                            <button id="buysample" class="btn-sample" onclick='get(@Model.Tables[Model.Tables.Count - 6].Rows[0]["Product_Id"],"getproductbyID"),checkbtn("sample")'><i class="fas fa-archive"></i> BUY SAMPLE</button>
+                                            <label class="d-none sampleskurange" id="@Model.Tables[Model.Tables.Count - 6].Rows[0]["Product_Id"]"></label>
+                                            <button id="buyProduct" class="btn-sample d-none" onclick='get(@Model.Tables[Model.Tables.Count - 2].Rows[0]["Product_Id"],"getproductbyID"),checkbtn("product")'><i class="fas fa-archive"></i> BUY PRODUCT</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn-sample req-form side-panel-trigger"><i class="fas fa-archive"></i> REQUEST&nbsp;SAMPLE</button>
+                                        }
+                                        if (Model.Tables[Model.Tables.Count - 9].Rows.Count == 0)
+                                        {
+                                            <button style="display:none;" class="btn-schedule req-sch side-panel-trigger"><i class="far fa-calendar-alt"></i> Remind&nbsp;Me</button>
+                                        }
+                                    }
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+        <section class="tabbing">
+            <span class="in-tab-btn"></span>
+            <div class="tab-buttons">
+                <div class="container">
+                    <div class="buttons-row">
+                        <ul>
+                            <li id="tb-prod" class="curr"><a onclick="scrllto('product')">PRODUCT</a></li>
+                            <li id="tb-desc"><a onclick="scrllto('tb2')">DESCRIPTION</a></li>
+                            @*<li id="tb-nut"><a onclick="scrllto('tb3')">Nutritional Facts</a></li>*@
+                            @if ((Model.Tables[0].Rows[0]["Product_BakerRecipe"]).ToString() == "") { }
+                            else
+                            {
+                                <li id="tb-Rec"><a onclick="scrllto('tb4')">RECIPE</a></li>
+                                <li id="tb-Cc"><a onclick="scrllto('tb4')">COST&nbsp;CALCULATOR</a></li>
+                            }
+                            <li id="tb-faq"><a onclick="scrllto('tb5')">FAQ'S</a></li>
+                            @*<li id="tb-rev"><a onclick="scrllto('tb6')">Review</a></li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="tab1" class=" pt-3 pb-3 bb-red">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <h3>Description</h3>
+                                @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                            </div>
+                            <div class="descrp-content">
+                                <div class="fnt-14">
+                                    @*<p>
+
+                                        </p>*@
+                                    @Html.Raw(Model.Tables[0].Rows[0]["Product_Description"])
+                                </div>
+                                @if (Model.Tables[0].Rows[0]["Product_DescImage"].ToString() != "")
+                                {
+                                    <div>
+                                        @*<img src="~/Content/images/sbimg/crumb-mix.PNG" />*@
+                                        <img src="@Model.Tables[0].Rows[0]["Product_DescImage"]" />
+                                    </div>
+                                }
+                            </div>
+                            <hr />
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <h3>Key Ingredients</h3>
+                                @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                            </div>
+                            <p class="fnt-14">
+                                @*Lorem ipsum dolor sit amet, id accumsan lobortis ius, labore comprehensam duo at. Omnes fabulas fabellas ad ius, tritani reprehendunt sea in. Libris vivendo invidunt id vix, duo et nullam prodesset gloriatur, has ut doming oporteat intellegat. Vis idque simul constituam an.*@
+                                @Model.Tables[0].Rows[0]["Product_Ingrdt"]
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if ((Model.Tables[0].Rows[0]["Product_BakerRecipe"]).ToString() == "")
+            {
+
+                <div id="tab3"></div>
+            }
+            else
+            {
+                <div id="tab3" class="bg-light recipe-blk  pt-3 pb-5 ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 rec-blk">
+                                <div class="mb-2">
+                                    <h3>Recipe</h3>
+                                    @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                                </div>
+
+                                @*<div class="row">*@
+                                @*<div class="col-md-6 br-1-grey">*@
+                                @*<strong>Baker Recipe</strong>*@
+                                @*<p>
+
+                                    </p>*@
+                                @Html.Raw(Model.Tables[0].Rows[0]["Product_BakerRecipe"])
+
+
+                                @*</div>*@
+                            </div>
+
+                            @if (Session["U_Id"] == null)
+                            {
+                                <div class="col-lg-6 yield" id="yield" ng-controller="yield">
+                                    <div class="mb-2">
+                                        <h3>Cost Calculator</h3>
+                                        @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                                    </div>
+                                    <a href="/login"><img src="~/Content/images/others/yeild-calc.jpg" class="mt-4" /></a>
+                                </div>
+                            }
+                            else
+                            {
+                                if (Convert.ToInt32(Model.Tables[Model.Tables.Count - 7].Rows[0]["counting"]) > 0)
+                                {
+                                    <div class="col-lg-6 yield" id="yield" ng-controller="yield">
+                                        <div class="mb-2">
+                                            <h3>Cost Calculator</h3>
+                                            @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                                        </div>
+
+                                        <table>
+                                            <tr>
+                                                <td class="text-center">Ingredients</td>
+                                                <td class="text-center w-25">Qty(gm)</td>
+                                                <td class="text-center">Price(/Kg)</td>
+                                                <td class="text-center">Amount</td>
+                                            </tr>
+                                            <tr ng-repeat="Y in Yielddata">
+                                                <td><a ng-href="{{Y.href}}" ng-class="Y.href != '' ? 'primary-color':''">{{Y.Product_Name}}</a></td>
+                                                <td>
+                                                    <input type="text" class="pack-box w-100" onkeypress="return ngumericwithdecimal(this);" ng-disabled="Y.Type  == 'Ingredient'" ng-model="Y.Qty" ng-change="onChange(Yielddata,Y,$index)" ng-value="{{Y.Qty}}" />
+                                                    @*<input type="text" name="numeric" class='allownumericwithdecimal'>*@
+                                                    <input type="text" id="{{ 'lblhidden' + $index }}" style="display:none;" value="{{Y.EtcDouble1}}" />
+                                                </td>
+                                                <td class="text-right pr-1">BHD {{Y.Product_Rate}} </td>
+                                                <td class="text-right">BHD {{Y.Amount}}</td>
+                                            </tr>
+                                            @*<tr>
+                                                    <td>Wheat Flour</td>
+                                                    <td>5000</td>
+                                                    <td> </td>
+                                                    <td> </td>
+                                                </tr>*@
+
+                                            <tr>
+                                                <td colspan="4" class="p-3"></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td colspan="2">
+                                                    Yield (Kg):
+                                                    <input type="text" class="pack-box" ng-model="totalweight" onkeypress="return ngumericwithdecimal(this);" ng-change="onYieldChange(Yielddata,totalweight,$index)" value="{{totalweight}}" />
+                                                    <input type="text" id="lbltotalyield" style="display:none;" value="{{Htotalweight}}" />
+                                                    @*<input type="text" name="numeric" class='allownumericwithdecimal' ng-change="onYieldChange(Yielddata,totalweight,$index)">*@
+                                                </td>
+                                                <td colspan="2">Batch Cost: BHD {{totalprice | number:0}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    Per Unit Weight (gm):
+                                                    <input type="text" id="txtunitwt" class="pack-box" ng-model="unitweight" maxlength="4" onkeypress="return ngumericwithdecimal(this);" ng-change="onUWChange(Yielddata,noofunits,$index)" value="{{unitweight | number:0}}" />
+                                                    <input type="text" id="lblunitweight" style="display:none;" value="{{unitweight | number:0}}" />
+                                                </td>
+                                                <td colspan="2">
+                                                    No of Units:
+                                                    <input type="text" class="pack-box" ng-model="noofunits" onkeypress="return ngumericwithdecimal(this);" ng-change="onunitChange(Yielddata,noofunits,$index)" value="{{noofunits | number:0}}" />
+                                                    <input type="text" id="lblnoofunits" style="display:none;" value="{{Hnoofunits | number:0}}" />
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center CPU"><strong>Cost Per Unit: BHD {{unitprice}}</strong></td>
+                                                @*<td colspan="2" class="text-center"></td>*@
+                                            </tr>
+
+                                        </table>
+
+
+                                    </div>
+                                }
+                                else
+                                {
+
+                                }
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="recipe-blk  pt-2 pb-5 bb-gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <h3>Method</h3>
+                                @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                            </div>
+                            @*<p>
+
+                                </p>*@
+                            <div class="fnt-14">
+                                @Html.Raw(Model.Tables[0].Rows[0]["Product_BakerMethod"])
+                            </div>
+
+
+                        </div>
+                        @if (Model.Tables[Model.Tables.Count - 3].Rows.Count > 0)
+                        {
+                            <hr />
+                            <div class="col-md-12 mt-5">
+                                <h3>Variant Recipe</h3>
+                                <div class="clear mt-3"></div>
+                                <div id="oc-clients" class="owl-carousel image-carousel carousel-widget v-recipe" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="2" data-items-sm="3" data-items-md="4" data-items-lg="5" data-items-xl="6">
+                                    @foreach (DataRow i in Model.Tables[Model.Tables.Count - 3].Rows)
+                                    {
+                                        <div class="oc-item">
+                                            <a href="/Recipe/@i["Recipe_Seourl"]" class="text-center">
+                                                <div style="width:173px;height:98px;overflow:hidden;">
+                                                    <img src="@ViewBag.Domain@i["Recipe_ImgPath"]" alt="@i["Recipe_Name"]" title="@i["Recipe_Name"]" />
+                                                </div>
+
+                                                @*<img src="@ViewBag.Domain@i["Recipe_ImgPath"]" alt="@i["Recipe_Name"]" title="@i["Recipe_Name"]" style="width:100px;margin:0 auto 10px;" />*@
+                                                <span>@i["Recipe_Name"]</span>
+                                            </a>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div id="tab4" class="bg-light pt-3 pb-5 bb-red">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <h3>FAQ</h3>
+                                @*<small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>*@
+                            </div>
+
+
+                            <!-- Post Content
+                            ============================================= -->
+                            <div class="postcontent nobottommargin clearfix w-100">
+
+                                @*<ul id="portfolio-filter" class="portfolio-filter clearfix">
+
+                                        <li class="activeFilter"><a href="#" data-filter="all">All</a></li>
+                                        <li><a href="#" data-filter=".faq-marketplace">Marketplace</a></li>
+                                        <li><a href="#" data-filter=".faq-authors">Authors</a></li>
+                                        <li><a href="#" data-filter=".faq-legal">Legal</a></li>
+                                        <li><a href="#" data-filter=".faq-itemdiscussion">Item Discussion</a></li>
+                                        <li><a href="#" data-filter=".faq-affiliates">Affiliates</a></li>
+                                        <li><a href="#" data-filter=".faq-miscellaneous">Miscellaneous</a></li>
+
+                                    </ul>*@
+
+                                <div class="clear"></div>
+
+                                <div id="faqs" class="faqs">
+                                    @foreach (DataRow i in Model.Tables[Model.Tables.Count - 4].Rows)
+                                    {
+                                        <div class="toggle faq faq-marketplace faq-authors">
+                                            <div class="togglet">@i["FAQ_Quest"]</div>
+                                            <div class="togglec">@i["FAQ_Ans"]</div>
+                                        </div>
+                                    }
+                                    @*<div class="toggle faq faq-authors faq-miscellaneous">
+                                            <div class="togglet"><i class="toggle-closed icon-comments-alt"></i><i class="toggle-open icon-comments-alt"></i>Helpful Resources for Authors</div>
+                                            <div class="togglec">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+                                        </div>
+
+                                        <div class="toggle faq faq-miscellaneous">
+                                            <div class="togglet"><i class="toggle-closed icon-lock3"></i><i class="toggle-open icon-lock3"></i>How much money can I make?</div>
+                                            <div class="togglec">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, dolorum, vero ipsum molestiae minima odio quo voluptate illum excepturi quam cum voluptates doloribus quae nisi tempore necessitatibus dolores ducimus enim libero eaque explicabo suscipit animi at quaerat aliquid ex expedita perspiciatis? Saepe, aperiam, nam unde quas beatae vero vitae nulla.</div>
+                                        </div>*@
+
+
+                                </div>
+
+
+                            </div><!-- .postcontent end -->
+                            <div class="clear"></div>
+                            <div class="mb-2 mt-4">
+                                <h5>Ask Your Question</h5>
+                            </div>
+                            <div class="ask-faq clearfix">
+                                <form id="faq-form" action="/faq" method="post" class="w-100">
+                                    <input name="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                                    <input type="text" class="d-none" id="ProId" name="ProId" />
+                                    <div class="row w-100">
+                                        <div class="col-xl-2 col-md-6 form-group">
+                                            <label>Name</label>
+                                            <input type="text" id="Name" name="Name" class="form-control w-100 nocpc" onkeypress="return charkey(this);" />
+                                        </div>
+                                        <div class="col-xl-2 col-md-6 form-group">
+                                            <label>Email</label>
+                                            <input type="email" id="Email" name="Email" class="form-control w-100 nocpc" />
+                                        </div>
+                                        <div class="col-xl-6 col-md-8 form-group">
+                                            <label>Question</label>
+                                            <input type="text" id="Comment" name="Comment" class="form-control w-100" />
+                                        </div>
+                                        <div class="col-xl-2 col-md-4 form-group">
+                                            <label>&nbsp;</label>
+                                            @*<input type="button" class="btn btn-default btn-success" value="Submit Question" />*@
+                                            <button name="submit" type="submit" id="submit-button" onclick="return getproid();" tabindex="5" value="Submit" class="btn btn-default btn-success w-100">Submit Question</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div id="tab5" class="row bg-light pt-5 pb-5">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <div class="mb-4">
+                                <h3>Review</h3>
+                                <small>Lorem ipsum dolor sit amet, id accumsan lobortis ius.</small>
+                            </div>
+                            <br />
+                            <div id="reviews" class="clearfix">
+                                <div class="row p-0 bg-white">
+                                    <div class="col-md-5">
+                                        <div class="review-block">
+                                            <div class="row review-table">
+                                                <div class="col-md-6">
+                                                    <strong>20 customers reviews</strong>
+                                                    <br />
+                                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                        <div class="star-ratings-css">
+                                                            <div class="star-ratings-css-top" style="width: 59%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                        </div>
+                                                        <span data-content="This calculation are base on average of all customers review">4.3 out of 5 stars</span>
+                                                    </div>
+                                                    <br />
+                                                    <a href="#" data-toggle="modal" data-target="#reviewFormModal" class="">Add a Review</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <table>
+                                                        <tr>
+                                                            <td>5 star</td>
+                                                            <td>
+                                                                <div class="star-ratings-css">
+                                                                    <div class="star-ratings-css-top" style="width: 90%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>68%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>4 star</td>
+                                                            <td>
+                                                                <div class="star-ratings-css">
+                                                                    <div class="star-ratings-css-top" style="width: 10%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>48%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3 star</td>
+                                                            <td>
+                                                                <div class="star-ratings-css">
+                                                                    <div class="star-ratings-css-top" style="width: 2%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>20%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2 star</td>
+                                                            <td>
+                                                                <div class="star-ratings-css">
+                                                                    <div class="star-ratings-css-top" style="width: 15%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>2%</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>1 star</td>
+                                                            <td>
+                                                                <div class="star-ratings-css">
+                                                                    <div class="star-ratings-css-top" style="width: 0%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                                    <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                                </div>
+                                                            </td>
+                                                            <td>0%</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 pop-rev-prod">
+                                        <strong>Popular Rated Products</strong>
+                                        <div class="row">
+                                            <div class="same-review-prod col-md-3">
+                                                <div class="same-img">
+                                                    <img src="~/Content/images/others/Waffle.png" />
+                                                </div>
+                                                <a>ALL PURPOSE GLUTEN FREE CAKE MIX</a>
+                                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                    <div class="star-ratings-css">
+                                                        <div class="star-ratings-css-top" style="width: 80%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="same-review-prod col-md-3">
+                                                <div class="same-img">
+                                                    <img src="/Content/images/others/puff.png" />
+                                                </div>
+                                                <a>ALL PURPOSE GLUTEN FREE CAKE MIX</a>
+                                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                    <div class="star-ratings-css">
+                                                        <div class="star-ratings-css-top" style="width: 70%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="same-review-prod col-md-3">
+                                                <div class="same-img">
+                                                    <img src="~/Content/images/others/Churro.png" />
+                                                </div>
+                                                <a>ALL PURPOSE GLUTEN FREE CAKE MIX</a>
+                                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                    <div class="star-ratings-css">
+                                                        <div class="star-ratings-css-top" style="width: 50%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="same-review-prod col-md-3">
+                                                <div class="same-img">
+                                                    <img src="~/Content/images/others/cup-cake.png" />
+                                                </div>
+                                                <a>ALL PURPOSE GLUTEN FREE CAKE MIX</a>
+                                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                    <div class="star-ratings-css">
+                                                        <div class="star-ratings-css-top" style="width: 90%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <ol class="commentlist clearfix">
+
+                                    <li class="comment even thread-even depth-1" id="li-comment-1">
+                                        <div id="comment-1" class="comment-wrap clearfix">
+
+                                            <div class="comment-meta">
+                                                <div class="comment-author vcard">
+                                                    <div class="comment-author">John Doe<span></span></div>
+                                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                        <div class="star-ratings-css">
+                                                            <div class="star-ratings-css-top" style="width: 59%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="comment-content clearfix">
+                                                <small>November 18, 2018</small>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo perferendis aliquid tenetur. Aliquid, tempora, sit aliquam officiis nihil autem eum at repellendus facilis quaerat consequatur commodi laborum saepe non nemo nam maxime quis error tempore possimus est quasi reprehenderit fuga!
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo perferendis aliquid tenetur. Aliquid, tempora, sit aliquam officiis nihil autem eum at repellendus facilis quaerat consequatur commodi laborum saepe non nemo nam maxime quis error tempore possimus est quasi reprehenderit fuga!</p>
+                                                <div class="helpfull-review"><span>Was this review helpful?</span><i class="fas fa-thumbs-up"></i><small>(5)</small><i class="far fa-thumbs-down"></i><small>(0)</small></div>
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="comment even thread-even depth-1" id="li-comment-1">
+                                        <div id="comment-1" class="comment-wrap clearfix">
+
+                                            <div class="comment-meta">
+                                                <div class="comment-author vcard">
+                                                    <div class="comment-author">John Doe<span></span></div>
+                                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                                        <div class="star-ratings-css">
+                                                            <div class="star-ratings-css-top" style="width: 59%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="comment-content clearfix">
+                                                <small>November 18, 2018</small>
+                                                <p>Quasi, blanditiis, neque ipsum numquam odit asperiores hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum temporibus cum nemo iste aperiam explicabo fuga odio ratione sint fugiat consequuntur vitae adipisci delectus eum incidunt possimus tenetur excepturi at accusantium quod doloremque reprehenderit aut expedita labore error atque?</p>
+                                                <div class="helpfull-review"><span>Was this review helpful?</span><i class="fas fa-thumbs-up"></i><small>(5)</small><i class="far fa-thumbs-down"></i><small>(0)</small></div>
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                        </div>
+                                    </li>
+
+                                </ol>
+
+                                <!-- Modal Reviews
+                    ============================================= -->
+
+
+                                <div class="modal fade" id="reviewFormModal" tabindex="-1" role="dialog" aria-labelledby="reviewFormModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="reviewFormModalLabel">Submit a Review</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="nobottommargin" id="template-reviewform" name="template-reviewform" action="#" method="post">
+
+                                                    <div class="col_half">
+                                                        <label for="template-reviewform-name">Name <small>*</small></label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text"><i class="icon-user"></i></div>
+                                                            </div>
+                                                            <input type="text" id="template-reviewform-name" name="template-reviewform-name" value="" class="form-control required" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col_half col_last">
+                                                        <label for="template-reviewform-email">Email <small>*</small></label>
+                                                        <div class="input-group">
+                                                            <div class="input-group-prepend"><div class="input-group-text">@@</div></div>
+                                                            <input type="email" id="template-reviewform-email" name="template-reviewform-email" value="" class="required email form-control" />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="clear"></div>
+
+                                                    <div class="col_full col_last">
+                                                        <label for="template-reviewform-rating">Rating</label>
+                                                        @*<select id="template-reviewform-rating" name="template-reviewform-rating" class="form-control">
+                                                            <option value="">-- Select One --</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                        </select>//comment end
+                                                        <input id="input-14" class="rating" max="5" data-step="1" data-size="sm">
+                                                    </div>
+
+                                                    <div class="clear"></div>
+
+                                                    <div class="col_full">
+                                                        <label for="template-reviewform-comment">Comment <small>*</small></label>
+                                                        <textarea class="required form-control" id="template-reviewform-comment" name="template-reviewform-comment" rows="6" cols="30"></textarea>
+                                                    </div>
+
+                                                    <div class="col_full nobottommargin">
+                                                        <button class="button button-3d nomargin" type="submit" id="template-reviewform-submit" name="template-reviewform-submit" value="submit">Submit Review</button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            @*<div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>//comment end
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                <!-- Modal Reviews End -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+            <div class="clear"></div>
+            @if (Model.Tables[Model.Tables.Count - 5].Rows.Count > 0)
+            {
+                <div class="container mt-5">
+                    <div id="shop" class="col_full dtlrelprod">
+
+                        <h4>Related Products</h4>
+
+                        <div id="oc-product" class="shop relproducts owl-carousel product-carousel carousel-widget relate-prod" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                            @foreach (DataRow row in Model.Tables[Model.Tables.Count - 5].Rows)
+                            {
+                                string title = "", onelinedesc = "";
+                                var tcount = row["Product_Name"].ToString().Length;
+
+                                if (tcount > 35)
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]);
+                                }
+                                var Ocount = row["Product_Usage"].ToString().Length;
+                                if (Ocount > 35)
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                }
+                                <div class="oc-item">
+                                    @*<div class="product iproduct clearfix">
+                                        <div class="product-image" ng-class="{'new' :  @row["Product_New"].ToString() == 'True'  }">*@
+                                    <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix new" : "product iproduct clearfix")">
+                                        <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+                                            @*<a href="#"><img src="https://www.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                            <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">
+                                                <img src="@imageBasePath@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]">
+
+                                            </a>
+                                            @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="https://www.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                            <div class="product-overlay">
+                                                @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+
+                                            <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing</a>
+
+                                                }
+                                                else
+                                                {
+                                                    if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                    {
+                                                        if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                        {
+                                                            if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                            {
+
+                                                                if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                                else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                                            }
+
+
+
+                                                        }
+                                                        else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                        {
+                                                            <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                                            }*@
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["Product_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                    }
+                                                    @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                                                        {
+                                                            <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                        }*@
+                                                    @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                                                        <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                }
+                                            </div>
+                                            <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            }
+        </section>
+
+
+
+
+    </section><!-- #content end -->
+
+</div>
+
+
+<div class="side-option">
+    <div class="options-list">
+        <ul>
+            @if (Model.Tables[0].Rows[0]["Product_Recipes"].ToString() != "")
+            {
+                <li data-toggle="tooltip" data-placement="left" title="Product Leaflet"><a target="_blank" class="primary-color" href="@ViewBag.Domain@pdfurl"><i class="fas fa-file-pdf"></i> </a></li>
+            }
+            @if (!string.IsNullOrEmpty(Model.Tables[0].Rows[0]["Product_Onorder"]?.ToString()))
+            {
+                <li data-toggle="tooltip" data-placement="left" title="" data-original-title="Request Quote"><span onclick="requo();"><i class="fas fa-file-contract"></i></span></li>
+                
+            }
+            @if (Session["U_Id"] == null || Session["U_Id"].ToString() == "")
+            {
+            }
+            else
+            {
+                <li data-toggle="tooltip" data-placement="left" title="Order On Whatsapp" onclick="Whatsapp();" class="cursor-pointer whtsap"><i class="fab fa-whatsapp"></i></li>
+            }
+        </ul>
+    </div>
+
+
+</div>
+
+<button id="req-quo" class="text-center req-quote side-panel-trigger prc-Quote d-none">REQUEST QUOTE</button>

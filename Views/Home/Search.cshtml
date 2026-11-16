@@ -1,0 +1,379 @@
+﻿@using System.Data
+@using SwissbakeIn.Entities;
+@model DataSet
+@{
+    //ViewBag.Title = @ViewBag.Title;
+
+
+    //ViewBag.Title = "Search";
+
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+
+}
+
+@section head{
+    <link rel="stylesheet/less" type="text/css" href="~/Content/css/less/products.less" />
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane {
+            margin-bottom: 0;
+        }
+
+        .jconfirm-closeIcon {
+            display: none !important;
+        }
+
+        .blgartsec hr, .bakercpsec hr, .faqsec  hr{
+            margin-bottom: 3rem;
+        }
+
+        .bakercpsec .blog-card {
+            height: 350px !important;
+        }
+
+            .bakercpsec .blog-card .product {
+                transition-property: none !important;
+                transition-duration: 0s !important;
+                transition-delay: 0ms !important;
+                transform: translate3d(0px,0px,0px) !important;
+            }
+
+
+        @@media screen and (min-width: 991px) {
+        .w-100 {
+            width: 98.2% !important;
+        }
+        }
+
+        @@media screen and (min-width: 576px) and (max-width: 990px) {
+            .w-100 {
+                width: 97.5% !important;
+            }
+        }
+        
+
+    </style>
+}
+@section foot{
+    @*<script src="~/Content/js/account.js"></script>
+        <script src="~/Content/js/components/bs-datatable.js"></script>*@
+    <script>
+
+        $(document).ready(function () {
+            // $('#datatable1').dataTable();
+            $("#topsearch,#search").val("@ViewBag.search.Replace("-"," ")");
+
+            $(".togglet").click();
+
+            get("@ViewBag.search");
+            //$('select[name=Year]').click(function () {
+            //    //$('button[name=yearsubmit]').click();
+            //    getOrder($("select[name=Year]").val(), $("#type").val());
+            //});
+        });
+        function get(url) {
+
+            var id = '@Session["U_Id"]';
+            var path = window.location.pathname;
+            var paths = path.split("/");
+            if (paths[1] == "search"){
+                var m = "search"
+            }
+            else if (paths[1] == "exclusive") {
+                var m = "exclusive";
+                if (id == ""){
+                    window.location.href = "/login";
+                }
+            }
+
+            if (id == '' || id == null)
+            {
+                id = 0;
+            }
+             $.ajax({
+                 url: '@Url.Action("Product","Access",null)',
+                    type: "Post",
+                    beforeSend: function () {
+                        //_divPartialView.style = "Display: none";
+                        //$("#divWaiting").removeClass("display-none");
+                        $.confirm({
+                            backgroundDismiss: false,
+                            title: false,
+                            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Searching Data... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                            buttons: false
+                        });
+                },
+                    data: { u: url, u_id: id, mode:m},
+                    success: function (response) {
+
+                        //_divPartialView.style = "";
+                        //$("#divWaiting").addClass("display-none");
+                        $("#shop").html(response).removeAttr("style");
+
+                        setTimeout(function () {
+                            $(".jconfirm-closeIcon").click();
+
+                        }, 500);
+
+                        window.history.pushState("state", "title", url);
+
+                        $('html, body').animate({
+                            scrollTop: $("#shop").offset().top - $('#header').outerHeight()
+                        }, 1000);
+
+
+
+                       // $('#datatable1').dataTable();
+                    },
+                    complete: function () {
+
+                        var int = setInterval(function () {
+                            $("#shop .product, #shop .clear, #shop h5, #shop hr, #shop > div").removeAttr("style");
+
+                            //if ($("#shop .product").attr != "style"){
+                            //    clearInterval(int);
+                            //}
+
+                        }, 500);
+
+
+
+                    }
+            });
+           //  return false;// if it's a link to prevent post
+        }
+    </script>
+}
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>@ViewBag.Title</h1>
+        <span>Looking for something specific ? Search here for details.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-3">
+
+        <div class="container clearfix">
+
+            <!-- Post Content
+            ============================================= -->
+            <div class=" nobottommargin col_last">
+
+                <!-- Shop
+                ============================================= -->
+                <div id="shop" class="shop srcresult product-4 grid-container clearfix" data-layout="fitRows">
+
+
+
+                </div><!-- #shop end -->
+
+
+
+
+
+
+            </div><!-- .postcontent end -->
+        </div>
+
+
+        
+           @if (ViewBag.Title == "Search")
+           {
+
+
+               if (Model.Tables[0].Rows.Count > 0)
+               {
+                <div class="section blgartsec othblog nopadding nomargin" style="background-color: transparent;">
+
+                    <div class="container clearfix">
+
+                        <hr>
+
+                        <div class="heading-block bottommargin center">
+                            <h3 class="">BLOG ARTICLES</h3>
+                            <span>Articles covering bakery trends, insights, know-how and science behind baking.</span>
+                        </div>
+
+
+                        <div class="blogpage blgsecgrd nobottommargin clearfix">
+                            <div id="posts" class="post-grid grid-container grid-4 clearfix" data-layout="fitRows">
+                                
+                                @foreach (DataRow row in Model.Tables[0].Rows)
+                        {
+
+                            if (Model.Tables[0].Rows.Count > 0)
+                            {
+                                string title = "", Des = "";
+                                string img = ViewBag.Domain + "/" + Convert.ToString(row["Blog_imgPath"]);
+                                //string img = "/Content/images/sbimg/blog" + i + ".jpg";
+                                 
+                                var tcount = row["Blog_Name"].ToString().Length;
+                                var Dcount = row["Blog_ShortDesc"].ToString().Length;
+                                if (tcount > 28)
+                                {
+                                    title = Convert.ToString(row["Blog_Name"]).Substring(0, 28) + "...";
+                                }
+                                else
+                                {
+                                    title = Convert.ToString(row["Blog_Name"]);
+                                }
+                                if (Dcount > 170)
+                                {
+                                    Des = Convert.ToString(row["Blog_ShortDesc"]).Substring(0, 170) + "...";
+                                }
+                                else
+                                {
+                                    Des = Convert.ToString(row["Blog_ShortDesc"]);
+                                }
+                    <div class="entry clearfix">
+                        <div class="blog-card">
+                            <div class="entry-image">
+                                <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })"  title="@row["Blog_Name"]"><img class="" src="@img"   alt="@row["Blog_Name"]"></a>
+                            </div>
+                            <ul class="entry-meta clearfix">
+                                <li>@Convert.ToDateTime(row["Blog_Date"]).ToString("dd MMM yyyy") </li>
+
+                            </ul>
+                            <div class="entry-title">
+                                <h2><a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })">@title</a></h2>
+                            </div>
+
+                            <div class="entry-content">
+                                <p>@Des</p>
+                            </div>
+                            <div class="read-more-blk">
+                                <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                            }
+
+
+                        }
+                                
+                            </div><!-- #posts end -->
+
+                        </div>
+                    </div>
+                </div>
+               }
+
+                                    if (Model.Tables[1].Rows.Count > 0)
+                                    {
+        <div class="section bakercpsec nopadding nomargin" style="background-color: transparent;">
+
+            <div class="container clearfix">
+
+                <hr>
+
+                <div class="heading-block bottommargin center">
+                    <h3 class="">BAKER RECIPE</h3>
+                    <span>Knowledge base of baker recipes created by our baking experts to amplify your baking possibilities.</span>
+                </div>
+
+
+                <div class="blogpage blgsecgrd nobottommargin clearfix">
+                    <div id="posts" class="post-grid grid-container grid-4 clearfix" data-layout="fitRows">
+@foreach (DataRow row in Model.Tables[1].Rows)
+{
+    string title = "";
+    string Recpimg = ViewBag.Domain + "/" + Convert.ToString(row["Recipe_ImgPath"]);
+    var tcount = row["Recipe_Name"].ToString().Length;
+    if (tcount > 28)
+    {
+        title = Convert.ToString(row["Recipe_Name"]).Substring(0, 32) + "...";
+    }
+    else
+    {
+        title = Convert.ToString(row["Recipe_Name"]);
+    }
+    <div class="entry clearfix" >
+        <div class="blog-card">
+            <div class="entry-image">
+                <a href="@Url.RouteUrl("Recipedet", new { url = row["Recipe_Seourl"] })"><img class="" src="@Recpimg" alt="@row["Recipe_Seotitle"]" title="@row["Recipe_Name"]"></a>
+            </div>
+
+            <div class="entry-title">
+                <h2><a href="@Url.RouteUrl("Recipedet", new { url = row["Recipe_Seourl"] })">@title</a></h2>
+            </div>
+
+            <div class="read-more-blk">
+                <a href="@Url.RouteUrl("Recipedet", new { url = row["Recipe_Seourl"] })" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+            </div>
+        </div>
+    </div>
+}
+                        
+
+                        
+
+
+                       
+                    </div>
+                </div>            
+            </div>
+        </div>
+               }
+
+               if (Model.Tables[2].Rows.Count > 0)
+               {
+                <div class="section faqsec nopadding notopmargin faqpage" style="background-color: transparent;">
+
+                    <div class="container clearfix">
+
+                        <hr>
+
+                        <div class="heading-block bottommargin center">
+                            <h3 class="">FAQ’S</h3>
+                            <span>Here you can find answers to or request solutions for your concerns related to our company and products.</span>
+                        </div>
+
+
+                        <div class="nobottommargin">
+                            <div class="clear"></div>
+                            <div id="faqs" class="faqs">
+                                @foreach (DataRow row in Model.Tables[2].Rows)
+                                {
+                                    <div class="toggle faq faq-marketplace faq-authors">
+                                        <div class="togglet">@row["FAQ_Quest"] </div>
+                                        <div class="togglec">@row["FAQ_Ans"] </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
+
+                            <div class="mt-5"></div>
+                        </div>
+                    </div>
+                </div>
+
+               }
+
+
+           }
+    </div>
+
+</section><!-- #content end -->

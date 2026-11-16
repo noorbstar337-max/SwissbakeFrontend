@@ -1,0 +1,467 @@
+﻿@using System.Data
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{
+    //string imageBasePath = "https://b2b.swissbake.bh/";
+    string imageBasePath = System.Configuration.ConfigurationManager.AppSettings["cdndomain"];
+    // "https://b2b.swissbake.bh/";
+
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+
+
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+    string img;
+    if (Model.Tables[0].Rows.Count > 0)
+    {
+        img  = ViewBag.Domain  + Convert.ToString(Model.Tables[0].Rows[0]["Recipe_ImgPath"]);
+        ViewBag.Title = Model.Tables[0].Rows[0]["Recipe_Seotitle"];
+    }
+    else
+    {
+        ViewBag.Title = "Recipe detail";
+        img = ViewBag.Domain+"images/noimage.jpg";
+    }
+    }
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="@Model.Tables[0].Rows[0]["Recipe_Seotitle"]" />
+    <meta name="Title" content="@Model.Tables[0].Rows[0]["Recipe_Seotitle"]" />
+    <meta name="description" content="@Model.Tables[0].Rows[0]["Recipe_Seodesc"]" />
+    <meta name="keywords" content="@Model.Tables[0].Rows[0]["Recipe_Seokeywords"]" />
+    <meta property="og:description" content="@Model.Tables[0].Rows[0]["Recipe_Seodesc"]" />
+    <meta property="og:url" content="http://swissbake.bh/recipe/@Model.Tables[0].Rows[0]["Recipe_Seourl"]" />
+    <meta property="twitter:title" content="@Model.Tables[0].Rows[0]["Recipe_Seotitle"]" />
+    <meta property="twitter:description" content="@Model.Tables[0].Rows[0]["Recipe_Seodesc"]" />
+    <meta property="og:image" content="@ViewBag.Domain@Model.Tables[0].Rows[0]["Recipe_ImgPath"]" />
+    <link rel="canonical" href="http://swissbake.bh/recipe/@Model.Tables[0].Rows[0]["Recipe_Seourl"]" />
+}
+
+
+@section head{
+
+<style>
+    .jconfirm .jconfirm-box div.jconfirm-content-pane {
+        margin-bottom: 0;
+    }
+
+    .jconfirm-closeIcon {
+        display: none !important;
+    }
+</style>
+    
+}
+
+@section foot{
+    <script type="text/javascript" src="~/Content/js/html2canvas.min.js"></script>
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script src="~/Content/js/FileSaver.min.js"></script>
+    @*<script type="text/javascript" src="https://raw.githubusercontent.com/eligrey/FileSaver.js/master/dist/FileSaver.min.js"></script>*@
+
+    <script>
+        //$(document).ready(function () {
+        //    $("#print").click(function () {
+        //        html2canvas($("#recdet"), {
+        //            onrendered: function (canvas) {
+        //                theCanvas = canvas;
+        //                window.open('', canvas);
+
+        //                canvas.toBlob(function (blob) {
+        //                    saveAs(blob, "recipe.png");
+        //                });
+        //            }
+        //        });
+        //    });
+        //});
+
+        //alert($("#recdet").width() + " / " + $("#recdet").height())
+
+        function downloadURI(uri, name) {
+            var link = document.createElement("a");
+
+            link.download = name;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            //clearDynamicLink(link);
+        }
+
+        function DownloadAsImage() {
+            var element = $("#recdet")[0];
+
+            var wd = $("#recdet").width();
+            var ht = $("#recdet").height();
+
+            html2canvas(element, { scale: 1 }).then(function (canvas) {
+                
+                var myImage = canvas.toDataURL();
+
+                var pdf = new jsPDF('p', 'mm');
+                pdf.addImage(myImage, 'JPEG', 0, 0);
+
+                pdf.save('screenshot.pdf');
+
+                //downloadURI(myImage, "@Model.Tables[0].Rows[0]["Recipe_Name"].ToString()"+".png");
+            });
+
+            //html2canvas(document.getElementById('recdet'), {
+            //    onrendered: function (canvas) {
+            //        $('#container').html("");
+            //        $('#container').append(canvas);
+
+            //        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+            //        var pdf = new jsPDF('p', 'mm', 'a4');
+
+            //        pdf.addImage(imgData, 'JPEG', 0, 0, 211, 298);
+
+            //        pdf.save('screenshot.pdf');
+            //    }
+            //});
+
+
+        }
+
+        function saverecipe(id) {
+            var formData = new FormData();
+            var a = this;
+            formData.append('Id', id.id);
+
+            $.ajax({
+                type: "POST",
+                url: "/Access/SaveRecipe",
+                //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $.confirm({
+                        backgroundDismiss: false,
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Saving recipe... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                        buttons: false
+                    });
+                    //_divPartialView.style = "Display: none";
+                    //$("#divWaiting").removeClass("display-none");
+                },
+                success: function (response) {
+                    if (response == true) {
+                        //setTimeout(function () {
+                        //    location.reload(true);
+                        //}, 600);
+                        $("#"+id.id).css("display","none");
+                    }
+                    else {
+
+                    }
+                    setTimeout(function () {
+                        $(".jconfirm-closeIcon").click();
+                    }, 500);
+                },
+            }).done(function (response) {
+                true;
+            }).fail(function () {
+                false;
+            });
+
+        }
+
+        function nWin() {
+            $(".side-info-blk .btns").addClass("d-none");
+            var w = window.open();
+            var html = $("#recdet").html();
+
+            $(w.document.body).html(html);
+            w.print();
+        }
+
+        
+
+    </script>
+    <!-- facebook pixel code -->
+@*<script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callmethod ?
+                    n.callmethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createelement(e); t.async = !0;
+            t.src = v; s = b.getelementsbytagname(e)[0];
+            s.parentnode.insertbefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_us/fbevents.js');
+        fbq('init', '124340481828875');
+        fbq('track', 'pageview');
+</script>
+<noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=124340481828875&ev=pageview&noscript=1" />
+</noscript>*@
+<!-- End Facebook Pixel Code -->
+
+}
+
+
+@*<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11">
+
+    <div class="container clearfix">
+        <h1>Recipe Detail</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Recipe Detail</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->*@
+<section  class="recipe pt-11 pb-4">
+    <div id="recdet" class="container">
+        <div class="detail-title-blk">
+            <h1>@Model.Tables[0].Rows[0]["Recipe_Name"].ToString()</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/recipe">Recipe</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Tables[0].Rows[0]["Recipe_Name"].ToString()</li>
+            </ol>
+        </div>
+        <hr />
+        <div class="row">
+            
+            <div class="col-lg-6">
+                <img src="@img" />
+            </div>
+            <div class="col-lg-6 side-info-blk ">
+                <div class="row bg-light mb-3 border-light-gray">
+                    <div class="col-md-6 rec-det-info">
+                        <span>Posted Date : @Convert.ToDateTime(Model.Tables[0].Rows[0]["Recipe_CreatedDate"]).ToString("dd MMM yyyy")</span>
+                    </div>
+                    <div class="@(Session["U_Id"] != null ? "btns col-md-6 pb-2 text-right" : "btns col-md-5 offset-md-1 offset-xl-1 pt-1 text-right")">
+                        @if (Session["U_Id"] != null || Model.Tables.Count > 2)
+                        {
+                            if (Model.Tables[2].Rows[0]["view"].ToString() == "show")
+                            {
+
+                                <a class="cursor-pointer svr" id="@Model.Tables[0].Rows[0]["Recipe_Id"]" onclick="saverecipe(this)" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save Recipe">
+                                    <i class="fas fa-save"></i>
+                                </a>
+                            }
+                        }
+                        
+                        @*<a class="cursor-pointer" id="print" onclick="javascript:DownloadAsImage()" data-toggle="tooltip" data-placement="top" title="" data-original-title="Print Recipe">
+                            <i class="fas fa-print"></i>
+                        </a>*@
+                        <a onclick="javascript:window.open('https://www.facebook.com/sharer.php?u=@Request.Url', '_blank', 'width=400,height=500');void(0);" class="cursor-pointer" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share on Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a onclick="javascript:window.open('https://twitter.com/share?url=@Request.Url&text=@Model.Tables[0].Rows[0]["Recipe_Name"].ToString()&hashtags=Swissbake', '_blank', 'width=400,height=500');void(0);" class="cursor-pointer" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share on Twitter">
+                            <i class="fab fa-twitter-square"></i>
+                        </a>
+                        <a onclick="javascript:window.open('https://wa.me/?text=@Model.Tables[0].Rows[0]["Recipe_Name"].ToString() \r\n\r\n @Request.Url', '_blank', 'width=400,height=500');void(0);" class="cursor-pointer" data-toggle="tooltip" data-placement="top" title="" data-original-title="Share on Whatsapp">
+                            <i class="fab fa-whatsapp-square"></i>
+                        </a>
+                    </div>
+                </div>
+                <span>@Model.Tables[0].Rows[0]["Recipe_Seodesc"].ToString()</span>
+                <div class="row">
+                    <div class="col-md-6 mt-3 mb-lg-3">
+                        <img class="mr-3" width="50" src="~/Content/images/icons/img5.png" /> <strong>BAKE TEMP : </strong><span>@Model.Tables[0].Rows[0]["Recipe_BakingTemp"].ToString()</span>
+                    </div>
+                    <div class="col-md-6 mt-lg-3 mt-md-3 mb-lg-3">
+                        <img class="mr-3" width="50" src="~/Content/images/icons/img3.png" /><strong>MIXING TIME : </strong><span> @Model.Tables[0].Rows[0]["Recipe_TotalTime"].ToString()</span>
+                    </div>
+                    <div class="col-md-6 mt-sm-3">
+                        <img class="mr-3" width="50" src="~/Content/images/icons/img2.png" /> <strong>BAKE TIME : </strong><span>@Model.Tables[0].Rows[0]["Recipe_BakingTime"].ToString()</span>
+                    </div>
+                    <div class="col-md-6 mt-sm-3">
+                        @*<img class="mr-3" width="50" src="~/Content/images/icons/img4.png" /><strong>PREPARATION TIME : </strong><span> @Model.Tables[0].Rows[0]["Recipe_PrepTime"].ToString()</span>*@
+                        <img class="mr-3" width="50" src="~/Content/images/icons/img4.png" /><strong>PREP TIME : </strong><span> @Model.Tables[0].Rows[0]["Recipe_PrepTime"].ToString()</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-5 pl-4 pr-4 pt-3 pb-3 bg-light border-light-gray bottom-ing-blk">
+                <h4>Ingredients</h4>
+                @Html.Raw(Model.Tables[0].Rows[0]["Recipe_Ingredients"])
+                @*<ul class="ml-4">
+                    <li>1 cup Buckwheat Groats</li>
+                    <li>2 cups Water</li>
+                </ul>*@
+            </div>
+            <div class="col-md-8 mt-5 pl-4 pr-4 pt-3 pb-3 bg-light border-light-gray bottom-met-blk">
+                <h4>Method</h4>
+                @Html.Raw(Model.Tables[0].Rows[0]["Recipe_Method"])
+                @*<ol class="ml-4">
+                    <li>Combine 1 cup buckwheat groats and 2 cups water in a pot. Bring to a boil; cover, reduce heat to simmer and cook until tender, about 10 minutes.</li>
+                    <li>Drain off any excess liquid. If using in a salad, rinse with cold water and drain well. Makes about 2-1/2 cups.</li>
+                </ol>*@
+            </div>
+            @if (Model.Tables[0].Rows[0]["Recipe_BakingTip"].ToString() != "")
+            {
+            <div class="col-md-12 mt-4 pl-4 pr-4 pt-3 pb-3">
+                <h4>Baking Tips</h4>
+                <span>@Model.Tables[0].Rows[0]["Recipe_BakingTip"].ToString()</span>
+            </div>
+            }
+
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="row">
+            <div id="shop" class="col-md-12 mt-3 mb-4">
+                <div class="clear"></div>
+                @if (Model.Tables[1].Rows.Count > 0)
+                {
+                    <div class="line"></div>
+                    <div class="container">
+                        <div id="shop" class="col_full">
+
+                            <h4>Recipe Related Products</h4>
+
+                            <div id="oc-product" class="shop relate-prod relproducts owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                                @foreach (DataRow row in Model.Tables[1].Rows)
+                                {
+                                    string title = "", onelinedesc = "";
+                                    var tcount = row["Product_Name"].ToString().Length;
+
+                                    if (tcount > 35)
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]);
+                                    }
+                                    var Ocount = row["Product_Usage"].ToString().Length;
+                                    if (Ocount > 35)
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                    }
+                                    <div class="oc-item">
+                                        @*<div class="product iproduct clearfix relate-product">
+                                            <div class="product-image" ng-class="{'new' :  @row["Product_New"].ToString() == 'True'  }">*@
+                                                <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix relate-product new" : "product iproduct clearfix relate-product")">
+                                                    <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+                                                        @*<a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                                        <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })"><img src="@imageBasePath@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>
+                                                        @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                                        <div class="product-overlay">
+                                                            @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                            @if (Session["U_Id"] == null)
+                                                            {
+                                                                <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-desc center">
+
+
+                                                        <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                                        <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                                        <div class="product-price">
+                                                            @if (Session["U_Id"] == null)
+                                                            {
+                                                                <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                                {
+                                                                    if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                                    {
+                                                                        if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                                        {
+
+                                                                            if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                            {
+                                                                                <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                            }
+                                                                            else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                            {
+                                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                                                        }
+
+
+
+                                                                    }
+                                                                    else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                                    {
+                                                                        <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                    @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                {
+                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                }*@
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["minprice"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                                @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                            {
+                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                            }
+                            else
+                            {
+                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                            }*@
+                                                                @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                            }
+                                                        </div>
+                                                        <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

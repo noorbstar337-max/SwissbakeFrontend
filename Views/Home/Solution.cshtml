@@ -1,0 +1,133 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Solution";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/Sb3.jpg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>APPLICATION & SERVICES</h1>
+        <span>Selected grouping of products based on a common application or purpose.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Solution</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<section id="content" class="cat-grid pt-4 pb-4">
+    <div class="container">
+        <div class="row">
+            @foreach (DataRow row in Model.Tables[0].Rows)
+            {
+                string title = "";
+                string img = "/" + Convert.ToString(row["ProdSolution_Image"]);
+                var tcount = row["ProdSolution_Name"].ToString().Length;
+                if (tcount > 35)
+                {
+                    title = Convert.ToString(row["ProdSolution_Name"]).Substring(0, 35) + "...";
+                }
+                else
+                {
+                    title = Convert.ToString(row["ProdSolution_Name"]);
+                }
+
+
+                <div class="col-md-3 text-center">
+                    <div class="cat-content">
+                        @*add class new*@
+                        <a href="@Url.RouteUrl("Solution",new { url = row["PrdCategory_Seourl"] })">
+                            <img src="@img" alt="@row["ProdSolution_Name"]" title="@row["ProdSolution_Name"]" />
+                            <h4>@title</h4>
+                        </a>
+                    </div>
+                </div>
+            }
+            @*<div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content new">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 text-center">
+                    <div class="cat-content">
+                        <a href="#">
+
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                            <h4>Cake Essentials</h4>
+                        </a>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</section>

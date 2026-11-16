@@ -1,0 +1,1203 @@
+﻿
+@{
+    ViewBag.Title = "Index3";
+}
+
+@section head{
+    <link rel="stylesheet/less" type="text/css" href="~/Content/css/less/Styles.less" />
+    <link href="~/Content/css/flag-icon.min.css" rel="stylesheet" />
+    @*@Styles.Render("~/Content/lesss")*@
+    <script src="~/Content/js/less.min.js"></script>
+}
+
+@section foot{
+    <script src="~/Content/js/jquery.visible.min.js"></script>
+    <script src="~/Content/js/custom2.js"></script>
+    @*<script src="~/Content/js/custom1.js"></script>*@
+    <script>
+        // Custom Carousel
+        $('.owl-carousel').owlCarousel({
+            items: 1,
+            dotsContainer: '#item-color-dots',
+            loop: true,
+        });
+    </script>
+
+}
+
+
+
+<!-- Top Bar
+        ============================================= -->
+<div id="top-bar">
+
+    <div class="container-fluid clearfix">
+
+        @*<div class="row">
+                <div class="col-md-6 offset-lg-3 top-menu">
+                    <a href="#" class="op-0 animated">Contact</a>
+                    <a href="#" class="op-0 animated">Blog</a>
+                    <a href="#" class="op-0 animated">FAQ</a>
+                    <a href="#" class="op-0 animated">Career</a>
+                    <a href="#" class="op-0 animated">Latest Product</a>
+                    <a href="#" class="op-0 animated">Cost & Yield Calculator</a>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="row">
+                        <div class="country-blk op-0 animated delay-1s">
+                            <span><i class="flag-icon-in flag-icon-squared"></i><b>IN</b><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="social-set">
+                            <a href="#" class="op-0 animated delay-2s"><i class="fab fa-facebook fa-lg"></i></a>
+                            <a href="#" class="op-0 animated delay-3s"><i class="fab fa-twitter-square fa-lg"></i></a>
+                            <a href="#" class="op-0 animated delay-4s"><i class="fab fa-linkedin fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        <div class="row op-0 animated delay-3s">
+            <div class="col-md-5 offset-lg-3">
+                <input type="text" class="sch-bar" placeholder="Whats on mind, Search here..." /><button type="button" class="sch-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="col-md-4">
+                <div class="log-reg side-panel-trigger">
+                    <i class="far fa-user fa-2x"></i>
+                    <span class="disp-grid"><b>Sigin/Signup</b><small>Hi, User</small></span>
+                </div>
+                <div class="cart-blk ml-md-4 side-panel-trigger">
+                    <i class="fab fa-opencart fa-2x"></i>
+                    <span class="disp-grid"><b>Cart</b><small>Products : 10</small></span>
+                </div>
+                <div class="quick-cont ml-md-4">
+                    <a href="#">Request Call</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!-- #top-bar end -->
+<!-- Header
+============================================= -->
+<header id="header" class="static-sticky">
+
+    <div id="header-wrap">
+
+        <div class="container-fluid clearfix op-0 animated">
+
+            <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+            <div id="logo" class="op-0 animated delay-5s">
+                <a href="#" class="standard-logo" data-dark-logo="~/Content/images/logo/swissbake-logo.png"><img src="~/Content/images/logo/swissbake-logo.png" alt="Swissbake"></a>
+                <a href="#" class="retina-logo" data-dark-logo="~/Content/images/logo/swissbake-logo.png"><img src="~/Content/images/logo/swissbake-logo.png" alt="Swissbake"></a>
+            </div><!-- #logo end -->
+            <!-- Primary Navigation
+            ============================================= -->
+            <nav id="primary-menu" class="sub-title ">
+                <ul>
+                    <li class="active">
+                        <a href="#"><div>Home</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>About</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Shop</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Category</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Recipe</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Baker Tools</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Global</div></a>
+                    </li>
+                </ul>
+            </nav><!-- #primary-menu end -->
+            <div class="searchbar float-left">
+                <input placeholder="Search here...." /><button type="button"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="head-user float-left side-panel-trigger">
+                <i class="far fa-user fa-lg"></i>
+            </div>
+            <div class="head-cart float-left side-panel-trigger">
+                <i class="fab fa-opencart fa-lg"></i>
+            </div>
+        </div>
+
+    </div>
+
+</header><!-- #header end -->
+@*<section id="slider" class="slider-element slider-parallax swiper_wrapper full-screen force-full-screen clearfix op-0 animated delay-5s">
+
+        <div class="slider-parallax-inner">
+
+            <div class="swiper-container swiper-parent">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide dark" style="background-image: url('/Content/images/slider/img7.png?@Session["imgtype"]');">
+                        <div class="container clearfix">
+                            <div class="slider-caption slider-caption-center">
+                                <h2 data-caption-animate="fadeInUp">Swissbake</h2>
+                                <p class="d-none d-sm-block" data-caption-animate="fadeInDown" data-caption-delay="500">Welcome to swissexpert bakery</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark" style="background-image: url('/Content/images/slider/img6.png?@Session["imgtype"]'); background-position: center top;">
+                        <div class="container clearfix">
+                            <div class="slider-caption slider-caption-center">
+                                <h2 data-caption-animate="fadeInUp">Experience the swiss passion</h2>
+                                <p class="d-none d-sm-block" data-caption-animate="fadeInDown" data-caption-delay="500">For Quality and Innovation</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide dark" style="background-image: url('/Content/images/slider/img5.png?@Session["imgtype"]'); background-position: center top;">
+                        <div class="container clearfix">
+                            <div class="slider-caption slider-caption-center">
+                                <h2 data-caption-animate="fadeInUp">Baking History of 40 Years</h2>
+                                <p class="d-none d-sm-block" data-caption-animate="fadeInUp" data-caption-delay="200">Serving bakers across the Globe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="slider-arrow-left"><i class="icon-angle-left"></i></div>
+                <div class="slider-arrow-right"><i class="icon-angle-right"></i></div>
+                <div class="slide-number"><div class="slide-number-current"></div><span>/</span><div class="slide-number-total"></div></div>
+            </div>
+
+        </div>
+
+    </section>*@
+
+
+<!-- Slider
+        ============================================= -->
+<section id="slider" class="slider-element revslider-wrap clearfix op-0 animated delay-5s">
+    <div id="rev_slider_116_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="layer-animations" style="margin:0px auto;background-color:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+        <!-- START REVOLUTION SLIDER 5.0.7 auto mode -->
+        <div id="rev_slider_116_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.7">
+            <ul>
+                <!-- SLIDE  -->
+                <li data-index="rs-396" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/datcolor-70x70.jpg" data-rotate="0" data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7" data-saveperformance="off" data-title="Letters Fly In" data-description="">
+                    <!-- MAIN IMAGE -->
+                    <img src="~/Content/images/slider/img7.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                    <!-- LAYERS -->
+                    <!-- LAYER NR. 1 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-1"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-150"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                         data-start="1000"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 5; white-space: nowrap; font-size: 20px; line-height: 20px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        Welcome to swissexpert Bakery
+                    </div>
+                    <!-- LAYER NR. 2 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-2"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-70"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                         data-start="1500"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 6; white-space: nowrap; font-size: 100px; line-height: 100px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        SWISSBAKE
+                    </div>
+                </li>
+                <!-- SLIDE  -->
+                <li data-index="rs-397" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/travel1-70x70.jpg" data-rotate="0" data-saveperformance="off" data-title="Slide Mask" data-description="">
+                    <!-- MAIN IMAGE -->
+                    <img src="~/Content/images/slider/img5.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                    <!-- LAYERS -->
+                    <!-- LAYER NR. 1 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-1"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-120"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                         data-start="1000"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 5; white-space: nowrap; font-size: 60px; line-height: 60px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        Experience the swiss passion
+                    </div>
+                    <!-- LAYER NR. 2 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-2"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-50"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                         data-start="1500"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 6; white-space: nowrap; font-size: 20px; line-height: 20px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        For Quality and Innovation
+                    </div>
+                </li>
+                <!-- SLIDE  -->
+                <li data-index="rs-398" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/notgeneric_bg3-70x70.jpg" data-rotate="0" data-saveperformance="off" data-title="Smooth Mask" data-description="">
+                    <!-- MAIN IMAGE -->
+                    <img src="~/Content/images/slider/img6.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                    <!-- LAYERS -->
+                    <!-- LAYER NR. 1 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-1"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-150"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                         data-start="1000"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 5; white-space: nowrap; font-size: 20px; line-height: 20px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        Serving bakers across the Globe
+                    </div>
+                    <!-- LAYER NR. 2 -->
+                    <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                         id="slide-397-layer-2"
+                         data-x="center" data-hoffset=""
+                         data-y="center" data-voffset="-70"
+                         data-width="['auto','auto','auto','auto']"
+                         data-height="['auto','auto','auto','auto']"
+                         data-transform_idle="o:1;"
+                         data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                         data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                         data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                         data-start="1500"
+                         data-splitin="none"
+                         data-splitout="none"
+                         data-responsive_offset="on"
+                         style="z-index: 6; white-space: nowrap; font-size: 70px; line-height: 70px;text-shadow: rgb(0, 0, 0) 0px 2px 19px;">
+                        Baking History of 40 Years
+                    </div>
+                </li>
+                <!-- SLIDE  -->
+
+            </ul>
+            <div class="tp-bannertimer" style="height: 7px; background-color: rgba(255, 255, 255, 0.25);"></div>
+        </div>
+    </div><!-- END REVOLUTION SLIDER -->
+</section>
+
+
+<section class="pt-5 pb-5 bg-white cat-grid">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 bd-r-light p-md-0">
+                <div class="side-tab">
+                    <h5 class="op-0 animated">Categories</h5>
+                    <ul>
+                        <li class="current op-0 animated"><img src="~/Content/images/others/icon1.png" />European Breads</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Improvers and Concentrates</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Confectionery Products</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Egg Free Confectionery</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Cake Essential</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Bread Essential</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Speciality Flours</li>
+                        <li class="op-0 animated"><img src="~/Content/images/others/icon1.png" />Gluten Free</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9 index-9 bg-white pr-grd" itemscope itemtype="http://schema.org/Product">
+                <div class="row">
+                    <div class="col-md-12 pt-2 pb-2">
+                        <h5 class="float-left op-0 animated">European Bread - <span class="act">Products</span></h5>
+                        <a href="#" class="float-right hvr-undline op-0 animated"><span class="act">View All</span></a>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated delay-3s">
+                        <div class="product-grid">
+                            <div class="grid-img">
+                                <a href="#"><img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/141016051747Brown-Bread-shutterstock_415128136 Short.jpg" /></a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 84%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">WEIZEN BRAUNIS BROT 20</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated delay-3s">
+                        <div class="product-grid new sale">
+                            <div class="grid-img">
+                                <a href="#"><img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/MULTSKORN-BROT-20240118063906.jpg" /></a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 75%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">MULTSKORN BROT 20</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated delay-3s">
+                        <div class="product-grid new">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/DARK-GRAINY-PREMIX240118064018.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 60%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">DARK GRAINY PREMIX</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated">
+                        <div class="product-grid">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/11-GRAINS-BROT-25240118064150.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 90%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">11 GRAINS BROT 25</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated">
+                        <div class="product-grid sale">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/CIABATTA-BROT-MIX-25250118113330.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 45%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">CIABATTA BROT MIX 25</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated">
+                        <div class="product-grid">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/BAGUETTE-10250118113427.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 35%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">BAGUETTE 10</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated">
+                        <div class="product-grid">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 op-0 animated">
+                        <div class="product-grid">
+                            <div class="grid-img">
+                                <a href="#">
+                                    <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/231016015308Pumpernickle_shutterstock_194450867_small.jpg" />
+                                </a>
+                                <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                    <div class="star-ratings-css">
+                                        <div class="star-ratings-css-top" style="width: 50%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid-desc">
+                                <h4 itemprop="name"><a href="#">WHOLE WHEAT BAGUETTE 30</a></h4>
+                                <a href="#">Login for pricing</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="pt-3 pb-3 about">
+    <div class="row">
+        <div class="col-md-6 p-0 op-0 animated">
+            <img src="~/Content/images/slider/sl2.jpg" />
+        </div>
+        <div class="col-md-6 op-0 animated">
+            <h5>40 Years of swiss expertize</h5>
+            <span>
+                <q><cite>Lorem ipsum dolor sit amet, est nibh appetere facilisi no. Modus scripserit his ne. Nisl quas molestie an ius, qui zril adipiscing no, malis reprimique ut mei.</cite></q>
+                <br />
+                <a class="hvr-undline white" href="#">Read More</a>
+            </span>
+
+        </div>
+    </div>
+</section>
+
+<section class="pt-3 pb-3 prod-tabs">
+    <div class="container-fluid">
+        <div class="tabs">
+
+            <input type="radio" id="tab1" name="tab-control" checked>
+            <input type="radio" id="tab2" name="tab-control">
+            <input type="radio" id="tab3" name="tab-control">
+            @*<input type="radio" id="tab4" name="tab-control">*@
+            <ul>
+                <li title="Features" class="op-0 animated">
+                    <label for="tab1" role="button">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14,2A8,8 0 0,0 6,10A8,8 0 0,0 14,18A8,8 0 0,0 22,10H20C20,13.32 17.32,16 14,16A6,6 0 0,1 8,10A6,6 0 0,1 14,4C14.43,4 14.86,4.05 15.27,4.14L16.88,2.54C15.96,2.18 15,2 14,2M20.59,3.58L14,10.17L11.62,7.79L10.21,9.21L14,13L22,5M4.93,5.82C3.08,7.34 2,9.61 2,12A8,8 0 0,0 10,20C10.64,20 11.27,19.92 11.88,19.77C10.12,19.38 8.5,18.5 7.17,17.29C5.22,16.25 4,14.21 4,12C4,11.7 4.03,11.41 4.07,11.11C4.03,10.74 4,10.37 4,10C4,8.56 4.32,7.13 4.93,5.82Z" />
+                        </svg><br><span>Featured</span>
+                    </label>
+                </li>
+                <li title="Delivery Contents" class="op-0 animated">
+                    <label for="tab2" role="button">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,12.35L13.85,13.36Z" />
+                        </svg><br><span>Best Selling</span>
+                    </label>
+                </li>
+                <li title="Shipping" class="op-0 animated">
+                    <label for="tab3" role="button">
+                        <svg viewBox="0 0 612.003 612.003">
+                            <path d="M608.067,333.255l-44.973-71.364c-3.563-5.658-4.764-12.49-3.352-19.022l17.854-82.442   c2.784-12.848-4.649-25.708-17.164-29.724l-80.323-25.759c-6.366-2.043-11.679-6.5-14.795-12.413l-39.315-74.627   c-6.124-11.634-20.082-16.711-32.253-11.743l-78.094,31.902c-6.188,2.522-13.122,2.522-19.31,0L218.261,6.167   c-12.171-4.968-26.129,0.109-32.259,11.743l-39.315,74.62c-3.116,5.913-8.429,10.37-14.795,12.413l-80.322,25.759   c-12.522,4.016-19.948,16.877-17.164,29.724l17.847,82.442c1.418,6.532,0.211,13.365-3.352,19.022L3.934,333.255   c-7.011,11.123-4.425,25.746,5.964,33.805l66.664,51.677c5.287,4.099,8.754,10.102,9.661,16.73l11.424,83.573   c1.775,13.026,13.16,22.573,26.289,22.062l84.288-3.263c6.679-0.262,13.192,2.114,18.154,6.602l62.462,56.677   c9.738,8.831,24.597,8.831,34.328,0l62.469-56.677c4.949-4.495,11.468-6.864,18.154-6.602l84.281,3.263   c13.141,0.511,24.514-9.042,26.295-22.062l11.424-83.573c0.907-6.628,4.374-12.63,9.655-16.73l66.664-51.677   C612.498,359.001,615.078,344.378,608.067,333.255z M235.234,407.92l-74.435-51.99l30.593,70.904l-20.389,8.799l-46.92-108.719   l21.353-9.221l75.84,53.401l-31.34-72.602l20.389-8.806l46.933,108.725L235.234,407.92z M280.468,388.393l-46.92-108.719   l80.616-34.801l7.931,18.396l-58.669,25.318l10.402,24.099l54.589-23.562l7.905,18.32l-54.589,23.556l12.771,29.59l60.738-26.212   l7.905,18.32L280.468,388.393z M464.248,309.08l-56.735-71.945l13.492,90.597L397.2,338.006l-72.871-97.512l22.464-9.706   l48.625,67.609l-12.356-83.253l26.116-11.27l51.831,67.718l-16.091-83.145l22.1-9.54l20.516,120.123L464.248,309.08z" />
+                        </svg><br><span>New</span>
+                    </label>
+                </li>
+                @*<li title="Returns">
+                        <label for="tab4" role="button">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                            </svg><br><span>Returns</span>
+                        </label>
+                    </li>*@
+            </ul>
+
+            <div class="slider"><div class="indicator"></div></div>
+            <div class="content">
+                <section>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>                                        <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 op-0 animated">
+                            <div class="product-grid g-5">
+                                <div class="grid-img">
+                                    <a href="#">
+                                        <img itemprop="image" src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                    </a>
+                                    <div class="grid-rate" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: 99%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <span itemprop="ratingValue" class="d-none">4.3</span><span itemprop="reviewCount" class="d-none">200</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="grid-desc">
+                                    <h4 itemprop="name"><a href="#">ROGGEN BROT 40 LIGHT</a></h4>
+                                    <a href="#">Login for pricing</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                @*<section>
+                        <h2>Returns</h2>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa dicta vero rerum? Eaque repudiandae architecto libero reprehenderit aliquam magnam ratione quidem? Nobis doloribus molestiae enim deserunt necessitatibus eaque quidem incidunt.
+                    </section>*@
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Footer
+        ============================================= -->
+<footer id="footer" class="dark">
+    <section class="pt-3 pb-3 subscribe-widget op-0 animated">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="subs-cont">
+                    <h5>Subscribe to our newsletter</h5>
+                    <input type="text" placeholder="E-mail Id" />
+                    <button type="button">Subscribe Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Copyrights
+    ============================================= -->
+    <div id="copyrights">
+
+        <div class="container clearfix">
+            <div class="row">
+                <div class="col-md-3 footer-about op-0 animated">
+                    <a href="#"><img src="~/Content/images/logo/Swissbake-logo-white.png" alt="Swissbake" title="Swissbake" /></a>
+                    <br />
+                    <q><cite>Lorem ipsum dolor sit amet, est nibh appetere facilisi no.</cite></q>
+                    @*<span>
+                        &copy; Copyright 2018 Swissbake All Rights Reserved.
+                    </span>*@ 
+                    
+                    @*<a href="#"><img src="~/Content/images/others/homebaker2.png" /></a>*@
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-3 policy">
+                            <h5 class="op-0 animated">
+                                Our Policies
+                            </h5>
+                            <ul>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Privacy Policy</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Terms Of Use</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Shipping Policy</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 quick-links">
+                            <h5 class="op-0 animated">
+                                Quick Links
+                            </h5>
+                            <ul>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Home</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">About</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Blog</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Career</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3 misc">
+                            <h5 class="op-0 animated">
+                                Miscellaneous
+                            </h5>
+                            <ul>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Brochure</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Raise New Case</a></li>
+                                <li class="op-0 animated"><i class="fas fa-caret-right"></i><a href="#">Track Case</a></li>
+                            </ul>
+                            
+                        </div>
+                        <div class="col-md-3 home-bakr">
+                            <img class="op-0 animated" src="~/Content/images/others/swhomebaker3.png" />
+                            <ul>
+                                <li class="op-0 animated"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                                <li class="op-0 animated"><a href="#"><i class="fab fa-twitter-square"></i></a></li>
+                                <li class="op-0 animated"><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 addr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="op-0 animated">
+                                ASIA & MIDDLE EAST
+                            </h6>
+                            <ul>
+                                <li class="op-0 animated"><i class="fas fa-map-marker-alt"></i> G-10, Manjrekar Lane, Dr.E.Moses Road, Mumbai Maharashtra, Bahrain. </li>
+                                <li class="op-0 animated"><i class="fas fa-envelope"></i> <a href="mailto:support@swissbake.bh">support@swissbake.bh</a> </li>
+                                <li class="op-0 animated"><i class="fas fa-globe"></i> <a href="http://uat.swissbake.bh> uat.swissbake.bh</a> </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="op-0 animated">
+                                UK & EUROPEAN UNION
+                            </h6>
+                            <ul>
+                                <li class="op-0 animated"><i class="fas fa-map-marker-alt"></i> Junkerschlossweg 9, 4465 Hemmiken Basel-Landschaft, Switzerland. </li>
+                                <li class="op-0 animated"><i class="fas fa-envelope"></i> <a href="mailto:support@swissbake.bh">support@swissbake.bh</a> </li>
+                                <li class="op-0 animated"><i class="fas fa-globe"></i> <a href="https://www.swissbake.ch">www.swissbake.ch</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- #copyrights end -->
+
+    <div class="bottom-foot op-0 animated" >
+        <div class="container clearfix">
+            <div class="row">
+                <div class="col-md-4">
+                    &copy; Copyright 2018 Swissbake All Rights Reserved.
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+                <div class="col-md-4">
+                    <svg viewBox="0 0 70 32" id="icon-logo-american-express" width="100%" height="100%"> <path d="M69.102 17.219l0.399 9.094c-0.688 0.313-3.285 1.688-4.26 1.688h-4.788v-0.656c-0.546 0.438-1.549 0.656-2.467 0.656h-15.053v-2.466c0-0.344-0.057-0.344-0.345-0.344h-0.257v2.81h-4.961v-2.924c-0.832 0.402-1.749 0.402-2.581 0.402h-0.544v2.523h-6.050l-1.434-1.656-1.577 1.656h-9.72v-10.781h9.892l1.405 1.663 1.548-1.663h6.652c0.775 0 2.037 0.115 2.581 0.66v-0.66h5.936c0.602 0 1.749 0.115 2.523 0.66v-0.66h8.946v0.66c0.516-0.43 1.433-0.66 2.265-0.66h4.988v0.66c0.546-0.372 1.32-0.66 2.323-0.66h4.578zM34.905 23.871c1.577 0 3.183-0.43 3.183-2.581 0-2.093-1.635-2.523-3.069-2.523h-5.878l-2.38 2.523-2.236-2.523h-7.427v7.67h7.312l2.351-2.509 2.266 2.509h3.556v-2.566h2.322zM46.001 23.556c-0.172-0.23-0.487-0.516-0.946-0.66 0.516-0.172 1.318-0.832 1.318-2.036 0-0.889-0.315-1.377-0.917-1.721-0.602-0.315-1.319-0.372-2.266-0.372h-4.215v7.67h1.864v-2.796h1.978c0.66 0 1.032 0.058 1.319 0.344 0.316 0.373 0.316 1.032 0.316 1.548v0.903h1.836v-1.477c0-0.688-0.058-1.032-0.288-1.405zM53.571 20.373v-1.605h-6.136v7.67h6.136v-1.563h-4.33v-1.549h4.244v-1.548h-4.244v-1.405h4.33zM58.245 26.438c1.864 0 2.926-0.759 2.926-2.393 0-0.774-0.23-1.262-0.545-1.664-0.459-0.372-1.119-0.602-2.151-0.602h-1.004c-0.258 0-0.487-0.057-0.717-0.115-0.201-0.086-0.373-0.258-0.373-0.545 0-0.258 0.058-0.43 0.287-0.602 0.143-0.115 0.373-0.115 0.717-0.115h3.383v-1.634h-3.671c-1.978 0-2.638 1.204-2.638 2.294 0 2.438 2.151 2.322 3.842 2.38 0.344 0 0.544 0.058 0.66 0.173 0.115 0.086 0.23 0.315 0.23 0.544 0 0.201-0.115 0.373-0.23 0.488-0.173 0.115-0.373 0.172-0.717 0.172h-3.555v1.62h3.555zM65.442 26.439c1.864 0 2.924-0.76 2.924-2.394 0-0.774-0.229-1.262-0.544-1.664-0.459-0.372-1.119-0.602-2.151-0.602h-1.003c-0.258 0-0.488-0.057-0.718-0.115-0.201-0.086-0.373-0.258-0.373-0.545 0-0.258 0.115-0.43 0.287-0.602 0.144-0.115 0.373-0.115 0.717-0.115h3.383v-1.634h-3.671c-1.921 0-2.638 1.204-2.638 2.294 0 2.438 2.151 2.322 3.842 2.38 0.344 0 0.544 0.058 0.66 0.174 0.115 0.086 0.229 0.315 0.229 0.544 0 0.201-0.114 0.373-0.229 0.488s-0.373 0.172-0.717 0.172h-3.556v1.62h3.556zM43.966 20.518c0.23 0.115 0.373 0.344 0.373 0.659 0 0.344-0.143 0.602-0.373 0.774-0.287 0.115-0.545 0.115-0.889 0.115l-2.237 0.058v-1.749h2.237c0.344 0 0.659 0 0.889 0.143zM36.108 8.646c-0.287 0.172-0.544 0.172-0.918 0.172h-2.265v-1.692h2.265c0.316 0 0.688 0 0.918 0.114 0.23 0.144 0.344 0.374 0.344 0.718 0 0.315-0.114 0.602-0.344 0.689zM50.789 6.839l1.262 3.039h-2.523zM30.775 25.792l-2.838-3.183 2.838-3.011v6.193zM35.019 20.373c0.66 0 1.090 0.258 1.090 0.918s-0.43 1.032-1.090 1.032h-2.437v-1.95h2.437zM5.773 9.878l1.291-3.039 1.262 3.039h-2.552zM18.905 20.372l4.616 0 2.036 2.237-2.093 2.265h-4.559v-1.549h4.071v-1.548h-4.071v-1.405zM19.077 13.376l-0.545 1.377h-3.24l-0.546-1.319v1.319h-6.222l-0.66-1.749h-1.577l-0.717 1.749h-5.572l2.389-5.649 2.237-5.104h4.789l0.659 1.262v-1.262h5.591l1.262 2.724 1.233-2.724h17.835c0.832 0 1.548 0.143 2.093 0.602v-0.602h4.903v0.602c0.803-0.459 1.864-0.602 3.068-0.602h7.082l0.66 1.262v-1.262h5.218l0.775 1.262v-1.262h5.103v10.753h-5.161l-1.003-1.635v1.635h-6.423l-0.717-1.749h-1.577l-0.717 1.749h-3.355c-1.318 0-2.294-0.316-2.954-0.659v0.659h-7.971v-2.466c0-0.344-0.057-0.402-0.286-0.402h-0.258v2.867h-15.398v-1.377zM43.363 6.409c-0.832 0.831-0.975 1.864-1.004 3.011 0 1.377 0.344 2.266 0.947 2.925 0.659 0.66 1.806 0.86 2.695 0.86h2.151l0.716-1.692h3.843l0.717 1.692h3.727v-5.763l3.47 5.763h2.638v-7.684h-1.892v5.333l-3.24-5.333h-2.839v7.254l-3.096-7.254h-2.724l-2.638 6.050h-0.832c-0.487 0-1.003-0.115-1.262-0.373-0.344-0.402-0.488-1.004-0.488-1.836 0-0.803 0.144-1.405 0.488-1.748 0.373-0.316 0.774-0.431 1.434-0.431h1.749v-1.663h-1.749c-1.262 0-2.265 0.286-2.81 0.889zM39.579 5.52v7.684h1.863v-7.684h-1.863zM31.12 5.52l-0 7.685h1.806v-2.781h1.979c0.66 0 1.090 0.057 1.376 0.315 0.316 0.401 0.258 1.061 0.258 1.491v0.975h1.892v-1.519c0-0.66-0.057-1.004-0.344-1.377-0.172-0.229-0.487-0.488-0.889-0.659 0.516-0.23 1.319-0.832 1.319-2.036 0-0.889-0.373-1.377-0.976-1.75-0.602-0.344-1.262-0.344-2.208-0.344h-4.215zM23.636 5.521v7.685h6.165v-1.577h-4.301v-1.549h4.244v-1.577h-4.244v-1.377h4.301v-1.606h-6.165zM16.124 13.205h1.577l2.695-6.021v6.021h1.864v-7.684h-3.011l-2.265 5.219-2.409-5.219h-2.953v7.254l-3.154-7.254h-2.724l-3.297 7.684h1.978l0.688-1.692h3.871l0.688 1.692h3.756v-6.021z"></path> </svg>
+                    <svg viewBox="0 0 95 32" id="icon-logo-discover" width="100%" height="100%"> <path d="M50.431 8.059c4.546 0 8.092 3.49 8.092 7.936 0 4.471-3.571 7.961-8.093 7.961-4.638 0-8.115-3.444-8.115-8.051 0-4.334 3.635-7.845 8.115-7.845zM4.362 8.345c4.811 0 8.168 3.133 8.168 7.64 0 2.247-1.028 4.422-2.761 5.864-1.461 1.214-3.126 1.761-5.429 1.761h-4.339v-15.265h4.362zM7.832 19.81c1.027-0.912 1.639-2.379 1.639-3.847 0-1.464-0.612-2.882-1.639-3.798-0.984-0.892-2.146-1.235-4.065-1.235h-0.797v10.096h0.797c1.919 0 3.127-0.367 4.065-1.216zM13.9 23.611v-15.265h2.965v15.265h-2.965zM24.123 14.201c3.378 1.238 4.379 2.338 4.379 4.764 0 2.952-2.166 5.015-5.247 5.015-2.261 0-3.904-0.896-5.271-2.907l1.914-1.856c0.685 1.328 1.825 2.036 3.24 2.036 1.325 0 2.308-0.915 2.308-2.152 0-0.641-0.298-1.189-0.891-1.578-0.297-0.187-0.889-0.46-2.054-0.87-2.784-1.010-3.742-2.085-3.742-4.192 0-2.493 2.055-4.371 4.745-4.371 1.667 0 3.196 0.571 4.473 1.696l-1.549 2.033c-0.778-0.867-1.508-1.233-2.398-1.233-1.28 0-2.213 0.732-2.213 1.694 0 0.821 0.525 1.258 2.307 1.921zM29.438 15.986c0-4.436 3.605-7.985 8.101-7.985 1.278 0 2.352 0.273 3.653 0.935v3.504c-1.233-1.213-2.308-1.717-3.72-1.717-2.787 0-4.976 2.313-4.976 5.241 0 3.092 2.123 5.267 5.112 5.267 1.347 0 2.397-0.48 3.585-1.671v3.504c-1.347 0.638-2.443 0.892-3.72 0.892-4.519 0-8.034-3.478-8.034-7.97zM65.239 18.601l4.11-10.254h3.216l-6.573 15.655h-1.596l-6.46-15.655h3.24zM73.914 23.612v-15.265h8.418v2.585h-5.453v3.388h5.244v2.585h-5.244v4.123h5.453v2.584h-8.418zM94.081 12.852c0 2.336-1.23 3.87-3.469 4.329l4.794 6.43h-3.651l-4.105-6.135h-0.388v6.135h-2.969v-15.265h4.404c3.425 0 5.384 1.645 5.384 4.506zM88.125 15.372c1.9 0 2.903-0.827 2.903-2.359 0-1.486-1.004-2.266-2.856-2.266h-0.911v4.626h0.863z"></path> </svg>
+                    <svg viewBox="0 0 54 32" id="icon-logo-mastercard" width="100%" height="100%"> <path d="M48.366 15.193c0.6 0 0.9 0.437 0.9 1.282 0 1.281-0.546 2.209-1.337 2.209-0.6 0-0.9-0.436-0.9-1.31 0-1.281 0.573-2.182 1.337-2.182zM38.276 18.275c0-0.655 0.491-1.009 1.472-1.009 0.109 0 0.191 0.027 0.382 0.027-0.027 0.982-0.545 1.636-1.227 1.636-0.382 0-0.628-0.245-0.628-0.655zM26.278 15.848c0 0.082-0 0.192-0 0.327h-1.909c0.164-0.763 0.545-1.173 1.091-1.173 0.518 0 0.818 0.3 0.818 0.845zM38.060 0.002c8.838 0 16.003 7.165 16.003 16.002s-7.165 15.999-16.003 15.999c-3.834 0-7.324-1.344-10.080-3.594 2.102-2.031 3.707-4.567 4.568-7.44h-1.33c-0.833 2.553-2.297 4.807-4.199 6.627-1.892-1.816-3.342-4.078-4.172-6.62h-1.33c0.858 2.856 2.435 5.401 4.521 7.432-2.749 2.219-6.223 3.594-10.036 3.594-8.837 0-16.002-7.163-16.002-15.999s7.164-16.001 16.002-16.001c3.814 0 7.287 1.377 10.036 3.603-2.087 2.023-3.664 4.568-4.521 7.424h1.33c0.83-2.542 2.28-4.804 4.172-6.607 1.903 1.808 3.367 4.060 4.199 6.614h1.33c-0.861-2.872-2.466-5.413-4.568-7.443 2.757-2.249 6.246-3.592 10.080-3.592zM7.217 20.213h1.691l1.336-8.044h-2.672l-1.637 4.99-0.082-4.99h-2.454l-1.336 8.044h1.582l1.037-6.135 0.136 6.135h1.173l2.209-6.189zM14.47 19.477l0.054-0.408 0.382-2.318c0.109-0.736 0.136-0.982 0.136-1.309 0-1.254-0.791-1.909-2.263-1.909-0.627 0-1.2 0.082-2.045 0.327l-0.246 1.473 0.163-0.028 0.246-0.081c0.382-0.109 0.928-0.164 1.418-0.164 0.79 0 1.091 0.164 1.091 0.6 0 0.109 0 0.191-0.055 0.409-0.273-0.027-0.518-0.054-0.709-0.054-1.909 0-2.999 0.927-2.999 2.536 0 1.064 0.627 1.773 1.554 1.773 0.791 0 1.364-0.246 1.8-0.791l-0.027 0.682h1.418l0.027-0.164 0.027-0.246zM17.988 16.314c-0.736-0.327-0.819-0.409-0.819-0.709 0-0.355 0.3-0.519 0.845-0.519 0.328 0 0.791 0.028 1.227 0.082l0.246-1.5c-0.436-0.082-1.118-0.137-1.5-0.137-1.909 0-2.59 1.009-2.563 2.208 0 0.818 0.382 1.391 1.282 1.828 0.709 0.327 0.818 0.436 0.818 0.709 0 0.409-0.3 0.6-0.982 0.6-0.518 0-0.982-0.082-1.527-0.245l-0.246 1.5 0.082 0.027 0.3 0.054c0.109 0.027 0.246 0.055 0.464 0.055 0.382 0.054 0.709 0.054 0.928 0.054 1.8 0 2.645-0.682 2.645-2.181 0-0.9-0.354-1.418-1.2-1.828zM21.75 18.741c-0.409 0-0.573-0.136-0.573-0.464 0-0.082 0-0.164 0.027-0.273l0.463-2.726h0.873l0.218-1.609h-0.873l0.191-0.982h-1.691l-0.737 4.472-0.082 0.518-0.109 0.654c-0.027 0.191-0.055 0.409-0.055 0.573 0 0.954 0.491 1.445 1.364 1.445 0.382 0 0.764-0.055 1.227-0.218l0.218-1.445c-0.109 0.054-0.273 0.054-0.464 0.054zM25.732 18.851c-0.982 0-1.5-0.381-1.5-1.145 0-0.055 0-0.109 0.027-0.191h3.382c0.163-0.682 0.218-1.145 0.218-1.636 0-1.446-0.9-2.373-2.318-2.373-1.718 0-2.973 1.663-2.973 3.899 0 1.936 0.982 2.945 2.89 2.945 0.628 0 1.173-0.082 1.773-0.273l0.273-1.636c-0.6 0.3-1.145 0.409-1.773 0.409zM31.158 15.524h0.109c0.164-0.79 0.382-1.363 0.655-1.881l-0.055-0.027h-0.164c-0.573 0-0.9 0.273-1.418 1.064l0.164-1.009h-1.554l-1.064 6.544h1.718c0.627-4.008 0.791-4.69 1.609-4.69zM36.122 20.133l0.3-1.827c-0.545 0.273-1.036 0.409-1.445 0.409-1.009 0-1.609-0.737-1.609-1.963 0-1.773 0.9-3.027 2.182-3.027 0.491 0 0.928 0.136 1.528 0.436l0.3-1.745c-0.163-0.054-0.218-0.082-0.436-0.163l-0.682-0.164c-0.218-0.054-0.491-0.082-0.791-0.082-2.263 0-3.845 2.018-3.845 4.88 0 2.155 1.146 3.491 3 3.491 0.463 0 0.872-0.082 1.5-0.246zM41.521 19.069l0.355-2.318c0.136-0.736 0.136-0.982 0.136-1.309 0-1.254-0.763-1.909-2.236-1.909-0.627 0-1.2 0.082-2.045 0.327l-0.246 1.473 0.164-0.028 0.218-0.081c0.382-0.109 0.955-0.164 1.446-0.164 0.791 0 1.091 0.164 1.091 0.6 0 0.109-0.027 0.191-0.082 0.409-0.246-0.027-0.491-0.054-0.682-0.054-1.909 0-3 0.927-3 2.536 0 1.064 0.627 1.773 1.555 1.773 0.791 0 1.363-0.246 1.8-0.791l-0.028 0.682h1.418v-0.164l0.027-0.246 0.054-0.327zM43.648 20.214c0.627-4.008 0.791-4.69 1.608-4.69h0.109c0.164-0.79 0.382-1.363 0.655-1.881l-0.055-0.027h-0.164c-0.572 0-0.9 0.273-1.418 1.064l0.164-1.009h-1.554l-1.037 6.544h1.691zM48.829 20.214l1.608 0 1.309-8.044h-1.691l-0.382 2.291c-0.464-0.6-0.955-0.9-1.637-0.9-1.5 0-2.782 1.854-2.782 4.035 0 1.636 0.818 2.7 2.073 2.7 0.627 0 1.118-0.218 1.582-0.709zM11.306 18.279c0-0.655 0.492-1.009 1.447-1.009 0.136 0 0.218 0.027 0.382 0.027-0.027 0.982-0.518 1.636-1.228 1.636-0.382 0-0.6-0.245-0.6-0.655z"></path> </svg>
+                    <svg viewBox="0 0 57 32" id="icon-logo-paypal" width="100%" height="100%"> <path d="M47.11 10.477c2.211-0.037 4.633 0.618 4.072 3.276l-1.369 6.263h-3.159l0.211-0.947c-1.72 1.712-6.038 1.821-5.335-2.111 0.491-2.294 2.878-3.023 6.423-3.023 0.246-1.020-0.457-1.274-1.65-1.238s-2.633 0.437-3.089 0.655l0.281-2.293c0.913-0.182 2.106-0.583 3.615-0.583zM47.32 16.885c0.069-0.291 0.106-0.547 0.176-0.838h-0.773c-0.596 0-1.579 0.146-1.931 0.765-0.456 0.728 0.177 1.348 0.878 1.311 0.807-0.037 1.474-0.401 1.65-1.238zM53.883 8h3.242l-2.646 12.016h-3.209zM39.142 8.037c1.689 0 3.729 1.274 3.131 4.077-0.528 2.476-2.498 3.933-4.89 3.933h-2.428l-0.879 3.969h-3.412l2.603-11.979h5.874zM39.037 12.114c0.211-0.911-0.317-1.638-1.197-1.638h-1.689l-0.704 3.277h1.583c0.88 0 1.795-0.728 2.006-1.638zM16.346 10.476c2.184-0.037 4.611 0.618 4.056 3.276l-1.352 6.262h-3.155l0.208-0.947c-1.664 1.712-5.929 1.821-5.235-2.111 0.486-2.294 2.844-3.023 6.345-3.023 0.208-1.020-0.485-1.274-1.664-1.238s-2.601 0.437-3.017 0.655l0.277-2.293c0.867-0.182 2.046-0.583 3.537-0.583zM16.589 16.885c0.035-0.291 0.104-0.547 0.173-0.838h-0.797c-0.555 0-1.525 0.146-1.872 0.765-0.451 0.728 0.138 1.348 0.832 1.311 0.797-0.037 1.491-0.401 1.664-1.238zM28.528 10.648l3.255-0-7.496 13.351h-3.528l2.306-3.925-1.289-9.426h3.156l0.508 5.579zM8.499 8.036c1.728 0 3.738 1.274 3.139 4.077-0.529 2.476-2.504 3.933-4.867 3.933h-2.468l-0.847 3.969h-3.456l2.609-11.979h5.89zM8.393 12.114c0.247-0.911-0.317-1.638-1.164-1.638h-1.693l-0.741 3.277h1.623c0.882 0 1.763-0.728 1.975-1.638z"></path> </svg>
+                    <svg viewBox="0 0 49 32" id="icon-logo-visa" width="100%" height="100%"> <path d="M14.059 10.283l4.24-0-6.302 15.472-4.236 0.003-3.259-12.329c2.318 0.952 4.379 3.022 5.219 5.275l0.42 2.148zM17.416 25.771l2.503-15.501h4.001l-2.503 15.501h-4.002zM31.992 16.494c2.31 1.106 3.375 2.444 3.362 4.211-0.032 3.217-2.765 5.295-6.97 5.295-1.796-0.020-3.526-0.394-4.459-0.826l0.56-3.469 0.515 0.246c1.316 0.579 2.167 0.814 3.769 0.814 1.151 0 2.385-0.476 2.396-1.514 0.007-0.679-0.517-1.165-2.077-1.924-1.518-0.74-3.53-1.983-3.505-4.211 0.024-3.012 2.809-5.116 6.765-5.116 1.55 0 2.795 0.339 3.586 0.651l-0.542 3.36-0.359-0.178c-0.74-0.314-1.687-0.617-2.995-0.595-1.568 0-2.293 0.689-2.293 1.333-0.010 0.728 0.848 1.204 2.246 1.923zM46.199 10.285l3.239 15.49h-3.714s-0.368-1.782-0.488-2.322c-0.583 0-4.667-0.008-5.125-0.008-0.156 0.42-0.841 2.331-0.841 2.331h-4.205l5.944-14.205c0.419-1.011 1.138-1.285 2.097-1.285h3.093zM41.263 20.274c0.781 0 2.698 0 3.322 0-0.159-0.775-0.927-4.474-0.927-4.474l-0.27-1.337c-0.202 0.581-0.554 1.52-0.531 1.479 0 0-1.262 3.441-1.594 4.332zM9.723 18.702c-1.648-4.573-5.284-6.991-9.723-8.109l0.053-0.322h6.453c0.87 0.034 1.573 0.326 1.815 1.308z"></path> </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer><!-- #footer end -->
+
+
+
+
+
+
+
+
+
+
+@*<section>
+        <div class="ind-cat">
+            <div class="fancy-title title-center title-dotted-border">
+                    <h3>Our Categories</h3>
+                <hr class="sbhr"/>
+                </div>
+
+            <div id="oc-portfolio" class="owl-carousel portfolio-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4">
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Open Imagination">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">European Breads</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Improvers.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Locked Steel Gate">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Improvers and Concentrates</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Confectionery.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Mac Sunglasses">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Confectionery Products</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Egg-Free-confectinery.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Console Activity">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Egg Free Confectionery</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Cake-Essentials.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Backpack Contents">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Cake Essentials</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Esenetials.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Sunset Bulb Glow">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Bread Essential</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Flours.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Study Table">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Speciality Flours</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oc-item op-0 animated delay-5s">
+                    <div class="iportfolio">
+                        <div class="portfolio-image">
+                            <a href="#">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Gluten-Free-Products.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Workspace Stuff">
+                            </a>
+                        </div>
+                        <div class="portfolio-desc">
+                            <h3><a href="#">Gluten Free</a></h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="container">
+            <div class="fancy-title title-center title-dotted-border">
+                <h3>Why Us</h3>
+                <hr class="sbhr" />
+            </div>
+            <div class="row">
+                <div class="col-md-3 globe">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <div class="col-md-3 swiss-expert">
+                    <i class="flag-icon-ch flag-icon-squared"></i>
+                </div>
+                <div class="col-md-3 tech">
+                    <i class="fa fa-desktop"></i>
+                </div>
+                <div class="col-md-3 why-search">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+    </section>*@

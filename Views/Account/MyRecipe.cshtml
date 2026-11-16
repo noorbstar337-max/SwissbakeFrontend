@@ -1,0 +1,365 @@
+﻿@using SwissbakeIn.App_Start;
+@using System.Data
+@model DataSet
+
+@{
+    ViewBag.Title = "My Recipe";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    <link href="~/Content/css/components/bs-datatable.css" rel="stylesheet" />
+@Styles.Render("~/Content/Rev")
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane {
+            margin-bottom: 0;
+        }
+
+        .jconfirm-closeIcon {
+            display: none !important;
+        }
+
+        .rcptable th{
+            background: #b31616;
+            color: #fff;
+        }
+
+        /*@@media screen and (max-width: 640px){
+            .table-responsive tbody tr td {
+                display: table-cell;
+                 padding-left: 0px !important; 
+            }
+        }*/
+
+
+
+    </style>
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/components/bs-datatable.js"></script>
+@Scripts.Render("~/bundles/Rev")
+    <script>
+
+
+
+
+
+
+        function Recdel(id) {
+            var formData = new FormData();
+            formData.append('Id', id.id);
+            $.confirm({
+                title: 'Delete Save Recipe?',
+                //theme: 'supervan',
+                //content: '' +
+                //'<form action="" class="formName">' +
+                //'<div class="form-group">' +
+                //'<label>Enter OTP Code</label>' +
+                //'<input type="text" placeholder="OTP" class="otp form-control" required />' +
+                //'resend (<span class="Counter"></span>)'+
+                //'</div>' +
+                //'</form>',
+                closeIcon: true,
+                closeIconClass: 'close-verify',
+                buttons: {
+                    formSubmit: {
+                        text: 'Confirm',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            var ms = "";
+                            var res = "";
+                            $.ajax({
+                                type: "POST",
+                                url: "/Access/DelRecipe",
+                                //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                beforeSend: function () {
+                                    $.confirm({
+                                        backgroundDismiss: false,
+                                        title: false,
+                                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Deleting... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                                        buttons: false
+                                    });
+                                    //_divPartialView.style = "Display: none";
+                                    //$("#divWaiting").removeClass("display-none");
+                                },
+                                success: function (response) {
+                                    if (response == true) {
+                                        setTimeout(function () {
+                                            $(".jconfirm-closeIcon").click();
+                                        }, 500);
+                                        id.parentElement.parentElement.remove();
+                                    }
+                                    else {
+                                        setTimeout(function () {
+                                            $(".jconfirm-closeIcon").click();
+                                        }, 500);
+                                    }
+                                },
+                            });
+
+
+                            return false;
+                        }
+                    },
+                    cancel: function () {
+                        //close
+                    },
+                },
+                onContentReady: function () {
+                    // bind to events
+                    //var jc = this;
+                    //this.$content.find('form').on('submit', function (e) {
+                    //    // if the user submits the form by pressing enter in the field.
+                    //    e.preventDefault();
+                    //    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    //});
+                }
+            });
+
+
+
+
+        }
+
+
+    </script>
+}
+
+
+
+@Html.Partial("_AccountMenu")
+
+
+<!-- Content
+        ============================================= -->
+@if (Model.Tables["Tb2"].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables["Tb2"].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                    <!-- SLIDE  -->
+                    @*<li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img6.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>
+                        <!-- SLIDE  -->
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img7.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>*@
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model.Tables["Tb2"].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-lg-1">The My Recipe page will show you all your saved recipes from the recipe section of the website.</p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="row">
+                <div class="heading-block col-md-12">
+                    <h4>@ViewBag.Title</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="subtable">
+                        <table id="datatable1" class="table table-striped table-bordered rcptable" cellspacing="0" width="100%">
+                           <thead>
+                            <tr>
+                                <th>SR.</th>
+                               <th>Recipe Name</th>
+                                <th>Delete</th>
+                                </tr>
+                           </thead>
+                            <tbody>
+@if (Model.Tables[0].Rows.Count > 0)
+{
+                                foreach (DataRow row in Model.Tables[0].Rows)
+                                {
+                                    <tr>
+                                        <td>@row["rownumber"]</td>
+                                        <td>
+                                            <a href="/recipe/@row["Recipe_Seourl"]" target="_blank">
+                                                <span class="more1">
+                                                    @row["Recipe_Name"] <br />
+
+                                                    <input type="hidden" value="@row["AccRec_Id"]" />
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td class="w-10">
+                                            <a id="@row["AccRec_Id"]" onclick="Recdel(this)" class="cursor-pointer"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+}
+else
+{
+    <tr>
+        <td colspan="2">No record found</td>
+    </tr>
+}
+                                @*<tr>
+                                        <td>
+                                            <span class="more">
+                                                Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification
+                                                Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                            </span>
+                                        </td>
+                                        <td class="w-10">
+                                            <a><i class="fas fa-edit"></i></a>
+                                            <a><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @*<div class="col-md-3">
+
+                    <div class="side-related-pro">
+                        <strong>Recommended Products</strong>
+                        <div class="vertical-scroll">
+                            <a class="pro-card" href="javascript:void(0);">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                <div class="pro-blk">
+                                    <span class="pro-title">GLUTEN FREE MULTSKORN</span>
+                                    <span class="pro-weight">5 kg Bag | Code - G12960</span>
+                                    <span class="pro-price">BHD 415.00 <span>Buy Now</span></span>
+                                </div>
+                            </a>
+                            <a class="pro-card" href="javascript:void(0);">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                <div class="pro-blk">
+                                    <span class="pro-title">GLUTEN FREE MULTSKORN</span>
+                                    <span class="pro-weight">5 kg Bag | Code - G12960</span>
+                                    <span class="pro-price">BHD 415.00 <span>Buy Now</span></span>
+                                </div>
+                            </a>
+                            <a class="pro-card" href="javascript:void(0);">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                <div class="pro-blk">
+                                    <span class="pro-title">GLUTEN FREE MULTSKORN</span>
+                                    <span class="pro-weight">5 kg Bag | Code - G12960</span>
+                                    <span class="pro-price">BHD 415.00 <span>Buy Now</span></span>
+                                </div>
+                            </a>
+                            <a class="pro-card" href="javascript:void(0);">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                <div class="pro-blk">
+                                    <span class="pro-title">GLUTEN FREE MULTSKORN</span>
+                                    <span class="pro-weight">5 kg Bag | Code - G12960</span>
+                                    <span class="pro-price">BHD 415.00 <span>Buy Now</span></span>
+                                </div>
+                            </a>
+                            <a class="pro-card" href="javascript:void(0);">
+                                <img src="http://uat.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" />
+                                <div class="pro-blk">
+                                    <span class="pro-title">GLUTEN FREE MULTSKORN</span>
+                                    <span class="pro-weight">5 kg Bag | Code - G12960</span>
+                                    <span class="pro-price">BHD 415.00 <span>Buy Now</span></span>
+                                </div>
+                            </a>
+                        </div>
+                        </div>
+                </div>*@
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

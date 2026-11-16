@@ -1,0 +1,69 @@
+﻿@using SwissbakeIn.Entities;
+@using SwissbakeIn.App_Start;
+@using System.Data;
+
+@model DataSet
+
+ @if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+
+
+<div class="order-tabs">
+
+    <ul>
+        <li class="@ViewBag.Act1"><a href="/account/myorder">ALL&nbsp;ORDERS&nbsp;(@Model.Tables[1].Rows[0]["alloorder"])</a></li>
+        <li class="@ViewBag.Act2"><a href="/account/cancelorder">CANCELLED&nbsp;ORDERS&nbsp;(@Model.Tables[1].Rows[0]["Cancelled"])</a></li>
+        <li class="@ViewBag.Act3"><a href="/account/pendingorder">PENDING&nbsp;ORDERS&nbsp;(@Model.Tables[1].Rows[0]["Pending"])</a></li>
+        <li class="@ViewBag.Act4"><a href="/account/completedorder">COMPLETED&nbsp;ORDERS&nbsp;(@Model.Tables[1].Rows[0]["Dispatched"])</a></li>
+        <li class="@ViewBag.Act5"><a href="/account/reorder">RE-ORDERS&nbsp;(@Model.Tables[1].Rows[0]["Dispatched"])</a></li>
+    </ul>
+
+    <select class="form-control mb-5" onchange="window.location.href=this.value">
+        <option value="/account/myorder" @ViewBag.Act1>My&nbsp;Order&nbsp;(@Model.Tables[1].Rows[0]["alloorder"])</option>
+        <option value="/account/cancelorder" @ViewBag.Act2>Cancelled&nbsp;Order&nbsp;(@Model.Tables[1].Rows[0]["Cancelled"])</option>
+        <option value="/account/pendingorder" @ViewBag.Act3>Pending&nbsp;Order&nbsp;(@Model.Tables[1].Rows[0]["Pending"])</option>
+        <option value="/account/completedorder" @ViewBag.Act4>Completed&nbsp;Order&nbsp;(@Model.Tables[1].Rows[0]["Dispatched"])</option>
+        <option value="/account/reorder" @ViewBag.Act5>Re&nbsp;Order&nbsp;(@Model.Tables[1].Rows[0]["Dispatched"])</option>
+    </select>
+
+</div>
+
+
+
+<table id="datatable1" class="table table-striped table-bordered table-responsive" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Order&nbsp;Number</th>
+            <th>Order&nbsp;Date</th>
+            <th>Order&nbsp;Amount</th>
+            <th>Order&nbsp;Status</th>
+            @if (ViewBag.reorder == "ViewOrderByMemberID_Completed")
+            {
+                <th>Reorder&nbsp;Now</th>
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var i in ViewData["Order"] as List<CommonStruct>)
+        {
+            <tr>
+                <td><a href="@ViewBag.domain/@i.Url2" target="_blank">@i.Code <i class="fas fa-eye"></i></a></td>
+                <td>@i.Datetime</td>
+                <td>BHD @Helper.InPrice(Convert.ToDouble(@i.Etcstring1))</td>
+                <td><span class="@Helper.GetStatus(i.Status.ToString())">@i.Status</span></td>
+                @if (ViewBag.reorder == "ViewOrderByMemberID_Completed")
+                {
+                    <td><form class="m-0" action="/Access/ReorderNow/" method="post"><button type="submit" class="btn-id" value="@i.Id"  name="reorder" id="reorder"><i class="fas fa-cart-plus"></i></button></form></td>
+                }   
+            </tr>
+        }
+
+    </tbody>
+</table>

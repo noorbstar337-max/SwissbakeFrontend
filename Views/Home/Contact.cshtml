@@ -1,0 +1,895 @@
+﻿@using reCAPTCHA.MVC
+@{
+    ViewBag.Title = "Contact";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Contact" />
+    <meta name="keywords" content="Contact" />
+    <meta property="og:description" content="Contact" />
+    <meta property="og:url" content="http://uat.swissbake.bh/contact" />
+    <meta property="twitter:title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Contact" />
+    <meta property="og:image" content="http://uat.swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://uat.swissbake.bh/" />
+}
+
+
+@section head{
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+
+    @*<script src="https://www.google.com/recaptcha/api.js?render=6LdWtdklAAAAALaG8sB7hxd9zaP8fgOdbcZK8N3l"></script>*@
+    @**@
+    @* <script>
+            function onClick(e) {
+                e.preventDefault();
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LdWtdklAAAAALaG8sB7hxd9zaP8fgOdbcZK8N3l', { action: 'submit' }).then(function (token) {
+                        // Add your logic to submit to your backend server here.
+                    });
+                });
+            }
+        </script>*@
+
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane {
+            margin-bottom: 0;
+        }
+
+        .jconfirm-closeIcon {
+            display: none !important;
+        }
+
+
+        @@media screen and (min-width:320px) and (max-width:767px) {
+            .mobpad5 {
+                padding-top: 18px;
+            }
+        }
+    </style>
+
+
+}
+
+@section foot{
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+
+    @*<script src="~/Content/js/jquery.gmap.js"></script>*@
+
+    <script>
+        function updateCountryCode() {
+            var mobileElement = document.getElementById("Mobile")
+            var countryDropDown = document.getElementById("CountryDropDown")
+            if (countryDropDown.value == '17') {
+                mobileElement.setAttribute("minlength", 8)
+                mobileElement.setAttribute("maxlength", 8)
+            }
+            else {
+                mobileElement.setAttribute("minlength", 10)
+                mobileElement.setAttribute("maxlength", 10)
+            }
+        }
+
+    $(document).ready(function () {
+
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            errorElement: 'span', //default input error message container
+            errorClass: 'text-black', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                Name: {
+                    required: true,
+                    regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                    minlength: 3,
+                },
+                Email: {
+                    required: true,
+                    regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                },
+                Mobile: {
+                    required: true,
+                    //regex: /^[0-9]{8}$/gm,
+                    //minlength: 8,
+                    //maxlength: 8,
+                },
+                Organisation: {
+                    required: true
+                },
+                Pin: {
+                    required: true,
+                    regex: /([0-9]{6,10}$)/,
+                },
+                City: {
+                    required: true,
+                    regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                },
+                State: {
+                    required: true
+                },
+                Comment: {
+                    required: true
+                }
+
+            },
+
+            messages: {
+                Name: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                },
+                Email: {
+                    required: "This is required",
+                    regex: "This is invalid"
+                },
+                Mobile: {
+                    required: "This is required",
+                   // regex: "This is invalid",
+                    minlength: "This is invalid",
+                    maxlength: "This is invalid",
+                },
+                Organisation: {
+                    required: "This is required"
+                },
+                Pin: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                },
+                City: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                },
+                State: {
+                    required: "This is required"
+                },
+                Comment: {
+                    required: "This is required"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                //    error.insertAfter("#show-error");
+                //}
+                ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                ////    error.insertAfter("#form_payment_error");
+                ////}
+                //else {
+                //    error.insertAfter(element); // for other inputs, just perform default behavior
+                //}
+                error.insertAfter(element);
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                var $valid = $('form').valid();
+                var v = grecaptcha.getResponse();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+                else if (v.length == 0) {
+                    $(".field-validation-valid").css("color", "red").text("This is required");
+                    $.confirm({
+                        backgroundDismiss: true,
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Captcha is Required</label></div>',
+                        buttons: false
+                    });
+                    setTimeout(function () {
+                        $('.jconfirm-closeIcon').click();
+                    }, 1000);
+                    return false;
+                } else {
+                    form.submit()
+                }
+                //else {
+                //    $("button[type=submit]").text("Submitting").attr("disabled", "disabled");
+                //    angular.element(document.getElementById('content')).scope().submitForm();
+                //    angular.element(document.getElementById('content')).scope().$apply();
+                ////var response = grecaptcha.getResponse();
+                ////if (response.length == 0) {
+                ////    //reCaptcha not verified
+                ////    alert("please verify you are not a robot!");
+                ////    //evt.preventDefault();
+                ////    return false;
+                ////} else {
+                ////   // $('#ccform').submit()
+                ////    form.submit()
+                ////}
+                //}
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+        @Html.Raw(ViewBag.error)
+    });
+
+
+    function sucess() {
+        //$.confirm({
+        //    backgroundDismiss: false,
+        //    title: false,
+        //    content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Thankyou for contacting us.</label></div>',
+        //    buttons: false
+        //});
+        //setTimeout(function () {
+        //    $('.jconfirm-closeIcon').click();
+        //}, 5000);
+
+        location.href = "/thankyou"
+
+    }
+
+        //jQuery('#google-map').gMap({
+        //    address: 'Melbourne, Australia',
+        //    maptype: 'ROADMAP',
+        //    zoom: 14,
+        //    markers: [
+        //        {
+        //            position: new google.maps.LatLng(19.07283, 72.88261),,
+        //            html: '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">Hi, we\'re <span>Envato</span></h4><p class="nobottommargin">Our mission is to help people to <strong>earn</strong> and to <strong>learn</strong> online. We operate <strong>marketplaces</strong> where hundreds of thousands of people buy and sell digital goods every day, and a network of educational blogs where millions learn <strong>creative skills</strong>.</p></div>',
+        //            icon: {
+        //                image: "images/icons/map-icon-red.png",
+        //                iconsize: [32, 39],
+        //                iconanchor: [32, 39]
+        //            }
+        //        }
+        //    ],
+        //    doubleclickzoom: false,
+        //    controls: {
+        //        panControl: true,
+        //        zoomControl: true,
+        //        mapTypeControl: true,
+        //        scaleControl: false,
+        //        streetViewControl: false,
+        //        overviewMapControl: false
+        //    }
+        //});
+
+
+        //var map;
+        //function initMap() {
+
+        //    map = new google.maps.Map(document.getElementById('google-map'), {
+        //        zoom: 15,
+        //        center: new google.maps.LatLng(26.211964657169343, 50.67629289997731),
+        //        mapTypeId: 'roadmap'
+        //    });
+
+        //    var iconBase = '/Content/images/icons/';
+        //    var icons = {
+        //        locate: {
+        //            name: 'locate',
+        //            icon: iconBase + 'locate.png'
+        //        }
+        //    };
+
+        //    var features = [
+        //        {
+        //            position: new google.maps.LatLng(26.211964657169343, 50.67629289997731),
+        //            type: 'locate'
+        //        }
+        //        //{
+        //        //    position: new google.maps.LatLng(47.4896064, 7.8903901),
+        //        //    type: 'locate'
+        //        //}
+        //        //, {
+        //        //    position: new google.maps.LatLng(26.83928, 80.92313),
+        //        //    type: 'locate'
+        //        //}, {
+        //        //    position: new google.maps.LatLng(26.4478, 80.34627),
+        //        //    type: 'locate'
+        //        //}, {
+        //        //    position: new google.maps.LatLng(12.97194, 77.59369),
+        //        //    type: 'locate'
+        //        //}, {
+        //        //    position: new google.maps.LatLng(27.492413, 77.673676),
+        //        //    type: 'locate'
+        //        //}, {
+        //        //    position: new google.maps.LatLng(28.841064, 78.795319),
+        //        //    type: 'locate'
+        //        //}
+        //    ];
+
+        //    // Create markers.
+        //    features.forEach(function (feature) {
+        //        var marker = new google.maps.Marker({
+        //            position: feature.position,
+        //            icon: icons[feature.type].icon,
+        //            map: map
+        //    });
+
+        //        });
+
+        //}
+
+
+
+
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fields = document.querySelectorAll("input[type='text'], input[type='email'], textarea");
+
+            fields.forEach(field => {
+                field.addEventListener("input", function () {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2_9pnYFntKSQN95F6WTLJI8AAbH8J_n0&callback=initMap"></script>*@
+}
+
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/contact.jpg');background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>Contact Us</h1>
+        <span>Have any Questions? Here’s how you can get in touch with us. </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact US</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+@*//////////////////////////////////////////////////////*@
+
+
+
+<style>
+    .top_content {
+        color: #606060;
+        text-align: center;
+        /* background-color: #d70003; */
+        margin: 50px;
+        padding: 0 250px;
+    }
+
+        .top_content .content {
+            margin-top: 30px;
+        }
+
+            .top_content .content .fa {
+                font-size: 50px;
+            }
+
+    .form_container {
+        background-color: #d70003;
+        width: 100%;
+        height: auto;
+    }
+
+    .img_container {
+        background-image: url('../../content/images/contact/bg_heading.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 275px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .img_container img {
+            object-fit: cover;
+            width: 60%;
+        }
+
+    .contact_content {
+        width: 100%;
+        height: 54px;
+        background: #606060;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+    }
+
+        .contact_content a {
+            color: #fff;
+            text-decoration: none;
+        }
+        /* .contact_content a .fa-whatsapp {
+        color: green;
+      } */
+        .contact_content .email {
+            margin-right: 25px;
+        }
+
+            .contact_content .email .fa {
+                margin-right: 5px;
+            }
+
+        .contact_content .number .fa {
+            margin-right: 5px;
+        }
+
+    .form_container {
+        padding: 20px;
+    }
+
+    .left_form input {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    /* .right_form {
+        height: 100%;
+      } */
+    .right_form textarea {
+        width: 100%;
+        height: 100%;
+    }
+
+    select,
+    input,
+    textarea {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        font-size: 13px;
+        color: #606060;
+        background: #fff;
+    }
+
+    .form_container button {
+        /* float: right; */
+        border: none;
+        color: #d70003;
+        /* margin-top: 20px; */
+        padding: 5px;
+        border-radius: 5px;
+        font-weight: bold;
+        width: 100%;
+        background: #fff;
+    }
+
+    .left_bottom_form {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .d_flex_2 {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .left_bottom_form select,
+    input {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .bottom_content .content {
+        border: 1px solid #d70003;
+        text-align: center;
+        padding: 10px;
+        color: #606060;
+        margin-top: 50px;
+    }
+
+        .bottom_content .content .icon_2 {
+            position: relative;
+            top: -40px;
+            padding: 0 10px;
+            color: #d70003;
+        }
+
+        .bottom_content .content p {
+            font-size: 15px;
+        }
+
+        .bottom_content .content a {
+            text-decoration: none;
+        }
+
+        .bottom_content .content .email {
+            font-weight: bold;
+            color: #606060;
+        }
+
+        .bottom_content .content .site {
+            background: #d70003;
+            color: #fff;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 3px 10px;
+            border-radius: 5px;
+            position: relative;
+            bottom: -23px;
+        }
+
+    .d_flex {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .big_none {
+        display: none;
+    }
+
+    @@media (max-width: 1199px) {
+        .top_content {
+            color: #606060;
+            text-align: center;
+            margin: 50px;
+            padding: 0 200px;
+        }
+
+        .d_flex {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form_container {
+            width: 91vw;
+        }
+
+        .img_container {
+            height: 270px;
+            width: 91vw;
+        }
+
+        .contact_content {
+            width: 97vw;
+            height: 52px;
+        }
+        /* .bottom_content .content .icon_2 {
+          position: relative;
+          top: -80px;
+          padding: 0 10px;
+          color: #d70003;
+        } */
+    }
+
+    @@media (max-width: 991px) {
+        .top_content {
+            color: #606060;
+            text-align: center;
+            margin: 50px;
+            padding: 0 150px;
+        }
+
+        .form_container {
+            width: 94vw;
+        }
+
+        .img_container {
+            height: 270px;
+            width: 94vw;
+        }
+    }
+
+    @@media (max-width: 767px) {
+        /* .left_bottom_form {
+          display: flex;
+          flex-direction: column;
+        } */
+        .top_content {
+            color: #606060;
+            text-align: center;
+            margin: 50px;
+            padding: 0 20px;
+        }
+
+        .small_none {
+            display: none;
+        }
+
+        .big_none {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form_container button {
+            margin-top: 20px;
+            float: right;
+            width: fit-content;
+            padding: 5px 25px;
+        }
+
+        .m_top_20 {
+            margin-top: 20px;
+        }
+
+        .form_container {
+            width: 88vw;
+        }
+
+        .img_container {
+            height: 270px;
+            width: 88vw;
+        }
+
+        .contact_content {
+            width: 95vw;
+            height: 52px;
+        }
+    }
+
+    @@media (max-width: 575px) {
+        .contact_content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .form_container {
+            width: 84vw;
+        }
+
+        .img_container {
+            height: 270px;
+            width: 84vw;
+        }
+
+        .contact_content {
+            width: 94vw;
+            height: 52px;
+        }
+    }
+</style>
+
+<section>
+    <div class="col-12">
+        <!-- <div class="col-9"> -->
+        <!-- <div class="container"> -->
+        <div class="top_content">
+            <p style="text-align: center">
+                We continuously work together with our customers and channel partners to create innovative
+                bakery solutions tailored to meet their changing needs and market demands.
+            </p>
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="~/Content/images/contact/Customer Support.jpg"
+                                 alt=""
+                                 style="width: 30%" />
+                        </div>
+                        <!-- <i class="fa fa-headphones"></i> -->
+                        <p>Customer Support</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="~/Content/images/contact/Request a Demo.jpg"
+                                 alt=""
+                                 style="width: 30%" />
+                        </div>
+                        <p>Request a Demo</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="~/Content/images/contact/Sales Enquiry.jpg"
+                                 alt=""
+                                 style="width: 30%" />
+                        </div>
+                        <p>Sales Inquiry</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+        <div class="container-fluid">
+            <div class="col-12 d_flex">
+                <div class="">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form_container">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <div class="left_form">
+                                            <input type="text" class="nocpc" id="Name" name="Name" value="" placeholder="Name" onkeypress="return charkey(this);" />
+                                            <input type="email" class="nocpc" id="Email" name="Email" value="" placeholder="Email Id" />
+                                            <input type="text" class="nocpc" id="Organisation" name="Organisation" value="" placeholder="Organisation" />
+                                        </div>
+
+                                        <div class="row">
+
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="left_form">
+                                                    <select name="Country" id="CountryDropDown" class="form-control" style="font-size:13px;line-height:0px; height:auto;" onchange="updateCountryCode()">
+                                                        <option selected="selected" value="17">BAHRAIN</option>
+                                                        <option value="229">UNITED ARAB EMIRATES</option>
+                                                        <option value="178">QATAR</option>
+                                                        <option value="965">KUWAIT</option>
+                                                        <option value="968">OMAN</option>
+                                                        <option value="966">SAUDI ARABIA</option>
+                                                        <option value="964">IRAQ</option>
+                                                        <option value="967">YEMEN</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mobpad5 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <div class="left_form">
+                                                    <input type="text" id="Pin" name="Pin" placeholder="Zip/Pin Code" maxlength="10" minlength="6" onkeypress="return numkey(this);" />
+                                                </div>
+                                                <!-- <input type="text" placeholder="Zip/Pincode" /> -->
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            @*<select name="cars" id="cars">
+                                                    <option value="volvo">Country</option>
+                                                    <option value="saab">Bahrain</option>
+                                                    <option value="mercedes">Pakistan</option>
+                                                    <option value="audi">China</option>
+                                                </select>*@
+
+                                            @*@Html.DropDownList("Country", (SelectList)ViewBag.sttlist)*@
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <input type="text" class="form-control" id="City" name="City" value="" placeholder="City" style="font-size:13px;line-height:0px; height:auto;" onkeypress="return charkey(this);" />
+                                            </div>
+                                            <div class="mobpad5 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                <input tytype="text" class="nocpc" id="Mobile" name="Mobile" value="" placeholder="Mobile" maxlength="8" onkeypress="return numkey(this);" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                                        <div class="right_form">
+                                            <textarea rows="11"
+                                                      class="m_top_20"
+                                                      id="" name="Comment"
+                                                      placeholder="Your Message"></textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding-top:28px;">
+
+                                        <button class="big_none" style="display:none;">Submit</button>
+
+                                        @*<div class="row">
+                                            <div class="d_flex_2 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">*@
+                                        <button name="submit" type="submit" id="submit-button" tabindex="5"
+                                                value="Submit" class="contactnbt">
+                                            Submit
+                                        </button>
+                                        @*</div>
+                                            </div>*@
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-6 pl-0">
+                    <div class="img_container">
+                        <img src="~/Content/images/contact/about_banner.png" alt="" />
+                    </div>
+                    <div class="contact_content">
+                        <div class="email">
+                            <a href="mailto:support@swissbake.bh" target="_blank">
+                                <i class="fa fa-envelope"></i>support@swissbake.bh
+                            </a>
+                        </div>
+                        <div class="number">
+                            <a href="tel:+97377990501" target="_blank">
+                                <i class="fa fa-phone"></i>
+                            </a>
+
+                            <a href="tel:+97377990501" target="_blank"><i class="fa fa-whatsapp"></i>+973 77990501</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="bottom_content my-5">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="content">
+                                <div class="icon_2">
+                                    <img src="~/Content/images/contact/Middle East.jpg"
+                                         alt=""
+                                         style="width: 60px" />
+                                </div>
+                                <h4>MIDDLE EAST</h4>
+                                <p>
+                                    Building 2356, Road 1532, Block 115, Town: HIDD, Muharraq
+                                    Municipality, The Kingdom of Bahrain.
+                                </p>
+                                <a href="mailto:support@swissbake.bh"
+                                   target="_blank"
+                                   class="email">support@swissbake.bh</a>
+                                <br />
+                                <a href="https://www.swissbake.bh/"
+                                   target="_blank"
+                                   class="site">www.swissbake.bh</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="content">
+                                <div class="icon_2">
+                                    <img src="~/Content/images/contact/UK_European.jpg"
+                                         alt=""
+                                         style="width: 60px" />
+                                </div>
+                                <h4>UK & EUROPEAN UNION</h4>
+                                <p>
+                                    JJunkerschlossweg 9,<br />
+                                    4465 Hemmiken Basel-Landschaft,<br />
+                                    SWITZERLAND.
+                                </p>
+                                <a href="mailto:support@swissbake.ch"
+                                   target="_blank"
+                                   class="email">support@swissbake.ch</a>
+                                <br />
+                                <a href="https://swissbake.ch/"
+                                   target="_blank"
+                                   class="site">www.swissbake.ch</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="content">
+                                <div class="icon_2">
+                                    <img src="~/Content/images/contact/Asia.jpg" alt="" style="width: 60px" />
+                                </div>
+                                <h4>ASIA</h4>
+                                <p>
+                                    G-10, Manjrekar Lane,<br />
+                                    Dr.E.Moses Road, Worli,<br />
+                                    Mumbai Maharashtra, India.
+
+                                </p>
+                                <a href="mailto:support@swissbake.in"
+                                   target="_blank"
+                                   class="email">support@swissbake.in</a>
+                                <br />
+                                <a href="https://www.swissbake.in/"
+                                   target="_blank"
+                                   class="site">www.swissbake.in</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

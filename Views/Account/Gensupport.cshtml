@@ -1,0 +1,322 @@
+﻿@using System.Data;
+@model DataSet
+@{
+    ViewBag.Title = "General Support";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    @Styles.Render("~/Content/Rev")
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+    @Scripts.Render("~/bundles/Rev")
+    <script>
+
+    $(document).ready(function () {
+
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                subject: {
+                    required: true,
+                },
+                desc: {
+                    required: true,
+                },
+
+                file: {
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                }
+
+            },
+
+            messages: {
+                subject: {
+                    required: "This is required"
+                },
+                subject: {
+                    required: "This is required"
+                },
+
+                file: {
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                //    error.insertAfter("#show-error");
+                //}
+                ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                ////    error.insertAfter("#form_payment_error");
+                ////}
+                //else {
+                //    error.insertAfter(element); // for other inputs, just perform default behavior
+                //}
+                error.insertAfter(element);
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                var $valid = $('form').valid();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+                else {
+                    $("button[type=submit]").text("Applying").attr("disabled", "disabled");
+                    $("button[type=reset]").attr("disabled", "disabled");
+                    //angular.element(document.getElementById('content')).scope().submitForm();
+                    //angular.element(document.getElementById('content')).scope().$apply();
+                    form.submit()
+                }
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+
+        @Html.Raw(ViewBag.error)
+
+
+    });
+
+
+    function sucess() {
+        $.confirm({
+            backgroundDismiss: false,
+            title: false,
+            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Your Support Tickect has been Send Successfully.</label></div>',
+            buttons: false
+        });
+        setTimeout(function () {
+            $('.jconfirm-closeIcon').click();
+        }, 5000);
+    }
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fields = document.querySelectorAll(" textarea");
+
+            fields.forEach(field => {
+                field.addEventListener("input", function () {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+}
+
+@Html.Partial("_AccountMenu")
+
+
+<!-- Content
+        ============================================= -->
+@if (Model.Tables[0].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                    <!-- SLIDE  -->
+                    @*<li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img6.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>
+                        <!-- SLIDE  -->
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img7.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>*@
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model.Tables[0].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    @*<p class="mb-lg-1">Welcome to the general support page. SwissBake® Team of experienced customer support, bakery technologists and professional
+                        bakers are at your service. Share with us your baking concerns /queries so that our team of experts can guide you with the appropriate
+                        solution.</p>*@
+
+                    <p class="mb-lg-1">
+                        Here you can request for support on general product or supply issues from SwissBake®.
+                    </p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="col-md-12 m-auto">
+                <div class="heading-block">
+                    <h4>REQUEST GENERAL SUPPORT</h4>
+                </div>
+
+
+                <div class="supp">
+                    <div class="order-tabs p-0">
+
+                        <ul>
+                            <li class="@ViewBag.Act1"><a href="/account/gensupport">GENERAL&nbsp;SUPPORT</a></li>
+                            <li class="@ViewBag.Act2"><a href="/account/feedback">FEEDBACK&nbsp;OR&nbsp;COMPLAINT</a></li>
+                            <li class="@ViewBag.Act3"><a href="/account/casehistory">SUPPORT&nbsp;HISTORY(@Model.Tables[4].Rows[0]["countCHistory"])</a></li>
+                        </ul>
+
+                        <select class="form-control mb-5" onchange="window.location.href=this.value">
+                            <option value="/account/gensupport" @ViewBag.Act1>GENERAL&nbsp;SUPPORT</option>
+                            <option value="/account/feedback" @ViewBag.Act2>FEEDBACK&nbsp;OR&nbsp;COMPLAINT</option>
+                            <option value="/account/casehistory" @ViewBag.Act3>SUPPORT&nbsp;HISTORY(@Model.Tables[4].Rows[0]["countCHistory"])</option>
+                        </select>
+                    </div>
+                    @using (Html.BeginForm("Gensupport", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+
+                        <div class="form-group">
+                            <label for="">Subject:</label>
+                            <select class="sm-form-control" id="subject" name="subject">
+                                <option Value="">--- Select Subject ---</option>
+                                <option value="WEBSITE SUPPORT">WEBSITE SUPPORT</option>
+                                <option value="ORDER SUPPORT">ORDER SUPPORT</option>
+                                <option value="SHIPPING SUPPORT">SHIPPING SUPPORT</option>
+                                <option value="PRODUCT SUPPORT">PRODUCT SUPPORT</option>
+                                <option value="NEW PRODUCT QUERY">NEW PRODUCT QUERY</option>
+                                <option value="SUGGESTIONS">SUGGESTIONS</option>
+                                <option value="RETURN REQUEST">RETURN REQUEST</option>
+                                <option value="PAYMENT SUPPORT">PAYMENT SUPPORT</option>
+                                <option value="BAKERY SUPPORT">BAKERY SUPPORT</option>
+                                <option value="OTHERS">OTHERS</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Description:</label>
+                            <textarea class="sm-form-control" id="desc" name="desc" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Attachments:</label>
+                            <input type="file" class="form-control-file" id="file" name="file">
+                        </div>
+
+                        <div class="col_full nobottommargin">
+                            <button type="submit" class="button  nomargin save" value="Save">submit</button>
+                            <a href="/account/index" class="button  nomargin cancel" value="Cancel">Cancel</a>
+                        </div>
+                    }
+                </div>
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Payfailure";
+}
+
+
+
+<div class="pay  failpay pt-11">
+
+    <div class="mt-5"><i class="fa fa-times fa-5x" aria-hidden="true"></i></div>
+    <strong style="font-size: 41px;padding:10px;">Payment Unsuccessful.</strong>
+    <br />
+    <h3 style="padding: 10px;">Kindly repay here</h3>
+    <Button ID="btnsubmit" onclick="@("window.location.href='" + @Url.Action("paynow", "") + "'");"  Style="width: 138px; margin-left :10px; border: none; padding: 8px; cursor: pointer; background-color: #B31616; color: white;" TabIndex="1" >Repay</Button>
+    <br /><br /><h5 style="padding: 10px;">or our support team will contact you for futher details.</h5>
+</div>   

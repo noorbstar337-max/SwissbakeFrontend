@@ -1,0 +1,1491 @@
+﻿@using System.Data;
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{
+    ViewBag.Title = "Dashboard";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    @Styles.Render("~/Content/Rev")
+<style>
+    .jconfirm .jconfirm-box div.jconfirm-content-pane {
+        margin-bottom: 0;
+    }
+
+    /*.jconfirm-closeIcon {
+        display: none !important;
+    }*/
+    .no-remind.no-notifi{
+        display:none
+    }
+    
+</style>
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/bind/dash.js"></script>
+    @Scripts.Render("~/bundles/Rev")
+
+
+    <script>
+        $(document).ready(function () {
+            //debugger;
+            var thcount = $(".o-t thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".o-t thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".o-t tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+            var thcount = $(".i-t thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".i-t thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".i-t tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+            var thcount = $(".p-t thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".p-t thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".p-t tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+            var thcount = $(".c-t thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".c-t thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".c-t tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+
+            var thcount = $(".r-t thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".r-t thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".r-t tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+        });
+    </script>
+
+
+    @if (ViewBag.mess != null)
+    {
+        <text>
+            <script>
+    $(document).ready(function () {
+            $.dialog({
+        title: false,
+        content: "@ViewBag.mess.ToString()",
+            closeIconClass: 'close-dialog',
+        });
+            setTimeout(function() {
+            $(".close-dialog").click();
+                }, 5000);
+
+
+                
+
+    })
+            </script>
+        </text>
+
+    }
+
+
+
+
+}
+
+
+@section Req{
+    <div class="side-sch d-none" >
+        <div class="widget clearfix">
+
+            <h4>Edit Reminder</h4>
+
+            <div class="mt-3">
+
+                <form id="subs-form" action="" method="post">
+                    <input name="redirect" id="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                    <input type="hidden" id="pid" name="pid"/>
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label class="sch-name"></label>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label class="label-floating">Requirement
+                            </label>
+                            @*<input type="text" id="Name" name="Name" placeholder="Name" class="form-control" />*@
+                            <select name="schtype" class="form-control sch-type">
+                                <option value="Monthly">Monthly</option>
+                                <option value="Quarterly">Quarterly</option>
+                                <option value="Custom">Customized</option>
+                            </select>
+                        </div>
+                        <div id="subsdate" class="col-12 form-group">
+                            <label class="label-floating">Day</label>
+                            <select name="schdate" class="form-control sch-date">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
+                                <option>13</option>
+                                <option>14</option>
+                                <option>15</option>
+                                <option>16</option>
+                                <option>17</option>
+                                <option>18</option>
+                                <option>19</option>
+                                <option>20</option>
+                                <option>21</option>
+                                <option>22</option>
+                                <option>23</option>
+                                <option>24</option>
+                                <option>25</option>
+                                <option>26</option>
+                                <option>27</option>
+                                <option>28</option>
+                                <option>29</option>
+                                <option>30</option>
+                            </select>
+                            <span class="error primary-color"></span>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label class="label-floating">Qty (KG)</label>
+                            <input type="text" placeholder="Product quantity" name="schqty" class="form-control sch-qty" onkeypress="return numkey(this);" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white">Subscribe</button>
+                </form>
+
+                @*<a href="/login" class="bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</a>*@
+            </div>
+        </div>
+
+    </div>
+}
+
+
+
+@Html.Partial("_AccountMenu")
+
+<!-- Page Title
+============================================= -->
+<!-- <section id="page-title">
+
+    <div class="container clearfix">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">current page</li>
+        </ol>
+    </div>
+
+</section> -->
+<!-- #page-title end -->
+<!-- Content
+============================================= -->
+<!-- Slider
+        ============================================= -->
+
+@if (Model.Tables[0].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                    <!-- SLIDE  -->
+                    @*<li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img6.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>
+                        <!-- SLIDE  -->
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img7.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>*@
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+        
+    </section>
+}
+<section class="@(Model.Tables[0].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-1">Your dashboard shows you a snapshot summary of your current business with SwissBake®.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content" class="dashboard ">
+
+    <div class="content-wrap pb-0">
+
+
+        <div class="">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-2 col-sm-6 part1">
+                        <a href="/account/myorder">
+                            <div class="feature-box fbox-center fbox-bg fbox-border fbox-effect">
+                                <div class="fbox-icon">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <h3>My Order<span class="subtitle">(@Model.Tables["tb3"].Rows[0]["orderCount"])</span></h3>
+                            </div>
+                        </a>
+                    </div>
+
+                   
+                    <div class="col-md-2 col-sm-6  part4">
+                        <a href="/account/casehistory">
+                            <div class="feature-box fbox-center fbox-bg fbox-border fbox-effect">
+                                <div class="fbox-icon">
+                                    <i class="fas fa-file"></i>
+                                </div>
+                                <h3>Support<span class="subtitle">(@Model.Tables["tb3"].Rows[0]["ticketCount"])</span></h3>
+                            </div>
+                        </a>
+                    </div>
+
+                    @*<div class="col-md-2 col-sm-6  part3">
+                        <a href="/account/mypayment">
+                            <div class="feature-box fbox-center fbox-bg fbox-border fbox-effect">
+                                <div class="fbox-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <h3>My Payment<span class="subtitle">
+								(BHD @Helper.InPrice(Convert.ToDouble(Model.Tables["tb4"].Rows[0]["TotalPayment"])))</span></h3>
+                            </div>
+                        </a>
+                    </div>*@
+
+                    
+
+                   
+                   
+                </div>
+
+            </div>
+        </div>
+
+        @*<div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="rad-info-box rad-txt-success">
+                        <i class="fas fa-file-invoice"></i>
+                        <span class="heading">My Order</span>
+                        <span class="value">
+                            <span>4949</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="rad-info-box rad-txt-primary">
+                        <i class="far fa-file-alt"></i>
+                        <span class="heading">My Invoice</span>
+                        <span class="value">
+                            <span>23K</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="rad-info-box rad-txt-danger">
+                        <i class="fas fa-credit-card"></i>
+                        <span class="heading">My Payment</span>
+                        <span class="value">
+                            <span>49M</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <div class="rad-info-box">
+                        BHD<i class="fas fa-rupee-sign"></i>
+                        <span class="heading">Pending Payment</span>
+                        <span class="value">
+                            <span>10.9K</span>
+                        </span>
+                    </div>
+                </div>
+            </div>*@
+
+
+
+        <section class="account_tables" ng-controller="MyDash">
+
+            <div class="w-100 bottommargin"></div>
+
+            <div class="bg-light pt-5 pb-5">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-block">
+                                <h4>RECENT ORDERS</h4>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table cart table-bordered table-responsive o-t">
+                                    <thead>
+                                        <tr>
+                                            <th class="cart-product-name">Order No.</th>
+                                            <th class="cart-product-date">Date</th>
+                                            <th class="cart-product-subtotal">Amount</th>
+                                            <th class="cart-product-status">Status</th>
+                                            @*<th class="cart-product-paynow">Pay Now</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="cart_item" ng-repeat="O in Orders">
+                                            <td class="cart-product-date">
+                                                <a class="link-red" href="@ViewBag.domain/{{O.Etcstring3}}" target="_blank">{{O.Code}} <i class="fas fa-eye"></i></a>
+
+                                            </td>
+                                            <td class="cart-product-date">
+                                                <span class="date">{{O.Datetime}}</span>
+                                            </td>
+                                            <td class="cart-product-subtotal">
+                                                <span class="amount">BHD {{O.Etcstring1 | number:3}}</span>
+                                            </td>
+                                            <td class="cart-product-status">
+                                                <span ng-class="getStatus(O.Status)">{{O.Status}}</span>
+                                            </td>
+                                            @*<td><button type="submit" class="paynow" ng-class="{'d-none':O.Etcstring2 == 'hide'}" ng-click="Paynow($index,O.Code,O.Etcstring1,O.Id)">Pay Now!</button><span ng-class="{'d-none' :  O.Etcstring2 == 'show'}">-</span></td>*@
+                                        </tr>
+                                        <tr ng-if="(Orders.length == 0)">
+                                            <td colspan="5">
+                                                No records found!
+                                            </td>
+                                        </tr>
+                                        @*<tr class="cart_item">
+
+                                                <td class="cart-product-name">
+                                                    <a href="#">1234</a>
+                                                </td>
+                                                <td class="cart-product-date">
+                                                    <span class="date">1/12/2018</span>
+                                                </td>
+                                                <td class="cart-product-subtotal">
+                                                    <span class="amount">BHD39.98</span>
+                                                </td>
+                                                <td class="cart-product-status">
+                                                    <span class="pendingstatus">pending</span>
+                                                </td>
+                                                <td><button type="submit" class="paynow">Pay Now!</button></td>
+                                            </tr>*@
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a ng-if="(Orders.length == 10)" href="/account/myorder" class="btn-more-link">Click for more</a>
+                        </div>
+
+                        
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="w-100 bottommargin"></div>
+
+            <div class="">
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-lg-12 mt-10 m-lg-0">
+                            <div class="heading-block">
+                                <h4>SUPPORT HISTORY</h4>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table cart table-bordered table-responsive c-t">
+                                    <thead>
+                                        <tr>
+                                            <th class="cart-product-name">Refrence No.</th>
+                                            <th class="cart-product-subject">Subject Info</th>
+                                            <th class="cart-product-status">Status</th>
+                                            <th class="cart-product-date">Last Update</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="cart_item" ng-repeat="C in Complaint">
+                                            @*<td class="cart-product-name">
+                                                    <a href="#">{{C.Id}}</a>
+                                                </td>*@
+                                            <td class="cart-product-name">
+                                                <form action="/Account/SupportTicketview" method="post" class="m-0 p-0">
+                                                    <button value="{{C.Id}}" id="Tid" class="btn-id" name="Tid">{{C.Id}} <i class="fas fa-eye"></i></button>
+                                                </form>
+                                            </td>
+                                            <td class="cart-product-date">
+                                                <span class="date">{{C.Etcstring1}}</span>
+                                            </td>
+                                            <td class="cart-product-subtotal">
+                                                <span ng-class="getStatus(C.Status)">{{C.Status}}</span>
+                                                @*<span class="amount">{{C.Status}}</span>*@
+                                            </td>
+                                            <td class="cart-product-subtotal">
+                                                <span class="amount">{{C.Datetime}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="(Complaint.length == 0)">
+                                            <td colspan="4">
+                                                No records found!
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <a ng-if="(Complaint.length == 10)" href="/account/casehistory" class="btn-more-link">Click for more</a>
+                        </div>
+
+                        @if (Model.Tables["Tb5"].Rows.Count > 0)
+                        {
+                            <div class="col-md-12 mt-5">
+                                <img src="@(ViewBag.Domain + Model.Tables["Table4"].Rows[0]["Ads_ImgPath"])" />
+                            </div>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="w-100 bottommargin"></div>
+            <div class="bg-light pt-5 pb-5 @(Model.Tables[4].Rows.Count == 0 ? "no-remind" : "")" ng-class="Notifi.length == 0 ? 'no-notifi':''">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-12 " ng-if="(Notifi.length > 0)">
+                            <div class="heading-block">
+                                <h4>Recent Notification</h4>
+                            </div>
+
+                            <div class="accordion" id="accordionExample">
+                                <div class="card notifi-card" ng-repeat="n in Notifi" ng-class="n.Status == 'False' ? 'not-active':''">
+                                    <div class="card-header" id="heading{{$index}}">
+                                        <h2 class="mb-0">
+                                            @*<a ng-if="n.Url != '' && n.Status == 'True' || n.Url == '' && n.Status == 'True'" href="{{n.Url}}" class="cursor-pointer"><i class="fas fa-envelope-open-text"></i></a>
+                                                <a ng-if="n.Url != '' && n.Status == 'False' || n.Url == '' && n.Status == 'False'" href="{{n.Url}}"  class="cursor-pointer"><i class="fas fa-envelope"></i></a>*@
+                                            <button ng-click="setPageNumber($index);update($index,n.Id)" class="btn btn-link w-100 text-left notifi-btn" ng-class="n.Status == 'True' ? 'active':''" type="button" data-toggle="collapse" data-target="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">
+                                                <i ng-if="n.Status == 'True'" class="fas fa-envelope-open-text"></i> <i class="fas fa-envelope" ng-if="n.Status == 'False'"></i><b>{{n.Name}}</b><i class="fas fa-plus float-right plus-icon"></i> <span class="float-md-right float-left">{{n.Datetime}}</span>
+                                            </button>
+
+                                        </h2>
+                                    </div>
+
+                                    <div id="collapse{{$index}}" class="collapse" aria-labelledby="heading{{$index}}" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            {{n.Product_Desc}}
+                                            <a class="primary-color" ng-if="n.Url != ''" href="{{n.Url}}">Click Here</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        @if (Model.Tables[4].Rows.Count > 0)
+                        {
+                            <div class="col-md-12 mt-5">
+                                <div class="heading-block">
+                                    <h4>Quotes Requested</h4>
+                                </div>
+                                <div class="table-responsive subtable">
+                                    <table id="datatable1" class="table table-striped table-bordered not-table r-t" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Created On</th>
+                                                <th>Next Reminder</th>
+                                                <th>Required</th>
+                                                <th>Product</th>
+                                                <th>Qty</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Tables[4].Rows.Count > 0)
+                                            {
+                                                foreach (DataRow row in Model.Tables[4].Rows)
+                                                {
+                                                    <tr>
+                                                        <td>@row["ProdSub_CreatedDate"]</td>
+                                                        <td>
+                                                            @row["NextReminder"]
+                                                        </td>
+                                                        <td>
+                                                            @row["ProdSub_Type"]
+                                                            <input type="hidden" class="requirement" value="@row["required"]" />
+                                                            <input type="hidden" class="SubOn" value="@row["ProdSub_ON"]" />
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            @row["Product_Name"]
+
+                                                            <input type="hidden" value="@row["ProdSub_PID"]" />
+                                                        </td>
+                                                        <td>
+                                                            @row["ProdSub_Qty"] Kg
+                                                        </td>
+                                                        <td class="w-10">
+                                                            @*<a id="@row["ProdSub_Id"]" onclick="EditSch(this)" class="req-sch side-panel-trigger cursor-pointer"><i class="fas fa-edit"></i></a>*@
+                                                            <a id="@row["ProdSub_Id"]" onclick="Subdel(this)" class="cursor-pointer"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="2">No record found</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        }
+                        
+
+                    </div>
+                </div>
+            </div>
+            @if (Model.Tables[2].Rows.Count > 0)
+            {
+                <div class="line"></div>
+                <div class="container mt-5">
+                    <div id="shop" class="col_full">
+
+                        <h4>RECOMMENDED PRODUCTS</h4>
+
+                        <div id="oc-product" class="shop relate-prod  relproducts owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                            @foreach (DataRow row in Model.Tables[2].Rows)
+                            {
+                                string title = "", onelinedesc = "";
+                                var tcount = row["Product_Name"].ToString().Length;
+
+                                if (tcount > 35)
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]);
+                                }
+                                var Ocount = row["Product_Usage"].ToString().Length;
+                                if (Ocount > 35)
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                }
+                                <div class="oc-item">
+                                    @*<div class="product iproduct clearfix">
+                                        <div class="product-image" ng-class="{new :  @row["Product_New"].ToString() == 'True'  }" >*@
+                                    <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix new" : "product iproduct clearfix")">
+                                        <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+
+                                            @*{{S.TotalWeight >= 1 ? "KG" : "GM"}}*@
+
+
+                                            @*<a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                            <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })"><img src="@ViewBag.Domain@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>
+                                            @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                            <div class="product-overlay">
+                                                @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+
+                                            <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing</a>
+
+                                                }
+                                                else
+                                                {
+                                                    if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                    {
+                                                        if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                        {
+                                                            if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                            {
+
+                                                                if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                                else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                                            }
+
+
+
+                                                        }
+                                                        else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                        {
+                                                            <del> </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                                            }*@
+                                                else
+                                                {
+                                                    <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["Product_Rate"]))</ins> <span class="off d-none"></span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                    }
+                                                    @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                                                        {
+                                                            <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                        }*@
+                                                    @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                                                        <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                }
+                                            </div>
+                                            <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            }
+
+
+
+            @if (Model.Tables[3].Rows.Count > 0)
+            {
+                <div class="line mt-3 mb-3"></div>
+                <div class="container mt-5">
+                    <div id="shop" class="col_full">
+
+                        <h4>RECENTLY VIEWED PRODUCTS </h4>
+
+                        <div id="oc-product" class="shop relate-prod  relproducts owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                            @foreach (DataRow row in Model.Tables[3].Rows)
+                            {
+                                string title = "", onelinedesc = "";
+                                var tcount = row["Product_Name"].ToString().Length;
+
+                                if (tcount > 28)
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]).Substring(0, 28) + "...";
+                                }
+                                else
+                                {
+                                    title = @Convert.ToString(row["Product_Name"]);
+                                }
+                                var Ocount = row["Product_Usage"].ToString().Length;
+                                if (Ocount > 35)
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                }
+                                <div class="oc-item">
+                                    @*<div class="product iproduct clearfix">
+                                        <div class="product-image" ng-class="{'new' :  @row["Product_New"].ToString() == 'True'  }">*@
+                                    <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix new" : "product iproduct clearfix")">
+                                        <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+
+                                            @*<a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                            <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })"><img src="@ViewBag.Domain@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>
+                                            @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                            <div class="product-overlay">
+                                                @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Know More</span></a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+
+                                            <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                                {
+                                                    <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing</a>
+
+                                                }
+                                                else
+                                                {
+                                                    if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                    {
+                                                        if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                        {
+                                                            if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                            {
+
+                                                                if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none" style="color:#d70002">/Kg</span>
+                                                                }
+                                                                else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none">ffff</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none">111111</span>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none">88888</span>
+
+                                                            }
+
+
+
+                                                        }
+                                                        else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                        {
+                                                            <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                {
+                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                }*@
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["Product_Rate"]))</ins> <span class="grid-1-line-desc" style="color:#d70002"><span>/Kg</span></span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"> </span>
+                                                    }
+                                                    @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+            {
+                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+            }
+            else
+            {
+                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+            }*@
+                                                    @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                }
+                                            </div>
+                                            <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            }
+        </section>
+    </div>
+
+
+
+    <div class="w-100 bottommargin"></div>
+
+
+
+
+    @*<div class="bg-light pt-5 pb-5">
+                <div class="container">
+                    <div class="heading-block center ">
+                        <h3>RECOMMENDED PRODUCTS</h3>
+                        <span class="divcenter">"Finest Swiss quality bakery ingredients and convenience products."</span>
+                    </div>
+                    <!-- Shop
+        ============================================= -->
+                    @*<div id="shop" class="shop grid-container clearfix" data-layout="fitRows">
+
+
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro1.jpg" alt="Unisex Sunglasses">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro1.jpg" alt="Unisex Sunglasses">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span> Add to Cart</span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span>Buy Now</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#">European Breads</a>
+                            </h3>
+                            <span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span>
+                        </div>
+                        <div class="product-price">
+                            <del>BHD19.99</del>
+                            <ins>BHD11.99</ins>
+                        </div>
+                        <small>1kg / 0.55lb / 0.27oz</small>
+
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro2.jpg" alt="Blue Round-Neck Tshirt">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro2.jpg" alt="Blue Round-Neck Tshirt">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span> Add to Cart</span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span>Buy Now</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#">Improvers and Concentrates</a>
+                            </h3>
+                            <span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span>
+
+                        </div>
+                        <div class="product-price">BHD9.99</div>
+                        <small>1kg / 0.55lb / 0.27oz</small>
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro3.jpg" alt="Silver Chrome Watch">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro3.jpg" alt="Silver Chrome Watch">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span> Add to Cart</span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span>Buy Now</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#">Confectionery Products</a>
+                            </h3>
+                            <span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span>
+
+                        </div>
+                        <div class="product-price">BHD129.99</div>
+                        <small>1kg / 0.55lb / 0.27oz</small>
+
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro4.jpg" alt="Men Grey Casual Shoes">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro4.jpg" alt="Men Grey Casual Shoes">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span> Add to Cart</span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span>Buy Now</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#">Egg Free Confectionery</a>
+                            </h3>
+                            <span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span>
+
+                        </div>
+                        <div class="product-price">
+                            <del>BHD45.99</del>
+                            <ins>BHD39.49</ins>
+                        </div>
+                        <small>1kg / 0.55lb / 0.27oz</small>
+
+
+                    </div>
+                </div>
+            </div>*@
+    @*<div class="bg-light pt-5 pb-5">
+    <div class="container">
+        <div class="heading-block center ">
+            <h3></h3>
+            <span class="divcenter"></span>
+        </div>
+
+        <!-- Shop
+        ============================================= -->
+        <div id="shop" class="shop grid-container clearfix" data-layout="fitRows">
+
+
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro1.jpg" alt="Unisex Sunglasses">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro1.jpg" alt="Unisex Sunglasses">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span></span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#"></a>
+                            </h3>
+                            <span></span>
+                        </div>
+                        <div class="product-price">
+                            <del></del>
+                            <ins></ins>
+                        </div>
+                        <small></small>
+
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro2.jpg" alt="Blue Round-Neck Tshirt">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro2.jpg" alt="Blue Round-Neck Tshirt">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span></span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#"></a>
+                            </h3>
+                            <span></span>
+
+                        </div>
+                        <div class="product-price"></div>
+                        <small></small>
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro3.jpg" alt="Silver Chrome Watch">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro3.jpg" alt="Silver Chrome Watch">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span></span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#"></a>
+                            </h3>
+                            <span></span>
+
+                        </div>
+                        <div class="product-price"></div>
+                        <small></small>
+
+
+                    </div>
+                </div>
+
+                <div class="product clearfix center">
+                    <div class="product-image">
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro4.jpg" alt="Men Grey Casual Shoes">
+                        </a>
+                        <a href="#">
+                            <img src="~/content/images/sbimg/pro4.jpg" alt="Men Grey Casual Shoes">
+                        </a>
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart">
+                                <i class="icon-shopping-cart"></i>
+                                <span></span>
+                            </a>
+                            <a href="#" class="buy-now">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-desc">
+                        <div class="product-title">
+                            <h3>
+                                <a href="#"></a>
+                            </h3>
+                            <span></span>
+
+                        </div>
+                        <div class="product-price">
+                            <del></del>
+                            <ins></ins>
+                        </div>
+                        <small></small>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- #shop end -->
+            @*<div id="shop" class="shop grid-container clearfix" data-layout="fitRows">
+                                    <div class="product clearfix">
+                                        <div class="product-image new">
+
+                                            <a href="#"><img src="~/Content/images/sbimg/pro2.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                                            <div class="product-overlay">
+                                                <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                                                <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+                                            <div class="product-title"><h3><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                    {
+                                        <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+                        }
+                        else
+                        {
+                            <del></del> <ins>BHD120.49</ins> <span class="off d-none"></span>
+                }
+
+                                            </div>
+                                            <div class="pro-sku"><small>1kg / 0.55lb / 0.27oz</small></div>
+                                        </div>
+                                    </div>
+                                    <div class="product clearfix">
+                                        <div class="product-image new">
+
+                                            <a href="#"><img src="~/Content/images/sbimg/pro1.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                                            <div class="product-overlay">
+                                                <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                                                <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+                                            <div class="product-title"><h3><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                    {
+                                        <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+                        }
+                        else
+                        {
+                            <del></del> <ins>BHD120.49</ins> <span class="off d-none"></span>
+                }
+
+                                            </div>
+                                            <div class="pro-sku"><small>1kg / 0.55lb / 0.27oz</small></div>
+                                        </div>
+                                    </div>
+                                    <div class="product clearfix">
+                                        <div class="product-image new">
+
+                                            <a href="#"><img src="~/Content/images/sbimg/pro4.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                                            <div class="product-overlay">
+                                                <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                                                <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+                                            <div class="product-title"><h3><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                    {
+                                        <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+                        }
+                        else
+                        {
+                            <del></del> <ins>BHD120.49</ins> <span class="off d-none"></span>
+                }
+
+                                            </div>
+                                            <div class="pro-sku"><small>1kg / 0.55lb / 0.27oz</small></div>
+                                        </div>
+                                    </div>
+                                    <div class="product clearfix">
+                                        <div class="product-image new sale">
+
+                                            <a href="#"><img src="~/Content/images/sbimg/pro3.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                                            <div class="product-overlay">
+                                                <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                                                <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc center">
+
+                                            <div class="product-title"><h3><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h3></div>
+                                            <div class="grid-1-line-desc"><span>Lorem ipsum dolor sit amet, autem offendit tractatos ex nec, an alii posidonium nec.</span></div>
+                                            <div class="product-price">
+                                                @if (Session["U_Id"] == null)
+                                    {
+                                        <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+                        }
+                        else
+                        {
+                            <del></del> <ins>BHD120.49</ins> <span class="off d-none"></span>
+                }
+
+                                            </div>
+                                            <div class="pro-sku"><small>1kg / 0.55lb / 0.27oz</small></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+            <div id="shop" class="shop grid-container clearfix" data-layout="fitRows">
+                <div class="product clearfix">
+                    <div class="product-image new">
+
+                        <a href="#"><img src="~/Content/images/sbimg/pro2.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span></span></a>
+                            <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span></span></a>
+                        </div>
+                    </div>
+                    <div class="product-desc center">
+
+                        <div class="product-title"><h3><a href="#"></a></h3></div>
+                        <div class="grid-1-line-desc"><span></span></div>
+                        <div class="product-price">
+                            <a href="/login" class="lg-fr-prcng"></a>
+                            <del></del><ins></ins><span class="off d-none"></span>
+
+                        </div>
+                        <div class="pro-sku"><small></small></div>
+                    </div>
+                </div>
+                <div class="product clearfix">
+                    <div class="product-image new">
+
+                        <a href="#"><img src="~/Content/images/sbimg/pro1.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span></span></a>
+                            <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span></span></a>
+                        </div>
+                    </div>
+                    <div class="product-desc center">
+
+                        <div class="product-title"><h3><a href="#"></a></h3></div>
+                        <div class="grid-1-line-desc"><span></span></div>
+                        <div class="product-price">
+                            <a href="/login" class="lg-fr-prcng"></a>
+                            <del></del><ins></ins><span class="off d-none"></span>
+
+                        </div>
+                        <div class="pro-sku"><small></small></div>
+                    </div>
+                </div>
+                <div class="product clearfix">
+                    <div class="product-image new">
+
+                        <a href="#"><img src="~/Content/images/sbimg/pro4.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span></span></a>
+                            <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span></span></a>
+                        </div>
+                    </div>
+                    <div class="product-desc center">
+
+                        <div class="product-title"><h3><a href="#"></a></h3></div>
+                        <div class="grid-1-line-desc"><span></span></div>
+                        <div class="product-price">
+                            <a href="/login" class="lg-fr-prcng"></a>
+                            <del></del><ins></ins><span class="off d-none"></span>
+
+                        </div>
+                        <div class="pro-sku"><small></small></div>
+                    </div>
+                </div>
+                <div class="product clearfix">
+                    <div class="product-image new sale">
+
+                        <a href="#"><img src="~/Content/images/sbimg/pro3.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>
+
+                        <div class="product-overlay">
+                            <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span></span></a>
+                            <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span></span></a>
+                        </div>
+                    </div>
+                    <div class="product-desc center">
+
+                        <div class="product-title"><h3><a href="#"></a></h3></div>
+                        <div class="grid-1-line-desc"><span></span></div>
+                        <div class="product-price">
+                            <a href="/login" class="lg-fr-prcng"></a>
+                            <del></del><ins></ins><span class="off d-none"></span>
+
+                        </div>
+                        <div class="pro-sku"><small></small></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+
+</section>
+<!-- #content end -->

@@ -1,0 +1,954 @@
+﻿
+body {
+    background-color: #fff;
+    font-family: montserrat;
+    color: #555;
+}
+
+
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('~/Feedback/font/Montserrat sans-serif') format('truetype');
+}
+
+
+.mainstyle{
+    padding: 0px 0px 20px;
+}
+
+.pagestyle1{
+    background:rgb(231,52,15);
+}
+
+.pagestyle2{
+    background:darkorange;
+}
+
+.pagestyle3{
+    background:rgb(241,219,22);
+}
+
+.pagestyle4{
+    background:rgb(107,180,54);
+}
+
+.pagestyle5{
+    background:rgb(78,141,0);
+}
+
+.pagetab1{
+    background:rgb(252,227,224);
+}
+
+.pagetab2{
+    background:rgb(255,239,223);
+}
+
+.pagetab3{
+    background:rgb(253,250,226);
+}
+
+.pagetab4{
+    background:rgb(235,244,227);
+}
+
+.pagetab5{
+    background:rgb(230,239,221);
+}
+
+.MsoNormal{
+    text-align: center; margin: 0; text-decoration: underline;
+}
+
+.MsoNormal a{
+    text-decoration:none;
+}
+
+.listhead td{
+    width:14.28%;border:none;border-right:solid white 1.5pt; padding:0in 0in 0in 0in;height:6pt;
+}
+
+.listhead1 td{
+    width:14.28%;border:none;border-right:solid white 1.5pt;padding:12pt 0in 12pt 0in;
+}
+
+/*********rating 1 start********/
+
+#star-1:checked ~ section [for='star-1'] svg, 
+#star-2:checked ~ section [for='star-1'] svg, 
+#star-2:checked ~ section [for='star-2'] svg, 
+#star-3:checked ~ section [for='star-1'] svg, 
+#star-3:checked ~ section [for='star-2'] svg, 
+#star-3:checked ~ section [for='star-3'] svg, 
+#star-4:checked ~ section [for='star-1'] svg, 
+#star-4:checked ~ section [for='star-2'] svg, 
+#star-4:checked ~ section [for='star-3'] svg, 
+#star-4:checked ~ section [for='star-4'] svg, 
+#star-5:checked ~ section [for='star-1'] svg, 
+#star-5:checked ~ section [for='star-2'] svg, 
+#star-5:checked ~ section [for='star-3'] svg, 
+#star-5:checked ~ section [for='star-4'] svg, 
+#star-5:checked ~ section [for='star-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star-1:checked ~ section [for='star-1'] svg path, 
+#star-2:checked ~ section [for='star-1'] svg path, 
+#star-2:checked ~ section [for='star-2'] svg path, 
+#star-3:checked ~ section [for='star-1'] svg path, 
+#star-3:checked ~ section [for='star-2'] svg path, 
+#star-3:checked ~ section [for='star-3'] svg path, 
+#star-4:checked ~ section [for='star-1'] svg path, 
+#star-4:checked ~ section [for='star-2'] svg path, 
+#star-4:checked ~ section [for='star-3'] svg path, 
+#star-4:checked ~ section [for='star-4'] svg path, 
+#star-5:checked ~ section [for='star-1'] svg path, 
+#star-5:checked ~ section [for='star-2'] svg path, 
+#star-5:checked ~ section [for='star-3'] svg path, 
+#star-5:checked ~ section [for='star-4'] svg path, 
+#star-5:checked ~ section [for='star-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+#star-1:hover ~ section [for='star-1'] svg path, 
+#star-2:hover ~ section [for='star-1'] svg path, 
+#star-2:hover ~ section [for='star-2'] svg path, 
+#star-3:hover ~ section [for='star-1'] svg path, 
+#star-3:hover ~ section [for='star-2'] svg path, 
+#star-3:hover ~ section [for='star-3'] svg path, 
+#star-4:hover ~ section [for='star-1'] svg path, 
+#star-4:hover ~ section [for='star-2'] svg path, 
+#star-4:hover ~ section [for='star-3'] svg path, 
+#star-4:hover ~ section [for='star-4'] svg path, 
+#star-5:hover ~ section [for='star-1'] svg path, 
+#star-5:hover ~ section [for='star-2'] svg path, 
+#star-5:hover ~ section [for='star-3'] svg path, 
+#star-5:hover ~ section [for='star-4'] svg path, 
+#star-5:hover ~ section [for='star-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+.starblock{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.starblock label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.starblock label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.starblock label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.starblock label[for="star-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star-1:checked ~ .starblock::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star-2:checked ~ .starblock::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star-3:checked ~ .starblock::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star-4:checked ~ .starblock::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star-5:checked ~ .starblock::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star-null:checked ~ .starblock::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 2 start********/
+
+#starpoint-1:checked ~ section [for='starpoint-1'] svg, 
+#starpoint-2:checked ~ section [for='starpoint-1'] svg, 
+#starpoint-2:checked ~ section [for='starpoint-2'] svg, 
+#starpoint-3:checked ~ section [for='starpoint-1'] svg, 
+#starpoint-3:checked ~ section [for='starpoint-2'] svg, 
+#starpoint-3:checked ~ section [for='starpoint-3'] svg, 
+#starpoint-4:checked ~ section [for='starpoint-1'] svg, 
+#starpoint-4:checked ~ section [for='starpoint-2'] svg, 
+#starpoint-4:checked ~ section [for='starpoint-3'] svg, 
+#starpoint-4:checked ~ section [for='starpoint-4'] svg, 
+#starpoint-5:checked ~ section [for='starpoint-1'] svg, 
+#starpoint-5:checked ~ section [for='starpoint-2'] svg, 
+#starpoint-5:checked ~ section [for='starpoint-3'] svg, 
+#starpoint-5:checked ~ section [for='starpoint-4'] svg, 
+#starpoint-5:checked ~ section [for='starpoint-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#starpoint-1:checked ~ section [for='starpoint-1'] svg path, 
+#starpoint-2:checked ~ section [for='starpoint-1'] svg path, 
+#starpoint-2:checked ~ section [for='starpoint-2'] svg path, 
+#starpoint-3:checked ~ section [for='starpoint-1'] svg path, 
+#starpoint-3:checked ~ section [for='starpoint-2'] svg path, 
+#starpoint-3:checked ~ section [for='starpoint-3'] svg path, 
+#starpoint-4:checked ~ section [for='starpoint-1'] svg path, 
+#starpoint-4:checked ~ section [for='starpoint-2'] svg path, 
+#starpoint-4:checked ~ section [for='starpoint-3'] svg path, 
+#starpoint-4:checked ~ section [for='starpoint-4'] svg path, 
+#starpoint-5:checked ~ section [for='starpoint-1'] svg path, 
+#starpoint-5:checked ~ section [for='starpoint-2'] svg path, 
+#starpoint-5:checked ~ section [for='starpoint-3'] svg path, 
+#starpoint-5:checked ~ section [for='starpoint-4'] svg path, 
+#starpoint-5:checked ~ section [for='starpoint-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+#starpoint-1:hover ~ section [for='starpoint-1'] svg path, 
+#starpoint-2:hover ~ section [for='starpoint-1'] svg path, 
+#starpoint-2:hover ~ section [for='starpoint-2'] svg path, 
+#starpoint-3:hover ~ section [for='starpoint-1'] svg path, 
+#starpoint-3:hover ~ section [for='starpoint-2'] svg path, 
+#starpoint-3:hover ~ section [for='starpoint-3'] svg path, 
+#starpoint-4:hover ~ section [for='starpoint-1'] svg path, 
+#starpoint-4:hover ~ section [for='starpoint-2'] svg path, 
+#starpoint-4:hover ~ section [for='starpoint-3'] svg path, 
+#starpoint-4:hover ~ section [for='starpoint-4'] svg path, 
+#starpoint-5:hover ~ section [for='starpoint-1'] svg path, 
+#starpoint-5:hover ~ section [for='starpoint-2'] svg path, 
+#starpoint-5:hover ~ section [for='starpoint-3'] svg path, 
+#starpoint-5:hover ~ section [for='starpoint-4'] svg path, 
+#starpoint-5:hover ~ section [for='starpoint-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+.starblock1{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.starblock1 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.starblock1 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.starblock1 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.starblock1 label[for="starpoint-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#starpoint-1:checked ~ .starblock1::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starpoint-2:checked ~ .starblock1::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starpoint-3:checked ~ .starblock1::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starpoint-4:checked ~ .starblock1::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starpoint-5:checked ~ .starblock1::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#starpoint-null:checked ~ .starblock1::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 3 start********/
+
+#starlist-1:checked ~ section [for='starlist-1'] svg, 
+#starlist-2:checked ~ section [for='starlist-1'] svg, 
+#starlist-2:checked ~ section [for='starlist-2'] svg, 
+#starlist-3:checked ~ section [for='starlist-1'] svg, 
+#starlist-3:checked ~ section [for='starlist-2'] svg, 
+#starlist-3:checked ~ section [for='starlist-3'] svg, 
+#starlist-4:checked ~ section [for='starlist-1'] svg, 
+#starlist-4:checked ~ section [for='starlist-2'] svg, 
+#starlist-4:checked ~ section [for='starlist-3'] svg, 
+#starlist-4:checked ~ section [for='starlist-4'] svg, 
+#starlist-5:checked ~ section [for='starlist-1'] svg, 
+#starlist-5:checked ~ section [for='starlist-2'] svg, 
+#starlist-5:checked ~ section [for='starlist-3'] svg, 
+#starlist-5:checked ~ section [for='starlist-4'] svg, 
+#starlist-5:checked ~ section [for='starlist-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#starlist-1:checked ~ section [for='starlist-1'] svg path, 
+#starlist-2:checked ~ section [for='starlist-1'] svg path, 
+#starlist-2:checked ~ section [for='starlist-2'] svg path, 
+#starlist-3:checked ~ section [for='starlist-1'] svg path, 
+#starlist-3:checked ~ section [for='starlist-2'] svg path, 
+#starlist-3:checked ~ section [for='starlist-3'] svg path, 
+#starlist-4:checked ~ section [for='starlist-1'] svg path, 
+#starlist-4:checked ~ section [for='starlist-2'] svg path, 
+#starlist-4:checked ~ section [for='starlist-3'] svg path, 
+#starlist-4:checked ~ section [for='starlist-4'] svg path, 
+#starlist-5:checked ~ section [for='starlist-1'] svg path, 
+#starlist-5:checked ~ section [for='starlist-2'] svg path, 
+#starlist-5:checked ~ section [for='starlist-3'] svg path, 
+#starlist-5:checked ~ section [for='starlist-4'] svg path, 
+#starlist-5:checked ~ section [for='starlist-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+#starlist-1:hover ~ section [for='starlist-1'] svg path, 
+#starlist-2:hover ~ section [for='starlist-1'] svg path, 
+#starlist-2:hover ~ section [for='starlist-2'] svg path, 
+#starlist-3:hover ~ section [for='starlist-1'] svg path, 
+#starlist-3:hover ~ section [for='starlist-2'] svg path, 
+#starlist-3:hover ~ section [for='starlist-3'] svg path, 
+#starlist-4:hover ~ section [for='starlist-1'] svg path, 
+#starlist-4:hover ~ section [for='starlist-2'] svg path, 
+#starlist-4:hover ~ section [for='starlist-3'] svg path, 
+#starlist-4:hover ~ section [for='starlist-4'] svg path, 
+#starlist-5:hover ~ section [for='starlist-1'] svg path, 
+#starlist-5:hover ~ section [for='starlist-2'] svg path, 
+#starlist-5:hover ~ section [for='starlist-3'] svg path, 
+#starlist-5:hover ~ section [for='starlist-4'] svg path, 
+#starlist-5:hover ~ section [for='starlist-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+.starblock2{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.starblock2 label {
+  display: inline-block;
+  width:25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.starblock2 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.starblock2 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.starblock2 label[for="starlist-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#starlist-1:checked ~ .starblock2::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starlist-2:checked ~ .starblock2::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starlist-3:checked ~ .starblock2::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starlist-4:checked ~ .starblock2::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#starlist-5:checked ~ .starblock2::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#starlist-null:checked ~ .starblock2::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********Logo**********/
+
+.grayscale td{
+    -webkit-filter: grayscale(100%); 
+    filter: grayscale(100%);
+}
+
+.nongrayscale1 td:nth-child(5) ,.nongrayscale2 td:nth-child(4) ,.nongrayscale3 td:nth-child(3) ,.nongrayscale4 td:nth-child(2) ,.nongrayscale5 td:nth-child(1) {
+    -webkit-filter: none;
+    filter: none;
+}
+
+
+
+.contactHead{
+    background-color: #e0ddd5;
+    padding: 30px 0;
+}
+
+.uspIcons {
+    display: block;
+}
+
+.uspHeaders strong {
+    color: #4f4f50;
+    font-weight: 400;
+    font-size: 22px;
+    text-transform: capitalize;
+}
+
+.contactNumber {
+    color: #333333;
+    display: block;
+    font-size: 20px;
+    font-weight: 400 !important;
+    margin-top: 4px;
+    margin-bottom: 1px;
+}
+
+.contactHead a, .contactDetails a, .blue {
+    color: #575757 !important;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+
+
+.starbtn{
+    text-align:right;
+}
+
+.logoImage{
+    padding: 5px 5px;
+}
+
+
+
+
+
+.maindiv{
+    border: 1px solid #124378;
+    border-radius: 7px;
+    padding: 16px 16px 16px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+/* header and footer */
+
+a {
+    text-decoration: none !important;
+}
+
+        .logoImage img{
+            width: 300px;
+        }
+        
+        .navbar{
+            border-bottom: 4px solid #ef3737;
+        }
+
+        #footer {
+    border-top: 5px solid;
+    margin-top: 0 !important;
+    border-top-color: #d70002 !important;
+    position: relative;
+    background-color: #EEE;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#footer #copyrights {
+    padding-bottom: 0;
+}
+
+#footer .policy {
+    padding-left: 25px;
+}
+
+#copyrights {
+    padding: 40px 0;
+    /* background-color: #DDD; */
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.btn-newsletter {
+    width: 100%;
+    padding: 5px 10px;
+    background: #d70002;
+    border: 1px solid #d70002;
+    color: #fff;
+    margin: 10px 0 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-newsletter:hover {
+    box-shadow: 0px 12px 20px -15px #fff;
+}
+
+cite {
+    font-style: italic;
+}
+
+#copyrights a:first-child {
+    margin-left: 0;
+}
+        
+.footlinks h5 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #444;
+    font-weight: 600;
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+}
+
+#footer .policy ul li a {
+    color: #6e6f72;
+    font-family: 'Montserrat';
+    transition: all 0.3s ease-in-out;
+}
+
+#footer .policy {
+    padding-left: 25px;
+}
+
+#footer .quick-links {
+    padding-left: 25px;
+}
+
+#footer .misc {
+    padding-left: 25px;
+}
+
+#footer .policy ul {
+    list-style: none;
+    margin: 0 0 0 0;
+}
+
+#footer .policy ul li {
+    font-size: 12px;
+    line-height: 2.2;
+    width: 100%;
+}
+
+#footer .quick-links ul li {
+    font-size: 12px;
+    line-height: 2.2;
+    width: 100%;
+}
+
+#footer .misc ul li {
+    font-size: 12px;
+    line-height: 2.2;
+    width: 100%;
+}
+
+#footer .policy ul li a {
+    color: #6e6f72;
+    font-family: 'Montserrat';
+    transition: all 0.3s ease-in-out;
+}
+
+#footer .quick-links ul li a {
+    color: #6e6f72;
+    font-family: 'Montserrat';
+    transition: all 0.3s ease-in-out;
+}
+
+#footer .misc ul li a {
+    color: #6e6f72;
+    font-family: 'Montserrat';
+    transition: all 0.3s ease-in-out;
+}
+
+#footer #copyrights .footlinks ul li.fa-caret-right:before {
+    margin-left: -15px !important;
+    margin-right: 10px !important;
+}
+
+#footer ul, #footer li{
+    margin: 0;
+    padding: 0;
+}
+
+#footer .policy ul li a:hover {
+    margin-left: 10px;
+}
+
+#footer .quick-links ul li a:hover {
+    margin-left: 10px;
+}
+
+#footer .misc ul li a:hover {
+    margin-left: 10px;
+}
+
+#footer .home-bakr ul {
+    list-style: none;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#footer .home-bakr ul li a i {
+    font-size: 30px;
+}
+
+#footer .home-bakr ul li {
+    margin: 0 7px;
+    margin-bottom: 10px;
+}
+
+#footer .home-bakr ul li a {
+    color: #5f5f5f;
+    transition: all 0.3s ease-in-out;
+}
+
+#footer .bottom-foot {
+    color: #fff;
+    background: #6e6f72;
+    line-height: 2;
+}
+
+#footer .bottom-foot img {
+    width: 25px;
+    margin: 0 5%;
+    float: right;
+}
+
+.btn.btn-newsletter:hover, .btn.btn-newsletter:focus {
+    text-decoration: none;
+    color: #fff;
+}
+
+
+
+@media screen and (max-width:768px){
+   
+    .logoImage {
+        /*padding: 5px 30% 5px;*/
+        margin: 0px 0px 0px -17px !important;
+        width: 55% !important;
+    }
+    .maindiv{
+        width:90%;
+        margin:auto;
+    }
+   
+}
+
+
+@media screen and (max-width:479px){
+    .mainstyle {
+        padding: 0px 20px 15px;
+    }
+    .pullmedia{
+        display: -webkit-inline-box;
+        margin: 0 50px 0;
+    }
+    .logoImage {
+        padding: 5px 0 0;
+    }
+    .footerNav {
+        padding: 0;
+    }
+    .footerNav li a {
+        padding: 10px 4px;
+        font-size: 12px;
+    }
+    .maindiv {
+        width: auto;
+    }
+    
+}
+
+@media screen and (max-width:320px){
+    .logoImage {
+        width: 230px;
+    }
+    .maindiv {
+        width: auto;
+    }
+}
+@media screen and (max-width:480px) {
+    .logoImage {
+        width: 40% !important;
+    }
+    
+}
+
+
+
+@media screen and (min-width: 767px){
+    #footer .policy ul {
+    margin: 0 0 0 20px;
+}
+
+#footer .quick-links ul {
+    margin: 0 0 0 20px;
+}
+
+#footer .misc ul {
+    margin: 0 0 0 20px;
+}
+}
+
+@media screen and (max-width: 660px){
+    #footer .policy h5 {
+        margin-bottom: 0px;
+    }
+    #footer .quick-links h5 {
+        margin-bottom: 0px;
+    }
+    #footer .misc h5 {
+        margin-bottom: 0px;
+    }
+
+    #footer .policy {
+        margin-bottom: 20px;
+    }
+
+    #footer .quick-links {
+        margin-bottom: 20px;
+    }
+
+    #footer .misc {
+        margin-bottom: 20px;
+    }
+    }
+
+@media screen and (min-width: 640px){
+#footer .home-bakr ul li {
+    width: 25%;
+}
+}
+
+@media screen and (max-width: 640px){
+#footer .policy ul li {
+    width: 33.33%;
+}
+
+#footer .quick-links ul li {
+    width: 33.33%;
+}
+
+#footer .misc ul li {
+    width: 33.33%;
+}
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px){
+    #footer #copyrights .footlinks {
+        text-align: center;
+    }
+    #footer .footer-about {
+        text-align: center;
+    }
+
+    #footer .bottom-foot .copyrightline {
+        text-align: center;
+    }
+
+    #footer .bottom-foot .svgicons {
+        text-align: center;
+    }
+    #footer .bottom-foot img {
+        margin: 0px 2%;
+        float: none;
+    }
+    }
+
+    @media screen and (max-width: 550px) and (min-width: 320px){
+#footer .quick-links ul {
+    display: inline-flex;
+    width: 100%;
+}
+
+#footer .misc ul {
+    display: inline-flex;
+    width: 100%;
+}
+
+#footer .policy ul {
+    display: inline-flex;
+    width: 100%;
+}
+
+
+}
+    @media screen and (max-width: 480px) and (min-width: 321px){
+        #footer .home-bakr ul {
+            margin-left: 18%;
+        }
+        }
+
+    @media screen and (max-width: 375px) and (min-width: 320px){
+#footer .home-bakr ul {
+    margin-left: 13%;
+}
+}
+

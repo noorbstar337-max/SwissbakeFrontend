@@ -1,0 +1,315 @@
+﻿@using SwissbakeIn.Entities;
+@using reCAPTCHA.MVC
+@*@{
+    ViewBag.Title = "Myorder";
+}*@
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+<link href="~/Content/css/components/bs-datatable.css" rel="stylesheet" />
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane{
+            margin-bottom:0;
+        }
+        .jconfirm-closeIcon{
+            display:none !important;
+        }
+        .recatpcha {
+            float: right;
+            position: relative;
+            top: -20px;
+        }
+        /*.g-recaptcha{
+            float:right;
+        }*/
+        .rc-anchor-light.rc-anchor-normal{
+            border:none;
+            background:none;
+            box-shadow:none;
+        }
+
+        .field-validation-valid {
+            color: red;
+            float: left;
+            position: absolute;
+            bottom: 5px;
+            left: 15px;
+        }
+
+        @@media screen and (max-width:991px) and (min-width:767px){
+            .recatpcha{
+                float:left;
+                top:0;
+            }
+        }
+        @@media screen and (max-width:766px) and (min-width:479px){
+            .recatpcha {
+                top: 0;
+            }
+        }
+        @@media screen and (max-width:480px){
+            .recatpcha {
+                float:none;
+                top: 10px;
+            }
+        }
+
+    </style>
+}
+
+@section foot{
+    @*<script src="~/Content/js/account.js"></script>*@
+<script src="~/Content/js/components/bs-datatable.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        
+            //$('#datatable1').dataTable({
+            //    "order": [[2, "desc"]]
+            //} );
+            //getOrder($("select[name=Year]").val(), $("#type").val());
+            //$('select[name=Year]').change(function () {
+            //    //$('button[name=yearsubmit]').click();
+            //    getOrder($("select[name=Year]").val(), $("#type").val());
+            //});
+
+            // Code for the Validator
+            var form = $('form');
+            var error = $('.sm-form-control', form);
+
+            $.validator.addMethod(
+                "regex",
+                function (value, element, regexp) {
+                    var re = new RegExp(regexp);
+                    return this.optional(element) || re.test(value);
+                },
+                "This is invalid"
+            );
+
+            
+
+            var $validator = $('form').validate({
+                //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+                //errorElement: 'span', //default input error message container
+                //errorClass: 'error-block1', // default input error message class
+                //focusInvalid: false, // do not focus the last invalid input
+                rules: {
+                    
+                    email: {
+                        required: true,
+                        regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                    },
+                    orderno: {
+                        required: function () {
+                            var od = $("[name=orderno]").val();
+                            var aw = $("[name=awbno]").val();
+                            if (od == "" && aw == ""){
+                                return true;
+                            }
+                            else if(aw != "" && od == "") {
+                                return false;
+                            }
+
+                        },
+                        regex: /^[a-zA-Z0-9]{2,10}$/
+                    },
+                    awbno: {
+                        required: function () {
+                            var od = $("[name=orderno]").val();
+                            var aw = $("[name=awbno]").val();
+                            if (od == "" && aw == "") {
+                                return true;
+                            }
+                            else if (aw == "" && od != "") {
+                                return false;
+                            }
+
+                        },
+                        regex: /^[a-zA-Z0-9]{2,14}$/
+                    }
+                    
+
+                },
+
+                messages: {
+                    email: {
+                        required: "This is required",
+                        regex: "This is invalid"
+                    },
+                    orderno: {
+                        required: "This is required",
+                    },
+                    awbno: {
+                        required: "This is required"
+                    }
+                },
+
+                errorPlacement: function (error, element) {
+                    //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                    //    error.insertAfter("#show-error");
+                    //}
+                    ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                    ////    error.insertAfter("#form_payment_error");
+                    ////}
+                    //else {
+                    //    error.insertAfter(element); // for other inputs, just perform default behavior
+                    //}
+                    error.insertAfter(element);
+                },
+                //success: function (label) {
+                //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+                //        label.remove(); // remove error label here
+                //    }
+                //},
+                submitHandler: function (form) {
+                    var $valid = $('form').valid();
+                    var v = grecaptcha.getResponse();
+
+                    if (!$valid) {
+                        $validator.focusInvalid();
+
+                        return false;
+                    }
+                    else if (v.length == 0) {
+                        $(".field-validation-valid").text("Recaptcha is required");
+                        //$(".rc-anchor-aria-status").css("display", "block");
+                        $.confirm({
+                            backgroundDismiss: true,
+                            title: false,
+                            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Captcha is Required</label></div>',
+                            buttons: false
+                        });
+                        setTimeout(function () {
+                            $('.jconfirm-closeIcon').click();
+                        }, 1000);
+                        return false;
+                    }
+                    else {
+                        $(".field-validation-valid").css("display", "none");
+                        getOrder($("[name=email]").val(), $("[name=orderno]").val(), $("[name=awbno]").val(), $("#type").val())
+                        return false;
+                    }
+                    //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+                }
+            });
+
+
+
+
+        });
+    function getOrder(e, inn, a, Type) {
+        
+             $.ajax({
+                    url: '/access/@ViewBag.access',
+                    type: "Post",
+                    beforeSend: function () {
+                        $.confirm({
+                            backgroundDismiss: false,
+                            title: false,
+                            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Fetching Data... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                            buttons: false
+                        });
+                        //_divPartialView.style = "Display: none";
+                        //$("#divWaiting").removeClass("display-none");
+                },
+                    data: { inno: inn, awb: a, email: e, M:Type},
+                    success: function (response) {
+                        
+                        //_divPartialView.style = "";
+                        //$("#divWaiting").addClass("display-none");
+                        $(".myordertbl").html(response);
+                        //$('#datatable1').dataTable({
+                        //    "order": [[1, "desc"]]
+                        //});
+                        setTimeout(function () {
+                            $(".jconfirm-closeIcon").click();
+                        }, 500);
+                        
+                    }
+                });
+        }
+</script>
+}
+
+@Html.Partial("_AccountMenu")  
+
+
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-11">
+
+        <div class="container clearfix">
+
+            <div class="row">
+                <div class="heading-block col-md-9">
+                    <h4>@ViewBag.Title</h4>
+                </div>
+                @*<div class="col-md-2 cryr">
+                    <span class="year">Year</span>
+                </div>*@
+
+                @*<div class="col-md-2 yrdp">
+                    <div class="form-group">
+                        <select class="form-control" id="">
+                            <option>2018</option>
+                            <option>2017</option>
+                            <option>2016</option>
+                            <option>2015</option>
+                            <option>2014</option>
+                        </select>
+                    </div>
+                </div>*@
+                <input type="text" id="type" style="display:none;" value="@ViewBag.mode" />
+                @*@{ 
+                    var i = ViewData["Year"] as List<CommonStruct>;
+                }
+                @if (i != null && i.Count > 0)
+                {
+                    
+                }*@
+                
+            </div>
+            <form method="post" action="">
+                <fieldset class="">
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-3">
+                            <input type="text" placeholder="Invoice No." name="orderno" class="sm-form-control send" />
+                        </div>
+                        <div class="col-md-1 text-center">
+                            <span style="line-height:2.7">OR</span>
+                        </div>
+                        <div class="col-lg-2 col-md-4">
+                            <input type="text" placeholder="AWB No." name="awbno" class="sm-form-control send" />
+                        </div>
+
+                        <div class="col-lg-2 col-md-4 mt-3 mt-md-0">
+                            <input type="text" placeholder="Email Id" name="email" class="sm-form-control" />
+                        </div>
+                        <div class="col-lg-5 col-md-12 mt-3 mt-lg-0">
+                            <button type="submit" class="btn btn-info float-md-right float-lg-none">Track</button>
+                            <div class="recatpcha">
+                                @Html.Recaptcha()
+                                @Html.ValidationMessage("ReCaptcha")
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-4 offset-md-8 mt-3">
+                            
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div class="myordertbl">
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

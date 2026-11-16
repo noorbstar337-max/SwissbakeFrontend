@@ -1,0 +1,524 @@
+﻿@using reCAPTCHA.MVC
+@{
+    ViewBag.Title = "Career | Bakery Ingredients Supplier in Bahrain - Swissbake";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Career | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Career | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Career" />
+    <meta name="keywords" content="Career" />
+    <meta property="og:description" content="Career" />
+    <meta property="og:url" content="http://uat.swissbake.bh/misc/career" />
+    <meta property="twitter:title" content="Career | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Career" />
+    <meta property="og:image" content="http://uat.swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://uat.swissbake.bh/misc/career" />
+}
+
+@section head{
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+<style>
+    .jconfirm .jconfirm-box div.jconfirm-content-pane {
+        margin-bottom: 0;
+    }
+
+    .jconfirm-closeIcon {
+        display: none !important;
+    }
+
+    @@media screen and (max-width:479px){
+        .carrer-btns-blk{
+            display:flex;
+        }
+
+        .carrer-btns-blk button{
+            width:100%;
+        }
+    }
+
+</style>
+}
+
+@section foot{
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+
+    <script>
+
+    $(document).ready(function () {
+        
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                Name: {
+                    required: true,
+                    regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                    minlength: 3,
+                },
+                Email: {
+                    required: true,
+                    regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                },
+                Mobile: {
+                    required: true,
+                    regex: /([0-9]{10}$)/,
+                    minlength: 10,
+                    maxlength: 10,
+                },
+                Desig: {
+                    required: true
+                },
+                CurrDesig: {
+                    required: true
+                },
+                CurrCtc: {
+                    required: true,
+                    regex: /([0-9]{4,10}$)/,
+                },
+                file: {
+                    required: true,
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                }
+
+            },
+
+            messages: {
+                Name: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                },
+                Email: {
+                    required: "This is required",
+                    regex: "This is invalid"
+                },
+                Mobile: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                    maxlength: "This is invalid",
+                },
+                Desig: {
+                    required: "This is required"
+                },
+                CurrDesig: {
+                    required: "This is required"
+                },
+                CurrCtc: {
+                    required: "This is required",
+                    regex: "This is invalid"
+                },
+                file: {
+                    required: "This is required",
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                //    error.insertAfter("#show-error");
+                //}
+                ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                ////    error.insertAfter("#form_payment_error");
+                ////}
+                //else {
+                //    error.insertAfter(element); // for other inputs, just perform default behavior
+                //}
+                error.insertAfter(element);
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                var $valid = $('form').valid();
+                var v = grecaptcha.getResponse();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+                else if (v.length == 0) {
+                    $(".field-validation-valid").css("color", "red").text("This is required");
+
+                    $.confirm({
+                        backgroundDismiss: true,
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Captcha is Required</label></div>',
+                        buttons: false
+                    });
+                    setTimeout(function () {
+                        $('.jconfirm-closeIcon').click();
+                    }, 1000);
+                    return false;
+                }
+                else {
+                    $("button[type=submit]").text("Applying").attr("disabled", "disabled");
+                    $("button[type=reset]").attr("disabled", "disabled");
+                    //angular.element(document.getElementById('content')).scope().submitForm();
+                    //angular.element(document.getElementById('content')).scope().$apply();
+                    form.submit()
+                }
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+
+        @Html.Raw(ViewBag.error)
+
+
+    });
+
+
+    function sucess() {
+        $.confirm({
+            backgroundDismiss: false,
+            title: false,
+            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Thankyou for your interest to join us.</label></div>',
+            buttons: false
+        });
+        setTimeout(function () {
+            $('.jconfirm-closeIcon').click();
+        }, 5000);
+    }
+        
+    </script>
+}
+
+
+
+
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+    <div class="container clearfix">
+        <h1>Career</h1>
+        <span>Love an innovative and challenging environment ? Then be a part of our team of passionate self-driven professionals.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Career</li>
+        </ol>
+    </div>
+</section><!-- #page-title end -->
+
+
+
+<section class="pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                @*<strong>APPLY NOW</strong>*@
+                <div class="heading-block topmargin">
+                    <h3> <strong>APPLY NOW</strong></h3>
+                </div>
+                @*<div class="career-form">
+            <div class="">
+                <input type="text" name="firstname" class="input-box" placeholder="Name">
+            </div>
+            <div class="">
+                <input type="text" name="firstname" class="input-box" placeholder="Email-ID">
+            </div>
+            <div class="">
+                <input type="text" name="firstname" class="input-box" placeholder="Mobile">
+            </div>
+
+            <div class="">
+                <select>
+                    <option value="Null">Select Designation</option>
+                    <option value="Sales Executive (Trainee)">Sales Executive (Trainee)</option>
+                    <option value="Business Development Officer">Business Development Officer</option>
+                    <option value="Customer Support Executive">Customer Support Executive</option>
+                    <option value="Key Accounts Manager">Key Accounts Manager</option>
+                    <option value="Regional Sales Manager">Regional Sales Manager</option>
+                    <option value="National Sales Manager">National Sales Manager</option>
+                    <option value="Online Sales Executive">Online Sales Executive</option>
+                    <option value="R&amp;D (Food Technologists)">R&D (Food Technologists)</option>
+                    <option value="International sales Manager (GCC)">International sales Manager (GCC)</option>
+                    <option value="Others">Others</option>
+                </select>
+            </div>
+
+            <div class="">
+                <input type="text" name="firstname" class="input-box" placeholder="Current Designation">
+            </div>
+            <div class="">
+                <input type="text" name="firstname" class="input-box" placeholder="Annual Current CTC">
+            </div>
+
+            <div class="choose-file">
+                <input type="file" name="pic" accept="image/*">
+            </div>
+            <div class="capt">
+                <div class="g-recaptcha" data-sitekey="6LcePAATAAAAAGPRWgx90814DTjgt5sXnNbV5WaW"></div>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="apply_btn">APPLY</button>
+            </div>
+
+        </div>*@
+
+                <div class="create_profile">
+                    @using (Html.BeginForm("Career", "Misc", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+
+                        <div class="col_full">
+                            <label for="shipping-form-name">Name:</label>
+                            <input type="text" id="Name" name="Name" value="" class="sm-form-control nocpc" onkeypress="return charkey(this);"/>
+                        </div>
+
+
+
+                        <div class="clear"></div>
+
+                        <div class="col_full">
+                            <label for="shipping-form-companyname">Email Address:</label>
+                            <input type="email" id="Email" name="Email" value="" class="sm-form-control nocpc" />
+                        </div>
+
+                        <div class="col_full">
+                            <label for="shipping-form-city">Phone:</label>
+                            <input type="text" id="Mobile" name="Mobile" value="" class="sm-form-control nocpc" onkeypress="return numkey(this);" maxlength="10"/>
+                        </div>
+
+                        <div class="col_full">
+                            <label for="shipping-form-lname">Select Designation:</label>
+                            @Html.DropDownList("Desig", new SelectList(new List<SelectListItem> {
+                                new SelectListItem { Text = "Sales Executive (Trainee)", Value = "Sales Executive (Trainee)"},
+                                new SelectListItem { Text = "Business Development Officer", Value = "Business Development Officer"},
+                                new SelectListItem { Text = "Customer Support Executive", Value = "Customer Support Executive"},
+                                new SelectListItem { Text = "Key Accounts Manager", Value = "Key Accounts Manager"},
+                                new SelectListItem { Text = "Regional Sales Manager", Value = "Regional Sales Manager"},
+                                new SelectListItem { Text = "National Sales Manager", Value = "National Sales Manager"},
+                                new SelectListItem { Text = "Online Sales Executive", Value = "Online Sales Executive"},
+                                new SelectListItem { Text = "R&D (Food Technologists)", Value = "R&D (Food Technologists)"},
+                                new SelectListItem { Text = "International sales Manager (GCC)", Value = "International sales Manager (GCC)"},
+                                new SelectListItem { Text = "Others", Value = "Others"}
+                            }, "Value", "Text"), "--Select Designation--", new { @class = "form-control" })
+                            @*<select class="sm-form-control" id="Desig" name="Desig">
+                                <option value="Null">Select Designation</option>
+                                <option value="Sales Executive (Trainee)">Sales Executive (Trainee)</option>
+                                <option value="Business Development Officer">Business Development Officer</option>
+                                <option value="Customer Support Executive">Customer Support Executive</option>
+                                <option value="Key Accounts Manager">Key Accounts Manager</option>
+                                <option value="Regional Sales Manager">Regional Sales Manager</option>
+                                <option value="National Sales Manager">National Sales Manager</option>
+                                <option value="Online Sales Executive">Online Sales Executive</option>
+                                <option value="R&amp;D (Food Technologists)">R&D (Food Technologists)</option>
+                                <option value="International sales Manager (GCC)">International sales Manager (GCC)</option>
+                                <option value="Others">Others</option>
+                            </select>*@
+                        </div>
+
+
+
+                        <div class="col_full">
+                            <label for="shipping-form-name">Current Designation:</label>
+                            <input type="text" id="CurrDesig" name="CurrDesig" value="" class="sm-form-control" />
+                        </div>
+
+                        <div class="col_full">
+                            <label for="shipping-form-name">Annual Current CTC:</label>
+                            <input type="text" id="CurrCtc" name="CurrCtc" value="" class="sm-form-control nocpc" onkeypress="return numkey(this);"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Attachments:</label>
+                            <input type="file" class="form-control-file" id="file" name="file">
+                        </div>
+
+                        <div class="form-group">
+                            @Html.Recaptcha()
+                            @Html.ValidationMessage("ReCaptcha")
+                        </div>
+
+                        <div class="col_full nobottommargin carrer-btns-blk">
+                            <button type="submit" class="button  nomargin apply" value="apply">Apply</button>
+                            <button type="reset" class="button  nomargin cancel" value="Cancel">Reset</button>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+            <div class="col-md-7">
+                @*<strong class="current text-center">CURRENT OPPORTUNITIES</strong>*@
+                <div class="heading-block topmargin">
+                    <h3> <strong>CURRENT OPPORTUNITIES</strong></h3>
+                </div>
+                <div class="acc-page">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="fas fa-plus"></i>
+                                        Sales Trainee
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong>(Pan Bahrain, Tier I &amp; Tier II)</strong></p>
+                                        <ul class="unorder">
+                                            <li>0-2 years in B2B Sales</li>
+                                            <li>Graduate / MBA from a reputed Institute</li>
+                                            <li>Food Ingredient / Bakery Ingredient segment preferred</li>
+                                            <li>HORECA sales</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <i class="fas fa-plus"></i>
+                                        Business Development Executive
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong>(Ahmedabad, Goa, Pune, Bangalore, Kolkata, Delhi NCR)</strong></p>
+                                        <ul class="unorder">
+                                            <li>2-4 years in B2B sales (HORECA)</li>
+                                            <li>Graduate / MBA from a reputed Institute</li>
+                                            <li>Candidate should be from Food Ingredient/Bakery ingredient background </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <i class="fas fa-plus"></i>
+                                        Regional/Zonal Sales Manager
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong>(Mumbai Based)</strong></p>
+                                        <ul class="unorder">
+                                            <li>4 to 7 years experience in B2B/Horeca sales.</li>
+                                            <li>Graduate/MBA from a reputed Institute.</li>
+                                            <li>Candidate from bakery/food ingredients industry only.</li>
+                                            <li>Experience in managing &amp; handling sales team.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFour">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        <i class="fas fa-plus"></i>
+                                        Online Sales & Support Executive
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong>(Mumbai)</strong></p>
+                                        <ul class="unorder">
+                                            <li>2-4 years experience in Technical Customer Support</li>
+                                            <li>Graduate from a reputed Institute</li>
+                                            <li>Knowledge of e-commerce</li>
+                                            <li>Excelling oral &amp; written communication skills (English &amp; Hindi)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingFive">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        <i class="fas fa-plus"></i>
+                                        International sales Manager (GCC)
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong>(Mumbai Based)</strong></p>
+                                        <ul class="unorder">
+                                            <li>3-5 years experience in setting &amp; growing business overseas</li>
+                                            <li>Graduate/MBA from a reputed Institute</li>
+                                            <li>Candidate from bakery/food ingredients industry only.</li>
+                                            <li>Excelling oral &amp; written communication skills</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingSix">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                        <i class="fas fa-plus"></i>
+                                        Key Accounts Manager
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                                <div class="panel-body">
+                                    <div class="acc-boxs">
+                                        <p class=""><strong> (Mumbai Based)</strong></p>
+                                        <ul class="unorder">
+                                            <li>6-10 years experience in building Key accounts Business</li>
+                                            <li>Graduate/MBA from a reputed Institute</li>
+                                            <li>Candidate from bakery/food ingredients industry only..</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- panel-group -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

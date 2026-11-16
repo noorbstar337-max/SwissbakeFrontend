@@ -1,0 +1,347 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet" />
+
+    <link href="~/Feedback/feedback.css" rel="stylesheet" />
+    
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-sm  navbar-dark">
+        <!-- Brand/logo -->
+        <a class="navbar-brand logoImage" href="/"><img src="~/Content/images/logo/Swissbake-logo.png" alt="Swissbake"></a>
+    </nav>
+
+
+    <div class="container mainstyle">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 maindiv">
+                <div class="text-center">
+                    <h3 style="text-transform: uppercase; font-weight: 600;">Feedback</h3>
+                </div><br />
+                <table class="grayscale @ViewBag.feedbackId" border="0" cellspacing="0" cellpadding="0" style=" width: 100%;">
+                    <tbody>
+                        <tr class="listhead">
+                            <td class="pagestyle5"><br></td>
+                            <td class="pagestyle4"><br></td>
+                            <td class="pagestyle3"><br></td>
+                            <td class="pagestyle2"><br></td>
+                            <td class="pagestyle1"><br></td>
+                        </tr>
+                        <tr class="listhead1">
+                            <td class="pagetab5">
+                                <p class="MsoNormal">
+                                    <a href="@Url.Action("Index/Feedback",new { @feedbackid = "5" ,AgentId= prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString((@ViewBag.AgentId)))) , ActivtyID=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString(( @ViewBag.ActivtyID))))})">
+                                        <span>Excellent</span>
+                                    </a>
+
+                                </p>
+                            </td>
+                            <td class="pagetab4">
+                                <p class="MsoNormal">
+                                    <a href="@Url.Action("index/Feedback", new { @feedbackid = "4" ,AgentId= prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString((@ViewBag.AgentId)))) , ActivtyID=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString(( @ViewBag.ActivtyID))))})">
+                                        <span>Good</span>
+                                    </a>
+
+                                </p>
+                            </td>
+                            <td class="pagetab3">
+                                <p class="MsoNormal">
+                                    <a href="@Url.Action("index/Feedback", new { @feedbackid = "3" ,AgentId= prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString((@ViewBag.AgentId)))) , ActivtyID=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString(( @ViewBag.ActivtyID))))})">
+                                        <span>Just okay</span>
+                                    </a>
+
+                                </p>
+                            </td>
+                            <td class="pagetab2">
+                                <p class="MsoNormal">
+                                    <a href="@Url.Action("index/Feedback", new { @feedbackid = "2" ,AgentId=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString((@ViewBag.AgentId)))) , ActivtyID=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString(( @ViewBag.ActivtyID))))})">
+                                        <span>Can improve</span>
+                                    </a>
+
+                                </p>
+                            </td>
+                            <td class="pagetab1">
+                                <p class="MsoNormal">
+                                    <a href="@Url.Action("index/Feedback", new { @feedbackid = "1",AgentId= prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString((@ViewBag.AgentId)))) , ActivtyID=prolib.Encryption.Encrypt(HttpUtility.UrlEncode(Convert.ToString(( @ViewBag.ActivtyID))))})">
+                                        <span>Bad</span>
+                                    </a>
+
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <form action="" method="post">
+                    <section>
+
+                        @*<h3>Listening Capability</h3>*@
+                        <h4>Communication</h4>
+                        <input style="display:none" type="radio" name="stars" value="0" id="star-null" checked />
+                        <input style="display:none" type="radio" name="stars" value="1" id="star-1" />
+                        <input style="display:none" type="radio" name="stars" value="2" id="star-2" />
+                        <input style="display:none" type="radio" name="stars" value="3" id="star-3" />
+                        <input style="display:none" type="radio" name="stars" value="4" id="star-4" />
+                        <input style="display:none" type="radio" name="stars" value="5" id="star-5" />
+
+                        <section class="starblock">
+                            <label for="star-1">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="star-2">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="star-3">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="star-4">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="star-5">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                        </section>
+                    </section>
+                    <hr />
+                    <section>
+
+                        <h4>Attitude</h4>
+                        <input style="display:none" type="radio" name="stars1" value="0" id="starpoint-null" checked />
+                        <input style="display:none" type="radio" name="stars1" value="1" id="starpoint-1" />
+                        <input style="display:none" type="radio" name="stars1" value="2" id="starpoint-2" />
+                        <input style="display:none" type="radio" name="stars1" value="3" id="starpoint-3" />
+                        <input style="display:none" type="radio" name="stars1" value="4" id="starpoint-4" />
+                        <input style="display:none" type="radio" name="stars1" value="5" id="starpoint-5" />
+
+                        <section class="starblock1">
+                            <label for="starpoint-1">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starpoint-2">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starpoint-3">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starpoint-4">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starpoint-5">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                        </section>
+                    </section>
+                    <hr />
+                    <section>
+
+                        @*<h3>Understandability</h3>*@
+                        <h4> Product Knowledge </h4>
+                        <input style="display:none" type="radio" name="stars2" value="0" id="starlist-null" checked />
+                        <input style="display:none" type="radio" name="stars2" value="1" id="starlist-1" />
+                        <input style="display:none" type="radio" name="stars2" value="2" id="starlist-2" />
+                        <input style="display:none" type="radio" name="stars2" value="3" id="starlist-3" />
+                        <input style="display:none" type="radio" name="stars2" value="4" id="starlist-4" />
+                        <input style="display:none" type="radio" name="stars2" value="5" id="starlist-5" />
+
+                        <section class="starblock2">
+                            <label for="starlist-1">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starlist-2">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starlist-3">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starlist-4">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                            <label for="starlist-5">
+                                <svg width="255" height="240" viewBox="0 0 51 48">
+                                    <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" />
+                                </svg>
+                            </label>
+                        </section>
+                    </section>
+                    <hr />
+                    <h4>Feedback / Remarks</h4>
+                    @Html.TextArea("Remark", new { @class = "form-control", @placeholder = "Enter Your Remark", @rows = 4 })
+
+                    <br />
+                    <div class="starbtn">
+                        <button type="submit" class="btn btn-primary sub">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer">
+
+        <div id="copyrights">
+
+            <div class="container clearfix">
+                <div class="row">
+                    <div class="col-md-3 footer-about ">
+
+                        <cite>Finest quality Swiss formulated bakery ingredients and convenience products researched & developed in collaboration with professional chefs & bakers around the globe.</cite>
+                        <div class="clear"></div>
+                        <button type="button" class="btn btn-newsletter" onclick="subscribe();" id="newsletter">NEWSLETTER</button>
+
+
+
+                    </div>
+                    <div class="col-md-9 footlinks">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6 policy">
+                                <h5 class="">
+                                    Usage Conditions
+                                </h5>
+                                <ul>
+                                    <li class="fas fa-caret-right"><a href="/privacy-policy">Privacy Policy</a></li>
+                                    <li class="fas fa-caret-right"><a href="/terms-of-use">Terms Of Use</a></li>
+                                    <li class="fas fa-caret-right"><a href="/shipping-policy">Shipping Policy</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-sm-6 quick-links">
+                                <h5 class="">
+                                    Quick Links
+                                </h5>
+                                <ul>
+
+                                    <li class="fas fa-caret-right"><a href="/about">About</a></li>
+                                    <li class="fas fa-caret-right"><a href="/blog">Blog</a></li>
+                                    <li class="fas fa-caret-right"><a href="/career">Career</a></li>
+                                    <li class="fas fa-caret-right"><a href="/contact">Contact us</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3 col-sm-6 misc">
+                                <h5 class="">
+                                    Company Service
+                                </h5>
+                                <ul>
+                                    <li class="fas fa-caret-right"><a href="/brochure.pdf" target="_blank">Product Brochure </a></li>
+                                    <li class="fas fa-caret-right"><a href="@(Session["U_Id"] == null ? "/trackorder" : "/account/trackorder")"> Track Order</a></li>
+                                    <li class="fas fa-caret-right"><a href="/bakersupport">Support</a></li>
+                                    <li class="fas fa-caret-right"><a href="/category">Shop Now</a></li>
+
+                                </ul>
+
+                            </div>
+                            <div class="col-md-3 col-sm-6 home-bakr">
+
+                                <h5 class="">
+                                    Follow SwissBake®
+                                </h5>
+                                <ul>
+                                    <li class=""><span class="soc-ic"><a href="https://www.facebook.com/SwissBakeGlobal/" target="_blank" title="facebook" class="fbic"><i class="fab fa-facebook"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://www.instagram.com/SwissBakeGlobal/" target="_blank" title="instagram" class="inst"><i class="fab fa-instagram"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://twitter.com/SwissBakeGlobal/" target="_blank" title="twitter" class="twit"><i class="fab fa-twitter-square"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://www.linkedin.com/company/swiss-bake-ingredients-pvt-ltd" target="_blank" title="linkedin" class="link"><i class="fab fa-linkedin"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://www.youtube.com/channel/UCrbRanf0JTsYiqXZTaltUVA" target="_blank" title="youtube" class="ytb"><i class="fab fa-youtube"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://in.pinterest.com/swissbake/" target="_blank" title="pinterest" class="pint"><i class="fab fa-pinterest-p"></i></a></span></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- #copyrights end -->
+
+        <div class="bottom-foot ">
+            <div class="container clearfix">
+                <div class="row">
+                    <div class="col-md-6 col-xl-6 col-sm-12 copyrightline">
+                        &copy;Copyright 2012-@DateTime.Now.Year Swiss Bake Ingredients Pvt. Ltd. All Rights Reserved.
+                    </div>
+
+                    <div class="col-md-6 col-xl-6 col-sm-12 offset-sm-0 svgicons">
+                        <img src="~/Content/images/icons/american-express.png" alt="american-express" />
+                        <img src="~/Content/images/icons/discover.png" alt="discover" />
+                        <img src="~/Content/images/icons/mastercard.png" alt="mastercard" />
+                        <img src="~/Content/images/icons/paypal.png" alt="paypal" style="width: 18px;margin-top: 5px;" />
+                        <img src="~/Content/images/icons/visa.png" alt="visa" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
+<script src="~/Content/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="~/Content/Scripts/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var nav = $('.navbar').outerHeight();
+        var brd = $('.contactHead').outerHeight();
+        var foot = $('.footer').outerHeight();
+        var ttlheight = nav + brd + foot;
+        $(".mainstyle").css("min-height", ($(window).height() - ttlheight));
+
+        $(window).resize(function () {
+            win1 = $(window).width();
+
+
+            var nav = $('.navbar').outerHeight();
+            var brd = $('.contactHead').outerHeight();
+            var foot = $('.footer').outerHeight();
+            var ttlheight = nav + brd + foot;
+            $(".mainstyle").css("min-height", ($(window).height() - ttlheight));
+        });
+    });
+</script>
+

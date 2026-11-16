@@ -1,0 +1,1181 @@
+
+
+var searchVisible = 0;
+var transparent = true;
+var mobile_device = false;
+
+$(document).ready(function () {
+
+    $.material.init();
+
+    setTimeout(function () {
+        $("#reg-title").html($('.moving-tab').html());
+    }, 1000);
+
+    /*  Activate the tooltips      */
+    $('[rel="tooltip"]').tooltip();
+
+    // Code for the Validator
+    var form = $('.wizard-card form, .log-card form');
+    var error = $('.form-control', form);
+
+    $.validator.addMethod(
+        "regex",
+        function (value, element, regexp) {
+            var re = new RegExp(regexp);
+            return this.optional(element) || re.test(value);
+        },
+        "This is invalid"
+    );
+
+    $.validator.addMethod("pwcheck", function (value) {
+        return /^(?=[^\d_].*?\d)\w(\w|[!@#$%]){7,20}$/.test(value) // consists of only these
+            //&& /[a-z]/.test(value) // has a lowercase letter
+            && /\d/.test(value) // has a digit
+        //},"Min length must be 8, use only characters, numbers and any !@#$%");
+    }, "MIN LENGTH MUST BE 8 CHARACTERS. USE ATLEAST 1 CHARACTER, 1 NUMBER AND 1 SPECIAL CHARACTER IN YOUR PASSWORD");
+
+    $.validator.addMethod("notEqualTo", function (value, element, param) {
+        return this.optional(element) || value != $(param).val();
+    }, "This has to be different...");
+
+    jQuery.validator.addMethod("notEqualstatic", function (value, element, param) {
+        return this.optional(element) || value != param;
+    }, "Please specify a different (non-default) value");
+
+
+    var $validator = $('.wizard-card form, .log-card form').validate({
+        //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+        //errorElement: 'span', //default input error message container
+        //errorClass: 'error-block1', // default input error message class
+        //focusInvalid: false, // do not focus the last invalid input
+        rules: {
+            Companyname: {
+                required: true,
+                //regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                regex: /^[a-zA-Z0-9. ]+$/,
+                minlength: 3,
+                notEqualTo: "#lstnm"
+            },
+            fullname: {
+                required: true,
+                regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                minlength: 3,
+                notEqualTo: "#fstnm"
+            },
+            emailid: {
+                required: true,
+                email: true,
+                regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                remote: {
+                    url: "/Access/Checkmail",
+                    type: "post",
+
+                    complete: function (data) {
+
+                        var activetb = $('.tab-content > .active').attr("id");
+                        var step = $('#Step').val();
+                        if (step == "2" && activetb == "account") {
+                            $("#about .form-control").attr("disabled", "disabled");
+                            return false;
+                        }
+                        else if (step == "3" && activetb == "address") {
+                            $("#about .form-control").attr("disabled", "disabled");
+                            $("#account .form-control").attr("disabled", "disabled");
+
+                            return false;
+                        }
+                        else {
+                            if (data.responseJSON == false) {
+
+                                $(".ml-login a").removeClass("d-none");
+
+
+                                //setTimeout(function () {
+                                //    {
+
+
+                                //        $.confirm({
+                                //            theme: 'supervan',
+                                //            title: 'Email Already Exist!',
+                                //            content: 'Do you want to login or continue with another email.',
+                                //            buttons: {
+                                //                confirm: {
+                                //                    text: 'Login',
+                                //                    btnClass: 'btn-red',
+                                //                    keys: ['enter', 'shift'],
+                                //                    action: function () {
+                                //                        window.location.href = '/login';
+                                //                    }
+                                //                },
+                                //                cancel: {
+                                //                    text: 'Continue',
+                                //                    action: function () {
+                                //                        $.alert({ title: 'Caution!', theme: 'supervan', content: 'Please continue with another email id.' });
+                                //                    }
+                                //                },
+                                //                //somethingElse: {
+                                //                //    text: 'Something else',
+                                //                //    btnClass: 'btn-blue',
+                                //                //    keys: ['enter', 'shift'],
+                                //                //    action: function () {
+                                //                //        $.alert('Something else?');
+                                //                //    }
+                                //                //}
+                                //            }
+                                //        });
+                                //    }
+                                //}, 500);
+
+                            }
+                            else {
+                                $(".ml-login a").addClass("d-none");
+                            }
+                        }
+
+
+
+
+
+
+
+                    }
+                }
+            },
+            mobile: {
+                required: true,
+                //regex: /([0-9]{11}$)|(^[7-9][0-9]{9}$)/,
+                regex: /([0-9]{8,10}$)/,
+
+                //minlength: 8,
+                //maxlength: 8,
+                remote: {
+                    url: "/Access/Checkmobile",
+                    type: "post",
+                    complete: function (data) {
+
+                        var activetb = $('.tab-content > .active').attr("id");
+                        var step = $('#Step').val();
+                        if (step == "2" && activetb == "account") {
+                            $("#about .form-control").attr("disabled", "disabled");
+                            return false;
+                        }
+                        else if (step == "3" && activetb == "address") {
+                            $("#about .form-control").attr("disabled", "disabled");
+                            $("#account .form-control").attr("disabled", "disabled");
+
+                            return false;
+                        }
+                        else {
+                            if (data.responseJSON == false) {
+
+                                //setTimeout(function () {
+                                //    {
+
+
+                                //        $.confirm({
+                                //            title: 'Mobile No. Already Exist!',
+                                //            theme: 'supervan',
+                                //            content: 'Do you want to login or continue with another mobile no.',
+                                //            buttons: {
+                                //                confirm: {
+                                //                    text: 'Login',
+                                //                    btnClass: 'btn-red',
+                                //                    keys: ['enter', 'shift'],
+                                //                    action: function () {
+                                //                        window.location.href = '/login';
+                                //                    }
+                                //                },
+                                //                cancel: {
+                                //                    text: 'Continue',
+                                //                    action: function () {
+                                //                        $.alert({ title: 'Caution!', theme: 'supervan', content: 'Please continue with another mobile no.' });
+                                //                    }
+                                //                },
+                                //                //somethingElse: {
+                                //                //    text: 'Something else',
+                                //                //    btnClass: 'btn-blue',
+                                //                //    keys: ['enter', 'shift'],
+                                //                //    action: function () {
+                                //                //        $.alert('Something else?');
+                                //                //    }
+                                //                //}
+                                //            }
+                                //        });
+                                //    }
+                                //}, 500);
+
+                            }
+                        }
+
+
+
+
+
+                    }
+                }
+            },
+            password: {
+                required: true,
+                pwcheck: true,
+                notEqualstatic: 'Pass@123'
+            },
+            CPassword: {
+                required: true,
+                equalTo: "#pass",
+                notEqualstatic: 'Pass@123'
+            },
+            ACity: {
+                required: true
+            },
+            //typeoption: {
+            //    required:true
+            //},
+            BillingName: {
+                required: true,
+                regex: /^[a-zA-Z. ]+$/,
+            },
+            Email: {
+                required: true,
+                regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+            },
+            pswd: {
+                required: true
+            },
+            Mobile: {
+                required: false,
+                //regex: /([0-9]{11}$)|(^[7-9][0-9]{9}$)/,
+                //regex: /([0-9]{8}$)/,
+
+                //minlength: 8,
+                //maxlength: 8,
+            },
+            ShippingName: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                regex: /^[a-zA-Z. ]+$/,
+            },
+            Email2: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                regex: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+            },
+            Mobile2: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        //return true;
+                        return false;
+                    }
+                    return false;
+                },
+                //regex: /([0-9]{11}$)|(^[7-9][0-9]{9}$)/,
+
+                //regex: /([0-9]{8}$)/,
+
+                //minlength: 8,
+                //maxlength: 10,
+            },
+            StreetName: {
+                required: true
+            },
+            pinCode: {
+                required: true
+            },
+            City: {
+                required: true
+            },
+            State: {
+                required: true
+            },
+            Country: {
+                required: true
+            },
+            sname: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            },
+            pin: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            },
+            cty: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            },
+            stt: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            },
+            cntry: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+            },
+            pan: {
+                //regex: /([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}/,*/
+                required: function () {
+                    if ($("[name='CRNO1AVAILBLE']").val() == "0") {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                regex: /([0-9]{6,8})/,
+                minlength: 6,
+                maxlength: 8
+            },
+            pan1: {
+                //regex: /([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}/,*/
+                required: function () {
+                    if ($("[name='CRNO1AVAILBLE']").val() == "0") {
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                },
+                regex: /([0-9]{2})/,
+                minlength: 2,
+                maxlength: 2
+            },
+            //gst: {
+            //    regex: /([0-9]{2}[a-zA-Z]{4}([a-zA-Z]{1}|[0-9]{1})[0-9]{4}[a-zA-Z]{1}([a-zA-Z]|[0-9]){3})/,
+            //    minlength: 15,
+            //    maxlength: 15
+            //},
+            sgst: {
+                regex: /([0-9]{2}[a-zA-Z]{4}([a-zA-Z]{1}|[0-9]{1})[0-9]{4}[a-zA-Z]{1}([a-zA-Z]|[0-9]){3})/,
+                minlength: 15,
+                maxlength: 15
+            }
+
+        },
+
+        messages: {
+            Companyname: {
+                required: "This is required",
+                regex: "This is invalid",
+                notEqualTo: "Company Name should not be same as Full Name"
+            },
+            fullname: {
+                required: "This is required",
+                regex: "This is invalid",
+                notEqualTo: "Full Name should not be same as company name"
+            },
+            emailid: {
+                required: "This is required",
+                regex: "This is invalid",
+                remote: "Email already exist!"
+            },
+            mobile: {
+                required: "This is required",
+                regex: "This is invalid",
+                remote: "Mobile No. already exist!",
+                maxlength: "This is invalid"
+            },
+            password: {
+                required: "This is required",
+                notEqualstatic: "Entered password should'nt be same as default eg."
+            },
+            CPassword: {
+                required: "This is required",
+                equalTo: "Enter same password again",
+                notEqualstatic: "Entered password should'nt be same as default eg."
+            },
+            ACity: {
+                required: "City is required"
+            },
+            Email: {
+                required: "This is required",
+                regex: "This is invalid"
+            },
+            pswd: {
+                required: "This is required"
+            },
+            //typeoption: {
+            //    required:true
+            //},
+            StreetName: {
+                required: "This is required"
+            },
+            pinCode: {
+                required: "This is required"
+            },
+            City: {
+                required: "This is required"
+            },
+            State: {
+                required: "This is required"
+            },
+            Country: {
+                required: "This is required"
+            },
+            sname: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                }
+            },
+            pin: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                }
+            },
+            cty: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                }
+            },
+            stt: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                }
+            },
+            cntry: {
+                required: function () {
+                    if ($("[name='billing']").is(":checked")) {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                }
+            },
+            pan: {
+                required: function () {
+                    if ($("[name='CRNO1AVAILBLE']").val() == "0") {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                },
+                regex: "This is Invalid format",
+                minlength: "This is Invalid",
+                maxlength: "This is Invalid"
+            },
+            pan1: {
+                required: function () {
+                    if ($("[name='CRNO1AVAILBLE']").val() == "0") {
+                        return "";
+                    }
+                    else {
+                        return "This is required";
+                    }
+                },
+                regex: "This is Invalid format",
+                minlength: "This is Invalid",
+                maxlength: "This is Invalid"
+            },
+            //gst: {
+            //    regex: "This is Invalid",
+            //    minlength: "This is Invalid",
+            //    maxlength: "This is Invalid"
+            //},
+            sgst: {
+                regex: "This is Invalid",
+                minlength: "This is Invalid",
+                maxlength: "This is Invalid"
+            }
+        },
+
+        errorPlacement: function (error, element) {
+            //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+            //    error.insertAfter("#show-error");
+            //}
+            ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+            ////    error.insertAfter("#form_payment_error");
+            ////}
+            //else {
+            //    error.insertAfter(element); // for other inputs, just perform default behavior
+            //}
+            error.insertAfter(element);
+            setTimeout(function () {
+                $("#reg-title").html($('.moving-tab').html());
+            }, 1000);
+        },
+        //success: function (label) {
+        //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+        //        label.remove(); // remove error label here
+        //    }
+        //},
+        submitHandler: function (form) {
+            var $valid = $('.wizard-card form, .log-card form').valid();
+            if (!$valid) {
+                setTimeout(function () {
+                    $("#reg-title").html($('.moving-tab').html());
+                }, 1000);
+                $validator.focusInvalid();
+                return false;
+            }
+            else {
+                if ($("input[name=mode]").val() == "login") {
+                    $("input[name=login]").val("Logging...").attr("disabled", "disabled");
+                    var obj = {};
+
+                    obj.mail = $("input[name=Email]").val();
+                    obj.pas = $("input[name=pswd]").val();
+                    obj.me = "";
+                    if ($('input[name=rememberme]').is(":checked")) {
+                        obj.me = "1";
+                    }
+                    return checklog(obj.mail, obj.pas, obj.me);
+                }
+                else {
+                    return update();
+                }
+                //alert("done")
+            }
+            //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+        }
+    });
+
+    // Wizard Initialization
+    $('.wizard-card').bootstrapWizard({
+        'tabClass': 'nav nav-pills',
+        'nextSelector': '.btn-next',
+        'previousSelector': '.btn-previous',
+
+        onNext: function (tab, navigation, index) {
+            var $valid = $('.wizard-card form').valid();
+            var activetb = $('.tab-content > .active').attr("id");
+
+            var i = 0;
+
+            var changetitle = setInterval(function () {
+
+                if (i > 10) {
+                    clearInterval(changetitle);
+                }
+
+                $("#reg-title").html($('.moving-tab').html());
+
+                i++;
+
+            }, 1000);
+
+            //setTimeout(function () {
+            //    $("#reg-title").html($('.moving-tab').html());
+            //}, 1000);
+            var cb = $("#account .choice.active input[type=radio]").val();
+
+            if ($("input[name=Companyname]").val() != "") {
+                $("input[name=BillingName], input[name=ShippingName]").val($("input[name=Companyname]").val());
+                $("#address .form-group.remove-float").removeClass("is-empty");
+            }
+
+            if ($("input[name=emailid]").val() != "") {
+                $("input[name=Email], input[name=Email2]").val($("input[name=emailid]").val());
+                $("#address .form-group.remove-float").removeClass("is-empty");
+            }
+            if ($("input[name=ACity]").val() != "") {
+                $("input[name=City], input[name=cty]").val($("input[name=ACity]").val());
+                $("#address .form-group.remove-float").removeClass("is-empty");
+            }
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+            else if (activetb == "account") {
+                if (cb == undefined) {
+                    $("#check").removeClass("d-none");
+                    return false;
+                }
+                else {
+                    $("#check").addClass("d-none");
+                    return update();
+                }
+            }
+            else {
+                $("#check").addClass("d-none");
+                return update();
+            }
+
+
+
+        },
+
+
+        onInit: function (tab, navigation, index) {
+            //check number of tabs and fill the entire row
+
+            var $total = navigation.find('li').length;
+            var $wizard = navigation.closest('.wizard-card');
+
+            $first_li = navigation.find('li:first-child a').html();
+            $moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
+            $('.wizard-card .wizard-navigation').append($moving_div);
+
+            refreshAnimation($wizard, index);
+
+            $('.moving-tab').css('transition', 'transform 0s');
+            setTimeout(function () {
+                $("#reg-title").html($('.moving-tab').html());
+            }, 1000);
+        },
+
+        onTabClick: function (tab, navigation, index) {
+            var $valid = $('.wizard-card form').valid();
+
+            if (!$valid) {
+                var activetb = $('.tab-content > .active').attr("id");
+                var step = $('#Step').val();
+                setTimeout(function () {
+                    $("#reg-title").html($('.moving-tab').html());
+                }, 1000);
+
+                if (step == "2" && activetb == "about") {
+                    return true;
+                }
+
+                return false;
+            } else {
+                return true;
+            }
+        },
+
+        onTabShow: function (tab, navigation, index) {
+
+            var $total = navigation.find('li').length;
+            var $current = index + 1;
+
+            var $wizard = navigation.closest('.wizard-card');
+
+            // If it's the last tab then hide the last button and show the finish instead
+            if ($current >= $total) {
+                $($wizard).find('.btn-next').hide();
+                $($wizard).find('.btn-finish').show();
+            } else {
+                $($wizard).find('.btn-next').show();
+                $($wizard).find('.btn-finish').hide();
+            }
+
+            button_text = navigation.find('li:nth-child(' + $current + ') a').html();
+
+            setTimeout(function () {
+                $('.moving-tab').text(button_text);
+            }, 150);
+
+            var checkbox = $('.footer-checkbox');
+
+            if (!index == 0) {
+                $(checkbox).css({
+                    'opacity': '0',
+                    'visibility': 'hidden',
+                    'position': 'absolute'
+                });
+            } else {
+                $(checkbox).css({
+                    'opacity': '1',
+                    'visibility': 'visible'
+                });
+            }
+
+            refreshAnimation($wizard, index);
+        }
+    });
+
+    $('.btn-previous').click(function () {
+        var $valid = $('.wizard-card form').valid();
+        if (!$valid) {
+            $validator.focusInvalid();
+            return false;
+        }
+    });
+
+    // Prepare the preview for profile picture
+    $("#wizard-picture").change(function () {
+        readURL(this);
+    });
+
+    $('[data-toggle="wizard-radio"]').click(function () {
+        wizard = $(this).closest('.wizard-card');
+        wizard.find('[data-toggle="wizard-radio"]').removeClass('active');
+        $(this).addClass('active');
+        $(wizard).find('[type="radio"]').removeAttr('checked');
+        $(this).find('[type="radio"]').attr('checked', 'true');
+    });
+
+    $('[data-toggle="wizard-checkbox"]').click(function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $(this).find('[type="checkbox"]').removeAttr('checked');
+        } else {
+            $(this).addClass('active');
+            $(this).find('[type="checkbox"]').attr('checked', 'true');
+        }
+    });
+
+    $('.set-full-height').css('height', 'auto');
+
+});
+
+
+
+function update() {
+    var activetb = $('.tab-content > .active').attr("id");
+    //var step = 0;
+    //var Compname  = "null";
+    //var Fullname  = "null";
+    //var Email     = "null";
+    //var Mobile    = "null";
+    //var Passsword = "null";
+    //var mtype     = "null";
+    //var Sname     = "null";
+    //var Semail    = "null";
+    //var Smobile   = "null";
+    //var Sstreet   = "null";
+    //var Spin      = "null";
+    //var Scity     = "null";
+    //var Sstate    = "null";
+    //var Bname     = "null";
+    //var Bemail    = "null";
+    //var Bmobile   = "null";
+    //var Bstreet   = "null";
+    //var Bpin      = "null";
+    //var Bcity     = "null";
+    //var Bstate    = "null";
+    var obj = {};
+    if (activetb == "about") {
+        var d = $("#wizardProfile input[name=hfid]").val();
+        if (parseInt(d) >= 0) {
+            obj.Aid = d;
+        }
+
+        obj.Compname = $('#' + activetb + ' input[name=Companyname]').val();
+        obj.Fullname = $('#' + activetb + ' input[name=fullname]').val();
+        obj.Email = $('#' + activetb + ' input[name=emailid]').val();
+        obj.Mobile = $('#' + activetb + ' input[name=mobile]').val();
+        obj.Password = $('#' + activetb + ' input[name=password]').val();
+        obj.ACity = $('#' + activetb + ' input[name=ACity]').val();
+        obj.step = 1;
+       // console.log('step1 ' + obj.Compname + obj.Fullname + obj.Email + obj.Mobile + obj.Passsword);
+    }
+    else if (activetb == "account") {
+        var d = $("#wizardProfile input[name=hfid]").val();
+        if (parseInt(d) >= 0) {
+            obj.Aid = d;
+        } 
+       // console.log('first mobile : ' + $('#about input[name=mobile]').val());
+       // console.log('2nd  mobile : ' + $('#address input[name=Mobile]').val());
+       // console.log('2nd  mobile : ' + $('#address input[id=mobile2]').val());
+
+        $('#address input[name=BillingName]').val($('#about input[name=fullname]').val());
+        
+
+        var dcntrycode = ''; //$('#about select[name=BI_countryCode]').val();
+        var dmob = $('#about input[name=mobile]').val();
+        $('#address input[name=Mobile]').val(dcntrycode + dmob);
+        //$('#address input[name=Mobile]').val("+" + dcntrycode + dmob);
+
+        $('#address input[name=Mobile]').focus(); //($('#about input[name=mobile]').val());
+        $('#address input[name=City]').val($('#about input[name=ACity]').val());
+        //$('#account input[name=City]').val($('#about input[name=ACity]').val());
+        $('#address select[name=country]').val($('#about select[name=BI_country]').val());
+
+        obj.mtype = $("#account .choice.active input[type=radio]").val();
+        obj.step = 2;
+       // console.log('step2 '); // + obj.Compname + obj.Fullname + obj.Email + obj.Mobile + obj.Passsword);
+    }
+    else if (activetb == "address") {
+        $(".toast-message").removeClass("d-none");
+        $(".toast-message > div > div").addClass("d-none");
+        //alert('hello registering..');
+        $(".toast-message p").text("Please wait... (Registering your details)");
+        $("#header, section , #footer").addClass("filter-blur-2");
+        var d = $("#wizardProfile input[name=hfid]").val();
+        if (parseInt(d) >= 0) {
+            obj.Aid = d;
+        }
+
+       // console.log('Creating account...');
+
+       // console.log('hello before step3');
+
+
+
+
+
+
+        obj.step = 3;
+        obj.Bname = $('#' + activetb + ' input[name=BillingName]').val();
+        obj.Bemail = $('#' + activetb + ' input[name=Email]').val();
+        obj.Bmobile = $('#' + activetb + ' input[name=Mobile]').val();
+        obj.Bstreet = $('#' + activetb + ' input[name=StreetName]').val();
+        obj.Bpin = $('#' + activetb + ' input[name=pinCode]').val();
+        obj.Bcity = $('#' + activetb + ' input[name=City]').val();
+        obj.Bstate = $('#' + activetb + ' select[name=State]').val();
+        var pan = $('#' + activetb + ' input[name=pan]').val();
+        var pan1 = $('#' + activetb + ' input[name=pan1]').val();
+        obj.Pan = pan +'-'+ pan1;
+        obj.Gst = $('#' + activetb + ' input[name=gst]').val();
+        obj.Email = $('#' + activetb + ' input[name=emailid]').val();
+        obj.Password = $('#' + activetb + ' input[name=password]').val();
+
+       // console.log('hello after step3');
+
+			//alert('pan:' . pan);
+			
+			//alert('pan1:' . pan1);
+			
+
+        if ($('input[name=billing]').is(":checked")) {
+            obj.Sname = $('#' + activetb + ' input[name=BillingName]').val();
+            obj.Semail = $('#' + activetb + ' input[name=Email]').val();
+            obj.Smobile = $('#' + activetb + ' input[name=Mobile]').val();
+            obj.Sstreet = $('#' + activetb + ' input[name=StreetName]').val();
+            obj.Spin = $('#' + activetb + ' input[name=pinCode]').val();
+            obj.Scity = $('#' + activetb + ' input[name=City]').val();
+            obj.Sstate = $('#' + activetb + ' select[name=State]').val();
+            obj.Sgst = $('#' + activetb + ' input[name=gst]').val();
+        }
+        else {
+            obj.Sname = $('#' + activetb + ' input[name=ShippingName]').val();
+            obj.Semail = $('#' + activetb + ' input[name=Email2]').val();
+            obj.Smobile = $('#' + activetb + ' input[name=Mobile2]').val();
+            obj.Sstreet = $('#' + activetb + ' input[name=sname]').val();
+            obj.Spin = $('#' + activetb + ' input[name=pin]').val();
+            obj.Scity = $('#' + activetb + ' input[name=cty]').val();
+            obj.Sstate = $('#' + activetb + ' select[name=stt]').val();
+            obj.Sgst = $('#' + activetb + ' input[name=sgst]').val();
+        }
+       /// console.log(obj.Compname + obj.Fullname + obj.Email + obj.Mobile + obj.Passsword);
+    }
+
+	pan = $('#' + activetb + ' input[name=pan]').val();
+    pan1 = $('#' + activetb + ' input[name=pan1]').val();
+    
+    //console.log( $("#pan").val()); //.'Registration Done Successfully !! '); 
+
+    //console.log('Registration started..'); //.'Registration Done Successfully !! '); 
+
+		
+		
+    $.ajax({
+        type: "POST",
+        url: "/Access/RegisterDetail",
+        //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+        data: JSON.stringify(obj),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+
+            if (response.success && response.isreturn == true) {
+                return true;
+            }
+            else if (response.success && response.data == "4") {
+                //location.href = "https://www.josefmarc.in/";
+            }
+
+            else if (response.success && response.data == -99) {
+                // else if (response && response.success==true) {
+
+                var activetb = $('.tab-content > .active').attr("id");
+                if (activetb == "address") {
+
+
+                    $(".toast-message").addClass("d-none");
+
+
+                    //imteyaz. moved block
+                    // VerifyEmail($("#wizardProfile input[name=hfid]").val());
+                    setTimeout(function () {
+                        $(".toast-message").addClass("d-none");
+
+							//alert( $("#pan").val()); //.'Registration Done Successfully !! '); 
+
+                        //alert('Registration Done Successfully !! '); //Initializing account details...');
+
+                        //location.href = "https://swissbake.bh/login";
+						var isValid=0;
+						if(pan != null)
+						{
+							if(pan.length > 0) 
+							{
+								isValid=1;
+							}
+						}
+						
+						//alert(pan.length); 
+						//alert("isvalid : " + isValid);
+						if(isValid == 1) 
+							location.href = "https://swissbake.bh/thankyou?f=1";
+						else
+							location.href = "https://swissbake.bh/thankyou";
+
+                    }, 1000);
+
+
+                    //     VerifyMob($("#wizardProfile input[name=hfid]").val());  // [faisal]this condition is added as OTP sms was not being sent when done remove VerifyEmail and add VerifyMob
+
+
+                    //$("input").attr("disabled", "disabled");
+                    //$("button[type=submit],button[type=button]").attr("disabled", "disabled");
+                    //$(".toast-message p").text("Please wait... (Activating your account)");
+                    //setTimeout(function () {
+                    //    $(".toast-message p").text("Thankyou for register... Please choose your landing page.");
+                    //    $(".toast-message > div > div").removeClass("d-none");
+                    //    //var i = 15;
+                    //    //setInterval(function () {
+                    //    //    i = i-1;
+                    //    //    $(".toast-message .redirect-blk span i").text(i + "s");
+                    //    //    if (i <= -1) {
+                    //    //        window.location.href = "/";
+                    //    //        clearInterval()
+                    //    //    }
+
+                    //    //},1000);
+
+                    //}, 3000);
+                }
+
+                //$('#' + activetb + ' input[name=emailid], #' + activetb + ' input[name=password]').removeAttr("disabled");
+
+                //var obj = {};
+
+                //obj.Email = $('#' + activetb + ' input[name=emailid]').val();
+                //obj.Password = $('#' + activetb + ' input[name=password]').val();
+
+                //checkinlog(obj.Email, obj.Password);
+            }
+            else if (response.success == false) {
+                //if ($(".wizard-navigation li:nth-child(2)").hasClass("active")){
+                //    $(".wizard-navigation li:nth-child(1) a").click();
+                //}
+            }
+            /*else if (parseInt(response) >= 0) {*/
+            else if (response.success && parseInt(response.data) >= 0) {
+                //console.log('verify email..');
+                $("#wizardProfile input[name=hfid]").val(response.data);
+                $("#about .form-control").attr("disabled", "disabled");
+                VerifyEmail($("#wizardProfile input[name=hfid]").val());
+                //$(".wizard-navigation li:nth-child(1) a").removeAttr("href").removeAttr("data-toggle");
+                return true;
+            }
+            else {
+                alert(response);
+            }
+            //var activetb = $('.tab-content > .active').attr("id");
+            //if (activetb == "address"){
+            //    $(".toast-message p").text("Please wait... (Activating your account)");
+            //    setTimeout(function () {
+            //        $(".toast-message p").text("Thankyou for register... Please choose your landing page.");
+            //        $(".toast-message > div > div").removeClass("d-none");
+            //    },3000);
+            //}
+
+        },
+        failure: function (response) {
+            return false;
+        },
+        error: function (response) {
+            return false;
+        }
+    });
+
+}
+
+function checkinlog(mail, pass) {
+    var obj = {};
+    obj.email = mail;
+    obj.pass = pass;
+    $.ajax({
+        type: "POST",
+        url: "/Access/Checklogin",
+        //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+        data: JSON.stringify(obj),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+
+            if (response == false) {
+                $.alert({ title: 'Caution!', theme: 'supervan', content: 'Your Entered email id and password not matched.' });
+                $("input[name=login]").val("Login").removeAttr("disabled", "disabled");
+            }
+            else if (response[0]["Acc_Id"] != "") {
+                //alert(response[0]["Acc_Id"]);
+                //window.location.href = "/Account/Index";
+                return true;
+            }
+
+        },
+        failure: function (response) {
+            return false;
+        },
+        error: function (response) {
+            return false;
+        }
+    });
+}
+
+
+//Function to show image before upload
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).ready(function () {
+    $('.moving-tab').css('width', "33%");
+
+
+});
+
+$(window).resize(function () {
+    $('.wizard-card').each(function () {
+        $wizard = $(this);
+
+        index = $wizard.bootstrapWizard('currentIndex');
+        refreshAnimation($wizard, index);
+
+        $('.moving-tab').css({
+            'transition': 'transform 0s'
+        });
+    });
+});
+
+function refreshAnimation($wizard, index) {
+    $total = $wizard.find('.nav li').length;
+    $li_width = 100 / $total;
+
+    total_steps = $wizard.find('.nav li').length;
+    move_distance = $wizard.width() / total_steps;
+    index_temp = index;
+    vertical_level = 0;
+
+    mobile_device = $(document).width() < 600 && $total > 3;
+
+    if (mobile_device) {
+        move_distance = $wizard.width() / 2;
+        index_temp = index % 2;
+        $li_width = 50;
+    }
+
+    $wizard.find('.nav li').css('width', $li_width + '%');
+
+    step_width = move_distance;
+    move_distance = move_distance * index_temp;
+
+    $current = index + 1;
+
+    if ($current == 1 || (mobile_device == true && (index % 2 == 0))) {
+        move_distance -= 8;
+    } else if ($current == total_steps || (mobile_device == true && (index % 2 == 1))) {
+        move_distance += 8;
+    }
+
+    if (mobile_device) {
+        vertical_level = parseInt(index / 2);
+        vertical_level = vertical_level * 38;
+    }
+
+    $wizard.find('.moving-tab').css('width', step_width);
+    $('.moving-tab').css({
+        'transform': 'translate3d(' + move_distance + 'px, ' + vertical_level + 'px, 0)',
+        'transition': 'all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)'
+
+    });
+}
+
+materialDesign = {
+
+    checkScrollForTransparentNavbar: debounce(function () {
+        if ($(document).scrollTop() > 260) {
+            if (transparent) {
+                transparent = false;
+                $('.navbar-color-on-scroll').removeClass('navbar-transparent');
+            }
+        } else {
+            if (!transparent) {
+                transparent = true;
+                $('.navbar-color-on-scroll').addClass('navbar-transparent');
+            }
+        }
+    }, 17)
+
+}
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+        var context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        }, wait);
+        if (immediate && !timeout) func.apply(context, args);
+    };
+};

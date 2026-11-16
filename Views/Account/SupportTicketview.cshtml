@@ -1,0 +1,280 @@
+﻿@using System.Data;
+@model DataSet
+@{
+    ViewBag.Title = "Ticket View";
+    
+}
+
+@section head{
+    <style>
+        .table:nth-child(1) thead {
+            background: #d70002;
+            color: #fff;
+        }
+        
+        .table th:nth-child(2){
+            text-align:right
+        }
+
+        
+
+        @@media screen and (max-width:479px){
+            .table thead tr {
+                display: block;
+            }
+            .table thead th:first-child{
+                border-bottom:none;
+            }
+            .table thead th {
+                float: left;
+                text-align: left !important;
+                width:100%;
+            }
+
+        }
+
+        
+
+    </style>
+    
+}
+
+
+@section foot{
+
+<script src="~/Content/js/register/jquery.validate.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                subject: {
+                    required: true,
+                },
+                desc: {
+                    required: true,
+                },
+
+                file: {
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                }
+
+            },
+
+            messages: {
+                subject: {
+                    required: "This is required"
+                },
+                subject: {
+                    required: "This is required"
+                },
+
+                file: {
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                //    error.insertAfter("#show-error");
+                //}
+                ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                ////    error.insertAfter("#form_payment_error");
+                ////}
+                //else {
+                //    error.insertAfter(element); // for other inputs, just perform default behavior
+                //}
+                error.insertAfter(element);
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                var $valid = $('form').valid();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+                else {
+                    $("button[type=submit]").text("Applying").attr("disabled", "disabled");
+                    $("button[type=reset]").attr("disabled", "disabled");
+                    //angular.element(document.getElementById('content')).scope().submitForm();
+                    //angular.element(document.getElementById('content')).scope().$apply();
+                    form.submit()
+                }
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+
+        @Html.Raw(ViewBag.error)
+
+
+    });
+
+
+    function sucess() {
+        $.confirm({
+            backgroundDismiss: false,
+            title: false,
+            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Ticket updated successfully.</label></div>',
+            buttons: false
+        });
+        setTimeout(function () {
+            $('.jconfirm-closeIcon').click();
+        }, 5000);
+    }
+
+</script>
+
+}
+
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-11">
+
+        <div class="container clearfix">
+            <div class="row" style="padding:15px">
+                <div class="heading-block col-md-10">
+                    <h4>Ticket View -  #@Model.Tables[0].Rows[0]["Complaint_ID"]</h4>
+                </div>
+            </div>
+
+            <div class="row" style="padding:15px 25px">
+
+                <div class="manageinvoicetbl w-100">
+                    <table class="table table-striped" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Orignal Ticket (@Model.Tables[0].Rows[0]["complaint_compStatus"])</th>
+                                <th>@Model.Tables[0].Rows[0]["Acc_Name"] : @Model.Tables[0].Rows[0]["Complaint_CreatedDatewithFormat"]</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td colspan="2">
+                                    <p class="mb-0"><b>@Model.Tables[0].Rows[0]["Complaint_Subject"]</b></p>
+                                    <p>@Model.Tables[0].Rows[0]["Complaint_Discription"]</p>
+                                    @if (Model.Tables[0].Rows[0]["Complaint_Attachment"].ToString() != "" && Model.Tables[0].Rows[0]["Complaint_Attachment"].ToString() != "#")
+                                    {
+                                        var dname = Model.Tables[0].Rows[0]["Complaint_Attachment"].ToString().Split('/');
+                                        string actualFileName = dname[dname.Length - 1];
+                                        <a href="@Model.Tables[0].Rows[0]["Complaint_Attachment"]" class="primary-color" download="@actualFileName">
+                                            Click to Download Attachments  <i class="fas fa-paperclip"></i>
+                                        </a>
+                                    }
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    @foreach (DataRow i in Model.Tables[1].Rows)
+                    {
+                        <table class="table table-striped" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>@i["Complaint_Subject"]</th>
+                                    <th>@(i["Reply_Type"].ToString() == "Customer" ? i["Acc_Name"] : "Admin" ) : @i["Reply_Emp_CreatedDate"]</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        <p>@i["Reply_Discription"]</p>
+                                        @if (i["Reply_Attachment"].ToString() != "" && i["Reply_Attachment"].ToString() != "#")
+                                        {
+                                            var dname = i["Reply_Attachment"].ToString().Split('/');
+                                            string actualFileName = dname[dname.Length - 1];
+                                            <a href="@i["Reply_Attachment"]" class="primary-color" download="@actualFileName">
+                                                Click to Download Attachments  <i class="fas fa-paperclip"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    }
+
+                    @if (Model.Tables[0].Rows[0]["complaint_compStatus"].ToString() != "Resolved")
+                    {
+                        <div class="col-md-6">
+                            <div class="heading-block">
+                                <h4>Add Reply</h4>
+                            </div>
+                            @using (Html.BeginForm("SupportTicketview", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                var cnt = Model.Tables[1].Rows.Count;
+                                @Html.Hidden("Id", @Model.Tables[0].Rows[0]["Complaint_ID"])
+
+                                if (cnt > 0)
+                                {
+                                    @Html.Hidden("RId", @Model.Tables[1].Rows[(cnt - 1)]["Reply_ID"])
+                                }
+                                else
+                                {
+                                    @Html.Hidden("RId", 0)
+                                }
+
+                                <div class="form-group">
+                                    <label for="">Description:</label>
+                                    <textarea class="sm-form-control" id="desc" name="desc" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Attachments:</label>
+                                    <input type="file" class="form-control-file" id="file" name="file">
+                                </div>
+
+                                <div class="col_full nobottommargin">
+                                    <button type="submit" class="button  nomargin save" name="Submit" id="Submit" value="Save">submit</button>
+                                    <a href="/Account/index" class="button  nomargin cancel" value="Cancel">Cancel</a>
+                                </div>
+                            }
+
+
+
+
+                        </div>
+                    }
+                    
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

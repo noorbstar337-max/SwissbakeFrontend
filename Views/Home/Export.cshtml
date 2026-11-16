@@ -1,0 +1,421 @@
+﻿@using reCAPTCHA.MVC
+@{
+    ViewBag.Title = "Export";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Contact" />
+    <meta name="keywords" content="Contact" />
+    <meta property="og:description" content="Contact" />
+    <meta property="og:url" content="http://uat.swissbake.bh/contact" />
+    <meta property="twitter:title" content="Contact | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Contact" />
+    <meta property="og:image" content="http://uat.swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://uat.swissbake.bh/contact" />
+}
+
+
+@section head{
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane {
+            margin-bottom: 0;
+        }
+
+        .jconfirm-closeIcon {
+            display: none !important;
+        }
+    </style>
+}
+
+@section foot{
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+    <script src="https://maps.google.com/maps/api/js?key=AIzaSyDMxJ92oBkSnVNHFX3R8XhtYQPEgk1_IiI"></script>
+    <script src="~/Content/js/jquery.gmap.js"></script>
+
+    <script>
+
+    $(document).ready(function () {
+
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.sm-form-control', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                Name: {
+                    required: true,
+                    //regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                    //minlength: 3,
+                },
+                Email: {
+                    required: true,
+                    regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                },
+                Mobile: {
+                    required: true,
+                    regex: /^[0-9]{10}$/gm,
+                    minlength: 10,
+                    maxlength: 10,
+                },
+                Organisation: {
+                    required: true,
+                    //regex: /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/
+                },
+                Pin: {
+                    required: true,
+                    regex: /([0-9]{4}$)/,
+                },
+                City: {
+                    required: true,
+                    //regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                },
+                Comment: {
+                    required: true,
+                    regex: /^[a-zA-Z\s.,]*$/,
+                },
+                Designation: {
+                    required: true
+                },
+                Turnover: {
+                    required: true
+                },
+                InterestFor: {
+                    required: true,
+                    regex: /^[a-zA-Z\s.,]*$/,
+                },
+                country: {
+                    required: true
+                },
+                Type: {
+                    required: true
+                }
+
+            },
+
+            messages: {
+                Name: {
+                    required: "This is required"
+                },
+                Email: {
+                    required: "This is required",
+                    regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                },
+                Mobile: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                    minlength: "This is invalid",
+                    maxlength: "This is invalid",
+                },
+                Organisation: {
+                    required: "This is required",
+                    //regex: "This is invalid",
+                },
+                Pin: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                },
+                City: {
+                    required: "This is required",
+                    //regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                },
+                Comment: {
+                    required: "This is required",
+                    //regex: "This is invalid",
+                },
+                Designation: {
+                    required: "This is required"
+                },
+                Turnover: {
+                    required: "This is required"
+                },
+                InterestFor: {
+                    required: "This is required",
+                    regex: "This is invalid",
+                },
+                country: {
+                    required: "This is required"
+                },
+                Type: {
+                    required: "This is required"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                //    error.insertAfter("#show-error");
+                //}
+                ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                ////    error.insertAfter("#form_payment_error");
+                ////}
+                //else {
+                //    error.insertAfter(element); // for other inputs, just perform default behavior
+                //}
+                error.insertAfter(element);
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                //var $valid = $('form').valid();
+                //var v = grecaptcha.getResponse();
+
+                //if (!$valid) {
+                //    $validator.focusInvalid();
+
+                //    return false;
+                //}
+                //else if (v.length == 0) {
+                //    $(".field-validation-valid").css("color", "red").text("This is required");
+                //    $.confirm({
+                //        backgroundDismiss: true,
+                //        title: false,
+                //        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Captcha is Required</label></div>',
+                //        buttons: false
+                //    });
+                //    setTimeout(function () {
+                //        $('.jconfirm-closeIcon').click();
+                //    }, 1000);
+                //    return false;
+                //}
+                //else {
+                //    $("button[type=submit]").text("Submitting").attr("disabled", "disabled");
+                    //angular.element(document.getElementById('content')).scope().submitForm();
+                    //angular.element(document.getElementById('content')).scope().$apply();
+                    form.submit()
+                //}
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+        @Html.Raw(ViewBag.error)
+    });
+
+
+    function sucess() {
+        $.confirm({
+            backgroundDismiss: false,
+            title: false,
+            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Thankyou for contacting us.</label></div>',
+            buttons: false
+        });
+        setTimeout(function () {
+            $('.jconfirm-closeIcon').click();
+        }, 5000);
+    }
+
+        jQuery('#google-map').gMap({
+            address: 'Melbourne, Australia',
+            maptype: 'ROADMAP',
+            zoom: 14,
+            markers: [
+                {
+                    address: "Melbourne, Australia",
+                    html: '<div style="width: 300px;"><h4 style="margin-bottom: 8px;">Hi, we\'re <span>Envato</span></h4><p class="nobottommargin">Our mission is to help people to <strong>earn</strong> and to <strong>learn</strong> online. We operate <strong>marketplaces</strong> where hundreds of thousands of people buy and sell digital goods every day, and a network of educational blogs where millions learn <strong>creative skills</strong>.</p></div>',
+                    icon: {
+                        image: "images/icons/map-icon-red.png",
+                        iconsize: [32, 39],
+                        iconanchor: [32, 39]
+                    }
+                }
+            ],
+            doubleclickzoom: false,
+            controls: {
+                panControl: true,
+                zoomControl: true,
+                mapTypeControl: true,
+                scaleControl: false,
+                streetViewControl: false,
+                overviewMapControl: false
+            }
+        });
+
+
+        //function on_submit(token) {
+        //    document.getElementById("submit-button").submit();
+        //}
+
+
+        //$("#InterestFor").change(function (this) {
+        //    $('#InterestFor').val(this.val.split(',').join(', '));
+        //});
+        //$(document).ready(function () {
+        //    $("#InterestFor").keyup(function () {
+        //        var setText = document.getElementById('InterestFor').value;
+        //        document.getElementById('setText').value = setText.split(',').join(', ');
+        //    });
+        //});
+        //function getText() {
+        //    var setText = document.getElementById('InterestFor').val;
+        //    document.getElementById('setText').val = setText.replace(",", ", ");
+
+        //}
+
+        //omit_special_char(event)
+        //{
+        //    var k;
+        //    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+        //    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        //}
+
+
+    </script>
+    @*<script>
+        let btnSubmit = document.querySelector("button");
+        //var allinputs = document.querySelector('input[type="text"]');
+        let output = document.querySelector("#InterestFor");
+
+        let myString = output;
+
+        //output.innerText = myString;
+
+        btnSubmit.addEventListener("click", () => {
+            let regex = /,/g;
+            let result = myString.replace(regex, ", ");
+            output.innerText = result;
+        });
+    </script>*@
+}
+
+
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/contact.png');background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>Export</h1>
+        <span>Have any Questions? Here’s how you can get in touch with us. </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Export</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+
+
+<section>
+    <div class="container">
+        <h3 class="about-heading">
+            The service of this website is not available in your region. Please provide us with your valuable details so that our business development team can get in touch with you and discuss in brief regarding your requirements.
+        </h3>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="heading-block topmargin-lg center ">
+            <h3>SEND US A MESSAGE</h3>
+        </div>
+        <div class="row cont-form">
+            <div class="col-lg-8 offset-lg-2">
+
+
+                <div class="">
+                    @using (Html.BeginForm("Export","Home"))
+                    {
+                        <div class="row">
+                            <div class="col_one_third">
+                                <input type="text" id="Organisation" name="Organisation" value="" class="sm-form-control" placeholder="Organisation"  onkeypress="return charkey(this);"/>
+                                
+                            </div>
+                            <div class="col_one_third ">
+                                <select class="sm-form-control" name="Type">
+                                    <option value="">-- Select Type --</option>
+                                    <option value="Supplier">Supplier</option>
+                                    <option value="End User">End User</option>
+                                </select>
+                                
+                                
+                            </div>
+                            <div class="col_one_third col_last">
+                                <input type="text" id="Turnover" name="Turnover" value="" class="sm-form-control nocpc" placeholder="Turnover ($)" onkeypress="return numkey(this);" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col_half">
+                                <input type="text" id="Name" name="Name" value="" class="sm-form-control nocpc" placeholder="Name" onkeypress="return charkey(this);" />
+                            </div>
+                            <div class="col_half col_last">
+                                <input type="text" id="Designation" name="Designation" value="" class="sm-form-control nocpc" placeholder="Designation" onkeypress="return charkey(this);" />
+                            </div>
+                            <div class="col_full">
+                                <textarea class="sm-form-control" id="InterestFor" name="InterestFor" rows="6" cols="30" placeholder="Interest For" (keypress)="omit_special_char($event)"></textarea>
+                                @*onclick= "getText()"*@
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col_one_third">
+                                <input type="email" id="Email" name="Email" value="" class="sm-form-control nocpc" placeholder="Email Id" />
+                                <input type="email" id="pEmail" name="pEmail" value="" class="sm-form-control nocpc" placeholder="Email Id" hidden/>
+                            </div>
+                            <div class="col_one_third">
+                                <input type="text" id="Mobile" name="Mobile" value="" class="sm-form-control nocpc" placeholder="Mobile" maxlength="14" onkeypress="return numkey(this);" />
+                            </div>
+                            <div class="col_one_third col_last">
+                                @Html.DropDownList("country", (SelectList)ViewBag.cntrylist, new { @class = "sm-form-control"})
+                                @*<input type="text" id="State" name="State" value="" class="sm-form-control" placeholder="State" />*@
+                            </div>
+                            
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col_half ">
+                                <input type="text" id="City" name="City" value="" class="sm-form-control nocpc" placeholder="City" onkeypress="return charkey(this);" />
+                            </div>
+                            <div class="col_half col_last">
+                                <input type="text" id="Pin" name="Pin" value="" class="sm-form-control nocpc" placeholder="Zip/Pin Code" maxlength="6" onkeypress="return numkey(this);" />
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col_full">
+                                <textarea class="sm-form-control" id="Comment" name="Comment" rows="6" cols="30" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-7 p-xl-0">
+                                @*@Html.Recaptcha()
+                                @Html.ValidationMessage("ReCaptcha")*@
+
+                                @*<div class="captcha">
+
+                                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                                        <div class="g-recaptcha" data-sitekey="6LfijgUTAAAAACPt-XfRbQszAKAJY0yZDjjhMUQT"></div>
+                                    </div>*@
+
+                            </div>
+                            <div class="col-md-5">
+                                <button name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button m-0 mt-3 contactnbtn w-100">Submit</button>
+                                @*data-callback="on_submit"*@
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

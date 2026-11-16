@@ -1,0 +1,67 @@
+﻿
+@using SwissbakeIn.Models;
+@using SwissbakeIn.App_Start;
+@using System.Data;
+@model DataTable 
+@if (HttpContext.Current.Request.Url.Host == "localhost")
+{
+    ViewBag.Domain = "http://localhost:56361";
+}
+else
+{
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+<div class="widget clearfix">
+    <div class="master-cart">
+        <h4>Cart </h4>
+
+        <div class="mast-cart-sect">
+
+   @foreach (DataRow i in Model.Rows)
+{
+            <div class="cartlet">
+                <div class="cart-img">
+                    <img src="https://www.josefmarc.in/images/product/MOLTEN-LAVA-CAKE-MIX-250gm-Hover-1210180640521.jpg?quality=0&quality=0&@Session["imgtype"]" />
+
+                </div>
+                <div class="side-cart-title">
+                    <a href="#"><strong>Molten Choco Lava Cake Mix</strong></a>
+                    <div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;1,899.00 X 10</b><span><i class="fas fa-trash"></i></span></div>
+                </div>
+
+            </div>
+            <div class="cartlet">
+                <div class="cart-img">
+                    <img src="https://www.josefmarc.in/images/product/MOLTEN-LAVA-CAKE-MIX-250gm-Hover-1210180640521.jpg?quality=0&quality=0&@Session["imgtype"]" />
+
+                </div>
+                <div class="side-cart-title">
+                    <a href="#"><strong>Molten Choco Lava Cake Mix</strong></a>
+                    <div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;1,899.00 X 10</b><span><i class="fas fa-trash"></i></span></div>
+                </div>
+
+            </div>
+            <div class="cartlet">
+                <div class="cart-img">
+                    <img src="https://www.josefmarc.in/images/product/MOLTEN-LAVA-CAKE-MIX-250gm-Hover-1210180640521.jpg?quality=0&quality=0&@Session["imgtype"]" />
+
+                </div>
+                <div class="side-cart-title">
+                    <a href="#"><strong>Molten Choco Lava Cake Mix</strong></a>
+                    <div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;1,899.00 X 10</b><span><i class="fas fa-trash"></i></span></div>
+                </div>
+
+            </div>
+}
+        </div>
+
+    </div>
+</div>
+<div class="mast-cart-ttl">
+    <span class="ttl-sect">
+        <b>Cart Total</b>
+        <span>BHD<i class="fas fa-rupee-sign"></i>&nbsp;18,990.00</span>
+    </span>
+    <a href="/cart" class="mast-gotocart">Go to Cart</a>
+    <a href="#" class="mast-checkout">Checkout</a>
+</div>

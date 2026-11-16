@@ -1,0 +1,406 @@
+﻿@using System.Data;
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{
+    int x = 0;
+    ViewBag.Title = "Pending Payment";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+@section foot{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            calculateinvoice();
+            calculateFinalPrice()
+
+        });
+
+        function calculateinvoice() {
+            //; debugger
+            //  var rows = document.getElementsByClassName("mT")[0].rows;
+
+            //var myTab = document.getElementById('tblorder');
+
+            //// LOOP THROUGH EACH ROW OF THE TABLE AFTER HEADER.
+            //for (i = 1; i < myTab.rows.length; i++) {
+
+            //    // GET THE CELLS COLLECTION OF THE CURRENT ROW.
+            //    var objCells = myTab.rows.item(i).cells;
+
+            //    // LOOP THROUGH EACH CELL OF THE CURENT ROW TO READ CELL VALUES.
+            //    for (var j = 0; j < objCells.length; j++) {
+            //       var name =  objCells.item(j).innerHTML;
+            //    }
+            //   // info.innerHTML = info.innerHTML + '<br />';     // ADD A BREAK (TAG).
+            //}
+            //----------------------------
+            // var value = $('mT tr:last td').text();
+            //var grdcellcount = $('.mT>tbody>tr>th').length - 1;
+            ////var Grid_Table = document.getElementById('< %= grditemproduct.ClientID%>');
+            //if (grdcellcount > 0) {
+            //    for (var row = 0; row < Grid_Table.rows.length - 2; row++) {
+            //        var id1 = 'ContentPlaceHolder1_grditemproduct_txtquantity_' + row;
+            //        calculateFinalPrice1(id1, 'hfkg');
+
+            //    }
+            //}
+
+            //-----------------------------------
+            var Grid_Table = document.getElementById('tblinvoice');//document.getElementsByClassName("mT")[0].rows;//document.getElementById('<%= GridView1.ClientID%>');
+            if (Grid_Table != null) {
+                var pay = 0.0;
+                // var grdcellcount = $('.mT>tbody>tr>td').length - 1;
+                for (var row = 0; row < Grid_Table.rows.length - 1; row++) {
+                    pay = pay + parseFloat(Grid_Table.rows[row + 1].cells[6].textContent.split("(")[0].replace(/[^0-9.]/g, ""));
+
+                }
+
+                $('.totalpay').text(Math.round(pay).toFixed(2));
+
+
+            }
+            var Grid_Table = document.getElementById('tblorder');//document.getElementById('<%= GridOrderPay.ClientID%>');
+            if (Grid_Table != null) {
+                var pay = 0.0;
+                for (var row = 0; row < Grid_Table.rows.length - 1; row++) {
+                    pay = pay + parseFloat(Grid_Table.rows[row + 1].cells[5].textContent.split("(")[0].replace(/[^0-9.]/g, ""));
+
+                }
+
+                $('.totalpay').text(Math.round(pay).toFixed(2));
+
+
+            }
+        }
+        function calculateFinalPrice() {
+           // ; debugger
+
+            //alert("NO CHECKBOX SELECTED");
+            var Grid_Table = document.getElementById('tblSelectInvoice');//document.getElementById('<%= GridSelInv.ClientID%>');
+            if (Grid_Table != null) {
+                $('.btnpay').hide();
+                var checkBoxes = Grid_Table.getElementsByClassName("checkboxPay");
+                var pay = 0.0;
+                var grdcellcount = $('.mT>tbody>tr>th').length - 1;
+                for (var row = 0; row < Grid_Table.rows.length - 1; row++) {
+                    //if (Grid_Table.rows[row].cells[0].checked) {
+                    if (checkBoxes[row].checked) {
+                        checkBoxes[row].value = "True";
+                        //vat = parseFloat(vat) + parseFloat(Grid_Table.rows[row].cells[grdcellcount - 2].textContent.split("(")[0].replace(/[^0-9.]/g, ""));
+                        //total = parseFloat(total) + parseFloat(Grid_Table.rows[row].cells[grdcellcount].textContent.replace(/[^0-9.]/g, ""));
+                        //totalkg = parseFloat(totalkg) + parseFloat(Grid_Table.rows[row].cells[6].textContent.replace(/[^0-9.]/g, ""));
+                        pay = pay + parseFloat(Grid_Table.rows[row + 1].cells[6].textContent.split("(")[0].replace(/[^0-9.]/g, ""));
+                        // jQuery(jQuery("span[id*=total]")[0]).text(pay);
+                        if (checkBoxes[row].checked) {
+                            $('.btnpay').show();
+                        }
+                        else {
+
+                            $('.btnpay').hide();
+                        }
+                    }
+                    else {
+                        checkBoxes[row].value = "";
+                    }
+                    // Grid_Table.rows[Grid_Table.rows.length].cells[7].innerHTML = "<hr style='border: 0; border-top: 1px solid #eee; margin-top: 4px; margin-bottom: 4px;'>" + "<b><i class='fa fa-rupee'></i> " + Math.round(pay).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + "</b>";
+                }
+
+                $('.totalpay').text(Math.round(pay).toFixed(2));
+
+            }
+        }
+
+
+    </script>
+}
+
+<h2>Payment</h2>
+
+<section class="account_tables pt-9">
+    <form method="post" action="">
+        <div class="bg-light pt-5 pb-5">
+            <div class="container">
+                @if (ViewBag.type == "Order")
+            {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-block">
+                                <h4>PENDING PAYMENT</h4>
+                            </div>
+                            @if (Model.Tables.Count > 0)
+                            {
+                                if (Model.Tables[0].Rows.Count > 0)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table cart table-bordered table-responsive o-t mT" id="tblorder">
+                                            <thead>
+
+                                                <tr>
+                                                    <th class="cart-product-name">Order No</th>
+                                                    <th class="cart-product-date">Order Date</th>
+                                                    <th class="cart-product-subtotal">Amount</th>
+                                                    <th class="cart-product-subtotal">Paid</th>
+                                                    <th class="cart-product-subtotal" style="width:100px;">Balance</th>
+                                                    <th class="cart-product-subtotal" style="width:200px;">Pay Amt</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (DataRow i in Model.Tables[0].Rows)
+                                                {
+
+                                                    string name = "order" + x;
+
+                                                    <tr class="cart_item">
+                                                        <td class="cart-product-date">
+                                                            <a class="link-red" target="_blank" href="@ViewBag.domain/PrintSalesOrdergst.aspx?Id=@HttpUtility.UrlEncode(Helper.Encrypt(i["Order_ID"].ToString()))"> @i["Order_Code"]<i class="fas fa-link"></i></a>
+
+                                                            <input type="hidden" name=@name value="@i["Order_ID"]" />
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <span name="date" class="date">@i["Order_ModifiedDate"]</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Order_Amount" class="amount">BHD @Helper.InPrice(Convert.ToDouble(i["Order_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="PayRef_Amount">BHD @Helper.InPrice(Convert.ToDouble(i["PayRef_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Balance">BHD @Helper.InPrice(Convert.ToDouble(i["Balance"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="amt">BHD @Helper.InPrice(Convert.ToDouble(i["amt"]))</span>
+                                                        </td>
+                                                        @*<td><button type="submit" class="paynow" ng-class="{'d-none':O.Etcstring2 == 'hide'}" ng-click="Paynow($index,O.Code,O.Etcstring1,O.Id)">Pay Now!</button><span ng-class="{'d-none' :  O.Etcstring2 == 'show'}">-</span></td>*@
+                                                    </tr>
+                                                    x = x + 1;
+                                                }
+
+                                                @*<tr ng-if="(Orders.length == 0)">
+                                                        <td colspan="5">
+                                                            No records found!
+                                                        </td>
+                                                    </tr>*@
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <button type="submit" class="button notopmargin float-lg-right checkoutbtn m-0">Pay Now</button>
+                                    <span>Total Amount : BHD</span><label name="total" class="totalpay" />
+                                        <input name="type" type="hidden" value="@ViewBag.type" />
+                                        @*< a ng-if="(Orders.length == 10)" href="/account/myorder" class="btn-more-link">Click for more</a>*@
+                                }
+
+                            }
+
+                           
+
+                        </div>
+
+
+                    </div>
+                }
+                else if (ViewBag.type == "invoice")
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-block">
+                                <h4>PENDING PAYMENT</h4>
+                            </div>
+                            @if (Model.Tables.Count > 0)
+                            {
+                                if (Model.Tables[0].Rows.Count > 0)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table cart table-bordered table-responsive o-t mT" id="tblinvoice">
+                                            <thead>
+
+                                                <tr>
+                                                    <th class="cart-product-name">Invoice No</th>
+                                                    <th class="cart-product-date">Invoice Date</th>
+                                                    <th class="cart-product-name">Order No</th>
+                                                    <th class="cart-product-subtotal">Amount</th>
+                                                    <th class="cart-product-subtotal">Paid</th>
+                                                    <th class="cart-product-subtotal" style="width:100px;">Balance</th>
+                                                    <th class="cart-product-subtotal" style="width:200px;">Pay Amt</th>
+                                                </tr>
+
+                                                 
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (DataRow i in Model.Tables[0].Rows)
+                                                {
+
+                                                    string name = "order" + x;
+
+                                                    <tr class="cart_item">
+                                                        <td class="cart-product-date">
+                                                            <a class="link-red" target="_blank" href="@ViewBag.domain/printinvoiceGST.aspx?Id=@HttpUtility.UrlEncode(Helper.Encrypt(i["Invoice_ID"].ToString()))"> @i["Invoice_Number"]<i class="fas fa-link"></i></a>
+
+                                                            <input type="hidden" name=@name value="@i["Order_ID"]" />
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <span name="date" class="date">@i["Invoice_Date"]</span>
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <a class="link-red" target="_blank" href="@ViewBag.domain/PrintSalesOrdergst.aspx?Id=@HttpUtility.UrlEncode(Helper.Encrypt(i["Order_ID"].ToString()))"> @i["Order_Code"]<i class="fas fa-link"></i></a>
+
+                                                            <input type="hidden" name=@name value="@i["Order_ID"]" />
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Order_Amount" class="amount">BHD @Helper.InPrice(Convert.ToDouble(i["Invoice_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="PayRef_Amount">BHD @Helper.InPrice(Convert.ToDouble(i["PayRef_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Balance">BHD @Helper.InPrice(Convert.ToDouble(i["Balance"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="amt">BHD @Helper.InPrice(Convert.ToDouble(i["amt"]))</span>
+                                                        </td>
+                                                        @*<td><button type="submit" class="paynow" ng-class="{'d-none':O.Etcstring2 == 'hide'}" ng-click="Paynow($index,O.Code,O.Etcstring1,O.Id)">Pay Now!</button><span ng-class="{'d-none' :  O.Etcstring2 == 'show'}">-</span></td>*@
+                                                    </tr>
+                                                    x = x + 1;
+                                                }
+
+                                                @*<tr ng-if="(Orders.length == 0)">
+                                                        <td colspan="5">
+                                                            No records found!
+                                                        </td>
+                                                    </tr>*@
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <button type="submit" class="button notopmargin float-lg-right checkoutbtn m-0">Pay Now</button>
+                                    <span>Total Amount : BHD</span><label name="total" class="totalpay" />
+                                    <input name="type" type="hidden" value="@ViewBag.type" />
+                                        @*< a ng-if="(Orders.length == 10)" href="/account/myorder" class="btn-more-link">Click for more</a>*@
+                                }
+
+                            }
+
+
+
+                        </div>
+
+
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-block">
+                                <h4>PENDING PAYMENT</h4>
+                            </div>
+                            @if (Model.Tables.Count > 0)
+                            {
+                                if (Model.Tables[0].Rows.Count > 0)
+                                {
+                                    <div class="table-responsive">
+                                        <table class="table cart table-bordered table-responsive o-t mT" id="tblSelectInvoice">
+                                            <thead>
+
+                                                <tr>
+                                                    <th class="cart-product-name">Pay</th>
+                                                    <th class="cart-product-name">Invoice No</th>
+                                                    <th class="cart-product-date">Invoice Date</th>
+                                                    <th class="cart-product-name">Order No</th>
+                                                    <th class="cart-product-subtotal">Amount</th>
+                                                    <th class="cart-product-subtotal">Paid</th>
+                                                    <th class="cart-product-subtotal" style="width:100px;">Balance</th>
+                                                    <th class="cart-product-subtotal" style="width:200px;">Pay Amt</th>
+                                                </tr>
+
+
+                                            </thead>
+                                            <tbody>
+
+                                                @foreach (DataRow i in Model.Tables[0].Rows)
+                                                {
+
+                                                    string name = "iv" + x;
+                                                    string chkname = "chk" + x;
+
+                                                    <tr class="cart_item">
+                                                        <td>
+                                                            <input type="checkbox"  id="CheckBox1" name=@chkname class="d-block checkboxPay"  onclick='calculateFinalPrice()' />
+                                                             
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <a class="link-red" target="_blank" href="@ViewBag.domain/printinvoiceGST.aspx?Id=@HttpUtility.UrlEncode(Helper.Encrypt(i["Invoice_ID"].ToString()))"> @i["Invoice_Number"]<i class="fas fa-link"></i></a>
+
+                                                            <input type="hidden" name=@name value="@i["Invoice_ID"]" />
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <span name="date" class="date">@i["Invoice_Date"]</span>
+                                                        </td>
+                                                        <td class="cart-product-date">
+                                                            <a class="link-red" target="_blank" href="@ViewBag.domain/PrintSalesOrdergst.aspx?Id=@HttpUtility.UrlEncode(Helper.Encrypt(i["Order_ID"].ToString()))"> @i["Order_Code"]<i class="fas fa-link"></i></a>
+
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Order_Amount" class="amount">BHD @Helper.InPrice(Convert.ToDouble(i["Invoice_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="PayRef_Amount">BHD @Helper.InPrice(Convert.ToDouble(i["PayRef_Amount"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="Balance">BHD @Helper.InPrice(Convert.ToDouble(i["Balance"]))</span>
+                                                        </td>
+                                                        <td class="cart-product-subtotal">
+                                                            <span name="amt">BHD @Helper.InPrice(Convert.ToDouble(i["amt"]))</span>
+                                                        </td>
+                                                        @*<td><button type="submit" class="paynow" ng-class="{'d-none':O.Etcstring2 == 'hide'}" ng-click="Paynow($index,O.Code,O.Etcstring1,O.Id)">Pay Now!</button><span ng-class="{'d-none' :  O.Etcstring2 == 'show'}">-</span></td>*@
+                                                    </tr>
+                                                    x = x + 1;
+                                                }
+
+                                                @*<tr ng-if="(Orders.length == 0)">
+                                                        <td colspan="5">
+                                                            No records found!
+                                                        </td>
+                                                    </tr>*@
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <button type="submit" class="button notopmargin float-lg-right checkoutbtn m-0 btnpay">Pay Now</button>
+                                    <span>Total Amount : BHD</span><label name="total" class="totalpay" />
+                                    <input name="type" type="hidden" value="@ViewBag.type" />
+                                    @*< a ng-if="(Orders.length == 10)" href="/account/myorder" class="btn-more-link">Click for more</a>*@
+                                }
+
+                            }
+
+
+
+                        </div>
+
+
+                    </div>
+                }
+
+
+            </div>
+        </div>
+
+    </form>
+
+
+</section>

@@ -1,0 +1,183 @@
+﻿@using System.Data
+@using SwissbakeIn.Entities;
+@{
+    ViewBag.Title = "Bakertools";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head{
+    <link rel="stylesheet" type="text/css" href="/Content/css/bakertools.css" />
+    <style>
+        .sidebar-widgets-wrap .widget {
+            border-top: none;
+        }
+    </style>
+}
+
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/B-Baguette.jpg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>Baker Tools</h1>
+        <span>Baker tools Lorem ipsum </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Baker Tools</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-5">
+
+        <div class="container clearfix">
+            @*@if (Convert.ToString(ViewContext.ViewBag.Catdesc) != "")
+                {
+                    <div class="cat-des"><p>@ViewContext.ViewBag.Catdesc</p></div>
+                }*@
+            @*<div class="cat-des"><p>@ViewContext.ViewBag.Catdesc</p></div>*@
+            <!-- Post Content
+            ============================================= -->
+            <div class="postcontent nobottommargin col_last">
+                @*We offer wide range of bread essentials to supplement your high quality bread baking needs. This range includes ingredients such as Maize decor, Rustic decor, Flax seeds, Sunflower seeds, Sesame seeds, oats flakes and many more. We source only the highest quality ingredients that clear our stringent quality and consistency standards for optimum baking.*@
+
+                <!-- Shop
+                ============================================= -->
+                <div id="shop" class="shop product-3 grid-container clearfix" data-layout="fitRows">
+
+
+                    <div class="product clearfix">
+                        <div class="product-image">
+
+                        </div>
+                        <div class="product-desc">
+
+                        </div>
+                        
+
+                        <div id="sidecalbox sticky" class="calculatorbox">
+                                <div class="box">
+                                    <div class="CalculatorRowGroup__name">Convert Tablespoon to GM</div>
+                                    <div class="subbox">
+                                        <div class="calculator_row mb-3">
+                                            <div class="title">
+                                                <label for="Ingredient">Ingredient</label>
+                                            </div>
+                                            <div class="ingrdropdown">
+                                                <select>
+                                                    <option value="">Water</option>
+                                                    <option value="">Flour</option>
+                                                    <option value="">Milk</option>
+                                                    <option value="">Sugar</option>
+                                                    <option value="">Salt</option>
+                                                    <option value="">Honey</option>
+                                                    <option value="">Butter</option>
+                                                    <option value="">Olive oil</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="calculator_row mb-3">
+
+                                            <div class="title">
+                                                <label for="Quantity">Quantity</label>
+                                            </div>
+
+                                            <div class="areainput">
+                                                <input type="text" name="" value="">
+                                            </div>
+
+                                        </div>
+                                        <div class="calculator_row">
+                                            <div class="title">
+                                                <label for="Gm">Gm</label>
+                                            </div>
+                                            <div class="result">
+                                                <label for="result">100 Gm</label>
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                            </div>
+
+                        
+
+                        </div>
+
+                </div>
+                <!-- #shop end -->
+
+            </div><!-- .postcontent end -->
+            <!-- Sidebar
+            ============================================= -->
+            <div class="sidebar nobottommargin">
+                <div class="sidebar-widgets-wrap  calculatorsidebar">
+                    <div id="catcher">
+                    </div>
+                    <div id="cat-side" class="widget widget_links clearfix">
+
+                        <h4>Baker Tool</h4>
+                        <ul>
+                            @*@foreach (var item in ViewData["catli"] as List<CommonStruct>)
+                                {
+                                    string title = "";
+                                    string img = "https://b2b.swissbake.ch/" + Convert.ToString(item.PrdCategory_Image);
+                                    var tcount = item.PrdCategory_Name.ToString().Length;
+                                    if (tcount > 35)
+                                    {
+                                        title = @Convert.ToString(item.PrdCategory_Name).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        title = @Convert.ToString(item.PrdCategory_Name);
+                                    }
+
+
+                                    <li><a href="@item.PrdCategory_Seourl">@title</a></li>
+                                }*@
+
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/1.png" /></div>Tablespoon to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/2.png" /></div>Teaspoon to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/3.png" /></div>Cup to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/4.png" /></div>Pound to kg to ounces</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/5.png" /></div>Fresh yeast to dry yeast</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/6.png" /></div>Cup of flour to gram of flour</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/7.png" /></div>Teaspoon or tablespoon of oil to ml</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/8.png" /></div>Cup, Teaspoon and tablespoon sugar to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/9.png" /></div>Cup, Teaspoon and tablespoon milk to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/10.png" /></div>Cup, Teaspoon and tablespoon oil to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/11.png" /></div>Skimmed Milk powder(gm) to Milk(ml)</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/12.png" /></div>Cup of butter to gram</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/13.png" /></div>Honey / syrups teaspoon, tablespoon, cup to mal or gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/14.png" /></div>Salt / Yoghurt teaspoon, tablespoom cups to gm</a></li>
+                            <li><a href="#"><div class="icon"><img src="~/Content/images/bakertool/icons/15.png" /></div>Calorie counter of basic foods & ingredients</a></li>
+
+                        </ul>
+
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+            </div><!-- .sidebar end -->
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

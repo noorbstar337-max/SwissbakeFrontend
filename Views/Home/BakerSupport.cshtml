@@ -1,0 +1,480 @@
+﻿@using reCAPTCHA.MVC
+@{
+    ViewBag.Title = "Baker Support";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="About" />
+    <meta name="keywords" content="About" />
+    <meta property="og:description" content="About" />
+    <meta property="og:url" content="http://swissbake.bh/about" />
+    <meta property="twitter:title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="About" />
+    <meta property="og:image" content="http://swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://swissbake.bh/about" />
+}
+
+
+@section head{
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+    <style>
+        .recatpcha {
+            position: relative;
+        }
+        /*.g-recaptcha{
+            float:right;
+        }*/
+        .rc-anchor-light.rc-anchor-normal {
+            border: none;
+            background: none;
+            box-shadow: none;
+        }
+
+        .field-validation-valid {
+            color: red;
+            float: left;
+            position: absolute;
+            bottom: 5px;
+            left: 15px;
+        }
+    </style>
+}
+
+@section foot{
+    <script>
+        $(document).ready(function () {
+            $("#Qry-tip").click();
+
+            // Code for the Validator
+            var form = $('form');
+            var error = $('.sm-form-control', form);
+
+            $.validator.addMethod(
+                "regex",
+                function (value, element, regexp) {
+                    var re = new RegExp(regexp);
+                    return this.optional(element) || re.test(value);
+                },
+                "This is invalid"
+            );
+
+
+
+            var $validator = $('form').validate({
+                //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+                //errorElement: 'span', //default input error message container
+                //errorClass: 'error-block1', // default input error message class
+                //focusInvalid: false, // do not focus the last invalid input
+                rules: {
+                    Name: {
+                        required: true,
+                        regex: /^([a-zA-Z]+\s)*[a-zA-Z]+$/,
+                    },
+                    Comp: {
+                        required: true,
+                        regex: /^([0-9a-zA-Z]+\s)*[0-9a-zA-Z]+$/,
+                    },
+                    Email: {
+                        required: true,
+                        regex: /^[\w-\.]+@@([\w-]+\.)+[\w-]{2,4}$/
+                    },
+                    Country: {
+                        required: true
+                    },
+                    Cont: {
+                        required: true,
+                        //regex: /([0-9]{8}$)/,
+
+                        //minlength: 8,
+                        //maxlength: 8,
+                    }
+                },
+
+                messages: {
+                    Name: {
+                        required: "This is required",
+                        regex: "This is invalid",
+                    },
+                    Comp: {
+                        required: "This is required",
+                        regex: "This is invalid",
+                    },
+                    Email: {
+                        required: "This is required",
+                        regex: "This is invalid"
+                    },
+                    Country: {
+                        required: "This is required"
+                    },
+                    Cont: {
+                        required: "This is required",
+                        //regex: "This is invalid",
+
+                        minlength: "This is invalid",
+                        maxlength: "This is invalid",
+                    }
+                },
+
+                errorPlacement: function (error, element) {
+                    //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                    //    error.insertAfter("#show-error");
+                    //}
+                    ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                    ////    error.insertAfter("#form_payment_error");
+                    ////}
+                    //else {
+                    //    error.insertAfter(element); // for other inputs, just perform default behavior
+                    //}
+                    error.insertAfter(element);
+                },
+                //success: function (label) {
+                //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+                //        label.remove(); // remove error label here
+                //    }
+                //},
+                submitHandler: function (form) {
+                    var $valid = $('form').valid();
+                    var v = grecaptcha.getResponse();
+
+                    if (!$valid) {
+                        $validator.focusInvalid();
+
+                        return false;
+                    }
+                    else if (v.length == 0) {
+                        $(".field-validation-valid").text("Recaptcha is required");
+                        //$(".rc-anchor-aria-status").css("display", "block");
+                        $.confirm({
+                            backgroundDismiss: true,
+                            title: false,
+                            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Captcha is Required</label></div>',
+                            buttons: false
+                        });
+                        setTimeout(function () {
+                            $('.jconfirm-closeIcon').click();
+                        }, 1000);
+                        return false;
+                    }
+                    else {
+                        $(".field-validation-valid").css("display", "none");
+                        form.submit()
+                        //getOrder($("[name=email]").val(), $("[name=orderno]").val(), $("[name=awbno]").val(), $("#type").val())
+                        return false;
+                    }
+                    //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+                }
+            });
+
+            @Html.Raw(ViewBag.error)
+
+        });
+
+
+        function sucess() {
+            $.confirm({
+                backgroundDismiss: false,
+                title: false,
+                content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Thankyou for contacting us.</label></div>',
+                buttons: false
+            });
+            setTimeout(function () {
+                $('.jconfirm-closeIcon').click();
+            }, 5000);
+        }
+
+        //Cascading on Country with Country Code
+
+        function updateCountryCode() {
+            var countrySelect = document.getElementsByName('Country')[0];
+            var countryCodeSelect = document.getElementById('BS_countryCode');
+            var mobileElement = document.getElementById('Cont');
+            mobileElement.setAttribute("minlength", "10")
+            mobileElement.setAttribute("maxlength", "10")
+
+            if (countrySelect.value === '17') {
+                countryCodeSelect.value = '973';
+                mobileElement.setAttribute("minlength", "8")
+                mobileElement.setAttribute("maxlength", "8")
+            } else if (countrySelect.value === '229') {
+                countryCodeSelect.value = '971';
+            } else if (countrySelect.value === '178') {
+                countryCodeSelect.value = '974';
+            } else if (countrySelect.value === '965') {
+                countryCodeSelect.value = '965';
+            } else if (countrySelect.value === '968') {
+                countryCodeSelect.value = '968';
+            } else if (countrySelect.value === '966') {
+                countryCodeSelect.value = '966';
+            } else if (countrySelect.value === '964') {
+                countryCodeSelect.value = '964';
+            } else if (countrySelect.value === '967') {
+                countryCodeSelect.value = '967';
+            }
+        }
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fields = document.querySelectorAll("input[type='text'], input[type='email'], textarea");
+
+            fields.forEach(field => {
+                field.addEventListener("input", function () {
+                    this.value = this.value.toUpperCase();
+                });
+            });
+        });
+    </script>
+
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/Support.jpg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>BAKER SERVICE & SUPPORT</h1>
+        <span>Facing any baking challenges ? Get guidance from our team of technical experts & advisors.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Baker Support</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+
+<section class="about-title1 pb-5">
+    <div class="container">
+        <div class="heading-block1 center" style="padding-top:20px;">
+            <div class="heading-blockline">
+                <h3>OUR SERVICES</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+
+            <span class="divcenter">"Share with us your baking concerns /queries so that our team of experts can guide you with the appropriate solution."</span>
+        </div>
+        @*<div class="heading-block mt-5  center ">
+                <h3>OUR SERVICES</h3>
+                <span class="divcenter">"Share with us your baking concerns /queries so that our team of experts can guide you with the appropriate solution."</span>
+            </div>*@
+        <div class="row" style="padding: 5% 0 20px;">
+            <div class="col-lg-4 mb-md-3 mb-lg-0 Services1">
+                <div class="row">
+                    <div class="col-md-4 Services1-img">
+
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="mb-1">INNOVATIVE INGREDIENTS</h4>
+                        <p>Our experts continuously work on researching new bakery ingredients and are well updated on global bakery trends. This helps us to offer the latest and most innovative products in the bakery segment to our customers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-md-3 mb-lg-0 Services2">
+                <div class="row">
+                    <div class="col-md-4 Services2-img">
+
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="mb-1">CUSTOMER COLLABORATION</h4>
+                        <p>We work closely with bakers and our clients to formulate and manufacture products that cater to the specific demands of their respective markets and enable them to thrive and grow in today’s highly competitive market conditions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-md-3 mb-lg-0 Services3">
+                <div class="row">
+                    <div class="col-md-4 Services3-img">
+
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="mb-1">TECHNICAL SUPPORT</h4>
+                        <p>Our team of experts can to provide support to our clients in the area of baking process, equipment selection, material sourcing and product formulation in order to optimise or improver their end results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="register-divider">
+        <div class="container position-relative">
+            @if (Session["U_Id"] == null)
+            {
+                <h5>DON’T HAVE AN ACCOUNT? REGISTER NOW FOR UNRESTRICTED ACCESS.</h5><a href="/register">Create Account</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="about-title3">
+    <div class="container">
+        <div class="mt-5  center">
+            <div class="heading-blockline">
+                <h3>BAKER SUPPORT</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+
+            <span class="divcenter">Reach out to us in order to get guidance, opinions and suggestions on your baking needs and challenges from our team of technical and professional bakers</span>
+        </div>
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="prod-image">
+                    <img src="~/content/images/Baker_Support_Inside.png" class="img-responsive" />
+                </div>
+            </div>
+            <div class="col-xl-6">
+
+                <form action="" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
+                            <div class="col-md-12">
+                                <label>YOUR NAME</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input name="Name" id="Name" class="form-control" type="text" onkeypress="return charkey(this);" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="col-md-12">
+                                <label>COMPANY NAME</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input name="Comp" id="Comp" class="form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="col-md-6 pl-4 mt-3">
+                            <div>
+                                <div class="form-group label-floating">
+                                    <label class="control-label">Country</label>
+                                    <select name="Country" class="form-control" onchange="updateCountryCode()">
+                                        <option selected="selected" value="17">BAHRAIN</option>
+                                        <option value="229">UNITED ARAB EMIRATES</option>
+                                        <option value="178">QATAR</option>
+                                        <option value="965">KUWAIT</option>
+                                        <option value="968">OMAN</option>
+                                        <option value="966">SAUDI ARABIA</option>
+                                        <option value="964">IRAQ</option>
+                                        <option value="967">YEMEN</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3">
+                            <div class="col-md-12">
+                                <label>EMAIL ID</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input name="Email" id="Email" type="email" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="row">
+                                <div class="col-md-6 pl-4">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Country Code</label>
+                                        <select disabled name="BS_countryCode" id="BS_countryCode" class="form-control">
+                                            <option selected="selected" value="973">+973 </option>
+                                            <option value="971">+971</option>
+                                            <option value="974">+974</option>
+                                            <option value="965">+965</option>
+                                            <option value="968">+968</option>
+                                            <option value="966">+966</option>
+                                            <option value="964">+964</option>
+                                            <option value="967">+967</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>CONTACT NO.</label>
+                                    <input name="Cont" id="Cont" class="form-control" maxlength="8" onkeypress="return numkey(this);" />
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="col-md-12">
+                                    <input type="radio" id="Qry-tip" ng-model="radio" name="group-radio" ng-value="1" /> <label for="Qry-tip">BAKING QUERY / TIP REQUIRED</label>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="col-md-12">
+                                    <input type="radio" id="Det-rec" ng-model="radio" name="group-radio" ng-value="2" /> <label for="Det-rec">PRODUCT DETAIL OR RECIPE</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="col-md-12">
+                                    <input type="radio" id="New-sol" ng-model="radio" name="group-radio" ng-value="3" /> <label for="New-sol">NEW PROJECT OR CUSTOMIZED SOLUTION</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3" ng-show="radio == '1' || radio == '2' || radio == '3'">
+                                <div class="col-md-12">
+                                    <label ng-show="radio == '1'">PRODUCT BEING BAKED</label>
+                                    <label ng-show="radio == '2'">SWISS BAKE PRODUCT NAME</label>
+                                    <label ng-show="radio == '3'">DESCRIBE THE PROJECT OR REQUIRED SOLUTION IN DETAIL</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="val1" ng-model="noofchars1" ng-trim="false" rows="4" maxlength="500"></textarea>
+                                    <span>{{500 - noofchars1.length}}/500</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3" ng-show="radio == '1' || radio == '2' || radio == '3'">
+                                <div class="col-md-12">
+                                    <label ng-show="radio == '1' || radio == '2'">DESCRIBE THE QUERY / REQUIREMENT IN DETAIL</label>
+                                    <label ng-show="radio == '3'">ESTIMATED MONTHLY REQUIREMENT</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="val2" ng-model="noofchars2" ng-trim="false" rows="4" maxlength="500"></textarea>
+                                    <span>{{500 - noofchars2.length}}/500</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3" ng-show="radio == '3'">
+                                <div class="col-md-12">
+                                    <label ng-show="radio == '3'">TIME DURATION FOR US TO DEVELOP THE SOLUTION</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" name="val3" ng-model="noofchars3" ng-trim="false" rows="4" maxlength="500"></textarea>
+                                    <span>{{500 - noofchars3.length}}/500</span>
+                                </div>
+                            </div>
+
+                            <div class="row col-md-12 mt-3 pl-5">
+                                @*<div class="col-md-7 recatpcha text-center p-xl-0">
+                                        @Html.Recaptcha()
+                                        @Html.ValidationMessage("ReCaptcha")
+
+                                    </div>*@
+                                <div class="col-md-5">
+                                    <button type="submit" class="button mt-3 w-100 contactnbtn">SEND</button>
+                                </div>
+                            </div>
+                            @if (ViewBag.EmailSendingSuccess != null && ViewBag.EmailSendingSuccess == false)
+                            {
+                                <div class="row col-md-12 mt-3 pl-5">
+                                    <div class="col-md-12">
+                                        <div class="text-danger">OOPS!!! There were some error while processing your requesting right now. Please try after a while.</div>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+

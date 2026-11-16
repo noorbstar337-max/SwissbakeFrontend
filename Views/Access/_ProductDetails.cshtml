@@ -1,0 +1,368 @@
+﻿@using SwissbakeIn.Entities;
+@using SwissbakeIn.App_Start;
+@using System.Data;
+@model DataSet
+@{
+
+}
+@{
+    string imageBasePath =  ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["cdndomain"];
+    //"https://b2b.swissbake.bh/";
+
+
+    }
+
+   
+        <div id="pdsingle" class="row price-range-blk" ng-controller="single">
+            @if (ViewBag.sku < 1)
+            {
+                <input type="hidden" id="category_id" name="category_id" data-ttlno="@((ViewBag.sku) * 1000)" value="@Model.Tables[0].Rows[0]["MinOrderQty"]" />
+            }
+            else
+            {
+                <input type="hidden" id="category_id" name="category_id" data-ttlno="{{ttlsku}}" value="@Model.Tables[0].Rows[0]["MinOrderQty"]" />
+            }
+
+            @if (Session["U_Id"] == null || Session["U_Id"].ToString() == "")
+            {
+                <a href="/login" class="lg-fr-prcng mt-3"><i class="fas fa-lock"></i> &nbsp; login for pricing</a>
+            }
+            else
+            {
+                if (Model.Tables[0].Rows[0]["Product_comingsoon"].ToString() == "True")
+                {
+                    <div class="col-md-6 coming-soon text-center fnt-21">Coming Soon</div>
+                }
+                else
+                {
+                    ViewBag.sku = @Model.Tables[0].Rows[0]["Packing_Weight"];
+                    <input type="text" name="sku" ng-model="sku" class="d-none" ng-value="@Model.Tables[0].Rows[0]["Packing_Weight"]" />
+
+                    <input type="text" ng-model="ttlsku" name="P-SKU" class="d-none" />
+                    <div class="col-lg-6 pricing-main">
+
+                        @if (Convert.ToString(Model.Tables[0].Rows[0]["Product_ForType"]) == "General")
+                        {
+                            ViewBag.price = Convert.ToDouble(Model.Tables[0].Rows[0]["Product_Rate"]);
+                        }
+                        else
+                        {
+                            ViewBag.price = Convert.ToDouble(Model.Tables[0].Rows[0]["Product_Rate"]);   // put same for now
+                                                                                                         // ViewBag.price = Convert.ToDouble(i["PriceRange_Rate"]);
+                        }
+
+                        @if (Convert.ToDouble(Model.Tables[4].Rows[0]["MinQty"]) > 0)
+                        {
+
+
+                            if (Model.Tables[5].Rows.Count > 0)
+                            {
+                                int icount = 0;
+                                var x = 1;
+                                foreach (DataRow i in Model.Tables[5].Rows)
+                                {
+                                    if (x == 1)
+                                    {
+                                        //ViewBag.Rate = Convert.ToDouble(i["PriceRange_Rate"]) * Convert.ToDouble(i["Packing_Weight"]);
+                                        //ViewBag.price = Convert.ToDouble(i["PriceRange_Rate"]);
+                                        ViewBag.Rate = Convert.ToDouble(ViewBag.price) * Convert.ToDouble(i["Packing_Weight"]);
+                                        ViewBag.sku = i["Packing_Weight"];
+                                        x = x + 1;
+                                    }
+                                    icount = icount + 1;
+                                    int rcount = (Convert.ToInt32(Model.Tables[5].Rows.Count));
+                                    if (icount == rcount)
+                                    {
+                                        double kg = (Convert.ToDouble(i["endSKU"].ToString()) - Convert.ToDouble(i["Packing_Weight"])) + 1;
+
+                                        @*<div class="col-md-3 col-6">*@ <div>
+                                            <label class="prc-mn" ng-class="{'active' : ttlsku >= @kg}">
+                                                <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["endSKU"]" class="d-none" ng-change="selectrange(rangevalue,@ViewBag.price,@i["Packing_Weight"])" />
+                                                @*<input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />*@
+                                                <input type="text" value="@ViewBag.price" id="P-Rate" class="d-none" />
+                                                <span class="prc-qty"><small>@kg+  KG'S</small></span>
+                                                <span class="prc-prc">BHD @ViewBag.price /KG</span>
+                                            </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        if (icount == (rcount - 1))
+                                        {
+
+                                            int row = (rcount - 1);
+                                            DataRow newDr = Model.Tables[5].Rows[row];
+                                            double maxkg = ((Convert.ToDouble((newDr["endSKU"]).ToString())) - Convert.ToDouble(i["Packing_Weight"]));
+                                            @*<div class="col-md-3 col-6">*@ <div>
+                                                <label class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @maxkg}">
+                                                    <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]" class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />
+                                                    <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                    <span class="prc-qty"><small>@i["startSKU"] - @maxkg KG</small></span>
+                                                    <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                </label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @*<div class="col-md-3 col-6">*@ <div>
+                                                <label class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @i["endSKU"]}">
+
+                                                    <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]" class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />
+                                                    <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                    <span class="prc-qty"><small>@i["startSKU"] - @i["endSKU"] KG</small></span>
+                                                    <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (Convert.ToDouble(Model.Tables[4].Rows[0]["Discount"]) == 0)
+                        {
+
+
+                            if (Model.Tables[5].Rows.Count > 0)
+                            {
+                                int icount = 0;
+                                var x = 1;
+                                foreach (DataRow i in Model.Tables[5].Rows)
+                                {
+                                    if (x == 1)
+                                    {
+                                        // ViewBag.Rate = Convert.ToDouble(i["PriceRange_Rate"]) * Convert.ToDouble(i["Packing_Weight"]);   zayan 28aug23
+                                        ViewBag.Rate = ViewBag.price; // zayan 05sept23 * Convert.ToDouble(i["Packing_Weight"]);
+                                                                      // ViewBag.price = Convert.ToDouble(i["PriceRange_Rate"]); // Convert.ToDouble(i["PriceRange_Rate"]);
+                                        ViewBag.sku = i["Packing_Weight"];
+                                        x = x + 1;
+                                    }
+                                    if (Model.Tables[5].Rows.Count == 1)
+                                    {
+                                        //ViewBag.Rate = Convert.ToDouble(Model.Tables[5].Rows[0]["PriceRange_Rate"].ToString()) * Convert.ToDouble(ViewBag.sku);  zayan 28aug23
+                                        ViewBag.Rate = Convert.ToDouble(ViewBag.price) * Convert.ToDouble(ViewBag.sku);
+                                        //ViewBag.price = Convert.ToDouble(Model.Tables[5].Rows[0]["PriceRange_Rate"].ToString());
+                                        @*<div class="col-md-3 col-6">*@
+                                        if (Model.Tables[0].Rows[0]["Product_linkas"].ToString() != "Sample")
+                                        {
+                                            <div>
+
+                                                <label class="prc-mn active" ng-class="{'active' : ttlsku >= '1'">
+                                                    <input type="radio" ng-model="rangevalue" ng-value="1" class="d-none" />
+                                                    @*ng-change="selectrange(rangevalue,@ViewBag.price,@Model.Tables[0].Rows[0]["Packing_Weight"])" />*@
+                                                    <input type="text" value="@ViewBag.Rate" id="P-Rate" class="d-none" />
+                                                    <span class="prc-qty"><small>BEST PRICE </small></span>
+                                                    <span class="prc-prc">BHD @ViewBag.price/KG</span>
+
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        icount = icount + 1;
+                                        int rcount = (Convert.ToInt32(Model.Tables[5].Rows.Count));
+                                        if (icount == rcount)
+                                        {
+                                            //code starts
+                                            @*double kg = (Convert.ToDouble(i["endSKU"].ToString()) - Convert.ToDouble(i["Packing_Weight"])) + 1;
+                                                <div>
+                                                    <label class="prc-mn" ng-class="{'active' : ttlsku >= @kg }">
+                                                        <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["endSKU"]" class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />
+                                                        <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                        <span class="prc-qty"><small>@kg+  KG'S</small></span>
+                                                        <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                    </label>
+                                                </div>*@
+                                            //code ends
+                                            double kg = Convert.ToDouble(i["startSKU"].ToString());
+                                            <div>
+                                                <label class="prc-mn" ng-class="{'active' : ttlsku >= @kg }">
+                                                    <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]" class="d-none" />
+                                                    @*ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />*@
+                                                    <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                    <span class="prc-qty"><small>@kg+  KG'S</small></span>
+                                                    <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                </label>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+
+                                            if (icount == (rcount - 1))
+                                            {
+                                                //this commented as discount = 0
+
+                                                @*int row = (rcount - 1);
+                                                    DataRow newDr = Model.Tables[5].Rows[row];
+                                                    double maxkg = ((Convert.ToDouble((newDr["endSKU"]).ToString())) - Convert.ToDouble(i["Packing_Weight"]));
+                                                    <div>
+                                                        <label class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @maxkg}">
+                                                            <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]" class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />
+                                                            <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                            <span class="prc-qty"><small>@i["startSKU"] - @maxkg KG</small></span>
+                                                            <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                        </label>
+                                                    </div>*@
+                                                //ends
+
+                                                <div class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @i["endSKU"]}">
+                                                    <label class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @i["endSKU"]}">
+
+                                                        <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]" class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />
+                                                        <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                        <span class="prc-qty"><small>@i["startSKU"] - @i["endSKU"] KG</small></span>
+                                                        <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                    </label>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+
+
+
+                                                @*<div class="col-md-3 col-6">*@ <div class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @i["endSKU"]}">
+                                                    <label class="prc-mn" ng-class="{'active' : ttlsku >= @i["startSKU"] && ttlsku <= @i["endSKU"]}">
+
+                                                        <input type="radio" name="range" ng-model="rangevalue" ng-value="@i["startSKU"]"/>
+                                                        @*class="d-none" ng-change="selectrange(rangevalue,@i["PriceRange_Rate"],@i["Packing_Weight"])" />*@
+                                                        <input type="text" value="@i["PriceRange_Rate"]" id="P-Rate" class="d-none" />
+                                                        <span class="prc-qty"><small>@i["startSKU"] - @i["endSKU"] KG</small></span>
+                                                        <span class="prc-prc">BHD @i["PriceRange_Rate"]/KG</span>
+                                                    </label>
+                                                </div>
+                                            }
+                                        }
+
+
+
+
+                                    }
+                                }
+                            }
+
+                        }
+                        else if (Convert.ToDouble(Model.Tables[4].Rows[0]["Discount"]) < 0)
+                        {
+                            ViewBag.Rate = Convert.ToDouble(Model.Tables[5].Rows[0]["discounted_Rate"].ToString()) * Convert.ToDouble(ViewBag.sku);
+                            ViewBag.price = Convert.ToDouble(Model.Tables[5].Rows[0]["discounted_Rate"].ToString());
+                            @*<div class="col-md-3 col-6">*@ <div>
+                                <label class="prc-mn active" ng-class="{'active' : ttlsku >= '1'}">
+                                    <input type="radio" ng-model="rangevalue" ng-value="1" class="d-none" ng-change="selectrange(rangevalue,@Model.Tables[5].Rows[0]["discounted_Rate"],@Model.Tables[0].Rows[0]["Packing_Weight"])" />
+                                    <input type="text" value="@Model.Tables[5].Rows[0]["discounted_Rate"]" id="P-Rate" class="d-none" />
+                                    <span class="prc-qty"><small>Exclusive Price</small></span>
+                                    <span class="prc-prc">BHD @Model.Tables[5].Rows[0]["discounted_Rate"]/KG</span>
+
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            ViewBag.Rate = Convert.ToDouble(Model.Tables[5].Rows[0]["discounted_Rate"].ToString()) * Convert.ToDouble(ViewBag.sku);
+                            ViewBag.price = Convert.ToDouble(Model.Tables[5].Rows[0]["discounted_Rate"].ToString());
+                            @*<div class="col-md-3 col-6">*@ <div>
+                                <label class="prc-mn active" ng-class="{'active' : ttlsku >= '1'}">
+                                    <input type="radio" ng-model="rangevalue" ng-value="1" class="d-none" ng-change="selectrange(rangevalue,@Model.Tables[5].Rows[0]["discounted_Rate"],@Model.Tables[0].Rows[0]["Packing_Weight"])" />
+                                    <input type="text" value="@Model.Tables[5].Rows[0]["discounted_Rate"]" id="P-Rate" class="d-none" />
+                                    <span class="prc-qty"><small>Exclusive Price</small></span>
+                                    <span class="prc-prc">BHD @Model.Tables[5].Rows[0]["discounted_Rate"]/KG</span>
+
+                                </label>
+                            </div>
+                        }
+                        @if (Model.Tables[0].Rows[0]["Product_linkas"].ToString() == "Sample")
+                        {
+
+                            int count = Model.Tables.Count - 1;
+                            if (Model.Tables[count].Rows.Count > 0)
+                            {
+                                foreach (DataRow i in Model.Tables[count].Rows)
+                                {
+                                    //ViewBag.Rate = Convert.ToDouble(i["Product_Rate"]) * Convert.ToDouble(i["Packing_Weight"]);
+                                    ViewBag.Rate = Convert.ToDouble(i["Product_Rate"]);
+                                    ViewBag.price = Convert.ToDouble(i["Product_Rate"]);
+                                    ViewBag.sku = i["Packing_Weight"];
+                                    @*<div class="col-md-3 col-6">*@ <div class="prc-mn">
+                                        <label class="prc-mn">
+                                            <input type="radio" name="range" ng-model="rangevalue" ng-value="1" class="d-none" ng-change="selectrange(rangevalue)" />
+                                            <span class="prc-qty"><small>Sample @i["Packing_Packing"]</small></span>
+                                            <span class="prc-prc">BHD @i["Product_Rate"]</span>
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        }
+
+                        <span class="">
+
+                            <button class="text-center prc-Quote" onclick="requo();">REQUEST QUOTE</button>
+                            @*                <button class="text-center req-quote side-panel-trigger prc-Quote">MORE QUANTITY? REQUEST QUOTE</button>*@
+
+                        </span>
+                    </div>
+
+                    <div class="col-lg-6 pricing-info" ng-init="total= @ViewBag.Rate; ttlsku= @ViewBag.sku; price=@ViewBag.price">
+                        <div class="d-flex">
+                            <div class="prc-info">
+                                <span><small>  @( ViewBag.sku >= 1 ? "Per Kg" : "Price")</small></span>
+                                <span>BHD {{price | number : 3}}/-</span>
+                            </div>
+                            <div class="prc-qty">
+                                <span><small>Total Qty</small></span>
+
+                                @if (ViewBag.sku < 1)
+                                {
+                                    ViewBag.WT = (ViewBag.sku) * 1000;
+                                    <span>
+                                        @(Convert.ToInt32(ViewBag.WT).toString("N3")) @( ViewBag.sku >= 1 ? "KG" : "GM")
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span>
+                                        {{ttlsku | number:2}} @( ViewBag.sku >= 1 ? "KG" : "GM")
+                                    </span>
+
+                                }
+
+                            </div>
+                        </div>
+                        <div class="prc-total">
+                            <span><small>Total Price</small></span>
+                            <span>BHD {{total | number : 3}}</span>
+                        </div>
+                        <div class="row">
+
+                            @if (Model.Tables[0].Rows[0]["Product_Onorder"].ToString() == "True") // && Model.Tables[0].Rows[0]["Product_Stock"].ToString() != "In Stock")
+                            {
+                                <div class="col-md-12 col-12  mt-3 mt-md-0">
+                                    <button id="req-quo1" class="text-center req-quote side-panel-trigger prc-Quote btn-cart" style="cursor:pointer;">NOTIFY ME WHEN AVAILABLE</button>
+                                </div>
+                            }
+                            else if (Model.Tables[0].Rows[0]["Product_Onorder"].ToString() != "True")
+                            {
+                                <div class="col-md-6 col-12 quantity">
+                                    @*<input type="number" class="pack-qty" value="100" />*@
+                                    <input type="number" min="1" max="999" class="pack-qty" maxlength="3" @(Model.Tables[0].Rows[0]["Product_linkas"].ToString() == "Sample" ? "disabled" : "" ) ng-model="pack" [ng-pattern="integer" ] @*onkeyup="cal(this);"*@ onchange="cal(this);" onkeypress="return Qtynumkey(this);" />
+                                </div>
+                                <div class="col-md-6 col-12 mt-3 mt-md-0">
+                                    @*<button type="submit" class="btn-cart" name="">ADD TO CART</button>*@
+                                    <button type="submit" data-toggle="tooltip" data-original-title="The product is already added to your cart, if you wish to update your quantity, please visit your CART" id="gocart" style="cursor:pointer;" onclick="location.href='@Url.Action("cart", "Home")'" class=@(TempData["InCart"].ToString() == "true" ? "buy-now" : "d-none" )>GO TO CART</button>
+                                    <button type="submit" id="addcart" class=@(TempData["InCart"].ToString() == "true" ? "d-none" : "btn-cart") onclick='addcart("add")' style="cursor:pointer;">ADD TO CART</button>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                }
+                <div class="clear"></div>
+
+            }
+
+
+
+        </div>

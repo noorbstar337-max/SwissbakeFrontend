@@ -1,0 +1,2595 @@
+﻿
+body {
+    background-color: #f1f1f1;
+}
+
+.mainstyle{
+    padding: 0px 0px 20px;
+}
+
+.pagestyle1{
+    background:rgb(231,52,15);
+}
+
+.pagestyle2{
+    background:darkorange;
+}
+
+.pagestyle3{
+    background:rgb(241,219,22);
+}
+
+.pagestyle4{
+    background:rgb(107,180,54);
+}
+
+.pagestyle5{
+    background:rgb(78,141,0);
+}
+
+.pagetab1{
+    background:rgb(252,227,224);
+}
+
+.pagetab2{
+    background:rgb(255,239,223);
+}
+
+.pagetab3{
+    background:rgb(253,250,226);
+}
+
+.pagetab4{
+    background:rgb(235,244,227);
+}
+
+.pagetab5{
+    background:rgb(230,239,221);
+}
+
+.MsoNormal{
+    text-align: center; margin: 0; text-decoration: underline;
+}
+
+.MsoNormal a{
+    text-decoration:none;
+}
+
+.listhead td{
+    width:14.28%;border:none;border-right:solid white 1.5pt; padding:0in 0in 0in 0in;height:6pt;
+}
+
+.listhead1 td{
+    width:14.28%;border:none;border-right:solid white 1.5pt;padding:12pt 0in 12pt 0in;
+}
+
+/*********rating 1 start********/
+
+#star1-1:checked ~ section [for='star1-1'] svg, 
+#star1-2:checked ~ section [for='star1-1'] svg, 
+#star1-2:checked ~ section [for='star1-2'] svg, 
+#star1-3:checked ~ section [for='star1-1'] svg, 
+#star1-3:checked ~ section [for='star1-2'] svg, 
+#star1-3:checked ~ section [for='star1-3'] svg, 
+#star1-4:checked ~ section [for='star1-1'] svg, 
+#star1-4:checked ~ section [for='star1-2'] svg, 
+#star1-4:checked ~ section [for='star1-3'] svg, 
+#star1-4:checked ~ section [for='star1-4'] svg, 
+#star1-5:checked ~ section [for='star1-1'] svg, 
+#star1-5:checked ~ section [for='star1-2'] svg, 
+#star1-5:checked ~ section [for='star1-3'] svg, 
+#star1-5:checked ~ section [for='star1-4'] svg, 
+#star1-5:checked ~ section [for='star1-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star1-1:checked ~ section [for='star1-1'] svg path, 
+#star1-2:checked ~ section [for='star1-1'] svg path, 
+#star1-2:checked ~ section [for='star1-2'] svg path, 
+#star1-3:checked ~ section [for='star1-1'] svg path, 
+#star1-3:checked ~ section [for='star1-2'] svg path, 
+#star1-3:checked ~ section [for='star1-3'] svg path, 
+#star1-4:checked ~ section [for='star1-1'] svg path, 
+#star1-4:checked ~ section [for='star1-2'] svg path, 
+#star1-4:checked ~ section [for='star1-3'] svg path, 
+#star1-4:checked ~ section [for='star1-4'] svg path, 
+#star1-5:checked ~ section [for='star1-1'] svg path, 
+#star1-5:checked ~ section [for='star1-2'] svg path, 
+#star1-5:checked ~ section [for='star1-3'] svg path, 
+#star1-5:checked ~ section [for='star1-4'] svg path, 
+#star1-5:checked ~ section [for='star1-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star1-1:hover ~ section [for='star1-1'] svg path, 
+#star1-2:hover ~ section [for='star1-1'] svg path, 
+#star1-2:hover ~ section [for='star1-2'] svg path, 
+#star1-3:hover ~ section [for='star1-1'] svg path, 
+#star1-3:hover ~ section [for='star1-2'] svg path, 
+#star1-3:hover ~ section [for='star1-3'] svg path, 
+#star1-4:hover ~ section [for='star1-1'] svg path, 
+#star1-4:hover ~ section [for='star1-2'] svg path, 
+#star1-4:hover ~ section [for='star1-3'] svg path, 
+#star1-4:hover ~ section [for='star1-4'] svg path, 
+#star1-5:hover ~ section [for='star1-1'] svg path, 
+#star1-5:hover ~ section [for='star1-2'] svg path, 
+#star1-5:hover ~ section [for='star1-3'] svg path, 
+#star1-5:hover ~ section [for='star1-4'] svg path, 
+#star1-5:hover ~ section [for='star1-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock1{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock1 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock1 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock1 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock1 label[for="star1-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star1-1:checked ~ .ratingblock1::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star1-2:checked ~ .ratingblock1::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star1-3:checked ~ .ratingblock1::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star1-4:checked ~ .ratingblock1::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star1-5:checked ~ .ratingblock1::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star1-null:checked ~ .ratingblock1::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 2 start********/
+
+#star2-1:checked ~ section [for='star2-1'] svg, 
+#star2-2:checked ~ section [for='star2-1'] svg, 
+#star2-2:checked ~ section [for='star2-2'] svg, 
+#star2-3:checked ~ section [for='star2-1'] svg, 
+#star2-3:checked ~ section [for='star2-2'] svg, 
+#star2-3:checked ~ section [for='star2-3'] svg, 
+#star2-4:checked ~ section [for='star2-1'] svg, 
+#star2-4:checked ~ section [for='star2-2'] svg, 
+#star2-4:checked ~ section [for='star2-3'] svg, 
+#star2-4:checked ~ section [for='star2-4'] svg, 
+#star2-5:checked ~ section [for='star2-1'] svg, 
+#star2-5:checked ~ section [for='star2-2'] svg, 
+#star2-5:checked ~ section [for='star2-3'] svg, 
+#star2-5:checked ~ section [for='star2-4'] svg, 
+#star2-5:checked ~ section [for='star2-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star2-1:checked ~ section [for='star2-1'] svg path, 
+#star2-2:checked ~ section [for='star2-1'] svg path, 
+#star2-2:checked ~ section [for='star2-2'] svg path, 
+#star2-3:checked ~ section [for='star2-1'] svg path, 
+#star2-3:checked ~ section [for='star2-2'] svg path, 
+#star2-3:checked ~ section [for='star2-3'] svg path, 
+#star2-4:checked ~ section [for='star2-1'] svg path, 
+#star2-4:checked ~ section [for='star2-2'] svg path, 
+#star2-4:checked ~ section [for='star2-3'] svg path, 
+#star2-4:checked ~ section [for='star2-4'] svg path, 
+#star2-5:checked ~ section [for='star2-1'] svg path, 
+#star2-5:checked ~ section [for='star2-2'] svg path, 
+#star2-5:checked ~ section [for='star2-3'] svg path, 
+#star2-5:checked ~ section [for='star2-4'] svg path, 
+#star2-5:checked ~ section [for='star2-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star2-1:hover ~ section [for='star2-1'] svg path, 
+#star2-2:hover ~ section [for='star2-1'] svg path, 
+#star2-2:hover ~ section [for='star2-2'] svg path, 
+#star2-3:hover ~ section [for='star2-1'] svg path, 
+#star2-3:hover ~ section [for='star2-2'] svg path, 
+#star2-3:hover ~ section [for='star2-3'] svg path, 
+#star2-4:hover ~ section [for='star2-1'] svg path, 
+#star2-4:hover ~ section [for='star2-2'] svg path, 
+#star2-4:hover ~ section [for='star2-3'] svg path, 
+#star2-4:hover ~ section [for='star2-4'] svg path, 
+#star2-5:hover ~ section [for='star2-1'] svg path, 
+#star2-5:hover ~ section [for='star2-2'] svg path, 
+#star2-5:hover ~ section [for='star2-3'] svg path, 
+#star2-5:hover ~ section [for='star2-4'] svg path, 
+#star2-5:hover ~ section [for='star2-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock2{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock2 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock2 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock2 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock2 label[for="star2-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star2-1:checked ~ .ratingblock2::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star2-2:checked ~ .ratingblock2::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star2-3:checked ~ .ratingblock2::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star2-4:checked ~ .ratingblock2::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star2-5:checked ~ .ratingblock2::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star2-null:checked ~ .ratingblock2::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 3 start********/
+
+#star3-1:checked ~ section [for='star3-1'] svg, 
+#star3-2:checked ~ section [for='star3-1'] svg, 
+#star3-2:checked ~ section [for='star3-2'] svg, 
+#star3-3:checked ~ section [for='star3-1'] svg, 
+#star3-3:checked ~ section [for='star3-2'] svg, 
+#star3-3:checked ~ section [for='star3-3'] svg, 
+#star3-4:checked ~ section [for='star3-1'] svg, 
+#star3-4:checked ~ section [for='star3-2'] svg, 
+#star3-4:checked ~ section [for='star3-3'] svg, 
+#star3-4:checked ~ section [for='star3-4'] svg, 
+#star3-5:checked ~ section [for='star3-1'] svg, 
+#star3-5:checked ~ section [for='star3-2'] svg, 
+#star3-5:checked ~ section [for='star3-3'] svg, 
+#star3-5:checked ~ section [for='star3-4'] svg, 
+#star3-5:checked ~ section [for='star3-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star3-1:checked ~ section [for='star3-1'] svg path, 
+#star3-2:checked ~ section [for='star3-1'] svg path, 
+#star3-2:checked ~ section [for='star3-2'] svg path, 
+#star3-3:checked ~ section [for='star3-1'] svg path, 
+#star3-3:checked ~ section [for='star3-2'] svg path, 
+#star3-3:checked ~ section [for='star3-3'] svg path, 
+#star3-4:checked ~ section [for='star3-1'] svg path, 
+#star3-4:checked ~ section [for='star3-2'] svg path, 
+#star3-4:checked ~ section [for='star3-3'] svg path, 
+#star3-4:checked ~ section [for='star3-4'] svg path, 
+#star3-5:checked ~ section [for='star3-1'] svg path, 
+#star3-5:checked ~ section [for='star3-2'] svg path, 
+#star3-5:checked ~ section [for='star3-3'] svg path, 
+#star3-5:checked ~ section [for='star3-4'] svg path, 
+#star3-5:checked ~ section [for='star3-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star3-1:hover ~ section [for='star3-1'] svg path, 
+#star3-2:hover ~ section [for='star3-1'] svg path, 
+#star3-2:hover ~ section [for='star3-2'] svg path, 
+#star3-3:hover ~ section [for='star3-1'] svg path, 
+#star3-3:hover ~ section [for='star3-2'] svg path, 
+#star3-3:hover ~ section [for='star3-3'] svg path, 
+#star3-4:hover ~ section [for='star3-1'] svg path, 
+#star3-4:hover ~ section [for='star3-2'] svg path, 
+#star3-4:hover ~ section [for='star3-3'] svg path, 
+#star3-4:hover ~ section [for='star3-4'] svg path, 
+#star3-5:hover ~ section [for='star3-1'] svg path, 
+#star3-5:hover ~ section [for='star3-2'] svg path, 
+#star3-5:hover ~ section [for='star3-3'] svg path, 
+#star3-5:hover ~ section [for='star3-4'] svg path, 
+#star3-5:hover ~ section [for='star3-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock3{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock3 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock3 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock3 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock3 label[for="star3-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star3-1:checked ~ .ratingblock3::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star3-2:checked ~ .ratingblock3::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star3-3:checked ~ .ratingblock3::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star3-4:checked ~ .ratingblock3::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star3-5:checked ~ .ratingblock3::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star3-null:checked ~ .ratingblock3::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 4 start********/
+
+#star4-1:checked ~ section [for='star4-1'] svg, 
+#star4-2:checked ~ section [for='star4-1'] svg, 
+#star4-2:checked ~ section [for='star4-2'] svg, 
+#star4-3:checked ~ section [for='star4-1'] svg, 
+#star4-3:checked ~ section [for='star4-2'] svg, 
+#star4-3:checked ~ section [for='star4-3'] svg, 
+#star4-4:checked ~ section [for='star4-1'] svg, 
+#star4-4:checked ~ section [for='star4-2'] svg, 
+#star4-4:checked ~ section [for='star4-3'] svg, 
+#star4-4:checked ~ section [for='star4-4'] svg, 
+#star4-5:checked ~ section [for='star4-1'] svg, 
+#star4-5:checked ~ section [for='star4-2'] svg, 
+#star4-5:checked ~ section [for='star4-3'] svg, 
+#star4-5:checked ~ section [for='star4-4'] svg, 
+#star4-5:checked ~ section [for='star4-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star4-1:checked ~ section [for='star4-1'] svg path, 
+#star4-2:checked ~ section [for='star4-1'] svg path, 
+#star4-2:checked ~ section [for='star4-2'] svg path, 
+#star4-3:checked ~ section [for='star4-1'] svg path, 
+#star4-3:checked ~ section [for='star4-2'] svg path, 
+#star4-3:checked ~ section [for='star4-3'] svg path, 
+#star4-4:checked ~ section [for='star4-1'] svg path, 
+#star4-4:checked ~ section [for='star4-2'] svg path, 
+#star4-4:checked ~ section [for='star4-3'] svg path, 
+#star4-4:checked ~ section [for='star4-4'] svg path, 
+#star4-5:checked ~ section [for='star4-1'] svg path, 
+#star4-5:checked ~ section [for='star4-2'] svg path, 
+#star4-5:checked ~ section [for='star4-3'] svg path, 
+#star4-5:checked ~ section [for='star4-4'] svg path, 
+#star4-5:checked ~ section [for='star4-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star4-1:hover ~ section [for='star4-1'] svg path, 
+#star4-2:hover ~ section [for='star4-1'] svg path, 
+#star4-2:hover ~ section [for='star4-2'] svg path, 
+#star4-3:hover ~ section [for='star4-1'] svg path, 
+#star4-3:hover ~ section [for='star4-2'] svg path, 
+#star4-3:hover ~ section [for='star4-3'] svg path, 
+#star4-4:hover ~ section [for='star4-1'] svg path, 
+#star4-4:hover ~ section [for='star4-2'] svg path, 
+#star4-4:hover ~ section [for='star4-3'] svg path, 
+#star4-4:hover ~ section [for='star4-4'] svg path, 
+#star4-5:hover ~ section [for='star4-1'] svg path, 
+#star4-5:hover ~ section [for='star4-2'] svg path, 
+#star4-5:hover ~ section [for='star4-3'] svg path, 
+#star4-5:hover ~ section [for='star4-4'] svg path, 
+#star4-5:hover ~ section [for='star4-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock4{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock4 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock4 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock4 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock4 label[for="star4-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star4-1:checked ~ .ratingblock4::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star4-2:checked ~ .ratingblock4::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star4-3:checked ~ .ratingblock4::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star4-4:checked ~ .ratingblock4::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star4-5:checked ~ .ratingblock4::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star4-null:checked ~ .ratingblock4::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 5 start********/
+
+#star5-1:checked ~ section [for='star5-1'] svg, 
+#star5-2:checked ~ section [for='star5-1'] svg, 
+#star5-2:checked ~ section [for='star5-2'] svg, 
+#star5-3:checked ~ section [for='star5-1'] svg, 
+#star5-3:checked ~ section [for='star5-2'] svg, 
+#star5-3:checked ~ section [for='star5-3'] svg, 
+#star5-4:checked ~ section [for='star5-1'] svg, 
+#star5-4:checked ~ section [for='star5-2'] svg, 
+#star5-4:checked ~ section [for='star5-3'] svg, 
+#star5-4:checked ~ section [for='star5-4'] svg, 
+#star5-5:checked ~ section [for='star5-1'] svg, 
+#star5-5:checked ~ section [for='star5-2'] svg, 
+#star5-5:checked ~ section [for='star5-3'] svg, 
+#star5-5:checked ~ section [for='star5-4'] svg, 
+#star5-5:checked ~ section [for='star5-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star5-1:checked ~ section [for='star5-1'] svg path, 
+#star5-2:checked ~ section [for='star5-1'] svg path, 
+#star5-2:checked ~ section [for='star5-2'] svg path, 
+#star5-3:checked ~ section [for='star5-1'] svg path, 
+#star5-3:checked ~ section [for='star5-2'] svg path, 
+#star5-3:checked ~ section [for='star5-3'] svg path, 
+#star5-4:checked ~ section [for='star5-1'] svg path, 
+#star5-4:checked ~ section [for='star5-2'] svg path, 
+#star5-4:checked ~ section [for='star5-3'] svg path, 
+#star5-4:checked ~ section [for='star5-4'] svg path, 
+#star5-5:checked ~ section [for='star5-1'] svg path, 
+#star5-5:checked ~ section [for='star5-2'] svg path, 
+#star5-5:checked ~ section [for='star5-3'] svg path, 
+#star5-5:checked ~ section [for='star5-4'] svg path, 
+#star5-5:checked ~ section [for='star5-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star5-1:hover ~ section [for='star5-1'] svg path, 
+#star5-2:hover ~ section [for='star5-1'] svg path, 
+#star5-2:hover ~ section [for='star5-2'] svg path, 
+#star5-3:hover ~ section [for='star5-1'] svg path, 
+#star5-3:hover ~ section [for='star5-2'] svg path, 
+#star5-3:hover ~ section [for='star5-3'] svg path, 
+#star5-4:hover ~ section [for='star5-1'] svg path, 
+#star5-4:hover ~ section [for='star5-2'] svg path, 
+#star5-4:hover ~ section [for='star5-3'] svg path, 
+#star5-4:hover ~ section [for='star5-4'] svg path, 
+#star5-5:hover ~ section [for='star5-1'] svg path, 
+#star5-5:hover ~ section [for='star5-2'] svg path, 
+#star5-5:hover ~ section [for='star5-3'] svg path, 
+#star5-5:hover ~ section [for='star5-4'] svg path, 
+#star5-5:hover ~ section [for='star5-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock5{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock5 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock5 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock5 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock5 label[for="star5-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star5-1:checked ~ .ratingblock5::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star5-2:checked ~ .ratingblock5::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star5-3:checked ~ .ratingblock5::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star5-4:checked ~ .ratingblock5::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star5-5:checked ~ .ratingblock5::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star5-null:checked ~ .ratingblock5::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 6 start********/
+
+#star6-1:checked ~ section [for='star6-1'] svg, 
+#star6-2:checked ~ section [for='star6-1'] svg, 
+#star6-2:checked ~ section [for='star6-2'] svg, 
+#star6-3:checked ~ section [for='star6-1'] svg, 
+#star6-3:checked ~ section [for='star6-2'] svg, 
+#star6-3:checked ~ section [for='star6-3'] svg, 
+#star6-4:checked ~ section [for='star6-1'] svg, 
+#star6-4:checked ~ section [for='star6-2'] svg, 
+#star6-4:checked ~ section [for='star6-3'] svg, 
+#star6-4:checked ~ section [for='star6-4'] svg, 
+#star6-5:checked ~ section [for='star6-1'] svg, 
+#star6-5:checked ~ section [for='star6-2'] svg, 
+#star6-5:checked ~ section [for='star6-3'] svg, 
+#star6-5:checked ~ section [for='star6-4'] svg, 
+#star6-5:checked ~ section [for='star6-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star6-1:checked ~ section [for='star6-1'] svg path, 
+#star6-2:checked ~ section [for='star6-1'] svg path, 
+#star6-2:checked ~ section [for='star6-2'] svg path, 
+#star6-3:checked ~ section [for='star6-1'] svg path, 
+#star6-3:checked ~ section [for='star6-2'] svg path, 
+#star6-3:checked ~ section [for='star6-3'] svg path, 
+#star6-4:checked ~ section [for='star6-1'] svg path, 
+#star6-4:checked ~ section [for='star6-2'] svg path, 
+#star6-4:checked ~ section [for='star6-3'] svg path, 
+#star6-4:checked ~ section [for='star6-4'] svg path, 
+#star6-5:checked ~ section [for='star6-1'] svg path, 
+#star6-5:checked ~ section [for='star6-2'] svg path, 
+#star6-5:checked ~ section [for='star6-3'] svg path, 
+#star6-5:checked ~ section [for='star6-4'] svg path, 
+#star6-5:checked ~ section [for='star6-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star6-1:hover ~ section [for='star6-1'] svg path, 
+#star6-2:hover ~ section [for='star6-1'] svg path, 
+#star6-2:hover ~ section [for='star6-2'] svg path, 
+#star6-3:hover ~ section [for='star6-1'] svg path, 
+#star6-3:hover ~ section [for='star6-2'] svg path, 
+#star6-3:hover ~ section [for='star6-3'] svg path, 
+#star6-4:hover ~ section [for='star6-1'] svg path, 
+#star6-4:hover ~ section [for='star6-2'] svg path, 
+#star6-4:hover ~ section [for='star6-3'] svg path, 
+#star6-4:hover ~ section [for='star6-4'] svg path, 
+#star6-5:hover ~ section [for='star6-1'] svg path, 
+#star6-5:hover ~ section [for='star6-2'] svg path, 
+#star6-5:hover ~ section [for='star6-3'] svg path, 
+#star6-5:hover ~ section [for='star6-4'] svg path, 
+#star6-5:hover ~ section [for='star6-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock6{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock6 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock6 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock6 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock6 label[for="star6-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star6-1:checked ~ .ratingblock6::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star6-2:checked ~ .ratingblock6::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star6-3:checked ~ .ratingblock6::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star6-4:checked ~ .ratingblock6::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star6-5:checked ~ .ratingblock6::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star6-null:checked ~ .ratingblock6::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 7 start********/
+
+#star7-1:checked ~ section [for='star7-1'] svg, 
+#star7-2:checked ~ section [for='star7-1'] svg, 
+#star7-2:checked ~ section [for='star7-2'] svg, 
+#star7-3:checked ~ section [for='star7-1'] svg, 
+#star7-3:checked ~ section [for='star7-2'] svg, 
+#star7-3:checked ~ section [for='star7-3'] svg, 
+#star7-4:checked ~ section [for='star7-1'] svg, 
+#star7-4:checked ~ section [for='star7-2'] svg, 
+#star7-4:checked ~ section [for='star7-3'] svg, 
+#star7-4:checked ~ section [for='star7-4'] svg, 
+#star7-5:checked ~ section [for='star7-1'] svg, 
+#star7-5:checked ~ section [for='star7-2'] svg, 
+#star7-5:checked ~ section [for='star7-3'] svg, 
+#star7-5:checked ~ section [for='star7-4'] svg, 
+#star7-5:checked ~ section [for='star7-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star7-1:checked ~ section [for='star7-1'] svg path, 
+#star7-2:checked ~ section [for='star7-1'] svg path, 
+#star7-2:checked ~ section [for='star7-2'] svg path, 
+#star7-3:checked ~ section [for='star7-1'] svg path, 
+#star7-3:checked ~ section [for='star7-2'] svg path, 
+#star7-3:checked ~ section [for='star7-3'] svg path, 
+#star7-4:checked ~ section [for='star7-1'] svg path, 
+#star7-4:checked ~ section [for='star7-2'] svg path, 
+#star7-4:checked ~ section [for='star7-3'] svg path, 
+#star7-4:checked ~ section [for='star7-4'] svg path, 
+#star7-5:checked ~ section [for='star7-1'] svg path, 
+#star7-5:checked ~ section [for='star7-2'] svg path, 
+#star7-5:checked ~ section [for='star7-3'] svg path, 
+#star7-5:checked ~ section [for='star7-4'] svg path, 
+#star7-5:checked ~ section [for='star7-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star7-1:hover ~ section [for='star7-1'] svg path, 
+#star7-2:hover ~ section [for='star7-1'] svg path, 
+#star7-2:hover ~ section [for='star7-2'] svg path, 
+#star7-3:hover ~ section [for='star7-1'] svg path, 
+#star7-3:hover ~ section [for='star7-2'] svg path, 
+#star7-3:hover ~ section [for='star7-3'] svg path, 
+#star7-4:hover ~ section [for='star7-1'] svg path, 
+#star7-4:hover ~ section [for='star7-2'] svg path, 
+#star7-4:hover ~ section [for='star7-3'] svg path, 
+#star7-4:hover ~ section [for='star7-4'] svg path, 
+#star7-5:hover ~ section [for='star7-1'] svg path, 
+#star7-5:hover ~ section [for='star7-2'] svg path, 
+#star7-5:hover ~ section [for='star7-3'] svg path, 
+#star7-5:hover ~ section [for='star7-4'] svg path, 
+#star7-5:hover ~ section [for='star7-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock7{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock7 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock7 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock7 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock7 label[for="star7-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star7-1:checked ~ .ratingblock7::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star7-2:checked ~ .ratingblock7::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star7-3:checked ~ .ratingblock7::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star7-4:checked ~ .ratingblock7::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star7-5:checked ~ .ratingblock7::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star7-null:checked ~ .ratingblock7::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 8 start********/
+
+#star8-1:checked ~ section [for='star8-1'] svg, 
+#star8-2:checked ~ section [for='star8-1'] svg, 
+#star8-2:checked ~ section [for='star8-2'] svg, 
+#star8-3:checked ~ section [for='star8-1'] svg, 
+#star8-3:checked ~ section [for='star8-2'] svg, 
+#star8-3:checked ~ section [for='star8-3'] svg, 
+#star8-4:checked ~ section [for='star8-1'] svg, 
+#star8-4:checked ~ section [for='star8-2'] svg, 
+#star8-4:checked ~ section [for='star8-3'] svg, 
+#star8-4:checked ~ section [for='star8-4'] svg, 
+#star8-5:checked ~ section [for='star8-1'] svg, 
+#star8-5:checked ~ section [for='star8-2'] svg, 
+#star8-5:checked ~ section [for='star8-3'] svg, 
+#star8-5:checked ~ section [for='star8-4'] svg, 
+#star8-5:checked ~ section [for='star8-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star8-1:checked ~ section [for='star8-1'] svg path, 
+#star8-2:checked ~ section [for='star8-1'] svg path, 
+#star8-2:checked ~ section [for='star8-2'] svg path, 
+#star8-3:checked ~ section [for='star8-1'] svg path, 
+#star8-3:checked ~ section [for='star8-2'] svg path, 
+#star8-3:checked ~ section [for='star8-3'] svg path, 
+#star8-4:checked ~ section [for='star8-1'] svg path, 
+#star8-4:checked ~ section [for='star8-2'] svg path, 
+#star8-4:checked ~ section [for='star8-3'] svg path, 
+#star8-4:checked ~ section [for='star8-4'] svg path, 
+#star8-5:checked ~ section [for='star8-1'] svg path, 
+#star8-5:checked ~ section [for='star8-2'] svg path, 
+#star8-5:checked ~ section [for='star8-3'] svg path, 
+#star8-5:checked ~ section [for='star8-4'] svg path, 
+#star8-5:checked ~ section [for='star8-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star8-1:hover ~ section [for='star8-1'] svg path, 
+#star8-2:hover ~ section [for='star8-1'] svg path, 
+#star8-2:hover ~ section [for='star8-2'] svg path, 
+#star8-3:hover ~ section [for='star8-1'] svg path, 
+#star8-3:hover ~ section [for='star8-2'] svg path, 
+#star8-3:hover ~ section [for='star8-3'] svg path, 
+#star8-4:hover ~ section [for='star8-1'] svg path, 
+#star8-4:hover ~ section [for='star8-2'] svg path, 
+#star8-4:hover ~ section [for='star8-3'] svg path, 
+#star8-4:hover ~ section [for='star8-4'] svg path, 
+#star8-5:hover ~ section [for='star8-1'] svg path, 
+#star8-5:hover ~ section [for='star8-2'] svg path, 
+#star8-5:hover ~ section [for='star8-3'] svg path, 
+#star8-5:hover ~ section [for='star8-4'] svg path, 
+#star8-5:hover ~ section [for='star8-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock8{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock8 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock8 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock8 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock8 label[for="star8-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star8-1:checked ~ .ratingblock8::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star8-2:checked ~ .ratingblock8::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star8-3:checked ~ .ratingblock8::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star8-4:checked ~ .ratingblock8::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star8-5:checked ~ .ratingblock8::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star8-null:checked ~ .ratingblock8::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 9 start********/
+
+#star9-1:checked ~ section [for='star9-1'] svg, 
+#star9-2:checked ~ section [for='star9-1'] svg, 
+#star9-2:checked ~ section [for='star9-2'] svg, 
+#star9-3:checked ~ section [for='star9-1'] svg, 
+#star9-3:checked ~ section [for='star9-2'] svg, 
+#star9-3:checked ~ section [for='star9-3'] svg, 
+#star9-4:checked ~ section [for='star9-1'] svg, 
+#star9-4:checked ~ section [for='star9-2'] svg, 
+#star9-4:checked ~ section [for='star9-3'] svg, 
+#star9-4:checked ~ section [for='star9-4'] svg, 
+#star9-5:checked ~ section [for='star9-1'] svg, 
+#star9-5:checked ~ section [for='star9-2'] svg, 
+#star9-5:checked ~ section [for='star9-3'] svg, 
+#star9-5:checked ~ section [for='star9-4'] svg, 
+#star9-5:checked ~ section [for='star9-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star9-1:checked ~ section [for='star9-1'] svg path, 
+#star9-2:checked ~ section [for='star9-1'] svg path, 
+#star9-2:checked ~ section [for='star9-2'] svg path, 
+#star9-3:checked ~ section [for='star9-1'] svg path, 
+#star9-3:checked ~ section [for='star9-2'] svg path, 
+#star9-3:checked ~ section [for='star9-3'] svg path, 
+#star9-4:checked ~ section [for='star9-1'] svg path, 
+#star9-4:checked ~ section [for='star9-2'] svg path, 
+#star9-4:checked ~ section [for='star9-3'] svg path, 
+#star9-4:checked ~ section [for='star9-4'] svg path, 
+#star9-5:checked ~ section [for='star9-1'] svg path, 
+#star9-5:checked ~ section [for='star9-2'] svg path, 
+#star9-5:checked ~ section [for='star9-3'] svg path, 
+#star9-5:checked ~ section [for='star9-4'] svg path, 
+#star9-5:checked ~ section [for='star9-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star9-1:hover ~ section [for='star9-1'] svg path, 
+#star9-2:hover ~ section [for='star9-1'] svg path, 
+#star9-2:hover ~ section [for='star9-2'] svg path, 
+#star9-3:hover ~ section [for='star9-1'] svg path, 
+#star9-3:hover ~ section [for='star9-2'] svg path, 
+#star9-3:hover ~ section [for='star9-3'] svg path, 
+#star9-4:hover ~ section [for='star9-1'] svg path, 
+#star9-4:hover ~ section [for='star9-2'] svg path, 
+#star9-4:hover ~ section [for='star9-3'] svg path, 
+#star9-4:hover ~ section [for='star9-4'] svg path, 
+#star9-5:hover ~ section [for='star9-1'] svg path, 
+#star9-5:hover ~ section [for='star9-2'] svg path, 
+#star9-5:hover ~ section [for='star9-3'] svg path, 
+#star9-5:hover ~ section [for='star9-4'] svg path, 
+#star9-5:hover ~ section [for='star9-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock9{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock9 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock9 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock9 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock9 label[for="star9-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star9-1:checked ~ .ratingblock9::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star9-2:checked ~ .ratingblock9::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star9-3:checked ~ .ratingblock9::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star9-4:checked ~ .ratingblock9::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star9-5:checked ~ .ratingblock9::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star9-null:checked ~ .ratingblock9::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 10 start********/
+
+#star10-1:checked ~ section [for='star10-1'] svg, 
+#star10-2:checked ~ section [for='star10-1'] svg, 
+#star10-2:checked ~ section [for='star10-2'] svg, 
+#star10-3:checked ~ section [for='star10-1'] svg, 
+#star10-3:checked ~ section [for='star10-2'] svg, 
+#star10-3:checked ~ section [for='star10-3'] svg, 
+#star10-4:checked ~ section [for='star10-1'] svg, 
+#star10-4:checked ~ section [for='star10-2'] svg, 
+#star10-4:checked ~ section [for='star10-3'] svg, 
+#star10-4:checked ~ section [for='star10-4'] svg, 
+#star10-5:checked ~ section [for='star10-1'] svg, 
+#star10-5:checked ~ section [for='star10-2'] svg, 
+#star10-5:checked ~ section [for='star10-3'] svg, 
+#star10-5:checked ~ section [for='star10-4'] svg, 
+#star10-5:checked ~ section [for='star10-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star10-1:checked ~ section [for='star10-1'] svg path, 
+#star10-2:checked ~ section [for='star10-1'] svg path, 
+#star10-2:checked ~ section [for='star10-2'] svg path, 
+#star10-3:checked ~ section [for='star10-1'] svg path, 
+#star10-3:checked ~ section [for='star10-2'] svg path, 
+#star10-3:checked ~ section [for='star10-3'] svg path, 
+#star10-4:checked ~ section [for='star10-1'] svg path, 
+#star10-4:checked ~ section [for='star10-2'] svg path, 
+#star10-4:checked ~ section [for='star10-3'] svg path, 
+#star10-4:checked ~ section [for='star10-4'] svg path, 
+#star10-5:checked ~ section [for='star10-1'] svg path, 
+#star10-5:checked ~ section [for='star10-2'] svg path, 
+#star10-5:checked ~ section [for='star10-3'] svg path, 
+#star10-5:checked ~ section [for='star10-4'] svg path, 
+#star10-5:checked ~ section [for='star10-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star10-1:hover ~ section [for='star10-1'] svg path, 
+#star10-2:hover ~ section [for='star10-1'] svg path, 
+#star10-2:hover ~ section [for='star10-2'] svg path, 
+#star10-3:hover ~ section [for='star10-1'] svg path, 
+#star10-3:hover ~ section [for='star10-2'] svg path, 
+#star10-3:hover ~ section [for='star10-3'] svg path, 
+#star10-4:hover ~ section [for='star10-1'] svg path, 
+#star10-4:hover ~ section [for='star10-2'] svg path, 
+#star10-4:hover ~ section [for='star10-3'] svg path, 
+#star10-4:hover ~ section [for='star10-4'] svg path, 
+#star10-5:hover ~ section [for='star10-1'] svg path, 
+#star10-5:hover ~ section [for='star10-2'] svg path, 
+#star10-5:hover ~ section [for='star10-3'] svg path, 
+#star10-5:hover ~ section [for='star10-4'] svg path, 
+#star10-5:hover ~ section [for='star10-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock10{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock10 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock10 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock10 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock10 label[for="star10-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star10-1:checked ~ .ratingblock10::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star10-2:checked ~ .ratingblock10::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star10-3:checked ~ .ratingblock10::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star10-4:checked ~ .ratingblock10::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star10-5:checked ~ .ratingblock10::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star10-null:checked ~ .ratingblock10::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 11 start********/
+
+#star11-1:checked ~ section [for='star11-1'] svg, 
+#star11-2:checked ~ section [for='star11-1'] svg, 
+#star11-2:checked ~ section [for='star11-2'] svg, 
+#star11-3:checked ~ section [for='star11-1'] svg, 
+#star11-3:checked ~ section [for='star11-2'] svg, 
+#star11-3:checked ~ section [for='star11-3'] svg, 
+#star11-4:checked ~ section [for='star11-1'] svg, 
+#star11-4:checked ~ section [for='star11-2'] svg, 
+#star11-4:checked ~ section [for='star11-3'] svg, 
+#star11-4:checked ~ section [for='star11-4'] svg, 
+#star11-5:checked ~ section [for='star11-1'] svg, 
+#star11-5:checked ~ section [for='star11-2'] svg, 
+#star11-5:checked ~ section [for='star11-3'] svg, 
+#star11-5:checked ~ section [for='star11-4'] svg, 
+#star11-5:checked ~ section [for='star11-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star11-1:checked ~ section [for='star11-1'] svg path, 
+#star11-2:checked ~ section [for='star11-1'] svg path, 
+#star11-2:checked ~ section [for='star11-2'] svg path, 
+#star11-3:checked ~ section [for='star11-1'] svg path, 
+#star11-3:checked ~ section [for='star11-2'] svg path, 
+#star11-3:checked ~ section [for='star11-3'] svg path, 
+#star11-4:checked ~ section [for='star11-1'] svg path, 
+#star11-4:checked ~ section [for='star11-2'] svg path, 
+#star11-4:checked ~ section [for='star11-3'] svg path, 
+#star11-4:checked ~ section [for='star11-4'] svg path, 
+#star11-5:checked ~ section [for='star11-1'] svg path, 
+#star11-5:checked ~ section [for='star11-2'] svg path, 
+#star11-5:checked ~ section [for='star11-3'] svg path, 
+#star11-5:checked ~ section [for='star11-4'] svg path, 
+#star11-5:checked ~ section [for='star11-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star11-1:hover ~ section [for='star11-1'] svg path, 
+#star11-2:hover ~ section [for='star11-1'] svg path, 
+#star11-2:hover ~ section [for='star11-2'] svg path, 
+#star11-3:hover ~ section [for='star11-1'] svg path, 
+#star11-3:hover ~ section [for='star11-2'] svg path, 
+#star11-3:hover ~ section [for='star11-3'] svg path, 
+#star11-4:hover ~ section [for='star11-1'] svg path, 
+#star11-4:hover ~ section [for='star11-2'] svg path, 
+#star11-4:hover ~ section [for='star11-3'] svg path, 
+#star11-4:hover ~ section [for='star11-4'] svg path, 
+#star11-5:hover ~ section [for='star11-1'] svg path, 
+#star11-5:hover ~ section [for='star11-2'] svg path, 
+#star11-5:hover ~ section [for='star11-3'] svg path, 
+#star11-5:hover ~ section [for='star11-4'] svg path, 
+#star11-5:hover ~ section [for='star11-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock11{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock11 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock11 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock11 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock11 label[for="star11-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star11-1:checked ~ .ratingblock11::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star11-2:checked ~ .ratingblock11::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star11-3:checked ~ .ratingblock11::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star11-4:checked ~ .ratingblock11::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star11-5:checked ~ .ratingblock11::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star11-null:checked ~ .ratingblock11::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********rating 12 start********/
+
+#star12-1:checked ~ section [for='star12-1'] svg, 
+#star12-2:checked ~ section [for='star12-1'] svg, 
+#star12-2:checked ~ section [for='star12-2'] svg, 
+#star12-3:checked ~ section [for='star12-1'] svg, 
+#star12-3:checked ~ section [for='star12-2'] svg, 
+#star12-3:checked ~ section [for='star12-3'] svg, 
+#star12-4:checked ~ section [for='star12-1'] svg, 
+#star12-4:checked ~ section [for='star12-2'] svg, 
+#star12-4:checked ~ section [for='star12-3'] svg, 
+#star12-4:checked ~ section [for='star12-4'] svg, 
+#star12-5:checked ~ section [for='star12-1'] svg, 
+#star12-5:checked ~ section [for='star12-2'] svg, 
+#star12-5:checked ~ section [for='star12-3'] svg, 
+#star12-5:checked ~ section [for='star12-4'] svg, 
+#star12-5:checked ~ section [for='star12-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star12-1:checked ~ section [for='star12-1'] svg path, 
+#star12-2:checked ~ section [for='star12-1'] svg path, 
+#star12-2:checked ~ section [for='star12-2'] svg path, 
+#star12-3:checked ~ section [for='star12-1'] svg path, 
+#star12-3:checked ~ section [for='star12-2'] svg path, 
+#star12-3:checked ~ section [for='star12-3'] svg path, 
+#star12-4:checked ~ section [for='star12-1'] svg path, 
+#star12-4:checked ~ section [for='star12-2'] svg path, 
+#star12-4:checked ~ section [for='star12-3'] svg path, 
+#star12-4:checked ~ section [for='star12-4'] svg path, 
+#star12-5:checked ~ section [for='star12-1'] svg path, 
+#star12-5:checked ~ section [for='star12-2'] svg path, 
+#star12-5:checked ~ section [for='star12-3'] svg path, 
+#star12-5:checked ~ section [for='star12-4'] svg path, 
+#star12-5:checked ~ section [for='star12-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star12-1:hover ~ section [for='star12-1'] svg path, 
+#star12-2:hover ~ section [for='star12-1'] svg path, 
+#star12-2:hover ~ section [for='star12-2'] svg path, 
+#star12-3:hover ~ section [for='star12-1'] svg path, 
+#star12-3:hover ~ section [for='star12-2'] svg path, 
+#star12-3:hover ~ section [for='star12-3'] svg path, 
+#star12-4:hover ~ section [for='star12-1'] svg path, 
+#star12-4:hover ~ section [for='star12-2'] svg path, 
+#star12-4:hover ~ section [for='star12-3'] svg path, 
+#star12-4:hover ~ section [for='star12-4'] svg path, 
+#star12-5:hover ~ section [for='star12-1'] svg path, 
+#star12-5:hover ~ section [for='star12-2'] svg path, 
+#star12-5:hover ~ section [for='star12-3'] svg path, 
+#star12-5:hover ~ section [for='star12-4'] svg path, 
+#star12-5:hover ~ section [for='star12-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock12{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock12 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock12 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock12 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock12 label[for="star12-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star12-1:checked ~ .ratingblock12::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star12-2:checked ~ .ratingblock12::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star12-3:checked ~ .ratingblock12::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star12-4:checked ~ .ratingblock12::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star12-5:checked ~ .ratingblock12::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star12-null:checked ~ .ratingblock12::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 13 start********/
+
+#star13-1:checked ~ section [for='star13-1'] svg, 
+#star13-2:checked ~ section [for='star13-1'] svg, 
+#star13-2:checked ~ section [for='star13-2'] svg, 
+#star13-3:checked ~ section [for='star13-1'] svg, 
+#star13-3:checked ~ section [for='star13-2'] svg, 
+#star13-3:checked ~ section [for='star13-3'] svg, 
+#star13-4:checked ~ section [for='star13-1'] svg, 
+#star13-4:checked ~ section [for='star13-2'] svg, 
+#star13-4:checked ~ section [for='star13-3'] svg, 
+#star13-4:checked ~ section [for='star13-4'] svg, 
+#star13-5:checked ~ section [for='star13-1'] svg, 
+#star13-5:checked ~ section [for='star13-2'] svg, 
+#star13-5:checked ~ section [for='star13-3'] svg, 
+#star13-5:checked ~ section [for='star13-4'] svg, 
+#star13-5:checked ~ section [for='star13-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star13-1:checked ~ section [for='star13-1'] svg path, 
+#star13-2:checked ~ section [for='star13-1'] svg path, 
+#star13-2:checked ~ section [for='star13-2'] svg path, 
+#star13-3:checked ~ section [for='star13-1'] svg path, 
+#star13-3:checked ~ section [for='star13-2'] svg path, 
+#star13-3:checked ~ section [for='star13-3'] svg path, 
+#star13-4:checked ~ section [for='star13-1'] svg path, 
+#star13-4:checked ~ section [for='star13-2'] svg path, 
+#star13-4:checked ~ section [for='star13-3'] svg path, 
+#star13-4:checked ~ section [for='star13-4'] svg path, 
+#star13-5:checked ~ section [for='star13-1'] svg path, 
+#star13-5:checked ~ section [for='star13-2'] svg path, 
+#star13-5:checked ~ section [for='star13-3'] svg path, 
+#star13-5:checked ~ section [for='star13-4'] svg path, 
+#star13-5:checked ~ section [for='star13-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star13-1:hover ~ section [for='star13-1'] svg path, 
+#star13-2:hover ~ section [for='star13-1'] svg path, 
+#star13-2:hover ~ section [for='star13-2'] svg path, 
+#star13-3:hover ~ section [for='star13-1'] svg path, 
+#star13-3:hover ~ section [for='star13-2'] svg path, 
+#star13-3:hover ~ section [for='star13-3'] svg path, 
+#star13-4:hover ~ section [for='star13-1'] svg path, 
+#star13-4:hover ~ section [for='star13-2'] svg path, 
+#star13-4:hover ~ section [for='star13-3'] svg path, 
+#star13-4:hover ~ section [for='star13-4'] svg path, 
+#star13-5:hover ~ section [for='star13-1'] svg path, 
+#star13-5:hover ~ section [for='star13-2'] svg path, 
+#star13-5:hover ~ section [for='star13-3'] svg path, 
+#star13-5:hover ~ section [for='star13-4'] svg path, 
+#star13-5:hover ~ section [for='star13-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock13{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock13 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock13 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock13 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock13 label[for="star13-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star13-1:checked ~ .ratingblock13::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star13-2:checked ~ .ratingblock13::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star13-3:checked ~ .ratingblock13::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star13-4:checked ~ .ratingblock13::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star13-5:checked ~ .ratingblock13::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star13-null:checked ~ .ratingblock13::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 14 start********/
+
+#star14-1:checked ~ section [for='star14-1'] svg, 
+#star14-2:checked ~ section [for='star14-1'] svg, 
+#star14-2:checked ~ section [for='star14-2'] svg, 
+#star14-3:checked ~ section [for='star14-1'] svg, 
+#star14-3:checked ~ section [for='star14-2'] svg, 
+#star14-3:checked ~ section [for='star14-3'] svg, 
+#star14-4:checked ~ section [for='star14-1'] svg, 
+#star14-4:checked ~ section [for='star14-2'] svg, 
+#star14-4:checked ~ section [for='star14-3'] svg, 
+#star14-4:checked ~ section [for='star14-4'] svg, 
+#star14-5:checked ~ section [for='star14-1'] svg, 
+#star14-5:checked ~ section [for='star14-2'] svg, 
+#star14-5:checked ~ section [for='star14-3'] svg, 
+#star14-5:checked ~ section [for='star14-4'] svg, 
+#star14-5:checked ~ section [for='star14-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star14-1:checked ~ section [for='star14-1'] svg path, 
+#star14-2:checked ~ section [for='star14-1'] svg path, 
+#star14-2:checked ~ section [for='star14-2'] svg path, 
+#star14-3:checked ~ section [for='star14-1'] svg path, 
+#star14-3:checked ~ section [for='star14-2'] svg path, 
+#star14-3:checked ~ section [for='star14-3'] svg path, 
+#star14-4:checked ~ section [for='star14-1'] svg path, 
+#star14-4:checked ~ section [for='star14-2'] svg path, 
+#star14-4:checked ~ section [for='star14-3'] svg path, 
+#star14-4:checked ~ section [for='star14-4'] svg path, 
+#star14-5:checked ~ section [for='star14-1'] svg path, 
+#star14-5:checked ~ section [for='star14-2'] svg path, 
+#star14-5:checked ~ section [for='star14-3'] svg path, 
+#star14-5:checked ~ section [for='star14-4'] svg path, 
+#star14-5:checked ~ section [for='star14-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star14-1:hover ~ section [for='star14-1'] svg path, 
+#star14-2:hover ~ section [for='star14-1'] svg path, 
+#star14-2:hover ~ section [for='star14-2'] svg path, 
+#star14-3:hover ~ section [for='star14-1'] svg path, 
+#star14-3:hover ~ section [for='star14-2'] svg path, 
+#star14-3:hover ~ section [for='star14-3'] svg path, 
+#star14-4:hover ~ section [for='star14-1'] svg path, 
+#star14-4:hover ~ section [for='star14-2'] svg path, 
+#star14-4:hover ~ section [for='star14-3'] svg path, 
+#star14-4:hover ~ section [for='star14-4'] svg path, 
+#star14-5:hover ~ section [for='star14-1'] svg path, 
+#star14-5:hover ~ section [for='star14-2'] svg path, 
+#star14-5:hover ~ section [for='star14-3'] svg path, 
+#star14-5:hover ~ section [for='star14-4'] svg path, 
+#star14-5:hover ~ section [for='star14-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock14{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock14 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock14 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock14 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock14 label[for="star14-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star14-1:checked ~ .ratingblock14::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star14-2:checked ~ .ratingblock14::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star14-3:checked ~ .ratingblock14::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star14-4:checked ~ .ratingblock14::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star14-5:checked ~ .ratingblock14::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star14-null:checked ~ .ratingblock14::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+/*********rating 15 start********/
+
+#star15-1:checked ~ section [for='star15-1'] svg, 
+#star15-2:checked ~ section [for='star15-1'] svg, 
+#star15-2:checked ~ section [for='star15-2'] svg, 
+#star15-3:checked ~ section [for='star15-1'] svg, 
+#star15-3:checked ~ section [for='star15-2'] svg, 
+#star15-3:checked ~ section [for='star15-3'] svg, 
+#star15-4:checked ~ section [for='star15-1'] svg, 
+#star15-4:checked ~ section [for='star15-2'] svg, 
+#star15-4:checked ~ section [for='star15-3'] svg, 
+#star15-4:checked ~ section [for='star15-4'] svg, 
+#star15-5:checked ~ section [for='star15-1'] svg, 
+#star15-5:checked ~ section [for='star15-2'] svg, 
+#star15-5:checked ~ section [for='star15-3'] svg, 
+#star15-5:checked ~ section [for='star15-4'] svg, 
+#star15-5:checked ~ section [for='star15-5'] svg {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#star15-1:checked ~ section [for='star15-1'] svg path, 
+#star15-2:checked ~ section [for='star15-1'] svg path, 
+#star15-2:checked ~ section [for='star15-2'] svg path, 
+#star15-3:checked ~ section [for='star15-1'] svg path, 
+#star15-3:checked ~ section [for='star15-2'] svg path, 
+#star15-3:checked ~ section [for='star15-3'] svg path, 
+#star15-4:checked ~ section [for='star15-1'] svg path, 
+#star15-4:checked ~ section [for='star15-2'] svg path, 
+#star15-4:checked ~ section [for='star15-3'] svg path, 
+#star15-4:checked ~ section [for='star15-4'] svg path, 
+#star15-5:checked ~ section [for='star15-1'] svg path, 
+#star15-5:checked ~ section [for='star15-2'] svg path, 
+#star15-5:checked ~ section [for='star15-3'] svg path, 
+#star15-5:checked ~ section [for='star15-4'] svg path, 
+#star15-5:checked ~ section [for='star15-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}
+
+/*#star15-1:hover ~ section [for='star15-1'] svg path, 
+#star15-2:hover ~ section [for='star15-1'] svg path, 
+#star15-2:hover ~ section [for='star15-2'] svg path, 
+#star15-3:hover ~ section [for='star15-1'] svg path, 
+#star15-3:hover ~ section [for='star15-2'] svg path, 
+#star15-3:hover ~ section [for='star15-3'] svg path, 
+#star15-4:hover ~ section [for='star15-1'] svg path, 
+#star15-4:hover ~ section [for='star15-2'] svg path, 
+#star15-4:hover ~ section [for='star15-3'] svg path, 
+#star15-4:hover ~ section [for='star15-4'] svg path, 
+#star15-5:hover ~ section [for='star15-1'] svg path, 
+#star15-5:hover ~ section [for='star15-2'] svg path, 
+#star15-5:hover ~ section [for='star15-3'] svg path, 
+#star15-5:hover ~ section [for='star15-4'] svg path, 
+#star15-5:hover ~ section [for='star15-5'] svg path {
+  fill: #FFBB00;
+  stroke: #cc9600;
+}*/
+
+.ratingblock15{
+  width: 141px;
+  text-align: center;
+  position: relative;
+}
+
+.ratingblock15 label {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ratingblock15 label svg {
+  width: 100%;
+  height: auto;
+  fill: white;
+  stroke: #000;
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+.ratingblock15 label svg path {
+  transition: fill 200ms ease-in-out, stroke 100ms ease-in-out;
+}
+
+.ratingblock15 label[for="star15-null"] {
+  display: block;
+  margin: 0 auto;
+  color: #999;
+}
+
+#star15-1:checked ~ .ratingblock15::after{
+    content:"Very Poor";
+    color:red;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star15-2:checked ~ .ratingblock15::after{
+    content:"Poor";
+    color:#ff8c00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star15-3:checked ~ .ratingblock15::after{
+    content:"Good";
+    color:#d0bb00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star15-4:checked ~ .ratingblock15::after{
+    content:"Very Good";
+    color:#6bb436;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+#star15-5:checked ~ .ratingblock15::after{
+    content:"Excellent";
+    color:#4e8d00;
+    width:100%;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+#star15-null:checked ~ .ratingblock15::after{
+    content:"";
+    color:none;
+    width:100px;
+    height:50px;
+    position: absolute;
+    top: 4px;
+    left: 100%;
+}
+
+
+/*********Logo**********/
+
+.grayscale td{
+    -webkit-filter: grayscale(100%); 
+    filter: grayscale(100%);
+}
+
+.nongrayscale1 td:nth-child(5) ,.nongrayscale2 td:nth-child(4) ,.nongrayscale3 td:nth-child(3) ,.nongrayscale4 td:nth-child(2) ,.nongrayscale5 td:nth-child(1) {
+    -webkit-filter: none;
+    filter: none;
+}
+
+/***********navbar start**************/
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-brand > img {
+    height: 100%;
+    padding: 15px;
+    width: auto;
+}
+
+.navbar-alignit .navbar-header {
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    height: 50px;
+}
+
+.navbar-alignit .navbar-brand {
+    top: 50%;
+    display: block;
+    position: relative;
+    height: auto;
+    transform: translate(0,-50%);
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.navbar-nav > li > .dropdown-menu {
+    z-index: 9999;
+}
+
+/***********navbar end**************/
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #f9bd4e;
+    background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
+    color:#f6801f;
+    background-color: transparent;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.contactHead{
+    background-color: #e0ddd5;
+    padding: 30px 0;
+}
+
+.uspIcons {
+    display: block;
+}
+
+.uspHeaders strong {
+    color: #4d4d4d;
+    font-weight: 400;
+    font-size: 22px;
+    text-transform: capitalize;
+}
+
+.contactNumber {
+    color: #333333;
+    display: block;
+    font-size: 20px;
+    font-weight: 400 !important;
+    margin-top: 4px;
+    margin-bottom: 1px;
+}
+
+.contactHead a, .contactDetails a, .blue {
+    color: #4d4d4d; !important;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+footer {
+    background-color: #282828;
+    text-align: center;
+}
+
+.footerNav {
+    margin-bottom: 0px;
+}
+
+.footerNav li {
+    display: inline-block;
+}
+
+.footerNav li a {
+    padding: 10px;
+    display: block;
+    color: #b3b3b3;
+    font-size: 13px;
+    position: relative;
+}
+
+.footerNav li a::after {
+    content: "";
+    width: 1px;
+    height: 30%;
+    background-color: #b3b3b3;
+    position: absolute;
+    right: -2px;
+    top: 14px;
+}
+
+.footerNav li:nth-child(5) a::after {
+    display:none;
+}
+
+.starbtn{
+    text-align:right;
+}
+
+.logoImage{
+    /*padding: 5px 5px;*/
+}
+
+.navbar-right {
+    float: right!important;
+    margin-right: 0% !important;
+}
+
+.navbar-toggle {
+    float: left;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: transparent;
+    margin-top: 7px;
+}
+
+.navbar-inverse .navbar-toggle:focus, .navbar-inverse .navbar-toggle:hover {
+    background-color: transparent;
+}
+
+.maindiv{
+    border: 1px solid #124378;
+    border-radius: 7px;
+    padding: 16px 16px 16px;
+    background-color: #fff;
+}
+
+@media screen and (max-width:1024px){
+    .navbar-right {
+        margin-right: 0% !important;
+    }
+}
+
+@media screen and (max-width:768px){
+    .navbar-right {
+        margin-right: 0% !important;
+    }
+    .logoImage {
+        margin:10px -16% 5px;
+        width: 60%;
+    }
+    .maindiv{
+        width:90%;
+        margin:auto;
+    }
+}
+
+
+@media screen and (max-width:479px){
+    .mainstyle {
+        padding: 0px 20px 15px;
+    }
+    .pullmedia{
+        display: -webkit-inline-box;
+        margin: 0 50px 0;
+    }
+    .logoImage {
+        /*padding: 5px 0 0;*/
+        margin: 4px 0 0;
+    }
+    .footerNav {
+        padding: 0;
+    }
+    .footerNav li a {
+        padding: 10px 4px;
+        font-size: 12px;
+    }
+    .maindiv {
+        width: auto;
+    }
+    .navbar-right {
+        margin: auto !important;
+        float: none !important;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width:320px){
+    .logoImage {
+        width: 230px;
+    }
+    .maindiv {
+        width: auto;
+    }
+}
+@media screen and (max-width:480px) {
+    .logoImage {
+        width: 60% !important;
+    }
+}
+@media screen and (max-width:768px){
+    .navbar-inverse .navbar-nav > li > a {
+        color: #ffffff;
+        font-size: 12px;
+       
+    }
+}
+@media screen and (max-width:460px) {
+    .navbar-inverse .navbar-nav > li > a {
+        color: #ffffff;
+        font-size: 15px;
+    }
+    .logoImage {
+        width: 40% !important;
+    }
+}

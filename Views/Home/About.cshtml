@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.Title = "About | Bakery Ingredients Supplier in Bahrain - Swissbake";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="About" />
+    <meta name="keywords" content="About" />
+    <meta property="og:description" content="About" />
+    <meta property="og:url" content="http://uat.swissbake.bh/about" />
+    <meta property="twitter:title" content="About | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="About" />
+    <meta property="og:image" content="http://uat.swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://uat.swissbake.bh/about" />
+}
+
+
+@section head{
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+}
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/About.jpg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>About Us</h1>
+        <span>We provide bakers with innovative solutions to improve the quality and output of their baked products.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">About Us</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+
+<section class="about-title1 pb-5">
+    <div class="container">
+        <div class="mt-4  center ">
+            <div class="heading-blockline">
+                <h3>WHY CHOOSE US</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+            <span class="divcenter">Finest Swiss formulated bakery ingredients and convenience products</span>
+        </div>
+        <div class="row">
+
+            <div class="col-md-6 abtsec1">
+                <div class="prod-image">
+                    <img src="~/Content/images/others/About_Us_Who_We_Are.png" class="img-responsive" />
+                </div>
+            </div>
+            <div class="col-md-6  pt-5">
+                <div class="title-sub media-text text-justify">
+
+                    <p>SwissBake® is a brand of premium quality Swiss-formulated bakery ingredients and convenience products.</p>
+
+                    <p>Taucher Schweiz WLL handles the marketing and distribution of SwissBake® products within Bahrain and other GCC countries.</p>
+
+                    <p>Our focus is on developing and marketing bakery ingredients and convenient products across Middle East and Africa.</p>
+
+                    <p>With a state-of-the-art research facility located in Switzerland; SwissBake® is rightly placed to fulfil the evolving needs of the bakery industry and develop innovative tailor-made bakery solutions with hi-quality ingredients for bakers across the Middle East.</p>
+
+                    <p>Swiss bake’s team of experienced cereal scientists, food technologists and baking experts have spent years in researching and developing bakery products to suit the evolving needs of the bakery industry. Our technical expertise in recipe formulation has been pivotal in developing SwissBake’s range of fine bakery ingredients.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="about-title2 bg-light pt-5 pb-5">
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="VM VM-Box">
+                    <div class="VM-icon vission">
+                        <i class="far fa-eye"></i>
+                    </div>
+                    <div class="features title-sub">
+                        <h3 class="text-center vis"><strong>OUR VISION</strong></h3>
+                        <p class="text-center">“To be a global leader in developing, producing and supplying bakery ingredients & convenience products.”</p>
+                        @*<ul class="pointers">
+                                <li><p>Over 3 decades of serving bakery industry</p></li>
+                                <li><p>In-depth understanding of bakery supply chain</p></li>
+                            </ul>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="VM VM-Box1">
+                    <div class="VM-icon mission">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="features title-sub">
+                        <h3 class="text-center mis"><strong>OUR MISSION</strong></h3>
+                        <p class="text-center">“To provide authentic, natural and healthy baking solutions and convenience products to bakers around the globe.”</p>
+                        @*<ul class="pointers">
+                                <li><p>Swiss formulation and technical knowhow</p></li>
+                                <li><p>Backward integration into material sourcing</p></li>
+                            </ul>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="register-divider">
+        <div class="container position-relative">
+            @if (Session["U_Id"] == null)
+            {
+                <h5>DON’T HAVE AN ACCOUNT? REGISTER NOW FOR UNRESTRICTED ACCESS.</h5><a href="/register">Create Account</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="about-title3">
+    <div class="container">
+        <div class="mt-4  center">
+            <div class="heading-blockline">
+                <h3>OUR LEGACY</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+            @*<h3>OUR LEGACY</h3>*@
+            <span class="divcenter">Over 40 years of experience in developing baking solutions for the global bakery industry.</span>
+        </div>
+        <div class="row mt-2">
+
+            <div class="col-md-6">
+                <div class="title-sub media-text1 text-justify">
+                    @*<p><strong>"Trade ‘n Bake (Switzerland) has a rich and varied experience of over 40 years in
+                        developing and customizing bakery solutions for clients across the globe."</strong></p>*@
+                    <p>
+                        Trade ‘n Bake team of experienced cereal scientists, food technologists and
+                        baking experts have spent years in researching and developing bakery products
+                        to suit the evolving needs of the bakery industry.
+                    </p>
+                    <p>Their technical expertise in recipe formulation has been pivotal in developing SwissBake® range of fine bakery ingredients.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="prod-image">
+                    <img src="~/content/images/others/About_us_Our_Legacy.jpg" class="img-responsive" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<section class="about-title4 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-sub">
+                        <div class="heading-block mt-5 center">
+                            <h3>QUALITY PROMISE</h3>
+                            <span class="divcenter">"In line with the Swiss ideology for uncompromising quality, we maintain highest quality standards for our products right from product development to sourcing of raw materials and also packaging & distribution."</span>
+                        </div>
+
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="prod-image">
+                        <img src="~/Content/images/others/About_us_Quality_Promise.jpg" class="img-responsive" />
+                    </div>
+                </div>
+            </div>
+            <div class="quality-text title-sub text-justify">
+                <p>Providing high quality products is fundamental to our success. We have always recognized this and has therefore encouraged our employees to maintain a quality conscious culture.</p>
+                <p>At Swiss-Bake, we believe accreditation of raw material suppliers, following global production standards and efficient management systems is vital in order to deliver quality products consistently. Hence we have not only supported the development and application of improved practices but we also seek to be a leader in the utilization of such systems.</p>
+                <p>For us, customer satisfaction is of utmost importance and our experts are always available for guiding our clients whenever they are needed.</p>
+            </div>
+        </div>
+    </section>*@
+
+
+<section class="about-title1 pb-5 bg-light">
+    <div class="container">
+        <div class="pt-4  center ">
+            <div class="heading-blockline">
+                <h3>QUALITY PROMISE</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+            @*<h3>QUALITY PROMISE</h3>*@
+            <span class="divcenter">True to our Swiss heritage, we maintain highest quality standards through all stages of our business operations to ensure uncompromised service to our clients.</span>
+        </div>
+        <div class="row mt-2">
+
+            <div class="col-md-6 abtsec1">
+                <div class="prod-image">
+                    <img src="~/Content/images/sbimg/Swiss2.png" class="img-responsive w-100" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="title-sub media-text text-justify">
+                    <p>Providing high quality products is fundamental to our success. We have always recognized this and have therefore encouraged our employees to maintain a quality conscious culture.</p>
+                    <p>We believe accreditation of raw material suppliers, following global production standards and efficient management systems are vital in order to deliver quality products consistently. Hence we have not only supported the development and application of improved practices but we also seek to be a leader in the utilization of such systems.</p>
+                    <p>For us, customer satisfaction is of utmost importance and our experts are always available for guiding our clients whenever they are needed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="pb-5">
+    <div class="container">
+        <div class="mt-4 mb-2 center">
+            <div class="heading-blockline">
+                <h3>OUR CLIENTS</h3>
+                <hr style="margin-bottom: -10px;" />
+                <hr class="hrredline" />
+            </div>
+            @*<h3>OUR CLIENTS</h3>*@
+            <span class="divcenter">We are proud to be serving these reputed establishments globally.</span>
+        </div>
+
+        <div id="oc-clients-full" class="owl-carousel owl-carousel-full image-carousel carousel-widget" data-margin="30" data-loop="true" data-nav="true" data-pagi="false" data-autoplay="2000" data-items-xs="3" data-items-sm="3" data-items-md="5" data-items-lg="6" data-items-xl="7">
+
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client1.png" alt="Brands"></a></div>
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client2.png" alt="Brands"></a></div>*@
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client3.png" alt="Brands"></a></div>
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client4.png" alt="Brands"></a></div>*@
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client5.png" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client6.png" alt="Brands"></a></div>
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client7.jpg" alt="Brands"></a></div>*@
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client8.jpg" alt="Brands"></a></div>
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client9.jpg" alt="Brands"></a></div>*@
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client10.jpg" alt="Brands"></a></div>*@
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client11.jpg" alt="Brands"></a></div>
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client12.jpg" alt="Brands"></a></div>
+
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/Carrefour.png" alt="Carrefour"/></a></div>
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/Euro-Foods.png" alt="Euro-Foods"/></a></div>
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/Lulu.png" alt="Lulu"/></a></div>
+            <div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/Stop-Go-Supermarket.png" alt="Stop-&-Go-Supermarket"/></a></div>
+            @*<div class="oc-item"><a href="#"><img src="~/Content/images/sbclients/client13.jpg" alt="Brands"></a></div>*@
+
+        </div>
+    </div>
+
+</div>

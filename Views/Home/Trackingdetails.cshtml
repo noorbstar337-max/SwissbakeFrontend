@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Tracking details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section foot{
+    <script>
+    $(document).ready(function () {
+
+        var code = window.location.pathname.split('/')[2];
+
+        $.ajax({
+            url: "https://track.swissbake.bh/" + code,
+            dataType: "jsonp",
+            timeout: 5000,
+
+            success: function () {
+                $("#iframe").attr("src", "https://track.swissbake.bh/" + code);
+            },
+            error: function (parsedjson) {
+                if (parsedjson.status == "200") {
+                    $("#frame").attr("src", "https://track.swissbake.bh/" + code);
+                } else {
+                    $("#ctch").html("<div style='height:500px;padding-top:10%'><h3 class='m-auto' style='position: relative;text-align: center;'>No Record Found</h3></div>")
+                }
+            }
+        });
+
+        
+    })
+    </script>
+}
+
+
+ 
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>TRACKING DETAILS</h1>
+        <span>Your access to high quality baking ingredients from SwissBake® </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">TRACKING DETAILS</li>
+        </ol>
+    </div>
+
+</section>
+<!-- #page-title end -->
+
+<div id="ctch" class="clearfix">
+    <iframe id="frame" class="w-100" style="height:700px" title="Swiss Bake Tracking"></iframe>
+</div>

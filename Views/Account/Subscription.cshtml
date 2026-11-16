@@ -1,0 +1,518 @@
+﻿@using SwissbakeIn.App_Start;
+@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "My Subscription";
+}
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    <link href="~/Content/css/components/bs-datatable.css" rel="stylesheet" />
+<style>
+    .jconfirm .jconfirm-box div.jconfirm-content-pane {
+        margin-bottom: 0;
+    }
+
+    .jconfirm-closeIcon {
+        display: none !important;
+    }
+</style>
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/components/bs-datatable.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var showChar = 80;  // How many characters are shown by default
+            var ellipsestext = "...";
+            var moretext = "Show more";
+            var lesstext = "Show less";
+
+
+            $('.more1').each(function () {
+                var content = $(this).html();
+
+                if (content.length > showChar) {
+
+                    var c = content.substr(0, showChar);
+                    var h = content.substr(showChar, content.length - showChar);
+
+                    var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+                    $(this).html(html);
+                }
+
+            });
+
+            $(".morelink").click(function () {
+                if ($(this).hasClass("less")) {
+                    $(this).removeClass("less");
+                    $(this).html(moretext);
+                } else {
+                    $(this).addClass("less");
+                    $(this).html(lesstext);
+                }
+                $(this).parent().prev().toggle();
+                $(this).prev().toggle();
+                return false;
+            });
+
+            // Code for the Validator
+            var form = $('#subs-form');
+            var error = $('.form-control', form);
+
+            var $validator = $('#subs-form').validate({
+        //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+        //errorElement: 'span', //default input error message container
+        //errorClass: 'error-block1', // default input error message class
+        //focusInvalid: false, // do not focus the last invalid input
+		  rules: {
+              schdate: {
+                required: true
+            },
+            schtype: {
+                required:true
+            },
+            schqty: {
+                required:true
+            }
+
+          },
+
+          messages:{
+              schdate: {
+                  required: "This is required"
+              },
+              schtype: {
+                  required: "This is required"
+              },
+              schqty: {
+                  required: "This is required"
+              }
+          },
+
+        errorPlacement: function(error, element) {
+            //if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+            //    error.insertAfter("#show-error");
+            //}
+            ////else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+            ////    error.insertAfter("#form_payment_error");
+            ////}
+            //else {
+            //    error.insertAfter(element); // for other inputs, just perform default behavior
+            //}
+            error.insertAfter(element);
+          },
+        //success: function (label) {
+        //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+        //        label.remove(); // remove error label here
+        //    }
+        //},
+        submitHandler: function (form) {
+            var $valid = $('#subs-form').valid();
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+            else {
+                //if ($("input[name=mode]").val() == "login") {
+                //    $("input[name=login]").val("Logging...").attr("disabled", "disabled");
+                //    var obj = {};
+
+                //    obj.mail = $("input[name=Email]").val();
+                //    obj.pas = $("input[name=pswd]").val();
+                //    obj.me = "";
+                //    if ($('input[name=rememberme]').is(":checked")){
+                //        obj.me = "1";
+                //    }
+
+                //    return checklog(obj.mail, obj.pas, obj.me);
+                //}
+                //else {
+                //    return update();
+                //}
+                //alert("done")
+                addSchedule()
+                return false;
+            }
+            //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+        }
+	});
+        });
+
+
+        function EditSch(id) {
+            //debugger;
+            var p = id.parentElement.parentElement.localName;
+            var ri = id.parentElement.parentElement.rowIndex;
+            var d;
+            
+            var v = $(p + ":nth-child(" + (ri) + ") td:nth-child(4)").text().trim(" ");
+            //$(".side-sch form .sch-qty").val(id.parentNode.parentNode[1].childNodes[1].childNodes[1].childNodes[2].childNodes["0"].childNodes[3].childNodes[1].childNodes[1].innerText);
+            $(".side-sch form .sch-qty").val(v.replace(" Kg",""));
+            
+            //if (v.includes("-")) {
+            //    d = v;
+            //    v = "Custom";
+                
+            //}
+            var v = $(p + ":nth-child(" + (ri) + ") td:nth-child(3)").text().trim(" ");
+            $(".side-sch form .sch-type").val(v).change();
+            var v = $(p + ":nth-child(" + (ri) + ") td:nth-child(3) .SubOn").val();
+            //var v = $(p + ":nth-child(" + (ri + 1) + ") td:nth-child(2)").text();
+            $(".side-sch form .sch-date").val(v);
+            var v = $(p + ":nth-child(" + (ri) + ") td:nth-child(2) input[type=hidden]").val();
+            $(".side-sch form #pid").val(v);
+            var v = $(p + ":nth-child(" + (ri) + ") td:nth-child(2)").text().trim(" ");
+            $(".side-sch form .sch-name").text(v);
+            $(".side-sch form button[type=submit]").val(id.id);
+            setTimeout(function () {
+                $('.side-sch h4').text("Edit subscription");
+            },100);
+            
+        }
+
+        function addSchedule() {
+            //debugger;
+            var formData = new FormData();
+            //formData.append('SubId', $("form submit[type=submit]").val());
+            formData.append('Type', $(".side-sch form .sch-type").val());
+            
+            formData.append('Qty', $(".side-sch form .sch-qty").val());
+            formData.append('ProName', $(".side-sch form .sch-name").text());
+            
+            if ($("form button[type=submit]").val() != "" && $("form button[type=submit]").val() != undefined){
+                formData.append('Edit', $("form button[type=submit]").val());
+                formData.append('PId', $(".side-sch form #pid").val());
+            }
+            if ($(".side-sch form .sch-type").val() == "Custom") {
+                formData.append('Date', $(".side-sch form .sch-date").val());
+            }
+            else {
+                formData.append('Date', "");
+            }
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Access/Subs",
+                //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $(".sub-btn").attr("disabled", "disabled");
+                    $.confirm({
+                        backgroundDismiss: false,
+                        title: false,
+                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Updating... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                        buttons: false
+                    });
+                    //_divPartialView.style = "Display: none";
+                    //$("#divWaiting").removeClass("display-none");
+                },
+                success: function (response) {
+                    if (response == true) {
+                        setTimeout(function () {
+                            location.reload(true);
+                        },600);
+                    }
+                    else {
+                        $(".close-dialog").click();
+                        $(".req-btn").removeAttr("disabled");
+                    }
+                    setTimeout(function () {
+                        $(".jconfirm-closeIcon").click();
+                    }, 500);
+                },
+            }).done(function (response) {
+                true;
+            }).fail(function () {
+                false;
+            });
+        }
+
+
+        function Subdel(id) {
+            var formData = new FormData();
+            formData.append('ID', id.id);
+            $.confirm({
+                title: 'Delete subscription?',
+                //theme: 'supervan',
+                //content: '' +
+                //'<form action="" class="formName">' +
+                //'<div class="form-group">' +
+                //'<label>Enter OTP Code</label>' +
+                //'<input type="text" placeholder="OTP" class="otp form-control" required />' +
+                //'resend (<span class="Counter"></span>)'+
+                //'</div>' +
+                //'</form>',
+                closeIcon: true,
+                closeIconClass: 'close-verify',
+                buttons: {
+                    formSubmit: {
+                        text: 'Confirm',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            var ms = "";
+                            var res = "";
+                            $.ajax({
+                                type: "POST",
+                                url: "/Access/DelSubs",
+                                //data: '{Compname: "' + Compname + '", Fullname: "' + Fullname + '", Email: "' + Email + '", Mobile:"' + Mobile + '", Password: "' + Passsword + '",Type:"' + mtype + '", Bname:"' + Bname + '", Bemail:"' + Bemail + '", Bmobile:"' + Bmobile + '", Bstreet:"' + Bstreet + '", Bpin:"' + Bpin + '", Bcity:"' + Bcity + '", Bstate:"' + Bstate + '", , Sname:"' + Sname + '", Semail:"' + Semail + '", Smobile:"' + Smobile + '", Sstreet:"' + Sstreet + '", Spin:"' + Spin + '", Scity:"' + Scity + '", Sstate:"' + Sstate + '", step:"' + step + '"  }',
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                beforeSend: function () {
+                                    $.confirm({
+                                        backgroundDismiss: false,
+                                        title: false,
+                                        content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 21px;">Fetching Data... <i class="fas fa-circle-notch fa-spin"></i></label></div>',
+                                        buttons: false
+                                    });
+                                    //_divPartialView.style = "Display: none";
+                                    //$("#divWaiting").removeClass("display-none");
+                                },
+                                success: function (response) {
+                                    if (response == true) {
+                                        setTimeout(function () {
+                                            $(".jconfirm-closeIcon").click();
+                                        }, 500);
+                                        id.parentElement.parentElement.remove();
+                                    }
+                                    else {
+                                        setTimeout(function () {
+                                            $(".jconfirm-closeIcon").click();
+                                        }, 500);
+                                    }
+                                },
+                            });
+                            
+
+                            return false;
+                        }
+                    },
+                    cancel: function () {
+                        //close
+                    },
+                },
+                onContentReady: function () {
+                    // bind to events
+                    var jc = this;
+                    this.$content.find('form').on('submit', function (e) {
+                        // if the user submits the form by pressing enter in the field.
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
+
+
+
+            
+        }
+
+        var app = angular.module('MyApp', [])
+
+        app.controller('subs', function ($scope, $http, $window) { });
+
+
+    </script>
+}
+
+@section Req{
+<div class="side-sch d-none" ng-controller="subs">
+    <div class="widget clearfix">
+
+        <h4>Edit Reminder</h4>
+       
+        <div class="mt-3">
+
+            <form id="subs-form" action="" method="post">
+                <input name="redirect" id="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                <input type="hidden" id="pid"/>
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <label class="sch-name"></label>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label class="label-floating">Requiremen 123t</label>
+                        @*<input type="text" id="Name" name="Name" placeholder="Name" class="form-control" />*@
+                        <select name="schtype" class="form-control sch-type" ng-model="type">
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Custom">Customized</option>
+                        </select>
+                    </div>
+                    <div id="subsdate" class="col-12 form-group">
+                        <label class="label-floating">Day</label>
+                        <select name="schdate" class="form-control sch-date">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+                            <option>13</option>
+                            <option>14</option>
+                            <option>15</option>
+                            <option>16</option>
+                            <option>17</option>
+                            <option>18</option>
+                            <option>19</option>
+                            <option>20</option>
+                            <option>21</option>
+                            <option>22</option>
+                            <option>23</option>
+                            <option>24</option>
+                            <option>25</option>
+                            <option>26</option>
+                            <option>27</option>
+                            <option>28</option>
+                            <option>29</option>
+                            <option>30</option>
+                        </select>
+                        <span class="error"></span>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label class="label-floating">Qty (KG)</label>
+                        <input type="text" placeholder="Product quantity" name="schqty" class="form-control sch-qty" onkeypress="return numkey(this);"/>
+                    </div>
+                </div>
+                <button type="submit" class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white">Subscribe</button>
+            </form>
+
+            @*<a href="/login" class="bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</a>*@
+        </div>
+    </div>
+
+</div>
+}
+@Html.Partial("_AccountMenu")
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-11">
+
+        <div class="container clearfix">
+
+            <div class="row">
+                <div class="heading-block col-md-9">
+                    <h4>@ViewBag.Title</h4>
+                </div>
+                @*<div class="col-md-3">
+                    <button class="btn btn-primary float-right">
+                        Add Reminder
+                    </button>
+                </div>*@
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive subtable">
+                        <table id="datatable1" class="table table-striped table-bordered not-table" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Created On</th>
+                                    <th>Product</th>
+                                    <th>Required</th>
+                                    <th>Qty</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.Tables[0].Rows.Count > 0)
+                            {
+                                foreach (DataRow row in Model.Tables[0].Rows)
+                                {
+                                    <tr>
+                                        <td>@row["ProdSub_CreatedDate"]</td>
+                                        <td>
+                                            @row["Product_Name"]
+
+
+                                            @*<span class="more1" >
+                                                @row["Product_Name"]  
+                                                @*Quantity : <span class="qty-val d-block">@row["ProdSub_Qty"]</span>//comment end
+                                                <ul style="width: fit-content;margin: 0 auto;">
+                                                    <li class="d-flex">Quantity : <span class="qty-val d-block">@row["ProdSub_Qty"]</span>&nbsp;Kg</li>
+                                                    <li class="d-flex">Schedule : 
+                                                        
+                                                        @if (row["ProdSub_ON"].ToString() != "")
+                                                        {
+                                                            <span class="sub-date d-block">@row["ProdSub_ON"]</span>
+                                                            <span class="sub-type d-none">@row["ProdSub_Type"]</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="sub-type d-block">@row["ProdSub_Type"]</span>
+                                                        }
+                                                    <span class="sub-name">@row["Product_Name"]</span>
+                                                    </li>
+                                                </ul>
+                                                <input type="hidden" value="@row["ProdSub_PID"]"/>
+                                            </span>*@
+                                            <input type="hidden" value="@row["ProdSub_PID"]" />
+                                        </td>
+                                        <td>
+                                            @row["ProdSub_Type"]
+                                            <input type="hidden" class="SubOn" value="@row["ProdSub_ON"]"/>
+                                        </td>
+                                        <td>
+                                            @row["ProdSub_Qty"] Kg
+                                        </td>
+                                        <td class="w-10">
+                                            <a id="@row["ProdSub_Id"]" onclick="EditSch(this)" class="req-sch side-panel-trigger cursor-pointer"><i class="fas fa-edit"></i></a>
+                                            <a id="@row["ProdSub_Id"]" onclick="Subdel(this)" class="cursor-pointer"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                                }
+                                else
+                                {
+                                <tr>
+                                    <td colspan="2">No record found</td>
+                                </tr>
+                                }
+                                
+                                @*<tr>
+                                    <td>
+                                        <span class="more">
+                                            Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification
+                                            Notification Notification Notification Notification Notification Notification Notification Notification Notification
+                                        </span>
+                                    </td>
+                                    <td class="w-10">
+                                        <a><i class="fas fa-edit"></i></a>
+                                        <a><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>*@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

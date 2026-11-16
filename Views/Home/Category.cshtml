@@ -1,0 +1,148 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Bakery Ingredients in Bahrain | Bakery Ingredients Supplier in Bahrain";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Bakery Ingredients in Bahrain | Bakery Ingredients Supplier in Bahrain" />
+    <meta name="Title" content="Bakery Ingredients in Bahrain | Bakery Ingredients Supplier in Bahrain" />
+    <meta name="description" content="We are the Supplier of Bakery Ingredients in Bahrain | Browse through extensive range of bakery ingredients by SwissBake" />
+    <meta name="keywords" content="We are the Supplier of Bakery Ingredients in Bahrain | Browse through extensive range of bakery ingredients by SwissBake" />
+    <meta property="og:description" content="We are the Supplier of Bakery Ingredients in Bahrain | Browse through extensive range of bakery ingredients by SwissBake" />
+    <meta property="og:url" content="http://swissbake.bh/" />
+    <meta property="twitter:title" content="Bakery Ingredients in Bahrain | Bakery Ingredients Supplier in Bahrain" />
+    <meta property="twitter:description" content="We are the Supplier of Bakery Ingredients in Bahrain | Browse through extensive range of bakery ingredients by SwissBake" />
+    <meta property="og:image" content="http://swissbake.bh/images/swissbake_new.jpg" />
+    <link rel="canonical" href="http://swissbake.bh/" />
+}
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/Sb1.jpg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>PRODUCT CATEGORIES</h1>
+        <span>Browse through our wide range of bakery ingredients and solutions.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Category</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<section class="cat-grid pt-4 pb-4">
+    <div class="container">
+        <div class="row">
+            @foreach (DataRow row in Model.Tables[0].Rows)
+            {
+                string title = "";
+                string img = "/" + Convert.ToString(row["PrdCategory_Image"]);
+                var tcount = row["PrdCategory_Name"].ToString().Length;
+                if (tcount > 35)
+                {
+                    title = Convert.ToString(row["PrdCategory_Name"]).Substring(0, 35) + "...";
+                }
+                else
+                {
+                    title = Convert.ToString(row["PrdCategory_Name"]);
+                }
+
+
+                <div class="col-md-3 col-sm-6 col-6 text-center">
+                    <div class="cat-content">
+                        @*add class new*@
+                    <a href="@Url.RouteUrl("Categorypro",new { url = row["PrdCategory_Seourl"] })">
+                        <img src="@img" alt="@row["PrdCategory_Seotitle"]" title="@row["PrdCategory_Name"]" />
+                        <h4>@title</h4>
+                    </a>
+                </div>
+            </div>
+            }
+            @*<div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content new">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="cat-content">
+                    <a href="#">
+
+                        <img src="http://swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" />
+                        <h4>Cake Essentials</h4>
+                    </a>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</section>

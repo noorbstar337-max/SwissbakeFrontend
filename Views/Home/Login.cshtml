@@ -1,0 +1,295 @@
+﻿
+@{
+//Layout = null;
+}
+
+@*<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="apple-touch-icon" sizes57x57" href="~/Content/images/icons/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/icons/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/images/icons/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/icons/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/images/icons/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/images/icons/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/images/icons/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/images/icons/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/images/icons/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/images/icons/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/images/icons/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/images/icons/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/images/icons/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/images/icons/favicon/manifest.json">
+    <meta name="msapplication-TileImage" content="~/Content/images/icons/favicon/ms-icon-144x144.png">
+
+    @*<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />//comment end
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700|Raleway:300,400,500,600,700|Crete+Round:400i" rel="stylesheet" type="text/css" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="~/Content/css/CStyle.css" rel="stylesheet" />
+</head>
+<body>*@
+
+@{
+    ViewBag.Title = "Login | Bakery Ingredients Supplier in Bahrain - Swissbake";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="Login | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="Login | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="Login" />
+    <meta name="keywords" content="Login" />
+    <meta property="og:description" content="Login" />
+    <meta property="og:url" content="http://swissbake.bh/login" />
+    <meta property="twitter:title" content="Login | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="Login" />
+    <meta property="og:image" content="http://swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://swissbake.bh/" />
+}
+
+@section head{
+    @*<link href="~/Content/css/bootstrap.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link href="~/Content/css/material-bootstrap-wizard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/Content/css/demo.css" rel="stylesheet" />
+    <style>
+        label.error {
+            font-size: 8px !important;
+            color: #da0003 !important;
+        }
+        .wizard-card {
+            min-height: 210px;
+            box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .footer-checkbox{
+            opacity:1 !important;
+            visibility:visible !important;
+            position:inherit !important;
+        }
+        .login .shad {
+            /*box-shadow: 30px 0px 40px -50px #000*/
+        }
+        .log-side-info {
+            /*background: url('/Content/images/sbimg/bckimg.png');*/
+            background-size: 50%;
+            background-repeat: repeat
+        }
+        .form-group.is-focused .form-control {
+            background-image: linear-gradient(#d70002, #d70002), linear-gradient(#D2D2D2, #D2D2D2);
+        }
+            .log-side-info ul {
+                font-size: 1rem;
+                line-height: 1.8;
+                margin-bottom:20px;
+            }
+
+            .log-side-info a{
+                color:#fff !important;
+            }
+
+        #copyrights .footlinks h5 {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        @@media screen and (max-width:991px){
+            .login .shad {
+                /*box-shadow: 0px 30px 40px -50px #000;*/
+                padding-bottom: 30px;
+            }
+        }
+    </style>
+
+}
+
+@section foot{
+    <!--   Core JS Files   -->
+    @*<script src="~/Content/js/register/jquery-2.2.4.min.js" type="text/javascript"></script>*@
+    <script src="~/Content/js/register/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/register/jquery.bootstrap.js" type="text/javascript"></script>
+    @*<script src="~/Content/js/angular.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js"></script>
+    <!--  Plugin for the Wizard -->
+    <script src="~/Content/js/register/material-bootstrap-wizard.js"></script>
+    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+@*<script src="~/Content/js/custom3.js"></script>*@
+    
+        @if (ViewBag.mess != null)
+{
+        <text>
+<script>
+    $(document).ready(function () { 
+            $.dialog({
+        title: false,
+        content: "@ViewBag.mess.ToString()",
+            closeIconClass: 'close-dialog',
+        });
+            setTimeout(function() {
+            $(".close-dialog").click();
+            }, 5000);
+    })
+</script>
+        </text>
+            
+        }
+
+
+
+    @*<script>
+        var app = angular.module('MyApp', ['ngRoute']);
+
+
+    </script>*@
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>SIGN IN </h1>
+        <span>Your access to high quality baking ingredients from SwissBake® </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">SIGN IN </li>
+        </ol>
+    </div>
+
+</section>
+<!-- #page-title end -->
+
+<section class="login" style="">
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-10 m-auto">
+                <!--      Wizard container        -->
+                <div class="wizard-container">
+                    <div class="card p-0 log-card" data-color="red">
+                        <div class="row">
+                            <div class="col-lg-6 shad pt-3 mt-3">
+                                <form action="" method="post" class="mb-0 pl-4">
+                                    <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
+
+
+                                    <div class="tab-pane" id="about">
+                                        <div class="row m-0">
+                                            <h4 class="info-text w-100 text-center pr-4">New to SwissBake?<br/> <a href="/register" class="text-danger">Register Now</a></h4>
+                                            <div class="col-sm-12 mb-3">
+                                                <div class="row w-100 m-0">
+                                                    <div class="input-group col-sm-12 mt-4 mb-4">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons"></i>
+                                                        </span>
+                                                        <div class="form-group label-floating ml-md-4 ml-lg-0" style="width: 75%;">
+                                                            <label class="control-label">Email </label>
+                                                            <input name="Email" tabindex="1" type="text" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="input-group col-sm-12">
+                                                        <span class="input-group-addon">
+                                                            <i class="material-icons"></i>
+                                                        </span>
+                                                        <div class="form-group label-floating ml-md-4 ml-lg-0" style="width: 75%;">
+                                                            <label class="control-label">Password</label>
+                                                            <input id="pass" name="pswd" tabindex="2" type="password" class="form-control error" aria-required="true" aria-invalid="true">
+                                                            <label id="password-error" class="error" for="password"></label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="footer-checkbox input-group col-md-12   col-xl-6 loginrem ">
+                                                        <div class="col-sm-12 pt-3">
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    <input type="checkbox" name="rememberme" tabindex="3">
+                                                                </label>
+                                                                Remember Me
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-3 offset-xl-1  input-group loginbtn ">
+                                                        <input type="text" name="mode" value="login" class="d-none" />
+                                                        <input type="submit" name="login" class="btn btn-success m-auto" value="Login" />
+                                                    </div>
+                                                    <div class="col-xl-11 mt-2 pr-2">
+                                                        <div class="text-center text-xl-right">
+                                                            <a id="forgot" class="text-danger cursor-pointer mr-lg-3">Forgot Password?</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="wizard-footer">
+                    <div class="pull-right">
+                        <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' />
+                        <input type='submit' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Finish' />
+                    </div>
+                    <div class="pull-left">
+                        <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
+                        <div class="footer-checkbox">
+                            <div class="col-sm-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="optionsCheckboxes" checked="checked">
+                                    </label>
+                                    Subscribe to our newsletter
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>*@
+                                </form>
+
+                            </div>
+                            <div class="col-lg-6 pl-lg-0 log-side-info">
+                                <div class="row ml-3 ">
+                                    <div class="col-md-12 mt-3 pt-2 pl-0 pr-5">
+                                        <h3>Create an account with us and you’ll be able to do:</h3>
+                                        <ul class="list-unstyled ml-2 mt-2" style="">
+                                            <li>•	Real time order tracking </li>
+                                            <li>•	Easy product sample ordering </li>
+                                            <li>•	Calculate your food cost & yield</li>
+                                            <li>•	Multiple payment options</li>
+                                        </ul>
+                                        <a href="/register" class="btn btn-danger">Create Account</a>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div> <!-- wizard container -->
+            </div>
+        </div><!-- end row -->
+    </div> <!--  big container -->
+
+</section>
+    
+    @*<script src="~/Content/js/angular.min.js"></script>
+    <script src="~/Content/js/angular-route.min.js"></script>
+    @Scripts.Render("~/bundles/Main")
+    @Scripts.Render("~/bundles/bootstrap")//comment
+
+    <script src="~/Content/js/jquery.visible.min.js"></script>
+    <script src="~/Content/js/custom3.js"></script>
+
+</body>
+</html>*@

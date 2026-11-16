@@ -1,0 +1,456 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+
+@section head{
+<link rel="stylesheet" type="text/css" href="~/Content/css/custom1.css" />
+@Styles.Render("~/Content/Rev")
+
+    }
+
+@section  foot{
+
+@Scripts.Render("~/bundles/Rev")
+    <script src="~/Content/js/custom1.js"></script>
+<script>
+            var tpj=jQuery;
+            var revapi116;
+            tpj(document).ready(function() {
+                if(tpj("#rev_slider_116_1").revolution == undefined){
+                    revslider_showDoubleJqueryError("#rev_slider_116_1");
+                }else{
+                    revapi116 = tpj("#rev_slider_116_1").show().revolution({
+                        sliderType:"standard",
+                        jsFileLocation:"~/Content/include/rs-plugin/js/",
+                        sliderLayout:"auto",
+                        dottedOverlay:"none",
+                        delay:9000,
+                        navigation: {
+                            keyboardNavigation:"off",
+                            keyboard_direction: "horizontal",
+                            mouseScrollNavigation:"off",
+                            onHoverStop:"off",
+                            touch:{
+                                touchenabled:"on",
+                                swipe_threshold: 75,
+                                swipe_min_touches: 1,
+                                swipe_direction: "horizontal",
+                                drag_block_vertical: false
+                            }
+                            ,
+                            arrows: {
+                                style:"gyges",
+                                enable:true,
+                                hide_onmobile:true,
+                                hide_under:600,
+                                hide_onleave:true,
+                                hide_delay:200,
+                                hide_delay_mobile:1200,
+                                tmp:'',
+                                left: {
+                                    h_align:"left",
+                                    v_align:"center",
+                                    h_offset:30,
+                                    v_offset:0
+                                },
+                                right: {
+                                    h_align:"right",
+                                    v_align:"center",
+                                    h_offset:30,
+                                    v_offset:0
+                                }
+                            }
+                        },
+                        viewPort: {
+                            enable:true,
+                            outof:"pause",
+                            visible_area:"100%"
+                        },
+                        gridwidth:1240,
+                        gridheight:600,
+                        lazyType:"none",
+                        shadow:0,
+                        spinner:"off",
+                        stopLoop:"off",
+                        stopAfterLoops:-1,
+                        stopAtSlide:-1,
+                        shuffle:"off",
+                        autoHeight:"on",
+                        hideThumbsOnMobile:"off",
+                        hideSliderAtLimit:0,
+                        hideCaptionAtLimit:0,
+                        hideAllCaptionAtLilmit:0,
+                        debugMode:false,
+                        fallbacks: {
+                            simplifyAll:"off",
+                            nextSlideOnWindowFocus:"off",
+                            disableFocusListener:false,
+                        }
+                    });
+                }
+            });	/*ready*/
+    </script>
+
+}
+
+
+<header id="header" class="" style="opacity:0;">
+
+    <div id="header-wrap">
+
+        <div class="container-fluid clearfix">
+
+            <div id="primary-menu-trigger" class="op-0 animated delay-3s"><i class="icon-reorder"></i></div>
+
+            <div id="logo" class="op-0 animated delay-3s">
+                <a href="#" class="standard-logo" data-dark-logo="~/Content/images/logo/swissbake-logo.png"><img src="~/Content/images/logo/swissbake-logo.png" alt="Swissbake"></a>
+                <a href="#" class="retina-logo" data-dark-logo="~/Content/images/logo/swissbake-logo.png"><img src="~/Content/images/logo/swissbake-logo.png" alt="Swissbake"></a>
+            </div>
+            <nav id="primary-menu" class="style-2">
+                <ul class="style-2 op-0 animated delay-3s">
+                    <li class="active">
+                        <a href="#"><div>About</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Products</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Blog</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Baker Tools</div></a>
+                    </li>
+                    <li>
+                        <a href="#"><div>Global</div></a>
+                    </li>
+                </ul>
+            </nav><!-- #primary-menu end -->
+
+            <div class="col_one_third col_last fright nobottommargin mt-2 right-menu">
+
+
+                <div class="seach-sect right-widget text-center op-0 animated delay-5s">
+                    <i class="fa fa-search"></i><span>@*<small>Quantity <b>10</b></small>*@<b>Search</b></span>
+                </div>
+                <div id="side-panel-trigger" class="cart-sect right-widget side-panel-trigger text-center op-0 animated delay-5s">
+                    <i class="fab fa-opencart"></i><span>@*<small>Quantity <b>10</b></small>*@<b>Cart</b></span>
+                </div>
+                <div id="side-panel-trigger" class="log-reg right-widget side-panel-trigger text-center op-0 animated delay-4s">
+                    <i class="far fa-user"></i><span><b>Signin/Signup</b>@*<b>My Orders</b>*@</span>
+                </div>
+                <div class="country-sect right-widget text-center op-0 animated delay-5s">
+                    <img src="~/Content/images/flags/Bahrain.png" /><span>@*<small>Quantity <b>10</b></small>*@<b>Region</b></span>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="search-bar">
+        <input class="search" placeholder="Whats On Mind, Search Here..." />
+    </div>
+</header><!-- #header end -->
+
+
+
+<!-- Slider
+        ============================================= -->
+<section id="slider" class="slider-element revslider-wrap clearfix op-0 animated delay-5s">
+        <div id="rev_slider_116_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="layer-animations" style="margin:0px auto;background-color:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+            <!-- START REVOLUTION SLIDER 5.0.7 auto mode -->
+            <div id="rev_slider_116_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.7">
+                <ul>
+                    <!-- SLIDE  -->
+                    <li data-index="rs-396" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/datcolor-70x70.jpg" data-rotate="0" data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7" data-saveperformance="off" data-title="Letters Fly In" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="~/Content/images/slider/img7.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                        <!-- LAYERS -->
+                        <!-- LAYER NR. 1 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-1"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-150"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                             data-start="1000"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 5; white-space: nowrap; font-size: 20px; line-height: 20px;">
+                            Welcome to swissexpert Bakery
+                        </div>
+                        <!-- LAYER NR. 2 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-2"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-70"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                             data-start="1500"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 6; white-space: nowrap; font-size: 100px; line-height: 100px;">
+                            SWISSBAKE
+                        </div>
+                    </li>
+                    <!-- SLIDE  -->
+                    <li data-index="rs-397" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/travel1-70x70.jpg" data-rotate="0" data-saveperformance="off" data-title="Slide Mask" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="~/Content/images/slider/img6.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                        <!-- LAYERS -->
+                        <!-- LAYER NR. 1 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-1"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-120"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                             data-start="1000"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 5; white-space: nowrap; font-size: 60px; line-height: 60px;">
+                            Experience the swiss passion
+                        </div>
+                        <!-- LAYER NR. 2 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-2"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-50"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                             data-start="1500"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 6; white-space: nowrap; font-size: 20px; line-height: 20px;">
+                            For Quality and Innovation
+                        </div>
+                    </li>
+                    <!-- SLIDE  -->
+                    <li data-index="rs-398" data-transition="parallaxhorizontal" data-slotamount="default" data-easein="default" data-easeout="default" data-masterspeed="default" data-thumb="~/Content/include/rs-plugin/demos/assets/images/notgeneric_bg3-70x70.jpg" data-rotate="0" data-saveperformance="off" data-title="Smooth Mask" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="~/Content/images/slider/img5.png?quality=5&quality=0&format=webp" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                        <!-- LAYERS -->
+                        <!-- LAYER NR. 1 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-1"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-150"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[100%];s:inherit;e:inherit;"
+                             data-start="1000"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 5; white-space: nowrap; font-size: 20px; line-height: 20px;">
+                            Serving bakers across the Globe
+                        </div>
+                        <!-- LAYER NR. 2 -->
+                        <div class="tp-caption NotGeneric-Title   tp-resizeme"
+                             id="slide-397-layer-2"
+                             data-x="center" data-hoffset=""
+                             data-y="center" data-voffset="-70"
+                             data-width="['auto','auto','auto','auto']"
+                             data-height="['auto','auto','auto','auto']"
+                             data-transform_idle="o:1;"
+                             data-transform_in="y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power3.easeInOut;"
+                             data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;"
+                             data-mask_in="x:0px;y:[0%];s:inherit;e:inherit;"
+                             data-start="1500"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-responsive_offset="on"
+                             style="z-index: 6; white-space: nowrap; font-size: 70px; line-height: 70px;">
+                            Baking History of 40 Years
+                        </div>
+                    </li>
+                    <!-- SLIDE  -->
+
+                </ul>
+                <div class="tp-bannertimer" style="height: 7px; background-color: rgba(255, 255, 255, 0.25);"></div>
+            </div>
+        </div><!-- END REVOLUTION SLIDER -->
+    </section>
+
+
+<section>
+    <div class="ind-cat">
+        @*<div class="fancy-title title-center title-dotted-border">
+                <h3>FINEST BAKERY INGREDIENTS</h3>
+            </div>*@
+
+        <div id="oc-portfolio" class="owl-carousel portfolio-carousel carousel-widget" data-margin="20" data-nav="true" data-pagi="false" data-items-xs="1" data-items-sm="2" data-items-md="3" data-items-lg="4">
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Open Imagination">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/European-Bread.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">European Breads</a></h3>
+                        <span><a href="#">Bread</a>, <a href="#">Mix</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Improvers.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Locked Steel Gate">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Improvers.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Improvers and Concentrates</a></h3>
+                        <span><a href="#">Improvers</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Confectionery.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Mac Sunglasses">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Confectionery.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Confectionery Products</a></h3>
+                        <span><a href="#">Confectionery</a>, <a href="#">Products</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Egg-Free-confectinery.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Console Activity">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Egg-Free-confectinery.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Egg Free Confectionery</a></h3>
+                        <span><a href="#">Egg Free</a>, <a href="#">Confectionery</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Cake-Essentials.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Backpack Contents">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Cake-Essentials.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Cake Essentials</a></h3>
+                        <span><a href="#">Cake</a><a href="#">Essentials</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Esenetials.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Sunset Bulb Glow">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Bread-Esenetials.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Bread Essential</a></h3>
+                        <span><a href="#">Bread Essential</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Flours.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Study Table">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Flours.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Speciality Flours</a></h3>
+                        <span><a href="#">Speciality</a>, <a href="#">Flours</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="oc-item op-0 animated delay-5s">
+                <div class="iportfolio">
+                    <div class="portfolio-image">
+                        <a href="#">
+                            <img src="http://uat.swissbake.bh/Admin/images/ProdCategory/Gluten-Free-Products.jpg?quality=5&quality=0&@Session["imgtype"]" alt="Workspace Stuff">
+                        </a>
+                        <div class="portfolio-overlay">
+                            <a href="http://uat.swissbake.bh/Admin/images/ProdCategory/Gluten-Free-Products.jpg" class="left-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                            <a href="#" class="right-icon"><i class="icon-line-ellipsis"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-desc">
+                        <h3><a href="#">Gluten Free</a></h3>
+                        <span><a href="#">Gluten Free</a></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,177 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "FAQ | Bakery Ingredients Supplier in Bahrain - Swissbake";
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="FAQ | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="Title" content="FAQ | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta name="description" content="FAQ" />
+    <meta name="keywords" content="FAQ" />
+    <meta property="og:description" content="FAQ" />
+    <meta property="og:url" content="http://uat.swissbake.bh/faq" />
+    <meta property="twitter:title" content="FAQ | Bakery Ingredients Supplier in Bahrain - Swissbake" />
+    <meta property="twitter:description" content="FAQ" />
+    <meta property="og:image" content="http://uat.swissbake.bh/Content/images/logo/Swissbake-logo.png" />
+    <link rel="canonical" href="http://uat.swissbake.bh/faq" />
+}
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+}
+
+
+@section foot{
+
+    <script>
+        
+        function togglefaq() {
+            $(".togglet").click();
+        }
+
+
+        var app = angular.module('MyApp', [])
+
+        app.controller('faq', function ($scope, $http, $window) {
+
+            $http({
+                method: "GET",
+                url: "/FaqCat",
+                dataType: 'json',
+                //data: customer,
+                //headers: { "Content-Type": "application/json" }
+            }).then(function (response) {
+
+                if (response.status == 200) {
+                    $scope.FaqCat = response.data;
+                    $scope.fqact = $scope.FaqCat[0].FAQcat_Id;
+                    $scope.faqgetdet($scope.FaqCat[0].FAQcat_Id)
+
+                }
+
+            });
+
+
+            $scope.faqgetdet = function (cat) {
+                var update = '{T: "'+ cat +'" }';
+                $http({
+                    method: "POST",
+                    url: "/FaqDet",
+                    dataType: 'json',
+                    data: update,
+                    headers: { "Content-Type": "application/json" }
+                }).then(function (response) {
+
+                    if (response.status == 200) {
+                        $scope.FaqDet = response.data;
+                        $scope.fqact = cat;
+                        setTimeout(function () { SEMICOLON.widget.toggles(); }, 50);
+                        setTimeout(function () { togglefaq(); },150)
+                        
+                    }
+
+                });
+            }
+
+
+
+
+				$(function() {
+			console.log($('.htmlfaq').length);
+			$('.htmlfaq').each(function () {
+				var html = $(this).html();
+				console.log(html);
+				$(this).html('').append('<div>' + html + '</div>');
+			});
+			});
+        });
+</script>
+
+}
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/FAQ.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>FAQ’s</h1>
+        <span>Here you can find answers to or request solutions for your concerns related to our company and products.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">FAQ'S</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+        ============================================= -->
+<section id="content" class="faqpage" ng-controller="faq">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <!-- Post Content
+            ============================================= -->
+            <div class="postcontent nobottommargin w-lg-75 col_last">
+			
+			
+                <div class="clear"></div>
+                <div id="faqs" class="faqs">
+                    <div ng-if="FaqDet.length > 0" class="toggle faq faq-marketplace faq-authors" ng-repeat="fd in FaqDet">
+                        <div class="togglet">{{fd.FAQ_Quest}}</div>
+                  		<div class="togglec htmlfaq" ng-bind-html-unsafe="fd.HTMLFAQ_Ans">
+						<p style="white-space: pre;">
+						{{fd.HTMLFAQ_Ans;}}
+						</p>
+						
+@*{{fd.HTMLFAQ_Ans.slice(1, -1);}}*@</p--></div>
+                  </div> 
+				   
+
+                    <div ng-if="FaqDet.length == 0">
+                        <p class="border-bottom">NO FAQ FOUND</p>
+                    </div>
+                    @*@foreach (DataRow i in Model.Tables[1].Rows)
+                    {
+                        <h4>@i["FAQcat_Name"]</h4>
+                        foreach (DataRow j in Model.Tables[0].Rows)
+                        {
+                            if (j["FAQ_CatID"].ToString() == i["FAQcat_Id"].ToString())
+                            {
+
+                                <div class="toggle faq faq-marketplace faq-authors">
+                                    <div class="togglet">@j["FAQ_Quest"]</div>
+                                    <div class="togglec">@j["FAQ_Ans1"].Replace("[NL]","<br/>")</div>
+                                </div>
+                            }
+                        }
+                        <hr />
+                    }*@
+                </div>
+
+                <div class="mt-5"></div>
+            </div><!-- .postcontent end -->
+            <div class="sidebar nobottommargin norightmargin">
+                <div class="sidebar-widgets-wrap">
+                    <div id="cat-side" class="widget widget_links clearfix">
+                        @*<h4>Shop Categories</h4>*@
+                        <ul>
+                            <li ng-repeat="fc in FaqCat" ng-click="faqgetdet(fc.FAQcat_Id);" ng-class="fqact == fc.FAQcat_Id ? 'active' : ''" class="cursor-pointer"><a title="{{fc.FAQcat_Name}}" >{{fc.FAQcat_Name}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

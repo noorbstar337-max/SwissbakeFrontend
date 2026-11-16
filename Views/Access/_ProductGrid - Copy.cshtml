@@ -1,0 +1,376 @@
+﻿@using SwissbakeIn.Entities;
+@using SwissbakeIn.App_Start;
+@using SwissbakeIn.Entities;
+@using System.Data;
+@model DataSet
+
+@{ 
+    string imageBasePath = "http://uatadmin.swissbake.bh/";
+}
+
+@if (HttpContext.Current.Request.Url.Host == "localhost")
+{
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+}
+else
+{
+    ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+}
+
+
+
+@if (ViewBag.seg1 == "search" && ViewBag.procount > 0)
+{
+    <div class="w-100 text-center">
+        <h5 class="text-left">About @ViewBag.procount results for '@ViewBag.seg2'</h5>
+        <hr />
+        @*<p class="text-center">If your want to carry on searching, here are a few tips....</p>
+            <ul class="text-center">
+                <li>Remember to check your spelling</li>
+                <li>Try searching for one or two words</li>
+                <li>Be specific in your wording for a wider search result</li>
+            </ul>
+            <input type="text" id="search" placeholder="Search Here..." class="form-control m-auto w-25" />*@
+    </div>
+}
+
+
+<div class="result1">
+
+    @foreach (var row in ViewData["productgrid"] as List<CommonStruct>)
+    {
+        string title = "", onelinedesc = "", productflag = "";
+        var tcount = row.Product_Name.ToString().Length;
+
+        if (tcount > 35)
+        {
+            title = @Convert.ToString(row.Product_Name);
+            title = title.Substring(0,title.IndexOf(" ", 32)) + "...";
+
+        }
+        else
+        {
+            title = @Convert.ToString(row.Product_Name);
+        }
+        var Ocount = row.Product_Usage.ToString().Length;
+        if (Ocount > 35)
+        {
+            onelinedesc = Convert.ToString(row.Product_Usage);
+            try
+            {
+                onelinedesc = onelinedesc.Substring(0, onelinedesc.IndexOf(" ", 33)) + "...";
+            }
+            catch (Exception ex) { }
+        }
+        else
+        {
+            onelinedesc = Convert.ToString(row.Product_Usage);
+        }
+
+        productflag = "product clearfix";
+
+        if (row.Product_New.ToString() == "True")
+        {
+            productflag += " new";
+        }
+
+        if( row.Product_Instock.ToString() == "True" )
+        {
+            productflag += " instock";
+        }
+
+        if( row.Product_Onorder.ToString() == "True" )
+        {
+            productflag += " onorder";
+        }
+
+        <div class=" @productflag">
+            @*<span style="display:none" itemscope itemtype="http://schema.org/ListItem" itemprop="position">@i</span>*@
+            <div class=" @(row.Etcint1 > 0 ? "product-image excl" : "product-image")">
+
+
+                @*<a href="#"><img src="https://www.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                <a href="@Url.RouteUrl("detail",new { Purl = row.Product_Seourl})">
+                    <img src="@imageBasePath@row.Product_MainImage" title="@row.Product_Name" alt="@row.Product_Name">
+                </a>
+                @*<a href="@Url.RouteUrl("detail",new {  Purl = row.Product_Seourl })"><img src="http://test.swissbake.ch/images/CatImages/310119023641-Pancake%20n%20Waffles.png" title="@row.Product_Name" alt="@row.Product_Name"></a>*@
+
+
+                <div class="product-overlay">
+                    @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                    @if (Session["U_Id"] == null)
+                    {
+                        <a href="@Url.RouteUrl("detail",new {  Purl = row.Product_Seourl })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                    }
+                    else
+                    {
+                        <a href="@Url.RouteUrl("detail", new { Purl = row.Product_Seourl })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                    }
+                </div>
+            </div>
+            <div class="product-desc center">
+
+
+                <div class="product-title"><h3><a href="@Url.RouteUrl("detail",new { Purl = row.Product_Seourl })">@title</a></h3></div>
+                <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                <div class="product-price">
+                    <span class="d-none"></span>
+                    @if (Session["U_Id"] == null)
+                    {
+                        <span class="d-none">Login</span>
+
+                        <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing </a>
+
+                    }
+                    else
+                    {
+                        if (Convert.ToDouble(row.Discount_MinQty) == 0)
+                        {
+                            if (Convert.ToDouble(row.Discount_Discount) > 0)
+                            {
+                                if (Convert.ToDouble(row.Discount_Discount) >= Convert.ToDouble(row.DistDiscount_Discount) && Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                {
+
+                                    if (Convert.ToDouble(row.Discount_Discount) == Convert.ToDouble(row.DistDiscount_Discount))
+                                    {
+                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                    }
+                                    else if (Convert.ToDouble(row.Discount_Discount) > Convert.ToDouble(row.DistDiscount_Discount))
+                                    {
+                                        <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                    }
+                                    else
+                                    {
+                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.maxprice)) </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+
+                                }
+
+
+
+                            }
+                            else if (Convert.ToDouble(row.Discount_Discount) < 0)
+                            {
+                                <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                            }
+                            @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                {
+                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                }*@
+                            else
+                            {
+                                <del></del> <ins>BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                            }
+                        }
+                        else
+                        {
+                            <del></del> <ins>BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                        }
+                        @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                            {
+                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                            }
+                            else
+                            {
+                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                            }*@
+                        @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                    }
+                </div>
+                <div class="pro-sku"><small>@row.Packing_Packing | Code - @row.Product_Code</small></div>
+            </div>
+        </div>
+
+
+    }
+</div>
+
+@if (ViewBag.seg1 == "search")
+{
+    <div class="clear"></div>
+    if (ViewBag.procount == 0)
+    {
+        <div class="w-100 text-center">
+            <h4 class="text-center">No results found for '@ViewBag.seg2'</h4>
+            <hr />
+            @*<p class="text-center">If your want to carry on searching, here are a few tips....</p>
+                <ul class="text-center">
+                    <li>Remember to check your spelling</li>
+                    <li>Try searching for one or two words</li>
+                    <li>Be specific in your wording for a wider search result</li>
+                </ul>
+                <input type="text" id="search" placeholder="Search Here..." class="form-control m-auto w-25" />*@
+        </div>
+    }
+    @*else
+        {
+            <div class="w-100 text-center">
+                <h4 class="text-center">About @ViewBag.procount results for '@ViewBag.seg2'</h4>
+                <hr />
+
+            </div>
+        }*@
+
+
+
+    if (Model.Tables.Count > 1 && Model.Tables[1].Rows.Count > 0)
+    {
+        <h5>Showing results for @ViewBag.seg3.</h5>
+        <div class="clear"></div>
+        <div class="result2">
+
+            @foreach (DataRow row in Model.Tables[1].Rows)
+            {
+
+                string title = "", onelinedesc = "";
+                var tcount = row["Product_Name"].ToString().Length;
+
+                if (tcount > 35)
+                {
+                    title = Convert.ToString(row["Product_Name"]); //.Substring(0, 35) + "...";
+
+                    title = title.Substring(title.IndexOf(" ", 35)) + "...";
+                }
+                else
+                {
+                    title = @Convert.ToString(row["Product_Name"]);
+                }
+                var Ocount = row["Product_Usage"].ToString().Length;
+                if (Ocount > 35)
+                {
+                    onelinedesc = Convert.ToString(row["Product_Usage"]); //.Substring(0, 35) + "...";
+                    if (onelinedesc.Length > 35)
+                    {
+                        //onelinedesc = onelinedesc.Substring(onelinedesc.IndexOf(" ", 35)) + "...";
+                        onelinedesc = onelinedesc.Substring(0,35) + "...";
+                    }
+
+                }
+                else
+                {
+                    onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                }
+
+
+                @*<div class="product clearfix">
+                    <div class="product-image" ng-class="{'new' :  @row["Product_New"].ToString() == 'True'  }">*@
+                <div class=" @(row["Product_New"].ToString() == "True" ? "product clearfix new" : "product clearfix")">
+                    <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+                        @*<a href="#"><img src="https://www.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                        <a href="@Url.RouteUrl("detail", new {  Purl = row["Product_Seourl"] })">
+                            @*<img src="@ViewBag.Domain@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]">*@
+                            <img src="@imageBasePath@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]">
+                        </a>
+                        @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="https://www.swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                        <div class="product-overlay">
+                            @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                            @if (Session["U_Id"] == null)
+                            {
+                                <a href="@Url.RouteUrl("detail", new {  Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Know More</span></a>
+
+                            }
+                            else
+                            {
+                                <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                            }
+                        </div>
+                    </div>
+                    <div class="product-desc center">
+
+
+                        <div class="product-title"><h3><a href="@Url.RouteUrl("detail",new {  Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                        <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                        <div class="product-price">
+                            @if (Session["U_Id"] == null)
+                            {
+                                <a href="/login" class="lg-fr-prcng">Login for pricing</a>
+
+                            }
+                            else
+                            {
+                                if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                {
+                                    if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                    {
+                                        if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                        {
+
+                                            if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                            {
+                                                <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                            }
+                                            else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                            {
+                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                            }
+                                            else
+                                            {
+                                                <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                        }
+
+
+
+                                    }
+                                    else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                    {
+                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                    }
+                                    @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                        {
+                                            <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                        }*@
+                                    else
+                                    {
+                                        <del></del> <ins>BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["minprice"]))</ins> <span class="off d-none"></span>
+                                    }
+                                }
+                                else
+                                {
+                                    <del></del> <ins>BHD&nbsp;@Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                }
+                                @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                                    {
+                                        <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                    }
+                                    else
+                                    {
+                                        <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                    }*@
+                                @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                                    <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                            }
+                        </div>
+                        <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    }
+
+
+
+
+}
+
+
+
+

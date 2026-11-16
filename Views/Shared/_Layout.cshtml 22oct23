@@ -1,0 +1,2234 @@
+﻿@using System.Data;
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{
+    string url = Request.Path;  // Get the current URL path
+
+}
+<!DOCTYPE HTML>
+@*<html>*@
+<html dir="ltr" lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index" follow>
+    <title>@ViewBag.Title</title>
+    <link rel="apple-touch-icon" sizes="57x57" href="~/Content/images/icons/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/Content/images/icons/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/Content/images/icons/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/images/icons/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/Content/images/icons/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/images/icons/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/Content/images/icons/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/Content/images/icons/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/Content/images/icons/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/Content/images/icons/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/images/icons/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/Content/images/icons/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/images/icons/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content/images/icons/favicon/manifest.json">
+    <link rel="icon" type="image/x-icon" href="~/Content/images/icons/favicon/faviconnew.ico" />
+    <meta name="msapplication-TileImage" content="~/Content/images/icons/favicon/ms-icon-144x144.png">
+
+    <meta name="robots" content="NOODP,NOYDIR" />
+    <meta name="robots" content="index, follow" />
+    <meta name="city" content="Mumbai" />
+    <meta name="geo.region" content="IN" />
+    <meta name="state" content="Maharashtra" />
+    <meta name="og:type" content="WEBSITE" />
+    <meta name="og:site_name" content="SwissBake" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="classification" content="Bakery Product|FMCG Product" />
+    <meta name="expires" content="7" />
+    @*tags start*@
+    <meta name="p:domain_verify" content="722b065eb52a42e9857955f7d9042e8f" />
+    <meta name="yandex-verification" content="4c4bdf935e0d515f" />
+    <meta name="google-site-verification" content="PgmvEXYCH1XnyBL7aWeW4SjntjEQWwlncn6f8oaFuWk" />
+    <!--Google Adwords-->
+    <!-- Global site tag (gtag.js) - Google AdWords: 942531491 -->
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=AW-942531491"></script>
+        <script type="application/ld+json">
+            {
+            "@@context": "https://schema.org",
+            "@@type": "Organization",
+            "name": "Swiss Bake Ingredients Pvt Ltd",
+            "url": "http://www.swissbake.bh",
+            "sameAs": [
+            "https://www.facebook.com/SwissBakeInBahrain/",
+            "https://www.linkedin.com/company/swissbake-bahrain/",
+            "https://www.instagram.com/SwissBakeInBahrain/"
+            ]
+            }
+        </script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'AW-942531491');
+        </script>*@
+
+    <!-- Event snippet for Website Conversion conversion page -->
+    @*<script>
+            gtag('event', 'conversion', { 'send_to': 'AW-942531491/V_32CNzR830Qo8e3wQM' });
+        </script>*@
+
+    <!--Google Adwords-->
+    @*tags ends*@
+
+
+
+
+
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">*@
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Raleway:300,400,500,600,700|Roboto:300,400,500,600,700|Montserrat:400,700|Yantramanav:300|Courgette" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="~/Content/css/font-icons.css" type="text/css" />
+    <link href="~/Content/css/fontawsome/css/all.min.css" rel="stylesheet" />
+
+    @*<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />*@
+    @Styles.Render("~/Content/Main")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("head", required: false)
+    @RenderSection("seo", required: false)
+
+    @*<link rel="stylesheet" href="~/Content/css/ecommerce/ecommerce.css" type="text/css" />*@
+    <link href="~/Content/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/ecommerce/css/fonts.css" type="text/css" />
+    <link rel="stylesheet/less" type="text/css" href="~/Content/css/less/Custom.less" />
+    <link href="~/Content/css/flag-icon.min.css" rel="stylesheet" />
+    <script src="~/Content/js/less.min.js"></script>
+    <script>
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+
+    </script>
+
+    <style>
+
+
+        #captchaBackground {
+            height: 100px;
+            width: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #captchaHeading {
+            color: white;
+        }
+
+        #captcha {
+            width:100%;
+            height:100%;
+            font-size: 30px;
+            letter-spacing: 3px;
+            margin: auto;
+            display: block;
+        }
+
+        .incorrectCaptcha {
+            color: yellow;
+        }
+
+        .correctCaptcha {
+            color: #7FFF00;
+        }
+
+        #topscrollbar {
+            height: 30px;
+            line-height: 30px;
+            background: #d70002;
+            color: #fff;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 9;
+        }
+
+            #topscrollbar #close-bar {
+                background: #d70002;
+                padding: 0 10px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+
+
+            #topscrollbar p span {
+                position: absolute;
+                white-space: nowrap;
+                top: 0;
+                animation: leftoright 40s ease-in;
+                animation-iteration-count: infinite;
+            }
+
+
+
+
+        @@keyframes leftoright {
+            0% {
+                transform: translateX(50%);
+            }
+
+            100% {
+                transform: translateX(-150%);
+            }
+        }
+
+        @@media (max-width: 991px) {
+
+            #topscrollbar {
+                position: absolute;
+                top: 0;
+                z-index: 9999;
+            }
+
+
+                #topscrollbar p span {
+                    white-space: nowrap;
+                    position: absolute;
+                    animation: leftoright 40s ease-in;
+                    animation-iteration-count: infinite;
+                    top: 0;
+                }
+
+            @@keyframes leftoright {
+                0% {
+                    transform: translateX(50%);
+                }
+
+                100% {
+                    transform: translateX(-120%);
+                }
+            }
+        }
+
+        @@media only screen and (min-width: 768px) {
+
+
+            #topscrollbar {
+                height: 30px;
+            }
+        }
+
+        #topsearch {
+            border: 1px solid #ffffff !important;
+        }
+
+        #searchbtn {
+            border: 1px solid #ffffff !important;
+        }
+
+        .fa-search {
+            color: #ffffff !important;
+        }
+
+        .fa-bell {
+            color: #ffffff !important;
+        }
+
+        .searchbar ::placeholder {
+            /*color: #ffffff !important;*/
+        }
+
+        .icon-cart {
+            color: #ffffff !important;
+        }
+
+        .head-cart span {
+            color: #ffffff !important;
+        }
+
+        .head-user {
+            color: #ffffff !important;
+        }
+
+        .bottom-header nav ul li a {
+            color: #ffffff !important;
+            background: #d70002 !important;
+        }
+
+        .bottom-header nav ul li div ul li a {
+            color: #ffffff !important;
+            background: #d70002 !important;
+        }
+
+        #header .bottom-header nav ul li.current a:after {
+            background-color: #ec8c8d;
+            height: 4px;
+        }
+
+        #footer {
+            background-color: #d70003 !important;
+            color: white !important;
+        }
+
+        #copyrights {
+            padding: 0 0 !important;
+        }
+
+        #footer .policy ul li a {
+            color: white !important;
+        }
+
+        #footer .quick-links ul li a {
+            color: white !important;
+        }
+
+        #footer .misc ul li a {
+            color: white !important;
+        }
+
+        #footer .misc ul li a {
+            color: white !important;
+        }
+        /* .copyrightline a {
+            color: white !important;
+            BORDER: 1PX SOLID;
+            BORDER-RADIUS: 100%;
+            PADDING: 2px;
+        }*/
+        #footer .bottom-foot {
+            color: #fff;
+            background: #353535 !important;
+            line-height: 2;
+        }
+
+        #footer {
+            border-top-color: WHITE !important;
+        }
+
+        #basic-addon2 {
+            background-color: #d70003 !important;
+            border: 1px solid #d70003 !important;
+            color: white !important;
+            cursor: pointer;
+        }
+
+        .social-icon {
+            color: #ffffff;
+            font-size: 15px;
+            border-radius: 100%;
+            margin: 0 5px 5px 0;
+            width: 30px !important;
+            height: 30px !important;
+            font-size: 20px;
+            line-height: 29px !important;
+            /*color: #555;*/
+            text-shadow: none;
+            border: 1px solid #AAA;
+            //border-radius: 3px;
+            overflow: hidden;
+            /*padding: 5px;*/
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VPB32TCM8J"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-VPB32TCM8J');</script>
+
+
+</head>
+@*<body ng-app="MyApp" class="stretched  side-push-panel no-transition" oncontextmenu="return false">*@
+<body @(ViewContext.RouteData.Values["Action"].ToString() == "Detail" ? "" : "ng-app=MyApp") class="stretched  side-push-panel @(Request.Url.AbsolutePath.ToString() == "/account/changepassword" ? "no-transition" : "")">
+    @{
+        int noticount;
+        if (Session["U_Id"] != null)
+        {
+
+            noticount = Helper.checknoticount(Convert.ToInt32(Session["U_Id"]), "checknoticount");
+        }
+        else
+        {
+            noticount = 0;
+        }
+    }
+
+    <div class="body-overlay"></div>
+
+    <div id="side-panel">
+
+        <div id="side-panel-trigger-close" class="side-panel-trigger"><a href="#"><i class="icon-line-cross"></i></a></div>
+
+        <div class="side-panel-wrap">
+            @RenderSection("Req", required: false)
+            <div class="side-log d-none">
+                @if (Session["U_Id"] == null)
+                {
+                    <div class="widget text-center clearfix log-btns">
+
+                        <h6>Existing Customers</h6>
+                        <div class="mt-3">
+                            <a href="/login" class="bg-success text-white">Login Now</a>
+                        </div>
+                    </div>
+
+                    <div class="widget text-center clearfix log-btns mt-3 pt-2 border-0">
+                        @*<div style="position: absolute;top: -12px;background: #f5f5f5;padding: 0px 10px;left: 40%;">Or</div>*@
+                        <h6>New to swissbake?</h6>
+                        <div class="mt-3">
+                            <a href="/register" class="bg-danger text-white">Create Account</a>
+                        </div>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="widget text-center clearfix">
+
+                        <h4>Hi, @Session["U_Name"]</h4>
+
+
+                    </div>
+                }
+                <div class="widget clearfix">
+                    <div class="uppercase" style="position: absolute;top: -12px;background: #f5f5f5;padding: 0px 10px;left: 8.5%;">Manage Your Account</div>
+                    @*<ul class="acc-menu">
+                            <li><a href="#">Account Setting</a></li>
+                            <li><a href="#">Exclusive Product</a></li>
+                            <li><a href="#">Manage Your Order</a></li>
+                            <li><a href="#">Manage Your Invoice</a></li>
+                            <li><a href="#">Quick Order</a></li>
+                            <!--li><a href="#">Track Order</a></li-->
+                            <li><a href="#">My Payment</a></li>
+                            <li><a href="#">My Support</a></li>
+                        </ul>*@
+                    <div id="vertical-nav">
+                        <div class="container-fluid clearfix">
+
+                            <nav>
+
+                                <ul>
+                                    @*<li>
+                                            <a href="#">
+                                                <img src="~/content/images/sbimg/logowhite_swissbake" alt="Swissbake Logo">
+                                            </a>
+                                        </li>*@
+                                    <li>
+                                        <a href="/account/index" style="color:@(url.Contains(@"/account/index") ? "#d70002" : "#333");">
+                                            <i class="icon-user"></i>Dashboard
+                                        </a>
+
+                                    </li>
+
+                                    <li>
+                                        <a href="/account/quickorder" style="color:@(url.Contains(@"/account/quickorder") ? "#d70002" : "#333");">
+                                            <i class="fas fa-shipping-fast"></i>Quick Order
+                                        </a>
+                                    </li>
+                                    @if (Session["U_Id"] != null)
+                                    {
+                                        if (noticount >= 1999999999)
+                                        {
+                                            <li>
+                                                <a href="/account/notification" style="color:@(url.Contains(@"/account/notification") ? "#d70002" : "#333");">
+
+                                                    <i class="icon-bell-alt"></i>Notification @*<span class="not-count">@noticount</span>*@
+                                                    <span class="not-count d-none" id="notifScount">@noticount</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        else if( 1==2 )
+                                        {
+                                            <li>
+                                                <a href="/account/notification" style="color:@(url.Contains(@"/account/notification") ? "#d70002" : "#333");">
+
+                                                    <i class="icon-bell-alt"></i>Notification
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @*<a href="/account/notification">
+
+                                                <i class="icon-bell-alt"></i>Notification <span class="not-count">99</span>
+                                            </a>*@
+                                        @*<li>
+                                            <a href="/account/Reminders" style="color:@(url.Contains(@"/account/Reminders") ? "#d70002" : "#333");">
+                                                <i class="icon-calendar3"></i>My Reminders
+                                            </a>
+                                        </li>*@
+                                        <li>
+                                            <a href="/account/Myrecipe" style="color:@(url.Contains(@"/account/Myrecipe") ? "#d70002" : "#333");">
+                                                <i class="icon-food2"></i>My Recipe
+                                            </a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="#" style="color:@(url.Contains(@"/account/myprofile")||url.Contains(@"/account/address")||url.Contains(@"/account/Kyc") ? "#d70002" : "#333");">
+                                            <i class="fas fa-lock"></i>Account Settings
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="/account/myprofile" style="color:@(url.Contains(@"/account/myprofile") ? "#d70002" : "#333");">MY COMPANY DETAILS</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/address" style="color:@(url.Contains(@"/account/address") ? "#d70002" : "#333");">Shipping Address</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/Kyc" style="color:@(url.Contains(@"/account/Kyc") ? "#d70002" : "#333");">Document Proof Or KYC</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    @if (Session["U_Id"] != null)
+                                    {
+                                        if (Helper.checkexclusive(Convert.ToInt32(Session["U_Id"])) >= 1)
+                                        {
+                                            <li>
+                                                <a href="/exclusive" style="color:@(url.Contains(@"/exclusive") ? "#d70002" : "#333");">
+                                                    <i class="fas fa-gift"></i>Exclusive Products
+                                                </a>
+
+                                            </li>
+                                        }
+                                    }
+                                    <li>
+                                        <a href="#" style="color:@(url.Contains(@"/account/myorder")||url.Contains(@"/account/cancelorder")||url.Contains(@"/account/pendingorder")||url.Contains(@"/account/completedorder")||url.Contains(@"/account/reorder") ? "#d70002" : "#333");">
+                                            <i class="fas fa-file-invoice"></i>Manage Order
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="/account/myorder" style="color:@(url.Contains(@"/account/myorder") ? "#d70002" : "#333");">ALL ORDERS</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/cancelorder" style="color:@(url.Contains(@"/account/cancelorder") ? "#d70002" : "#333");">CANCELLED ORDERS</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/pendingorder" style="color:@(url.Contains(@"/account/pendingorder") ? "#d70002" : "#333");">PENDING ORDERS</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/completedorder" style="color:@(url.Contains(@"/account/completedorder") ? "#d70002" : "#333");">COMPLETED ORDERS</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/reorder" style="color:@(url.Contains(@"/account/reorder") ? "#d70002" : "#333");">RE-ORDERS</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    @*<li>
+                                        <a href="#" style="color:@(url.Contains(@"/account/invoice")||url.Contains(@"/account/cancelinvoice")||url.Contains(@"/account/pendinginvoice")||url.Contains(@"/account/dispatchinvoice")||url.Contains(@"/account/deliveredinvoice") ? "#d70002" : "#333");">
+                                            <i class="fas fa-tasks"></i>Manage Invoice
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="/account/invoice" style="color:@(url.Contains(@"/account/invoice") ? "#d70002" : "#333");">ALL INVOICES</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/cancelinvoice" style="color:@(url.Contains(@"/account/cancelinvoice") ? "#d70002" : "#333");">CANCELLED INVOICE</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/pendinginvoice" style="color:@(url.Contains(@"/account/pendinginvoice") ? "#d70002" : "#333");">PENDING INVOICE</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/dispatchinvoice" style="color:@(url.Contains(@"/account/dispatchinvoice") ? "#d70002" : "#333");">DISPATCHED INVOICE</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/deliveredinvoice" style="color:@(url.Contains(@"/account/deliveredinvoice") ? "#d70002" : "#333");">DELIVERED INVOICE</a>
+                                            </li>
+                                        </ul>
+                                    </li>*@
+
+
+                                    <!--li>
+                                        <a href="@(Session["U_Id"] == null ? "/trackorder" : "/account/trackorder")">
+                                            <i class="fas fa-truck"></i>Track Order
+                                        </a>
+                                    </li-->
+                                    @*<li>
+                                            <a href="/account/mypayment" style="color:@(url.Contains(@"/account/mypayment") ? "#d70002" : "#333");">
+                                                <i class="fas fa-credit-card"></i>PAYMENT HISTORY
+                                            </a>
+                                        </li>*@
+
+                                    <li>
+                                        <a href="#" style="color:@(url.Contains(@"/account/gensupport")||url.Contains(@"/account/feedback")||url.Contains(@"/account/casehistory")? "#d70002" : "#333");">
+                                            <i class="far fa-question-circle"></i>ONLINE SUPPORT
+                                        </a>
+
+                                        <ul>
+                                            <li>
+                                                <a href="/account/gensupport" style="color:@(url.Contains(@"/account/gensupport") ? "#d70002" : "#333");">General Support</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/feedback" style="color:@(url.Contains(@"/account/feedback") ? "#d70002" : "#333");">feedback or Complaint</a>
+                                            </li>
+                                            <li>
+                                                <a href="/account/casehistory" style="color:@(url.Contains(@"/account/casehistory") ? "#d70002" : "#333");">Support History</a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+
+                                    @*<li>
+                                            <a href="/account/paymenthistory">
+                                                <i class="fas fa-history"></i>Payment History
+                                            </a>
+                                        </li>*@
+
+
+                                    @if (Session["U_Id"] != null)
+                                    {
+                                        <li>
+                                            <a href="/account/changepassword" style="color:@(url.Contains(@"/account/changepassword") ? "#d70002" : "#333");">
+                                                <i class="fas fa-key"></i>Change Password
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/account/logout" style="color:@(url.Contains(@"/account/logout") ? "#d70002" : "#333");">
+                                                <i class="fas fa-sign-out-alt"></i>Logout
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li class="mb-1">
+                                        <a href="https://api.whatsapp.com/send?phone=+97333550511&text=i%20am%20looking%20for%20Baking%20Products,%20Please%20Call%20Back" class="whatsapp-link">
+                                            <i class="fab fa-whatsapp"></i>+973 33550511
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="call-link cursor-pointer">
+                                            <i class="icon-call"></i>+973 77990501
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="side-cart d-none" id="side-cart" ng-controller="sidecart">
+
+                <div class="widget clearfix">
+                    <div class="master-cart">
+                        <h4>CART</h4>
+
+                        <div class="mast-cart-sect">
+                            <div class="cartlet" ng-repeat="S in Side">
+                                <div class="cart-img">
+                                    <img src="@System.Configuration.ConfigurationManager.AppSettings["domain"]{{S.MainImg_Path}}" />
+
+                                </div>
+                                <div class="side-cart-title">
+                                    <a href="{{S.href}}"><strong>{{S.Product_Name}} X({{S.Qty}})</strong></a>
+                                    @*<div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;{{S.Amount | currency:"":0}}&nbsp;|&nbsp;{{S.TotalWeight >= 1 ? S.TotalWeight : S.TotalWeight*1000}} {{S.TotalWeight >= 1 ? "KG" : "GM"}}</b><span><i class="fas fa-pen"></i>&nbsp;&nbsp;<i class="fas fa-trash"></i></span></div>*@
+                                    <div class="mt-1 mb-1">Amount:&nbsp;BHD<i class="fas fa-rupee-sign fa-sm"></i>&nbsp;{{S.Amount | number : 3}}</div>
+                                    <div class="mt-1 mb-1">
+                                        Weight:&nbsp;{{S.TotalWeight >= 1 ? (S.TotalWeight|number:2 ): (S.TotalWeight*1000 | number:2)}} {{S.TotalWeight >= 1 ? "KG" : "GM"}}
+                                        @if (ViewContext.RouteData.Values["Action"].ToString().ToLower() != "cart")
+                                        {
+                                            <span>
+                                                <i class="fas fa-pen" style="cursor:pointer;" ng-click="LEditRow()"></i>&nbsp;&nbsp;
+                                                <i class="fas fa-trash" style="cursor:pointer;" ng-click="LremoveRow(S.Product_Id)"></i>
+                                            </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div ng-if="!Side.length"><p id="empty" style="width: 100%;">Your cart is empty. Please click the link to add Product<a href="/category"> (View Product)</a></p></div>
+                            @*<div class="cartlet">
+                                    <div class="cart-img">
+                                        <img src="https://www.josefmarc.in/images/product/MOLTEN-LAVA-CAKE-MIX-250gm-Hover-1210180640521.jpg?quality=0&quality=0&@Session["imgtype"]" />
+
+                                    </div>
+                                    <div class="side-cart-title">
+                                        <a href="#"><strong>Molten Choco Lava Cake Mix</strong></a>
+                                        <div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;1,899.00 X 10</b><span><i class="fas fa-trash"></i></span></div>
+                                    </div>
+
+                                </div>
+                                <div class="cartlet">
+                                    <div class="cart-img">
+                                        <img src="https://www.josefmarc.in/images/product/MOLTEN-LAVA-CAKE-MIX-250gm-Hover-1210180640521.jpg?quality=0&quality=0&@Session["imgtype"]" />
+
+                                    </div>
+                                    <div class="side-cart-title">
+                                        <a href="#"><strong>Molten Choco Lava Cake Mix</strong></a>
+                                        <div class="mt-1 mb-1"><b>BHD<i class="fas fa-rupee-sign"></i>&nbsp;1,899.00 X 10</b><span><i class="fas fa-trash"></i></span></div>
+                                    </div>
+
+                                </div>*@
+                        </div>
+
+                    </div>
+                </div>
+                <div class="mast-cart-ttl">
+                    <span class="ttl-sect">
+                        <b>Grand Total <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Grand Total includes VAT"></i></b>
+                        <span>BHD<i class="fas fa-rupee-sign"></i>&nbsp;{{ getTotal1 | number : 3}}</span>
+                    </span>
+                    @*<a href="/cart" class="mast-gotocart">Go to Cart</a>*@
+                    <a ng-href="{{Side.length > 0 ? '/cart':''}}" class="mast-checkout {{Side.length > 0 ? '':'disabled cursor-pointer'}}">Checkout</a>
+
+                    @*ng-class="{$scope.Side.length > 0 ? '' : 'disabled cursor-pointer' }"*@
+                    @*ng-href="Side.length > 0 ? '/cart' : 'x'"*@
+                    @*@if (noticount == 0)
+                        {
+                            <a  class="mast-checkout disabled cursor-pointer">Checkout</a>
+                        }
+                        else
+                        {
+                            <a href="/cart" class="mast-checkout">Checkout</a>
+                        }*@
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="wrapper" class="clearfix">
+        @*@{
+                string act = this.ViewContext.RouteData.Values["action"].ToString();
+                string cont = this.ViewContext.RouteData.Values["controller"].ToString();
+                if (act == "Index4" && cont == "Home")
+                {
+
+
+                    <section id="slider" class="slider-element revslider-wrap full-screen clearfix">
+                        <img src="~/Content/images/logo/swissbake1.png" style="position: absolute;top: 10px;left: 30px;z-index: 9;width: 60px;" />
+                        <div class="rev_slider_wrapper" style="background:#aaa;padding:0px;">
+                            <div id="rev_slider_52_1_wrapper" class="rev_slider_wrapper fullscreen-container" data-alias="mountain-parallax-header" data-source="gallery" style="background:rgba(255,255,255,0);padding:0px;">
+                                <!-- START REVOLUTION SLIDER 5.4.3.1 fullscreen mode -->
+                                <div id="rev_slider_52_1" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.4.3.1">
+                                    <ul>
+                                        <!-- SLIDE  -->
+                                        <li data-index="rs-126" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                                            <!-- MAIN IMAGE -->
+                                            <img src="~/Content/include/rs-plugin/demos/assets/images/mountainscene.jpg" alt="" data-bgposition="center center" data-kenburns="on" data-duration="5000" data-ease="Power4.easeOut" data-scalestart="150" data-scaleend="100" data-rotatestart="0" data-rotateend="0" data-blurstart="20" data-blurend="0" data-offsetstart="0 0" data-offsetend="0 0" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+                                            <!-- LAYERS -->
+                                            <!-- LAYER NR. 1 -->
+                                            <div class="tp-caption   tp-resizeme  blurslider-gradient rs-parallaxlevel-14"
+                                                 id="slide-126-layer-2"
+                                                 data-x="['center','center','center','center']" data-hoffset="['1','1','1','1']"
+                                                 data-y="['middle','middle','middle','middle']" data-voffset="['-239','-239','-189','-149']"
+                                                 data-fontsize="['120','120','120','80']"
+                                                 data-lineheight="['120','120','120','60']"
+                                                 data-letterspacing="['0','0','0','0']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="text"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":50,"speed":3000,"frame":"0","from":"y:50px;sX:0.3;sY:0.3;opacity:0;fb:20px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['center','center','center','center']"
+                                                 data-paddingtop="[20,20,20,20]"
+                                                 data-paddingright="[10,10,10,10]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[10,10,10,10]"
+                                                 style="z-index: 5; white-space: nowrap; font-size: 120px; line-height: 120px; font-weight: 700; color: #fff; letter-spacing: 0px;font-family:raleway,sans-serif;text-shadow: 0px 2px 10px #000;">SWISS<br />EXPERTIZED</div>
+                                            <!-- LAYER NR. 2 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-1"
+                                                 data-x="['center','center','center','center']" data-hoffset="['-50','-50','-50','-50']"
+                                                 data-y="['middle','middle','middle','middle']" data-voffset="['200','200','200','100']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":50,"speed":3000,"frame":"0","from":"sX:0.7;sY:0.7;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 6;"><img src="~/Content/include/rs-plugin/demos/assets/images/mountainpng-1.png" alt="" data-ww="['1050px','1050px','861','689px']" data-hh="['610px','610px','500px','400px']" data-no-retina></div>
+                                            <!-- LAYER NR. 3 -->
+                                            <div class="tp-caption tp-shape tp-shapewrapper  tp-resizeme"
+                                                 id="slide-126-layer-10"
+                                                 data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['0','0','0','0']"
+                                                 data-width="full"
+                                                 data-height="200"
+                                                 data-whitespace="nowrap"
+                                                 data-type="shape"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":50,"speed":1000,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 7;background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);"></div>
+                                            <!-- LAYER NR. 4 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-4"
+                                                 data-x="['left','left','left','left']" data-hoffset="['100','100','100','100']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['10','10','10','10']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":300,"speed":2000,"frame":"0","from":"y:100px;sX:1.1;sY:1.1;opacity:0;fb:10px;","to":"o:1;rY:180;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 8;">
+                                                <div class="rs-looped rs-slideloop" data-easing="Linear.easeNone" data-speed="40" data-xs="0" data-xe="500" data-ys="0" data-ye="0"><img src="~/Content/include/rs-plugin/demos/assets/images/cloud1.png" alt="" data-ww="['500px','500px','500px','500px']" data-hh="['273px','273px','273px','273px']" data-no-retina> </div>
+                                            </div>
+                                            <!-- LAYER NR. 5 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-5"
+                                                 data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['10','10','10','10']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":300,"speed":2000,"frame":"0","from":"sX:1.1;sY:1.1;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 9;">
+                                                <div class="rs-looped rs-slideloop" data-easing="Linear.easeNone" data-speed="100" data-xs="0" data-xe="500" data-ys="0" data-ye="0"><img src="~/Content/include/rs-plugin/demos/assets/images/cloud2.png" alt="" data-ww="['500px','500px','500px','500px']" data-hh="['273px','273px','273px','273px']" data-no-retina> </div>
+                                            </div>
+                                            <!-- LAYER NR. 6 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-6"
+                                                 data-x="['right','right','right','right']" data-hoffset="['150','150','150','150']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['10','10','10','10']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":300,"speed":2000,"frame":"0","from":"sX:1.1;sY:1.1;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 10;">
+                                                <div class="rs-looped rs-slideloop" data-easing="Linear.easeNone" data-speed="120" data-xs="0" data-xe="500" data-ys="0" data-ye="0"><img src="~/Content/include/rs-plugin/demos/assets/images/cloud3.png" alt="" data-ww="['500px','500px','500px','500px']" data-hh="['273px','273px','273px','273px']" data-no-retina> </div>
+                                            </div>
+                                            <!-- LAYER NR. 7 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-11"
+                                                 data-x="['left','left','left','left']" data-hoffset="['-200','-200','-200','-200']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['10','10','10','10']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":300,"speed":2000,"frame":"0","from":"sX:1.1;sY:1.1;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 11;">
+                                                <div class="rs-looped rs-slideloop" data-easing="Linear.easeNone" data-speed="80" data-xs="0" data-xe="500" data-ys="0" data-ye="0"><img src="~/Content/include/rs-plugin/demos/assets/images/cloud3.png" alt="" data-ww="['500px','500px','500px','500px']" data-hh="['273px','273px','273px','273px']" data-no-retina> </div>
+                                            </div>
+                                            <!-- LAYER NR. 8 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-12"
+                                                 data-x="['right','right','right','right']" data-hoffset="['-200','-200','-200','-200']"
+                                                 data-y="['bottom','bottom','bottom','bottom']" data-voffset="['10','10','10','10']"
+                                                 data-width="none"
+                                                 data-height="none"
+                                                 data-whitespace="nowrap"
+                                                 data-type="image"
+                                                 data-basealign="slide"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":300,"speed":2000,"frame":"0","from":"y:100px;sX:1.1;sY:1.1;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                 data-paddingtop="[0,0,0,0]"
+                                                 data-paddingright="[0,0,0,0]"
+                                                 data-paddingbottom="[0,0,0,0]"
+                                                 data-paddingleft="[0,0,0,0]"
+                                                 style="z-index: 12;">
+                                                <div class="rs-looped rs-slideloop" data-easing="Linear.easeNone" data-speed="200" data-xs="0" data-xe="500" data-ys="0" data-ye="0"><img src="~/Content/include/rs-plugin/demos/assets/images/cloud1.png" alt="" data-ww="['500px','500px','500px','500px']" data-hh="['273px','273px','273px','273px']" data-no-retina> </div>
+                                            </div>
+                                            <!-- LAYER NR. 9 -->
+                                            @*<div class="tp-caption rev-btn "
+                                                id="slide-126-layer-3"
+                                                data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                                                data-y="['center','center','center','center']" data-voffset="['0','0','0','0']"
+                                                data-width="none"
+                                                data-height="none"
+                                                data-whitespace="nowrap"
+                                                data-type="button"
+                                                data-actions='[{"event":"click","action":"scrollbelow","offset":"40px","delay":"","speed":"1500","ease":"Power1.easeInOut"}]'
+                                                data-responsive_offset="on"
+                                                data-responsive="off"
+                                                data-frames='[{"delay":500,"speed":1000,"frame":"0","from":"y:50px;sX:1;sY:1;opacity:0;fb:20px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"200","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;fb:0;","style":"c:rgba(255,255,255,1);bg:linear-gradient(90deg, rgba(243,130,60,1) 0%, rgba(255,85,124,1) 100%);bs:solid;bw:0 0 0 0;"}]'
+                                                data-textAlign="['inherit','inherit','inherit','inherit']"
+                                                data-paddingtop="[0,0,0,0]"
+                                                data-paddingright="[30,30,30,30]"
+                                                data-paddingbottom="[0,0,0,0]"
+                                                data-paddingleft="[30,30,30,30]"
+                                                style="z-index: 13; white-space: nowrap; font-size: 15px; line-height: 60px; font-weight: 700; color: rgba(255,255,255,1); letter-spacing: px;font-family:Poppins;background:linear-gradient(90deg, rgb(253, 85, 92) 0%, rgb(209, 28, 35) 100%);border-color:rgba(0,0,0,1);-webkit-box-shadow:0px 10px 20px 0px rgba(0,0,0,0.35);-moz-box-shadow:0px 10px 20px 0px rgba(0,0,0,0.35);box-shadow:0px 10px 20px 0px rgba(0,0,0,0.35);cursor:pointer;">LETS BAKE</div>//comment end
+                                            <!-- LAYER NR. 10 -->
+                                            <div class="tp-caption   tp-resizeme"
+                                                 id="slide-126-layer-8"
+                                                 data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']"
+                                                 data-y="['center','center','center','center']" data-voffset="['80','80','80','80']"
+                                                 data-width="['none','640','480','360']"
+                                                 data-height="none"
+                                                 data-whitespace="['nowrap','normal','normal','normal']"
+                                                 data-type="text"
+                                                 data-responsive_offset="on"
+                                                 data-frames='[{"delay":600,"speed":1000,"frame":"0","from":"y:50px;rX:90deg;opacity:0;fb:10px;","to":"o:1;fb:0;","ease":"Power4.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+                                                 data-textAlign="['center','center','center','center']"
+                                                 data-paddingtop="[5,5,5,5]"
+                                                 data-paddingright="[10,10,10,10]"
+                                                 data-paddingbottom="[5,5,5,5]"
+                                                 data-paddingleft="[20,20,20,20]"
+                                                 style="z-index: 14; white-space: nowrap; font-size: 15px; line-height: 20px; font-weight: 600; color: #fff;background: #5d5d5db8;box-shadow: 0px 4px 12px 0px #000; letter-spacing: 10px;font-family:poppins;text-transform:uppercase;">Baking History of 40 Years</div>
+                                        </li>
+                                    </ul>
+                                    <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+                                </div>
+                            </div><!-- END REVOLUTION SLIDER -->
+                        </div>
+                        <a id="A_ID" style="bottom: 20px;position: absolute;left: 48%;cursor:pointer"><img src="~/Content/images/others/arrow.png" class="animated fadeInDown infinite"></a>
+                    </section>
+                }
+            }*@
+
+        <!-- Header
+        ============================================= -->
+        <!-- <div id="topscrollbar" class="dark">
+
+            <div class="container clearfix">
+                <p class="center"><span class="text-center"><b>!! IMPORTANT NOTICE !! As a result of the lock-down imposed by the government to control the spread of COVID-19, our Bahrain offices will remain shut till 14th April 2020. Kindly bear with us.</b></span><a id="close-bar"><i class="icon-line-cross fright"></i></a></p>
+            </div>
+
+        </div> -->
+
+
+        <header id="header" class="full-header no-sticky clearfix">
+            <div class="page-header"></div>
+            <!-- Top Bar
+            ============================================= -->
+            <div id="top-bar" class="dark">
+
+                <div class="container clearfix" style="background-color:black">
+                    <div class="float-left">
+                        <a href="/Swissbake-Brochure-Bahrain.pdf" class="text-white"><i class="fas fa-file-pdf"></i> COMPANY CATALOG</a>&nbsp;&nbsp;
+                        @*<a href="@(Session["U_Id"] == null ? "/trackorder" : "/account/trackorder")" class="text-white"><i class="fas fa-truck"></i> TRACK ORDER</a>*@
+                    </div>
+                    <div class="float-right">
+                        <a class="text-white mr-4 pr-2 call-link cursor-pointer">ORDER <i class="icon-call"></i> +973 77990501</a>
+                        <a class="text-white mr-4 pr-2 email-link cursor-pointer"><i class="icon-email3"></i> EMAIL US</a>
+                        @if (Session["U_Id"] == null)
+                        {
+                            <a href="/login" id="sign-link" class="text-white mr-4 pr-2"><i class="icon-user"></i> SIGN-IN</a>
+                        }
+                        else
+                        {
+                            <a href="/account/logout" id="logout-link" class="text-white mr-4 pr-2"><i class="icon-signout"></i> LOGOUT</a>
+                        }
+
+                    </div>
+                </div>
+                @*<div class="container clearfix">
+                        <div></div>
+                    </div>*@
+
+            </div>
+            <div id="header-wrap">
+
+                <div class="container clearfix">
+
+                    <div id="primary-menu-trigger" style="color:#ffffff;"><i class="icon-reorder"></i> Menu</div>
+
+                    <!-- Logo
+                    ============================================= -->
+                    <div id="logo">
+                        <a href="/" class="standard-logo"><img src="~/Content/images/logo/logowhite_swissbake.png" alt="Swissbake"></a>
+                        <a href="/" class="retina-logo"><img src="~/Content/images/logo/logowhite_swissbake.png" alt="Swissbake"></a>
+                    </div><!-- #logo end -->
+                    <!-- Primary Navigation
+                    ============================================= -->
+
+                    <div class="mid-head-btn-blk">
+                        <a href="/category">Shop Now</a>
+
+                        @*@if (Session["U_Id"] == null)
+                            {
+                                <a href="/category">Shop Now</a>
+                            }
+                            else
+                            {
+                                <a href="/account/Quickorder2">Quick Order</a>
+                            }*@
+
+                        <a href="/ContactUs">Contact Us</a>
+                        <a id="mob-search" class="cursor-pointer"><i class="fas fa-search"></i></a>
+                    </div>
+                    <div class="searchbar float-left">
+                        <input type="text" id="topsearch" placeholder="Search for baking products now" /><button type="button" id="searchbtn"><i class="fas fa-search"></i></button>
+                        @*<span class="mobsearch"><i class="fas fa-search"></i></span>*@
+                    </div>
+
+                    <div class="top-side-icons float-right">
+
+
+
+
+                        <div class="head-user float-right side-panel-trigger">
+                            @*@if (Session["U_Id"] == null)
+                                {
+                                }
+                                else
+                                {
+                                    if (noticount >= 1)
+                                    {
+                                        @*<span class="not-count">@noticount</span>//comment end
+                                        <span class="not-count d-none" id="notifLcount">@noticount</span>
+                                    }
+                                }*@
+                            <i class="far fa-user fa-lg"></i>
+                        </div>
+
+                        <div class="head-cart float-right side-panel-trigger">
+                            @*@if (Session["OrderProduct"] == null)
+                                {
+                                }
+                                else
+                                {
+                                    DataTable dt = (DataTable)Session["OrderProduct"];
+                                    if (dt.Rows.Count > 0)
+                                    {
+
+                                        <span class="not-count" id="cartcount">@dt.Rows.Count</span>
+                                  }
+                                }*@
+                            <span class="not-count d-none" id="cartcount"></span>
+                            <i class="icon icon-cart fa-lg"></i><span>Cart</span>
+                        </div>
+                        <div style="display:none;" class="head-notify float-right"><i>.</i></div>
+                        <!--<div class="head-notify float-right">
+
+                           if (noticount >= 1)
+                            {
+                                <a href="/account/notification">-->
+                        @*<i class="icon-bell-alt"></i>*@@*<span class="not-count">@noticount</span>*@
+                        <!--<i class="far fa-bell fa-lg"></i>
+                                <span class="not-count" id="notifLcount">@noticount</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/account/notification">-->
+                        @*<i class="icon-bell-alt"></i>*@
+                        <!--<i class="far fa-bell fa-lg"></i>
+                                </a>
+
+                            }
+
+
+                        </div>-->
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="bottom-header">
+                <nav id="primary-menu" class="style-ecommerce">
+
+                    <ul class="main-nav">
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index4" ? "current" : "")">
+                            <a href="/"><div>Home</div></a>
+
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "about" ? "current" : "")"><a href="/about"><div>About</div></a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Category" ? "current" : "") mega-menu cursor-pointer">
+                            <a href="/category"><div class=""><span>Product</span></div></a>
+                            <div class="mega-menu-content clearfix">
+                                <ul class="mega-menu-column col-5">
+                                    <li>
+                                        <a href="/category/multigrain-high-fiber-bread-premix-supplier-bahrain"><div>HIGH-FIBRE BREADS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/german-bread-premix-supplier-in-bahrain"><div>GERMAN BREADS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/specialty-bakery-bread-mix-supplier-bahrain"><div>SPECIALITY BREADS</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category/morning-soft-bread-mix-supplier-bahrain"><div>MORNING BREADS</div></a>
+                                    </li>
+
+
+                                </ul>
+                                <ul class="mega-menu-column col-5">
+                                    <li>
+                                        <a href="/category/sourdough-bread-ingredients-supplier-bahrain"><div>SOURDOUGHS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/pizza-baking-ingredients-supplier-bahrain"><div>PIZZA INGREDIENTS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/healthy-bread-mix-supplier-bahrain"><div>WELLNESS BREADS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/french-style-flour-supplier-bahrain"><div>SPECIALITY FLOURS</div></a>
+                                    </li>
+                                </ul>
+
+                                <ul class="mega-menu-column col-5">
+                                    <li>
+                                        <a href="/category/bread-improvers-and-conditioners-supplier-bahrain"><div>IMPROVER & DECOR</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/cake-and-sponge-premixes-supplier-in-bahrain"><div>CAKES & SPONGES</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/custard-cream-premix-supplier-bahrain"><div>CREAM & CUSTARD</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category/imported-cake-baking-essentials-supplier-bahrain"><div>WAFFLE & PANCAKE</div></a>
+                                    </li>
+                                </ul>
+
+                                <ul class="mega-menu-column col-5">
+
+
+                                    <li>
+                                        <a href="/category/cookie-mixes-supplier-bahrain"><div>COOKIE MIXES</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category/egg-free-confectionery-mix-supplier-bahrain"><div>EGG FREE RANGE</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category/gluten-free-bakery-ingredients-supplier-bahrain"><div>GLUTEN FREE</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category/special-confectionery-premix-supplier-bahrain"><div>CONFECTIONERY</div></a>
+                                    </li>
+
+
+
+                                </ul>
+
+                                <ul class="mega-menu-column col-5">
+
+
+                                    <li>
+                                        <a href="/category/cake-essential-supplier-bahrain"><div>CAKE ESSENTIALS</div></a>
+                                    </li>
+                                    <li>
+                                        <a href="/category/cake-glazes-ingredient-supplier-bahrain"><div>CAKE GLAZES</div></a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/category" class="btn-view-all"><div>View All Categories</div></a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                        </li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "solution" ? "current" : "")"><a href="/solution"><div>Applications</div></a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "recipe" ? "current" : "")"><a href="/recipe"><div>Recipe</div></a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "BlogCat" ? "current" : "")"><a href="/blogcategory/all"><div>Blog</div></a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "bakersupport" ? "current" : "")"><a href="/bakersupport"><div>Baker Support</div></a></li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "contact" ? "current" : "") d-lg-none"><a href="/contactUs"><div>Contact</div></a></li>
+                        @*<li class="@(ViewContext.RouteData.Values["Action"].ToString() == "faq" ? "current" : "")"><a href="/faq"><div>Faq</div></a></li>*@
+                        <li><a href="https://swissbake.ch" target="_blank"><div>Global</div></a></li>
+                    </ul>
+
+
+                </nav><!-- #primary-menu end -->
+            </div>
+            <div id="tab-btn">
+                <span></span>
+            </div>
+        </header><!-- #header end -->
+        @RenderBody()
+
+        <div class="clearfix"></div>
+        <!-- Footer
+            ============================================= -->
+        <footer id="footer">
+            @*<section class="pt-3 pb-3 subscribe-widget ">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="subs-cont">
+                                    <h5>Subscribe to our newsletter</h5>
+                                    <div class="subspart">
+                                        <input type="text" placeholder="E-mail Id" />
+                                        <button type="button">Subscribe Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>*@
+            <!-- Copyrights
+            ============================================= -->
+            <div id="copyrights">
+                <div class="bottom-foot">
+                    <div class="container clearfix p-2">
+                        <div class="row nopadding">
+                            <div class="col-md-6 col-sm-12">
+                                <h4 class="w-100" style="text-align:center;">Subscribe to</h4>
+                                <div class="w-100" style="text-align:center"><h4>Our <b>Newsletter</b></h4></div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="input-group" style="margin-top:12px!important">
+                                    <input type="text" class="form-control" placeholder="Enter Your Email" id="txtEmailSub" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" style="height:35px;" id="basic-addon2" onclick="subscribe($('#txtEmailSub').val())">Signup</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    //$(document).ready(function () {
+
+                   // });
+                </script>
+                <div class="container clearfix">
+                    <div class="row p-2">
+                        <!--<div class="col-md-3 footer-about ">-->
+                        @*<a href="/"><img src="~/Content/images/logo/Swissbake-logo.png" alt="Swissbake" title="Swissbake" /></a>*@
+                        @*<br />*@
+                        <!--<cite>Finest quality Swiss formulated bakery ingredients and convenience products researched & developed in collaboration with professional chefs & bakers around the globe.</cite>
+                        <div class="clear"></div>
+                        <button type="button" class="btn btn-newsletter" onclick="subscribe();" id="newsletter">NEWSLETTER</button>-->
+                        @*<span>
+                                &copy; Copyright 2018 Swissbake All Rights Reserved.
+                            </span>*@
+
+                        @*<a href="#"><img src="~/Content/images/others/homebaker2.png" /></a>*@
+                        <!--</div>-->
+                        <div class="col-md-9 footlinks">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 quick-links">
+                                    <h6 class="">
+                                        Quick Links
+                                    </h6>
+                                    <ul>
+
+                                        <li class="fas fa-caret-right"><a href="/about">About</a></li>
+                                        <li class="fas fa-caret-right"><a href="/blog">Blog</a></li>
+
+                                        <li class="fas fa-caret-right"><a href="/ContactUs">Contact us</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-12 policy">
+                                    <h6 class="">
+                                        Usage Conditions
+                                    </h6>
+                                    <ul>
+                                        <li class="fas fa-caret-right"><a href="/privacy-policy">Privacy Policy</a></li>
+                                        <li class="fas fa-caret-right"><a href="/terms-of-use">Terms Of Use</a></li>
+                                        <li class="fas fa-caret-right"><a href="/shipping-policy">Shipping Policy</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 col-sm-12 misc">
+                                    <h6 class="">
+                                        Company Service
+                                    </h6>
+                                    <ul>
+                                        <li class="fas fa-caret-right"><a href="/SwissBake-Brochure-Bahrain.pdf" target="_blank">Product Brochure </a></li>
+                                        <li class="fas fa-caret-right"><a href="/category">Shop Now</a></li>
+                                        <li class="fas fa-caret-right"><a href="/bakersupport">Baker Support</a></li>
+
+                                    </ul>
+
+                                </div>
+                                @*<div class="col-md-3 col-sm-12 misc">
+                                    <h6 class="">
+                                        How can we help?
+                                    </h6>
+                                    <ul>*@
+                                @*<li class="fas fa-caret-right"><a href="@(Session["U_Id"] == null ? "/trackorder" : "/account/trackorder")">Where's my stuff?</a></li>
+                                    <li class="fas fa-caret-right"><a href="/brochure.pdf" target="_blank">Where do you deliver?</a></li> *@
+                                @*<li style="display:none;" class="fas fa-caret-right"><a href="#">Career</a></li>
+
+                                        </ul>
+
+                                    </div>*@
+                                <!--<div class="col-md-3 col-sm-6 home-bakr">-->
+                                @*<a href="https://www.josefmarc.in/" target="_blank">
+                                        <img class="" src="~/Content/images/others/swhomebaker4.png" />
+                                    </a>*@
+                                <!--<h5 class="">
+                                    Follow SwissBake®
+                                </h5>
+                                <ul>
+                                    <li class=""><span class="soc-ic"><a href="https://www.facebook.com/SwissBakeGlobal/" target="_blank" title="facebook" class="fbic"><i class="fab fa-facebook"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://www.instagram.com/SwissBakeGlobal/" target="_blank" title="instagram" class="inst"><i class="fab fa-instagram"></i></a></span></li>
+                                    <li class=""><span class="soc-ic"><a href="https://twitter.com/SwissBakeGlobal/" target="_blank" title="twitter" class="twit"><i class="fab fa-twitter-square"></i></a></span></li>-->
+                                @*<li class=""><span class="soc-ic"><a href="https://www.linkedin.com/company/swiss-bake-ingredients-pvt-ltd-?trk=prof-0-ovw-prev_pos" target="_blank" title="linkedin" class="link"><i class="fab fa-linkedin"></i></a></span></li>*@
+                                <!--<li class=""><span class="soc-ic"><a href="https://www.linkedin.com/company/swiss-bake-ingredients-pvt-ltd" target="_blank" title="linkedin" class="link"><i class="fab fa-linkedin"></i></a></span></li>
+                                        @*<li class=""><span class="soc-ic"><a href="https://www.youtube.com/channel/UCrbRanf0JTsYiqXZTaltUVA" target="_blank" title="youtube" class="ytb"><i class="fab fa-youtube"></i></a></span></li>
+                                        <li class=""><span class="soc-ic"><a href="https://in.pinterest.com/swissbake/" target="_blank" title="pinterest" class="pint"><i class="fab fa-pinterest-p"></i></a></span></li>*@
+
+
+                                    </ul>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12 center footer-about">
+                            <h6 class="">
+                                Follow us on
+                            </h6>
+                            <ul>
+                                <li class="fas">
+                                    <a href="https://www.facebook.com/SwissBakeInBahrain"><i class="fab fa-facebook social-icon"></i></a>
+                                    <a href="https://www.instagram.com/SwissBakeBahrain/"><i class="fab fa-instagram social-icon"></i></a>
+                                    <a href="https://twitter.com/SwissB_Bahrain"><i class="fab fa-twitter social-icon"></i></a>
+                                    <a href="https://www.linkedin.com/company/swissbake-bahrain/"><i class="fab fa-linkedin social-icon"></i></a>
+                                    <a target="_blank" href="https://api.whatsapp.com/send?phone=+97333550511&text=I am interested in purchasing your baking products. Your callback would be greatly appreciated to proceed with the order. Thank You!"><i class="fab fa-whatsapp social-icon"></i></a>
+                                </li>
+                            </ul>
+
+                            @*<svg viewBox="0 0 70 32" id="icon-logo-american-express" width="100%" height="100%"> <path d="M69.102 17.219l0.399 9.094c-0.688 0.313-3.285 1.688-4.26 1.688h-4.788v-0.656c-0.546 0.438-1.549 0.656-2.467 0.656h-15.053v-2.466c0-0.344-0.057-0.344-0.345-0.344h-0.257v2.81h-4.961v-2.924c-0.832 0.402-1.749 0.402-2.581 0.402h-0.544v2.523h-6.050l-1.434-1.656-1.577 1.656h-9.72v-10.781h9.892l1.405 1.663 1.548-1.663h6.652c0.775 0 2.037 0.115 2.581 0.66v-0.66h5.936c0.602 0 1.749 0.115 2.523 0.66v-0.66h8.946v0.66c0.516-0.43 1.433-0.66 2.265-0.66h4.988v0.66c0.546-0.372 1.32-0.66 2.323-0.66h4.578zM34.905 23.871c1.577 0 3.183-0.43 3.183-2.581 0-2.093-1.635-2.523-3.069-2.523h-5.878l-2.38 2.523-2.236-2.523h-7.427v7.67h7.312l2.351-2.509 2.266 2.509h3.556v-2.566h2.322zM46.001 23.556c-0.172-0.23-0.487-0.516-0.946-0.66 0.516-0.172 1.318-0.832 1.318-2.036 0-0.889-0.315-1.377-0.917-1.721-0.602-0.315-1.319-0.372-2.266-0.372h-4.215v7.67h1.864v-2.796h1.978c0.66 0 1.032 0.058 1.319 0.344 0.316 0.373 0.316 1.032 0.316 1.548v0.903h1.836v-1.477c0-0.688-0.058-1.032-0.288-1.405zM53.571 20.373v-1.605h-6.136v7.67h6.136v-1.563h-4.33v-1.549h4.244v-1.548h-4.244v-1.405h4.33zM58.245 26.438c1.864 0 2.926-0.759 2.926-2.393 0-0.774-0.23-1.262-0.545-1.664-0.459-0.372-1.119-0.602-2.151-0.602h-1.004c-0.258 0-0.487-0.057-0.717-0.115-0.201-0.086-0.373-0.258-0.373-0.545 0-0.258 0.058-0.43 0.287-0.602 0.143-0.115 0.373-0.115 0.717-0.115h3.383v-1.634h-3.671c-1.978 0-2.638 1.204-2.638 2.294 0 2.438 2.151 2.322 3.842 2.38 0.344 0 0.544 0.058 0.66 0.173 0.115 0.086 0.23 0.315 0.23 0.544 0 0.201-0.115 0.373-0.23 0.488-0.173 0.115-0.373 0.172-0.717 0.172h-3.555v1.62h3.555zM65.442 26.439c1.864 0 2.924-0.76 2.924-2.394 0-0.774-0.229-1.262-0.544-1.664-0.459-0.372-1.119-0.602-2.151-0.602h-1.003c-0.258 0-0.488-0.057-0.718-0.115-0.201-0.086-0.373-0.258-0.373-0.545 0-0.258 0.115-0.43 0.287-0.602 0.144-0.115 0.373-0.115 0.717-0.115h3.383v-1.634h-3.671c-1.921 0-2.638 1.204-2.638 2.294 0 2.438 2.151 2.322 3.842 2.38 0.344 0 0.544 0.058 0.66 0.174 0.115 0.086 0.229 0.315 0.229 0.544 0 0.201-0.114 0.373-0.229 0.488s-0.373 0.172-0.717 0.172h-3.556v1.62h3.556zM43.966 20.518c0.23 0.115 0.373 0.344 0.373 0.659 0 0.344-0.143 0.602-0.373 0.774-0.287 0.115-0.545 0.115-0.889 0.115l-2.237 0.058v-1.749h2.237c0.344 0 0.659 0 0.889 0.143zM36.108 8.646c-0.287 0.172-0.544 0.172-0.918 0.172h-2.265v-1.692h2.265c0.316 0 0.688 0 0.918 0.114 0.23 0.144 0.344 0.374 0.344 0.718 0 0.315-0.114 0.602-0.344 0.689zM50.789 6.839l1.262 3.039h-2.523zM30.775 25.792l-2.838-3.183 2.838-3.011v6.193zM35.019 20.373c0.66 0 1.090 0.258 1.090 0.918s-0.43 1.032-1.090 1.032h-2.437v-1.95h2.437zM5.773 9.878l1.291-3.039 1.262 3.039h-2.552zM18.905 20.372l4.616 0 2.036 2.237-2.093 2.265h-4.559v-1.549h4.071v-1.548h-4.071v-1.405zM19.077 13.376l-0.545 1.377h-3.24l-0.546-1.319v1.319h-6.222l-0.66-1.749h-1.577l-0.717 1.749h-5.572l2.389-5.649 2.237-5.104h4.789l0.659 1.262v-1.262h5.591l1.262 2.724 1.233-2.724h17.835c0.832 0 1.548 0.143 2.093 0.602v-0.602h4.903v0.602c0.803-0.459 1.864-0.602 3.068-0.602h7.082l0.66 1.262v-1.262h5.218l0.775 1.262v-1.262h5.103v10.753h-5.161l-1.003-1.635v1.635h-6.423l-0.717-1.749h-1.577l-0.717 1.749h-3.355c-1.318 0-2.294-0.316-2.954-0.659v0.659h-7.971v-2.466c0-0.344-0.057-0.402-0.286-0.402h-0.258v2.867h-15.398v-1.377zM43.363 6.409c-0.832 0.831-0.975 1.864-1.004 3.011 0 1.377 0.344 2.266 0.947 2.925 0.659 0.66 1.806 0.86 2.695 0.86h2.151l0.716-1.692h3.843l0.717 1.692h3.727v-5.763l3.47 5.763h2.638v-7.684h-1.892v5.333l-3.24-5.333h-2.839v7.254l-3.096-7.254h-2.724l-2.638 6.050h-0.832c-0.487 0-1.003-0.115-1.262-0.373-0.344-0.402-0.488-1.004-0.488-1.836 0-0.803 0.144-1.405 0.488-1.748 0.373-0.316 0.774-0.431 1.434-0.431h1.749v-1.663h-1.749c-1.262 0-2.265 0.286-2.81 0.889zM39.579 5.52v7.684h1.863v-7.684h-1.863zM31.12 5.52l-0 7.685h1.806v-2.781h1.979c0.66 0 1.090 0.057 1.376 0.315 0.316 0.401 0.258 1.061 0.258 1.491v0.975h1.892v-1.519c0-0.66-0.057-1.004-0.344-1.377-0.172-0.229-0.487-0.488-0.889-0.659 0.516-0.23 1.319-0.832 1.319-2.036 0-0.889-0.373-1.377-0.976-1.75-0.602-0.344-1.262-0.344-2.208-0.344h-4.215zM23.636 5.521v7.685h6.165v-1.577h-4.301v-1.549h4.244v-1.577h-4.244v-1.377h4.301v-1.606h-6.165zM16.124 13.205h1.577l2.695-6.021v6.021h1.864v-7.684h-3.011l-2.265 5.219-2.409-5.219h-2.953v7.254l-3.154-7.254h-2.724l-3.297 7.684h1.978l0.688-1.692h3.871l0.688 1.692h3.756v-6.021z"></path> </svg>*@
+                            @*<svg viewBox="0 0 95 32" id="icon-logo-discover" width="100%" height="100%"> <path d="M50.431 8.059c4.546 0 8.092 3.49 8.092 7.936 0 4.471-3.571 7.961-8.093 7.961-4.638 0-8.115-3.444-8.115-8.051 0-4.334 3.635-7.845 8.115-7.845zM4.362 8.345c4.811 0 8.168 3.133 8.168 7.64 0 2.247-1.028 4.422-2.761 5.864-1.461 1.214-3.126 1.761-5.429 1.761h-4.339v-15.265h4.362zM7.832 19.81c1.027-0.912 1.639-2.379 1.639-3.847 0-1.464-0.612-2.882-1.639-3.798-0.984-0.892-2.146-1.235-4.065-1.235h-0.797v10.096h0.797c1.919 0 3.127-0.367 4.065-1.216zM13.9 23.611v-15.265h2.965v15.265h-2.965zM24.123 14.201c3.378 1.238 4.379 2.338 4.379 4.764 0 2.952-2.166 5.015-5.247 5.015-2.261 0-3.904-0.896-5.271-2.907l1.914-1.856c0.685 1.328 1.825 2.036 3.24 2.036 1.325 0 2.308-0.915 2.308-2.152 0-0.641-0.298-1.189-0.891-1.578-0.297-0.187-0.889-0.46-2.054-0.87-2.784-1.010-3.742-2.085-3.742-4.192 0-2.493 2.055-4.371 4.745-4.371 1.667 0 3.196 0.571 4.473 1.696l-1.549 2.033c-0.778-0.867-1.508-1.233-2.398-1.233-1.28 0-2.213 0.732-2.213 1.694 0 0.821 0.525 1.258 2.307 1.921zM29.438 15.986c0-4.436 3.605-7.985 8.101-7.985 1.278 0 2.352 0.273 3.653 0.935v3.504c-1.233-1.213-2.308-1.717-3.72-1.717-2.787 0-4.976 2.313-4.976 5.241 0 3.092 2.123 5.267 5.112 5.267 1.347 0 2.397-0.48 3.585-1.671v3.504c-1.347 0.638-2.443 0.892-3.72 0.892-4.519 0-8.034-3.478-8.034-7.97zM65.239 18.601l4.11-10.254h3.216l-6.573 15.655h-1.596l-6.46-15.655h3.24zM73.914 23.612v-15.265h8.418v2.585h-5.453v3.388h5.244v2.585h-5.244v4.123h5.453v2.584h-8.418zM94.081 12.852c0 2.336-1.23 3.87-3.469 4.329l4.794 6.43h-3.651l-4.1054-6.135h-0.388v6.135h-2.969v-15.265h4.404c3.425 0 5.384 1.645 5.384 4.506zM88.125 15.372c1.9 0 2.903-0.827 2.903-2.359 0-1.486-1.004-2.266-2.856-2.266h-0.911v4.626h0.863z"></path> </svg>,566,,6*@
+
+                            @*<svg viewBox="0 0 54 32" id="icon-logo-mastercard" width="100%" height="100%"> <path d="M48.366 15.193c0.6 0 0.9 0.437 0.9 1.282 0 1.281-0.546 2.209-1.337 2.209-0.6 0-0.9-0.436-0.9-1.31 0-1.281 0.573-2.182 1.337-2.182zM38.276 18.275c0-0.655 0.491-1.009 1.472-1.009 0.109 0 0.191 0.027 0.382 0.027-0.027 0.982-0.545 1.636-1.227 1.636-0.382 0-0.628-0.245-0.628-0.655zM26.278 15.848c0 0.082-0 0.192-0 0.327h-1.909c0.164-0.763 0.545-1.173 1.091-1.173 0.518 0 0.818 0.3 0.818 0.845zM38.060 0.002c8.838 0 16.003 7.165 16.003 16.002s-7.165 15.999-16.003 15.999c-3.834 0-7.324-1.344-10.080-3.594 2.102-2.031 3.707-4.567 4.568-7.44h-1.33c-0.833 2.553-2.297 4.807-4.199 6.627-1.892-1.816-3.342-4.078-4.172-6.62h-1.33c0.858 2.856 2.435 5.401 4.521 7.432-2.749 2.219-6.223 3.594-10.036 3.594-8.837 0-16.002-7.163-16.002-15.999s7.164-16.001 16.002-16.001c3.814 0 7.287 1.377 10.036 3.603-2.087 2.023-3.664 4.568-4.521 7.424h1.33c0.83-2.542 2.28-4.804 4.172-6.607 1.903 1.808 3.367 4.060 4.199 6.614h1.33c-0.861-2.872-2.466-5.413-4.568-7.443 2.757-2.249 6.246-3.592 10.080-3.592zM7.217 20.213h1.691l1.336-8.044h-2.672l-1.637 4.99-0.082-4.99h-2.454l-1.336 8.044h1.582l1.037-6.135 0.136 6.135h1.173l2.209-6.189zM14.47 19.477l0.054-0.408 0.382-2.318c0.109-0.736 0.136-0.982 0.136-1.309 0-1.254-0.791-1.909-2.263-1.909-0.627 0-1.2 0.082-2.045 0.327l-0.246 1.473 0.163-0.028 0.246-0.081c0.382-0.109 0.928-0.164 1.418-0.164 0.79 0 1.091 0.164 1.091 0.6 0 0.109 0 0.191-0.055 0.409-0.273-0.027-0.518-0.054-0.709-0.054-1.909 0-2.999 0.927-2.999 2.536 0 1.064 0.627 1.773 1.554 1.773 0.791 0 1.364-0.246 1.8-0.791l-0.027 0.682h1.418l0.027-0.164 0.027-0.246zM17.988 16.314c-0.736-0.327-0.819-0.409-0.819-0.709 0-0.355 0.3-0.519 0.845-0.519 0.328 0 0.791 0.028 1.227 0.082l0.246-1.5c-0.436-0.082-1.118-0.137-1.5-0.137-1.909 0-2.59 1.009-2.563 2.208 0 0.818 0.382 1.391 1.282 1.828 0.709 0.327 0.818 0.436 0.818 0.709 0 0.409-0.3 0.6-0.982 0.6-0.518 0-0.982-0.082-1.527-0.245l-0.246 1.5 0.082 0.027 0.3 0.054c0.109 0.027 0.246 0.055 0.464 0.055 0.382 0.054 0.709 0.054 0.928 0.054 1.8 0 2.645-0.682 2.645-2.181 0-0.9-0.354-1.418-1.2-1.828zM21.75 18.741c-0.409 0-0.573-0.136-0.573-0.464 0-0.082 0-0.164 0.027-0.273l0.463-2.726h0.873l0.218-1.609h-0.873l0.191-0.982h-1.691l-0.737 4.472-0.082 0.518-0.109 0.654c-0.027 0.191-0.055 0.409-0.055 0.573 0 0.954 0.491 1.445 1.364 1.445 0.382 0 0.764-0.055 1.227-0.218l0.218-1.445c-0.109 0.054-0.273 0.054-0.464 0.054zM25.732 18.851c-0.982 0-1.5-0.381-1.5-1.145 0-0.055 0-0.109 0.027-0.191h3.382c0.163-0.682 0.218-1.145 0.218-1.636 0-1.446-0.9-2.373-2.318-2.373-1.718 0-2.973 1.663-2.973 3.899 0 1.936 0.982 2.945 2.89 2.945 0.628 0 1.173-0.082 1.773-0.273l0.273-1.636c-0.6 0.3-1.145 0.409-1.773 0.409zM31.158 15.524h0.109c0.164-0.79 0.382-1.363 0.655-1.881l-0.055-0.027h-0.164c-0.573 0-0.9 0.273-1.418 1.064l0.164-1.009h-1.554l-1.064 6.544h1.718c0.627-4.008 0.791-4.69 1.609-4.69zM36.122 20.133l0.3-1.827c-0.545 0.273-1.036 0.409-1.445 0.409-1.009 0-1.609-0.737-1.609-1.963 0-1.773 0.9-3.027 2.182-3.027 0.491 0 0.928 0.136 1.528 0.436l0.3-1.745c-0.163-0.054-0.218-0.082-0.436-0.163l-0.682-0.164c-0.218-0.054-0.491-0.082-0.791-0.082-2.263 0-3.845 2.018-3.845 4.88 0 2.155 1.146 3.491 3 3.491 0.463 0 0.872-0.082 1.5-0.246zM41.521 19.069l0.355-2.318c0.136-0.736 0.136-0.982 0.136-1.309 0-1.254-0.763-1.909-2.236-1.909-0.627 0-1.2 0.082-2.045 0.327l-0.246 1.473 0.164-0.028 0.218-0.081c0.382-0.109 0.955-0.164 1.446-0.164 0.791 0 1.091 0.164 1.091 0.6 0 0.109-0.027 0.191-0.082 0.409-0.246-0.027-0.491-0.054-0.682-0.054-1.909 0-3 0.927-3 2.536 0 1.064 0.627 1.773 1.555 1.773 0.791 0 1.363-0.246 1.8-0.791l-0.028 0.682h1.418v-0.164l0.027-0.246 0.054-0.327zM43.648 20.214c0.627-4.008 0.791-4.69 1.608-4.69h0.109c0.164-0.79 0.382-1.363 0.655-1.881l-0.055-0.027h-0.164c-0.572 0-0.9 0.273-1.418 1.064l0.164-1.009h-1.554l-1.037 6.544h1.691zM48.829 20.214l1.608 0 1.309-8.044h-1.691l-0.382 2.291c-0.464-0.6-0.955-0.9-1.637-0.9-1.5 0-2.782 1.854-2.782 4.035 0 1.636 0.818 2.7 2.073 2.7 0.627 0 1.118-0.218 1.582-0.709zM11.306 18.279c0-0.655 0.492-1.009 1.447-1.009 0.136 0 0.218 0.027 0.382 0.027-0.027 0.982-0.518 1.636-1.228 1.636-0.382 0-0.6-0.245-0.6-0.655z"></path> </svg>*@
+                            @*<svg viewBox="0 0 57 32" id="icon-logo-paypal" width="100%" height="100%"> <path d="M47.11 10.477c2.211-0.037 4.633 0.618 4.072 3.276l-1.369 6.263h-3.159l0.211-0.947c-1.72 1.712-6.038 1.821-5.335-2.111 0.491-2.294 2.878-3.023 6.423-3.023 0.246-1.020-0.457-1.274-1.65-1.238s-2.633 0.437-3.089 0.655l0.281-2.293c0.913-0.182 2.106-0.583 3.615-0.583zM47.32 16.885c0.069-0.291 0.106-0.547 0.176-0.838h-0.773c-0.596 0-1.579 0.146-1.931 0.765-0.456 0.728 0.177 1.348 0.878 1.311 0.807-0.037 1.474-0.401 1.65-1.238zM53.883 8h3.242l-2.646 12.016h-3.209zM39.142 8.037c1.689 0 3.729 1.274 3.131 4.077-0.528 2.476-2.498 3.933-4.89 3.933h-2.428l-0.879 3.969h-3.412l2.603-11.979h5.874zM39.037 12.114c0.211-0.911-0.317-1.638-1.197-1.638h-1.689l-0.704 3.277h1.583c0.88 0 1.795-0.728 2.006-1.638zM16.346 10.476c2.184-0.037 4.611 0.618 4.056 3.276l-1.352 6.262h-3.155l0.208-0.947c-1.664 1.712-5.929 1.821-5.235-2.111 0.486-2.294 2.844-3.023 6.345-3.023 0.208-1.020-0.485-1.274-1.664-1.238s-2.601 0.437-3.017 0.655l0.277-2.293c0.867-0.182 2.046-0.583 3.537-0.583zM16.589 16.885c0.035-0.291 0.104-0.547 0.173-0.838h-0.797c-0.555 0-1.525 0.146-1.872 0.765-0.451 0.728 0.138 1.348 0.832 1.311 0.797-0.037 1.491-0.401 1.664-1.238zM28.528 10.648l3.255-0-7.496 13.351h-3.528l2.306-3.925-1.289-9.426h3.156l0.508 5.579zM8.499 8.036c1.728 0 3.738 1.274 3.139 4.077-0.529 2.476-2.504 3.933-4.867 3.933h-2.468l-0.847 3.969h-3.456l2.609-11.979h5.89zM8.393 12.114c0.247-0.911-0.317-1.638-1.164-1.638h-1.693l-0.741 3.277h1.623c0.882 0 1.763-0.728 1.975-1.638z"></path> </svg>*@
+                            @*<svg viewBox="0 0 49 32" id="icon-logo-visa" width="100%" height="100%"> <path d="M14.059 10.283l4.24-0-6.302 15.472-4.236 0.003-3.259-12.329c2.318 0.952 4.379 3.022 5.219 5.275l0.42 2.148zM17.416 25.771l2.503-15.501h4.001l-2.503 15.501h-4.002zM31.992 16.494c2.31 1.106 3.375 2.444 3.362 4.211-0.032 3.217-2.765 5.295-6.97 5.295-1.796-0.020-3.526-0.394-4.459-0.826l0.56-3.469 0.515 0.246c1.316 0.579 2.167 0.814 3.769 0.814 1.151 0 2.385-0.476 2.396-1.514 0.007-0.679-0.517-1.165-2.077-1.924-1.518-0.74-3.53-1.983-3.505-4.211 0.024-3.012 2.809-5.116 6.765-5.116 1.55 0 2.795 0.339 3.586 0.651l-0.542 3.36-0.359-0.178c-0.74-0.314-1.687-0.617-2.995-0.595-1.568 0-2.293 0.689-2.293 1.333-0.010 0.728 0.848 1.204 2.246 1.923zM46.199 10.285l3.239 15.49h-3.714s-0.368-1.782-0.488-2.322c-0.583 0-4.667-0.008-5.125-0.008-0.156 0.42-0.841 2.331-0.841 2.331h-4.205l5.944-14.205c0.419-1.011 1.138-1.285 2.097-1.285h3.093zM41.263 20.274c0.781 0 2.698 0 3.322 0-0.159-0.775-0.927-4.474-0.927-4.474l-0.27-1.337c-0.202 0.581-0.554 1.52-0.531 1.479 0 0-1.262 3.441-1.594 4.332zM9.723 18.702c-1.648-4.573-5.284-6.991-9.723-8.109l0.053-0.322h6.453c0.87 0.034 1.573 0.326 1.815 1.308z"></path> </svg>*@
+
+                        </div>
+                        @*<div class="col-md-12 addr">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="">
+                                            ASIA & MIDDLE EAST
+                                        </h6>
+                                        <ul>
+                                            <li class=""><i class="fas fa-map-marker-alt"></i> G-10, Manjrekar Lane, Dr.E.Moses Road, Mumbai Maharashtra, Bahrain. </li>
+                                            <li class=""><i class="fas fa-envelope"></i> <a href="mailto:support@swissbake.bh">support@swissbake.bh</a> </li>
+                                            <li class=""><i class="fas fa-globe"></i> <a href="http://swissbake.bh target="_blank">www.swissbake.bh</a> </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="">
+                                            UK & EUROPEAN UNION
+                                        </h6>
+                                        <ul>
+                                            <li class=""><i class="fas fa-map-marker-alt"></i> Junkerschlossweg 9, 4465 Hemmiken Basel-Landschaft, Switzerland. </li>
+                                            <li class=""><i class="fas fa-envelope"></i> <a href="mailto:support@swissbake.bh">support@swissbake.bh</a> </li>
+                                            <li class=""><i class="fas fa-globe"></i> <a href="https://www.swissbake.ch" target="_blank">www.swissbake.ch</a> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+
+                <!-- #Cookie -->
+                <style>
+                    .btn-primary:after, .btn:after {
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        padding-left: 24px;
+                        height: 24px;
+                        /* width: 24px; */
+                        /* display: initial; */
+                        content: " ";
+                    }
+
+                    .cookie-banner {
+                        position: absolute;
+                        top: 50%;
+                        left: 0;
+                        right: 0;
+                        width: 100%;
+                        max-width: 719px;
+                        -webkit-transform: translateY(-50%);
+                        -ms-transform: translateY(-50%);
+                        transform: translateY(-50%);
+                        z-index: 70;
+                        padding: 24px 0;
+                        margin: 0 auto;
+                        background-color: #fff;
+                        box-shadow: 0 0 30px rgba(0,0,0,.2),0 0 10px rgba(0,0,0,.1);
+                        border-radius: 10px
+                    }
+
+                    @@media(max-width:719px) {
+                        .cookie-banner {
+                            -webkit-transform: none;
+                            -ms-transform: none;
+                            transform: none;
+                            top: 18px;
+                            margin: 0 12px 18px;
+                            width: auto
+                        }
+                    }
+
+                    .cookie-banner__wrapper {
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-orient: vertical;
+                        -webkit-box-direction: normal;
+                        -webkit-flex-direction: column;
+                        -ms-flex-direction: column;
+                        flex-direction: column;
+                        -webkit-box-align: start;
+                        -webkit-align-items: flex-start;
+                        -ms-flex-align: start;
+                        align-items: flex-start;
+                        padding: 0 48px !important
+                    }
+
+                        .cookie-banner__wrapper.center {
+                            -webkit-box-align: center;
+                            -webkit-align-items: center;
+                            -ms-flex-align: center;
+                            align-items: center
+                        }
+
+                    .cookie-banner__language {
+                        position: absolute;
+                        padding: 0 36px;
+                        width: 210px;
+                        z-index: 70
+                    }
+
+                    html:not([dir=rtl]) .cookie-banner__language {
+                        right: 0
+                    }
+
+                    html[dir=rtl] .cookie-banner__language {
+                        left: 0
+                    }
+
+                    @@media(max-width:719px) {
+                        .cookie-banner__language {
+                            position: relative;
+                            margin: 0 auto
+                        }
+                    }
+
+                    .cookie-banner__language select {
+                        height: 36px;
+                        border: 0;
+                        font-size: 13px !important;
+                        font-weight: 400;
+                        color: #404040
+                    }
+
+                    html:not([dir=rtl]) .cookie-banner__language select {
+                        padding-left: 30px;
+                        padding-right: 30px;
+                        padding-top: 6px
+                    }
+
+                    html[dir=rtl] .cookie-banner__language select {
+                        padding-left: 30px;
+                        padding-right: 16px;
+                        padding-top: 6px
+                    }
+
+                    .cookie-banner__language .form-control:focus, .cookie-banner__language .input-number:focus, .cookie-banner__language .p-navbar-mobile.p-navbar-mobile--search .p-navbar-mobile--body .twitter-typeahead input:focus, .cookie-banner__language .twitter-autocomplete .rbt-input-hint:focus, .p-navbar-mobile.p-navbar-mobile--search .p-navbar-mobile--body .twitter-typeahead .cookie-banner__language input:focus, .twitter-autocomplete .cookie-banner__language .rbt-input-hint:focus {
+                        box-shadow: none
+                    }
+
+                    .cookie-banner__logo .p-brand {
+                        background-image: none
+                    }
+
+                    .cookie-banner__logo img {
+                        max-width: 100%;
+                        max-height: 100%;
+                        width: auto
+                    }
+
+                    .cookie-banner__title {
+                        margin-top: 12px;
+                        margin-bottom: 3px;
+                        font-size: 24px;
+                        text-align: center;
+                        font-weight: 700;
+                        color: #ab0828;
+                    }
+
+                    .cookie-banner__subtitle {
+                        margin-top: 6px;
+                        margin-bottom: 3px;
+                        font-size: 18px;
+                        font-weight: 600;
+                        font-style: normal;
+                        text-decoration: none;
+                        color: #000;
+                        text-align: center
+                    }
+
+                    .cookie-banner__text {
+                        margin: 36px 0 24px;
+                        font-size: 16px;
+                        font-weight: 400;
+                        font-style: normal;
+                        color: #404040;
+                        text-decoration: none
+                    }
+
+                    @@media(max-width:999px) {
+                        .cookie-banner__text {
+                            font-size: 15px
+                        }
+                    }
+
+                    @@media(max-width:719px) {
+                        .cookie-banner__text {
+                            margin: 18px 0
+                        }
+                    }
+
+                    .cookie-banner__text a {
+                        color: #cc092f;
+                        text-decoration: underline
+                    }
+
+                        .cookie-banner__text a:active, .cookie-banner__text a:focus, .cookie-banner__text a:hover {
+                            color: #ab0828
+                        }
+
+                    .cookie-banner__preferences {
+                        font-size: 14px;
+                        font-weight: 600;
+                        font-style: normal;
+                        color: #cc092f;
+                        text-decoration: underline !important;
+                        text-align: center;
+                        border: 0
+                    }
+
+                    .cookie-banner__preferences-title {
+                        margin: 18px 0;
+                        font-size: 24px;
+                        color: black;
+                        font-weight: 600;
+                    }
+
+                    .cookie-banner__preferences:active, .cookie-banner__preferences:focus, .cookie-banner__preferences:hover {
+                        color: #ab0828;
+                        outline: 0
+                    }
+
+                    .cookie-banner__option {
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -ms-flexbox;
+                        display: flex;
+                        margin: 6px 0
+                    }
+
+                        .cookie-banner__option label {
+                            font-size: 18px;
+                            font-weight: 600;
+                            font-style: normal;
+                            color: #404040;
+                            text-decoration: none
+                        }
+
+                    html:not([dir=rtl]) .cookie-banner__option label {
+                        padding-left: 24px
+                    }
+
+                    html[dir=rtl] .cookie-banner__option label {
+                        padding-right: 24px
+                    }
+
+                    .cookie-banner__option label:before {
+                        height: 24px;
+                        width: 24px;
+                        top: 4px
+                    }
+
+                    .cookie-banner__option input[type=checkbox]:checked + label:after {
+                        top: 8px
+                    }
+
+                    html:not([dir=rtl]) .cookie-banner__option input[type=checkbox]:checked + label:after {
+                        left: -18px
+                    }
+
+                    html[dir=rtl] .cookie-banner__option input[type=checkbox]:checked + label:after {
+                        right: -18px
+                    }
+
+                    .cookie-banner__option span {
+                        display: block;
+                        font-size: 16px;
+                        font-weight: 400;
+                        font-style: normal;
+                        color: #404040;
+                        text-decoration: none
+                    }
+
+                    @@media(max-width:999px) {
+                        .cookie-banner__option span {
+                            font-size: 15px
+                        }
+                    }
+
+                    #copyrights a:first-child {
+                        margin-left: 0;
+                    }
+
+                    .btn:not(:disabled):not(.disabled) {
+                        cursor: pointer;
+                    }
+
+                    .btn:not(:disabled):not(.disabled) {
+                        cursor: pointer;
+                    }
+
+                    .cookie-banner__btn-container {
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-align: center;
+                        -webkit-align-items: center;
+                        -ms-flex-align: center;
+                        align-items: center;
+                        -webkit-box-pack: center;
+                        -webkit-justify-content: center;
+                        -ms-flex-pack: center;
+                        justify-content: center;
+                        margin-top: 24px;
+                        width: 100%;
+                        color: #cc092f
+                    }
+
+                        .cookie-banner__btn-container > * {
+                            margin: 0 12px
+                        }
+
+                    @@media(max-width:719px) {
+                        .cookie-banner__btn-container > * {
+                            margin: 18px 12px 0
+                        }
+
+                        .cookie-banner__btn-container > :first-child {
+                            margin: 0 12px
+                        }
+
+                        .cookie-banner__btn-container {
+                            -webkit-box-orient: vertical;
+                            -webkit-box-direction: normal;
+                            -webkit-flex-direction: column;
+                            -ms-flex-direction: column;
+                            flex-direction: column
+                        }
+                    }
+
+                    @@media(max-width:1399px) {
+                        .cookie-banner__btn-container {
+                            margin-top: 12px
+                        }
+                    }
+
+                    .cookie-banner__btn {
+                        padding: 12px 24px !important;
+                        font-size: 15px;
+                        font-weight: 700 !important;
+                        text-transform: none !important;
+                        white-space: normal;
+                        color: #fff;
+                        background-color: #cc092f
+                    }
+
+                        .cookie-banner__btn:hover {
+                            background-color: #ab0828;
+                            text-decoration: none;
+                            color: #fff
+                        }
+
+                    .cookie-preferences {
+                        display: -webkit-box;
+                        display: -webkit-flex;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -webkit-box-align: center;
+                        -webkit-align-items: center;
+                        -ms-flex-align: center;
+                        align-items: center;
+                        margin-bottom: 24px
+                    }
+
+                    .cookie-preferences__btn {
+                        padding: 12px 24px;
+                        text-decoration: none !important;
+                        font-size: 16px;
+                        font-weight: 600
+                    }
+
+                    .cookie-preferences.left {
+                        -webkit-box-pack: start;
+                        -webkit-justify-content: flex-start;
+                        -ms-flex-pack: start;
+                        justify-content: flex-start
+                    }
+
+                    .cookie-preferences.right, .form--input__reset {
+                        -webkit-box-pack: end;
+                        -webkit-justify-content: flex-end;
+                        -ms-flex-pack: end;
+                        justify-content: flex-end
+                    }
+
+                    .cookie-preferences.center {
+                        -webkit-box-pack: center;
+                        -webkit-justify-content: center;
+                        -ms-flex-pack: center;
+                        justify-content: center
+                    }
+
+                    .cookie-preferences.wide .cookie-preferences__btn {
+                        width: 100%
+                    }
+
+                    #cookieInfo .cookieSettings, #cookieInfo.cookie-banner--adjust .cookie-banner__language, #cookieInfo.cookie-banner--adjust .cookieDisplay {
+                        display: none
+                    }
+
+                    #cookieInfo.cookie-banner--adjust .cookieSettings {
+                        display: block
+                    }
+                </style>
+                <div class="no-print">
+
+                    <div class="modal modal-print p-modal fade" id="cookieBannerModal" tabindex="-1" role="dialog" aria-labelledby="cookieBanner" data-backdrop="static" data-keyboard="false" style="display: none;">
+                        <div class="cookie-banner">
+                            <div id="cookieInfo">
+
+                                <div class="cookieDisplay row">
+                                    <div class="cookie-banner__wrapper center col-md-12">
+                                        <div class="cookie-banner__logo">
+                                            <div class="navbar-brand">
+                                                <img class=" lazyloaded" alt="Welcome to Puratos" src="~/Content/images/logo/Swissbake-logoNew.jpg" data-sizes="100px" sizes="100px">
+                                            </div>
+                                        </div>
+                                        <h2 class="cookie-banner__title">
+                                            Welcome to SwissBake®
+                                        </h2>
+                                        <h4 class="cookie-banner__subtitle">
+                                            Our website makes use of cookies
+                                        </h4>
+                                        <p class="cookie-banner__text">
+                                            We use cookies to provide you with the best experience on our website, to recognize repeat visits and preferences as well as to measure and analyze traffic.By using our site, you agree to our <a href="/privacy-policy" target="_blank">Privacy Policy</a> and <a href="/terms-of-use" target="_blank">Term of use</a>. By clicking "I accept all cookies" you consent to the use of all cookies.
+                                            &nbsp;
+                                        </p>
+                                        <p class="cookie-banner__btn-container">
+                                            <a id="cookieAcceptBtn" href="#!" class="cookie-banner__btn btn">
+                                                I accept all cookies
+                                            </a>
+                                            <a id="cookieAdjustBtn" href="#!" class="cookie-banner__preferences ">
+                                                Adjust my preferences
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="cookieSettings row">
+                                    <div class="cookie-banner__wrapper col-md-12">
+                                        <h2 class="cookie-banner__preferences-title">Set your cookie preferences</h2>
+                                        <div class="p-checkbox cookie-banner__option">
+                                            <input id="functionalCookies-en" type="checkbox" checked="" disabled="">
+                                            <label for="functionalCookies-en" class="text-sm p-cursor-pointer">
+                                                Functional cookies
+                                                <span>
+                                                    Functional cookies ensure the proper functioning of the website (e.g. cookies for language preferences or registration and login)
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="p-checkbox cookie-banner__option">
+                                            <input id="analyticalCookies-en" type="checkbox">
+                                            <label for="analyticalCookies-en" class="text-sm p-cursor-pointer">
+                                                Analytical cookies
+                                                <span>
+                                                    Analytical cookies are used to track visitors on the website. They are essential in measuring the performance of a website and to optimize it.
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="p-checkbox cookie-banner__option">
+                                            <input id="advertisingCookies-en" type="checkbox">
+                                            <label for="advertisingCookies-en" class="text-sm p-cursor-pointer">
+                                                Personalised advertising cookies
+                                                <span>
+                                                    Advertising cookies are used to deliver adverts more relevant to you and your interests.
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="p-checkbox cookie-banner__option">
+                                            <input id="followupCookies-en" type="checkbox">
+                                            <label for="followupCookies-en" class="text-sm p-cursor-pointer">
+                                                Visit and follow-up cookies
+                                                <span>
+                                                    Visit and follow-up cookies allow us to understand how individual visitors browse the website and which paths they follow.
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <p class="cookie-banner__btn-container">
+                                            <a id="cookieSaveBtn" href="#!" class="cookie-banner__btn btn btn-primary">
+                                                Save preferences
+                                            </a>
+                                            <a id="cookieReturnBtn" href="#!" class="cookie-banner__preferences">
+                                                Cancel and return
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="~/Content/js/Cookie.js"></script>
+                <!-- #Cookie end -->
+            </div><!-- #copyrights end -->
+            <style>
+                #bottom-bar {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    background-color: black;
+                    color: white;
+                    font-size: 12px;
+                    z-index: 999;
+                    display: none;
+                }
+
+                #bottom-bar {
+                    @@media screen and (max-width:991px) {
+                        display: block;
+                        font-size: 12px;
+                    }
+                }
+            </style>
+            <div id="bottom-bar" class="dark">
+
+                <div class="container clearfix" style="background-color:black; font-size:20px;">
+                    <!--<div class="float-left">
+                        <a href="/brochure.pdf" class="text-white"><i class="fas fa-file-pdf"></i> COMPANY CATALOG</a>&nbsp;&nbsp;-->
+                    @*<a href="@(Session["U_Id"] == null ? "/trackorder" : "/account/trackorder")" class="text-white"><i class="fas fa-truck"></i> TRACK ORDER</a>*@
+                    <!--</div>-->
+                    <div style="text-align:center;" class="">
+                        <a class="text-white mr-4 pr-2 call-link cursor-pointer" title="+973 77990501" href="tel:+97333550511" target="_blank"> <i class="icon-call"></i> Call</a>
+                        <a class="text-white mr-4 pr-2 email-link cursor-pointer" title="Email Us"><i class="icon-email3"></i> Email</a>
+                        <a class="text-white mr-4 pr-2 cursor-pointer" href="https://api.whatsapp.com/send?phone=+97333550511&text=Please%20Call%20Back" target="_blank" title="Whatsapp"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+
+
+                    </div>
+                </div>
+                @*<div class="container clearfix">
+                        <div></div>
+                    </div>*@
+
+            </div>
+            <div class="bottom-foot ">
+                <div class="container clearfix">
+                    <div class="row p-2 text-center">
+                        <span class="w-100" style="font-size:11px;">
+                            &copy;Copyright @DateTime.Now.Year Taucher Schweiz WLL All Rights Reserved.
+                        </span>
+                        <!--<div class="col-sm-12 copyrightline" style="display:inherit;">
+                        <span>Follow us on</span>&nbsp&nbsp
+                        <a href="https://www.facebook.com/SwissBakeInBahrain"><i class="fab fa-facebook social-icon"></i></a>
+                        <a href="https://www.instagram.com/SwissBakeBahrain/"><i class="fab fa-instagram social-icon"></i></a>
+                        <a href="https://twitter.com/SwissB_Bahrain"><i class="fab fa-twitter social-icon"></i></a>
+                        <a href="https://www.linkedin.com/company/swissbake-bahrain/"><i class="fab fa-linkedin social-icon"></i></a>-->
+                        @*<a href="#"><i class="fab fa-youtube social-icon"></i></a>
+                            <a href="#"><i class="fab fa-pinterest-p social-icon"></i></a>*@
+                        <!--<a target="_blank" href="https://api.whatsapp.com/send?phone=+97333550511&text=i am looking for Baking Products, Please Call Back"><i class="fab fa-whatsapp social-icon"></i></a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+
+        </footer><!-- #footer end -->
+    </div><!-- #wrapper end -->
+    @try
+    {
+        if (Session["nopopup"] != null && Session["nopopup"].ToString() != "hide")
+        { }
+        else
+        {
+            @*<div id="popup-all">
+                    <div class="row">
+                        <span class="close-popup-all"><i class="fa fa-times"></i></span>
+                        <div class="col-md-6">
+                            <div class="close-popup-all">
+                                <img src="~/Content/images/pop-B2B.jpg" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="close-popup-all">
+                                <a href="http://www.bakeforgood.in/" target="_blank">
+                                    <img src="~/Content/images/pop-B2C.jpg" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        }
+    }
+    catch
+    {
+        @*<div id="popup-all">
+                <div class="row">
+                    <span class="close-popup-all"><i class="fa fa-times"></i></span>
+                    <div class="col-md-6">
+                        <div class="close-popup-all">
+                            <img src="~/Content/images/pop-B2B.jpg" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="close-popup-all">
+                            <a href="http://www.bakeforgood.in/" target="_blank">
+                                <img src="~/Content/images/pop-B2C.jpg" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    }
+
+
+
+    @*<script src="~/Content/js/angular.min.js"></script>
+        <script src="~/Content/js/angular-route.min.js"></script>
+        <script src="~/Content/js/angular-locale_hi-in.min.js"></script>*@
+    @Scripts.Render("~/bundles/Main")
+
+    @*<script src="~/Content/js/custom3.js"></script>*@
+
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @if (ViewContext.RouteData.Values["Action"].ToString() != "Detail")
+    {
+        <script>
+            var app = angular.module('MyApp', [])
+        </script>
+    }
+    @RenderSection("foot", required: false)
+    @RenderSection("scripts", required: false)
+
+    <script>
+          @if (ViewContext.RouteData.Values["Action"].ToString() == "Detail")
+              {
+                  <text>angular.module('MyApp1', ['rzModule']).controller('sidecart', function ($scope, $rootScope, $http) {</text>
+                  }
+          else
+          {
+                     <text>  app.controller('sidecart', function ($scope, $rootScope, $http) {</text>
+                      }
+
+
+              $scope.Lgetfreight = $http({
+                  method: "GET",
+                  url: "/access/getfreight",
+                  dataType: 'json',
+                  //data: customer,
+                  //headers: { "Content-Type": "application/json" }
+              })
+                  .then(async function (response) {
+                      if (response.status == 200 && response.data != "") {
+
+
+                      $scope.topics = response.data;
+                      var product = $scope.topics[0];
+                      $rootScope.freighttot = await (product.Amount);
+                      $rootScope.freightype = await (product.Type);
+                      }
+                  });
+
+              $http({
+                  method: "GET",
+                  url: "/access/fillsidecart",
+                  dataType: 'json',
+                  //data: customer,
+                  //headers: { "Content-Type": "application/json" }
+              }).then(function (response) {
+
+                  if (response.status == 200 && response.data != "") {
+                      $scope.bindside(response.data);
+                  }
+                  var count = $('#notifLcount').text();
+                  if (count > 0) {
+
+                      $("#notifLcount").removeClass("d-none");
+                      $("#notifScount").removeClass("d-none");
+                  }
+              });
+
+                $scope.$on('addcarton', function (event, value) {
+
+              $scope.bindside(value);
+
+              });
+                $scope.bindside = function (value) {
+                    $scope.Side = value;
+                       setTimeout(function () {
+                           $scope.LgetSTotal();
+                           $scope.LgetVatTotal();
+                           $scope.LgetTotal();
+                    angular.element(document.getElementById('side-cart')).scope().$applyAsync();
+                    }, 800);
+
+                }
+                //$scope.getTotal = function () {
+                //
+                //    var total = 0;
+                //    if ($scope.Side != undefined) {
+                //        for (var i = 0; i < $scope.Side.length; i++) {
+                //            var product = $scope.Side[i];
+                //            total += (product.Amount);
+                //        }
+                //    }
+                //    return total;
+                //}
+                $scope.getTotal1 = 0;
+                $scope.Lfreightcalc = function () {
+                    ////
+                   // $scope.freighttot = null;
+                    //if ($scope.freighttot == '' || $scope.freighttot == null) {
+                    //    $scope.freighttot = 9999;
+                    //}
+                    ////
+                    var total = 0;
+                    if ($scope.freightype == 'Flat') {
+                        total = $scope.freighttot
+                    }
+                    else {
+                        total = $scope.TotalWeight * $scope.freighttot;
+                    }
+
+                    //if ($scope.Side != undefined) {
+                    //    for (var i = 0; i < $scope.Side.length; i++) {
+                    //        var product = $scope.Side[i];
+                    //        total += (product.Amount);
+                    //    }
+                    //}
+                    $scope.freight = 0; // zayan 07sept23 total;
+
+                }
+                $scope.LgetSTotal = function () {
+
+                    var total = 0;
+                    var Tweight = 0;
+
+                    if ($scope.Side != undefined) {
+                        if ($scope.Side.length > 0) {
+                        $('#cartcount').text($scope.Side.length);
+                        $("#cartcount").removeClass("d-none");
+                        }
+
+                        for (var i = 0; i < $scope.Side.length; i++) {
+                            var product = $scope.Side[i];
+                            total += (product.Amount);
+                            Tweight += (product.TotalWeight);
+                        }
+                    }
+                    if ($scope.Side == undefined) {
+                        $("#cartcount").addClass("d-none");
+                    }
+                    $scope.getSTotal1 = total;
+                    $scope.TotalWeight = Math.ceil(Tweight);
+                    $scope.Lfreightcalc();
+                }
+                $scope.LgetVatTotal = function () {
+
+                    var total = 0;
+                    var freightAmt = 0;
+                    if ($scope.Side != undefined) {
+                        for (var i = 0; i < $scope.Side.length; i++) {
+                            var product = $scope.Side[i];
+                            total += (product.vatinr);
+                        }
+                        var Freighttaxper = 5;
+
+                        // alert(apiUrl1);
+                        // zayan 07sept23freightAmt = $scope.freight * (Freighttaxper / 100);
+                       // zayan 07sept23 total += freightAmt;
+                    }
+                    $scope.getVatTotal1 = total;
+                }
+                $scope.LgetTotal = function () {
+                   //
+                    var total = 0;
+                    var Stotal = 0;
+                    var Vtotal = 0;
+                    if ($scope.Side != undefined) {
+                        for (var i = 0; i < $scope.Side.length; i++) {
+                            var product = $scope.Side[i];
+                            Stotal += (product.Amount);
+                            Vtotal += (product.vatinr);
+                        }
+                        total = Stotal + $scope.getVatTotal1; // zayan 07sept23 + $scope.freight;
+                    }
+                    $scope.getTotal1 = total;
+                }
+                $scope.LEditRow = function () {
+                    window.location.href = "/cart";
+                }
+                $scope.LremoveRow = function (D) {
+                   // ;debugger
+                    var index = -1;
+                    var comArr = eval($scope.Side);
+
+                    for (var i = 0; i < comArr.length; i++) {
+                        if (comArr[i].Product_Id === D) {
+                            index = i;
+                            $http({
+                                method: "POST",
+                                url: "/access/RemoveItem",
+                                data: '{PID : "' + D + '"}',
+                                dataType: 'json'
+                            }).then(function (response) {
+
+                                if (response.status == 200 && response.data != "") {
+
+                                    $scope.bindside(response.data);
+
+                                         }
+                                     else {
+                                    $scope.bindside();
+                                     }
+                            });
+                            break;
+                        }
+
+                    }
+                    if (index === -1) {
+                        alert("Something gone wrong");
+                    }
+
+                  //  $scope.Side.splice(index, 1);
+                   // $scope.getTotal1 = 0;
+                    //$scope.getSTotal();
+                    //$scope.getVatTotal();
+                    //$scope.getTotal();
+                    //angular.element(document.getElementById('side-cart')).scope().$emit('addcarton', response.data);
+                };
+          });
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $('.call-link').click(function () {
+                window.open('tel:+97377990501', '_blank');
+                //window.location.href = 'tel:+97335376746';
+            });
+
+            $('.email-link').click(function () {
+                window.open('mailto:support@swissbake.bh', '_blank');
+                //window.location.href = 'tel:+97335376746';
+            });
+        });
+    </script>
+    <!--Start of Tawk.to Script-->
+    @* <script type="text/javascript">
+                    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+                    (function () {
+                        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                        s1.async = true;
+                        s1.src = 'https://embed.tawk.to/5b49edd14af8e57442dca720/default';
+                        s1.charset = 'UTF-8';
+                        s1.setAttribute('crossorigin', '*');
+                        s0.parentNode.insertBefore(s1, s0);
+                    })();
+
+                    $(document).ready(function () {
+
+                        $('.call-link').click(function () {
+                            window.open('tel:+97335376746', '_blank');
+                            //window.location.href = 'tel:+97335376746';
+                        });
+
+                        $('.email-link').click(function () {
+                            window.open('mailto:support@swissbake.bh', '_blank');
+                            //window.location.href = 'tel:+97335376746';
+                        });
+                    });
+
+
+                    $(document).ready(function () {
+                        $('#topscrollbar').on('click', '#close-bar', function () {
+                            $(this).parents('#topscrollbar').slideUp(300);
+                        })
+
+                        if ($(window).width() < 767) {
+                            $("#close-bar").click(function () {
+                                $("#header").css({ top: 0 });
+                            });
+                        }
+                        else
+                        {
+                            $("#close-bar").click(function () {
+                                $("#header").css({ top: 0 });
+                            });
+                        }
+
+                    });
+        </script> *@
+    <!--End of Tawk.to Script-->
+    @*<script src="~/Content/js/jquery.visible.min.js"></script>
+        <script src="~/Content/js/custom3.js"></script>
+        <script src="~/Content/js/jquery-confirm.min.js"></script>*@
+
+
+    <script src="~/Content/js/captcha.js"></script>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '555829269845455');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=555829269845455&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Meta Pixel Code -->
+
+
+
+</body>
+</html>

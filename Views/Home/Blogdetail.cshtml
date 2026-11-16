@@ -1,0 +1,240 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = Model.Tables[0].Rows[0]["Blog_Name"];
+
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        //ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+        ViewBag.Domain = "http://localhost:61608";
+
+
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="@Model.Tables[0].Rows[0]["Blog_Seotitle"]" />
+    <meta name="Title" content="@Model.Tables[0].Rows[0]["Blog_Seotitle"]" />
+    <meta name="description" content="@Model.Tables[0].Rows[0]["Blog_Seodesc"]" />
+    <meta name="keywords" content="@Model.Tables[0].Rows[0]["Blog_Seokeywords"]" />
+    <meta property="og:description" content="@Model.Tables[0].Rows[0]["Blog_Seodesc"]" />
+    <meta property="og:url" content="http://swissbake.bh/blog/@Model.Tables[0].Rows[0]["Blog_Seourl"]" />
+    <meta property="twitter:title" content="@Model.Tables[0].Rows[0]["Blog_Seotitle"]" />
+    <meta property="twitter:description" content="@Model.Tables[0].Rows[0]["Blog_Seodesc"]" />
+    <meta property="og:image" content="@ViewBag.Domain@Model.Tables[0].Rows[0]["Blog_ImgPath"]" />
+    <link rel="canonical" href="http://swissbake.bh/blog/@Model.Tables[0].Rows[0]["Blog_Seourl"]" />
+}
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>
+            @Model.Tables[0].Rows[0]["BlogCat_Name"]
+        </h1>
+        <span>
+            Check out the latest updates on our blog.
+        </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+                @Model.Tables[0].Rows[0]["Blog_Name"]
+            </li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+    ============================================= -->
+<section id="content" class="blogdetail blogpage">
+
+    <div class="content-wrap pt-0">
+
+        <div class="container clearfix">
+
+            <div class="blog-cat row  mt-2 mb-4">
+                @foreach (DataRow r in Model.Tables[3].Rows)
+                {
+                    <div class="col-md-2 d-none d-lg-block">
+                        <a href="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })"><div class="@(Request.Url.AbsolutePath == "/blogcategory/"+ r["BlogCat_Seourl"] ? "Active" : "") pt-3 pb-3">@r["BlogCat_Name"]</div></a>
+                    </div>
+                }
+                <div class="col-12 d-lg-none d-block">
+                    <select class="form-control" onchange="window.location.href=this.value">
+                        @foreach (DataRow r in Model.Tables[3].Rows)
+                        {
+                            <option value="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })" @(Request.Url.AbsolutePath == "/blogcategory/" + r["BlogCat_Seourl"] ? "selected" : "")>@r["BlogCat_Name"]</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+
+
+
+            <!-- Post Content
+            ============================================= -->
+            <div class="postcontent nobottommargin clearfix">
+
+                <!-- Posts
+                ============================================= -->
+                <div id="posts">
+
+                    <div class="entry clearfix">
+                        <div class="entry-image">
+                            <div class="portfolio-image">
+                                <div class="fslider" data-arrows="false">
+                                    <div class="flexslider">
+                                        <div class="slider-wrap">
+                                            @if (Model.Tables[1].Rows.Count > 0)
+                                            {
+                                                foreach (DataRow row in Model.Tables[1].Rows)
+                                                {
+                                                    string img = ViewBag.Domain + Convert.ToString(Model.Tables[1].Rows[0]["Img_Path"]);
+                                                    <div class="slide"><a href="#"><img src="@img" alt="@row["Img_Name"]"></a></div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="slide"><a href="#"><img src="@ViewBag.Domain/images/noimage.jpg"></a></div>
+                                            }
+
+                                            @*<div class="slide"><a href="#"><img src="~/Content/images/sbimg/blogdetail.jpg" alt="Shake It"></a></div>
+                                                <div class="slide"><a href="#"><img src="~/Content/images/sbimg/blogdetail.jpg" alt="Shake It"></a></div>
+                                                <div class="slide"><a href="#"><img src="~/Content/images/sbimg/blogdetail.jpg" alt="Shake It"></a></div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<a href=""><img class="image_fade" src="@img" alt=""></a>*@
+                        </div>
+                        <div class="entry-title">
+                            <h2>@Model.Tables[0].Rows[0]["Blog_Name"]</h2>
+                        </div>
+                        <ul class="entry-meta clearfix">
+                            <li>@Convert.ToDateTime(@Model.Tables[0].Rows[0]["Blog_Date"]).ToString("dd MMM yyyy")</li>
+                            @*<li><a href=""><i class="fas fa-eye"></i> 13 Views</a></li>*@
+                        </ul>
+                        <div class="entry-content">
+                            @Html.Raw(@Model.Tables[0].Rows[0]["Blog_Description"])
+                            @*<a href="blog-single.html" class="more-link">Read More</a>*@
+                        </div>
+                    </div>
+
+
+
+                </div><!-- #posts end -->
+
+
+            </div><!-- .postcontent end -->
+            <!-- Sidebar
+            ============================================= -->
+            @*<div class="sidebar nobottommargin col_last clearfix">
+                <div class="sidebar-widgets-wrap">
+                    <div class="widget clearfix">
+                        <h4>Categories</h4>
+                        <div id="post-list-footer">
+                            @foreach (DataRow i in Model.Tables[2].Rows)
+                            {
+
+
+                                <div class="spost clearfix">
+                                    <div class="entry-c">
+                                        <div class="list-values-content"><a href="@Url.RouteUrl("Categoryblog",new { url = i["BlogCat_Seourl"] })">@i["BlogCat_Name"]</a></div>
+                                        
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>*@<!-- .sidebar end -->
+
+        </div>
+
+
+        <div class="line mt-3 mb-3"></div>
+        <div class="container mt-5">
+            <div id="posts" class="col_full">
+
+                <h4>OTHER BLOGS</h4>
+
+                <div id="oc-product" class="shop relate-prod othblog owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+                    @{
+                        var i = 1;
+
+                    }
+                    @foreach (DataRow row in Model.Tables[2].Rows)
+                    {
+                        string title = "", Des = "";
+                        string img = ViewBag.Domain + "/" + Convert.ToString(row["Blog_imgPath"]);
+                        //string img = "/Content/images/sbimg/blog" + i + ".jpg";
+                        i++;
+                        var tcount = row["Blog_Name"].ToString().Length;
+                        var Dcount = row["Blog_ShortDesc"].ToString().Length;
+                        if (tcount > 28)
+                        {
+                            title = Convert.ToString(row["Blog_Name"]).Substring(0, 28) + "...";
+                        }
+                        else
+                        {
+                            title = Convert.ToString(row["Blog_Name"]);
+                        }
+                        if (Dcount > 170)
+                        {
+                            Des = Convert.ToString(row["Blog_ShortDesc"]).Substring(0, 170) + "...";
+                        }
+                        else
+                        {
+                            Des = Convert.ToString(row["Blog_ShortDesc"]);
+                        }
+                        <div class="oc-item">
+                            <div class="entry clearfix">
+                                <div class="blog-card">
+                                    <div class="entry-image">
+                                        <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" title="@row["Blog_Name"]"><img class="" src="@img" alt="@row["Blog_Name"]"></a>
+                                    </div>
+                                    <ul class="entry-meta clearfix">
+                                        <li>@Convert.ToDateTime(row["Blog_Date"]).ToString("dd MMM yyyy") </li>
+
+                                    </ul>
+                                    <div class="entry-title">
+                                        <h2><a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })">@title</a></h2>
+                                    </div>
+
+                                    <div class="entry-content">
+                                        <p>@Des</p>
+                                    </div>
+                                    <div class="read-more-blk">
+                                        <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+</section><!-- #content end -->

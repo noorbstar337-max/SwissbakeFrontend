@@ -1,0 +1,557 @@
+﻿@using System.Data
+@using SwissbakeIn.Entities;
+@model DataSet
+@{
+    //ViewBag.Title = @ViewBag.Title;
+
+
+    ViewBag.Title = ViewContext.ViewBag.Title;
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string catbackimg = "";
+    if (Request.Url.Segments.Length > 2)
+    {
+
+        if (Request.Url.Segments[2].ToString() == "high-fiber-bread-mix-Supplier-supplier-in-Bahrain" || Request.Url.Segments[2].ToString() == "highfibre-breads3")
+        {
+            catbackimg = "B-High.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "sourdough-bread-ingredients-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Sourdough.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "multigrain-bread-premix-Supplier-supplier-Bahrain" || Request.Url.Segments[2].ToString() == "multigrain-breads1")
+        {
+            catbackimg = "B-Multigrain.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "german-rye-bread-mix-Supplier-supplier-in-Bahrain")
+        {
+            catbackimg = "B-German.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "french-baguette-mixes-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Baguette.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "specialty-bakery-bread-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Speciality.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "morning-soft-bread-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Morning.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "healthy-bread-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Health.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "pizza-baking-ingredients-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Pizza.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "french-style-flour-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Flour.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "natural-confectionery-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Confectionery.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "gluten-free-bakery-ingredients-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-GF.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "custard-cream-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Cream.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "imported-cake-baking-essentials-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Essentials.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "egg-free-confectionery-mix-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Veg.jpg";
+        }
+        else if (Request.Url.Segments[2].ToString() == "bread-improvers-and-conditioners-Supplier-supplier-Bahrain")
+        {
+            catbackimg = "B-Roggi.jpg";
+        }
+        else
+        {
+            catbackimg = "Sb2.jpg";
+        }
+
+    }
+    else
+    {
+        catbackimg = "Sb2.jpg";
+    }
+
+
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    <meta property="og:title" content="@Request.Url.Segments[2]" />
+    <meta name="Title" content="@Request.Url.Segments[2]" />
+    <meta name="description" content="@ViewContext.ViewBag.Oneline" />
+    @*<meta name="keywords" content="We are the Supplier of Bakery Ingredients in Bahrain | Browse through extensive range of bakery ingredients by SwissBake" />*@
+    <meta property="og:description" content="@ViewContext.ViewBag.Oneline" />
+    <meta property="og:url" content="http://swissbake.bh/" />
+    <meta property="twitter:title" content="@Request.Url.Segments[2]" />
+    <meta property="twitter:description" content="@ViewContext.ViewBag.Oneline" />
+    <meta property="og:image" content="http://swissbake.bh/images/swissbake_new.jpg" />
+    <link rel="canonical" href="http://swissbake.bh/" />
+}
+
+
+@section head{
+    <link rel="stylesheet/less" type="text/css" href="~/Content/css/less/products.less" />
+}
+@section foot{
+    @*<script src="~/Content/js/account.js"></script>
+        <script src="~/Content/js/components/bs-datatable.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            // $('#datatable1').dataTable();
+
+            get("@Request.Url.Segments[2]");
+            //$('select[name=Year]').click(function () {
+            //    //$('button[name=yearsubmit]').click();
+            //    getOrder($("select[name=Year]").val(), $("#type").val());
+            //});
+            var url = $(location).attr('href'),
+                parts = url.split("/"),
+                last_part = parts[parts.length - 1];
+            //alert(last_part);
+
+            var c = $(".sidebar ul li").length;
+
+            for (var i = 1; i <= c; i++) {
+
+                var ele = $(".sidebar ul li:nth-child(" + i + ") a");
+                //ele = ele[0].href;
+                var href = ele[0].href.split("/"),
+                    last_seg = href[href.length - 1];
+
+
+
+                if (last_seg == last_part){
+                    $(".sidebar ul li:nth-child(" + i + ")").addClass("active");
+                }
+            }
+        });
+        function get(url) {
+            ;debugger
+             getheader(url);
+            var id = '@Session["U_Id"]';
+            if (id == '' || id == null)
+            {
+                id = 0;
+            }
+             $.ajax({
+                 url: '@Url.Action("Product","Access",null)',
+                    type: "Post",
+                    beforeSend: function () {
+                        //_divPartialView.style = "Display: none";
+                        //$("#divWaiting").removeClass("display-none");
+                },
+                    data: { u: url, u_id: id},
+                    success: function (response) {
+
+                        //_divPartialView.style = "";
+                        //$("#divWaiting").addClass("display-none");
+                        $("#shop").html(response).removeAttr("style");
+                        $("#shop .product").removeAttr("style");
+                        window.history.pushState("state", "title", url);
+                       // $('#datatable1').dataTable();
+                    }
+            });
+             activecat(url); // if it's a link to prevent post
+             return false;// if it's a link to prevent post
+        }
+           function getheader(url) {
+               ;debugger
+            var id = '@Session["U_Id"]';
+            if (id == '' || id == null)
+            {
+                id = 0;
+            }
+             $.ajax({
+                 url: '@Url.Action("ProductHeader", "Access",null)',
+                    type: "Post",
+                    beforeSend: function () {
+                        //_divPartialView.style = "Display: none";
+                        //$("#divWaiting").removeClass("display-none");
+                },
+                    data: { u: url},
+                    success: function (response) {
+                        ; debugger
+                        //alert(response[0].Title);
+                        var catbackimg = "";
+
+                      if (url == "high-fiber-bread-mix-supplier-in-Bahrain" || url == "highfibre-breads3") {
+                            catbackimg = "B-High.jpg";
+                        }
+                        else if (url == "sourdough-bread-ingredients-supplier-bahrain") {
+                            catbackimg = "B-Sourdough.jpg";
+                        }
+                      else if (url == "multigrain-bread-premix-supplier-bahrain" || url == "multigrain-breads1") {
+                            catbackimg = "B-Multigrain.jpg";
+                        }
+                      else if (url == "german-rye-bread-mix-supplier-in-bahrain") {
+                            catbackimg = "B-German.jpg";
+                        }
+                      else if (url == "french-baguette-mixes-supplier-bahrain") {
+                            catbackimg = "B-Baguette.jpg";
+                        }
+                      else if (url == "specialty-bakery-bread-mix-supplier-bahrain") {
+                            catbackimg = "B-Speciality.jpg";
+                        }
+                      else if (url == "morning-soft-bread-mix-supplier-bahrain") {
+                            catbackimg = "B-Morning.jpg";
+                        }
+                      else if (url == "healthy-bread-mix-supplier-bahrain") {
+                            catbackimg = "B-Health.jpg";
+                        }
+                      else if (url == "pizza-baking-ingredients-supplier-bahrain") {
+                            catbackimg = "B-Pizza.jpg";
+                        }
+                      else if (url == "french-style-flour-supplier-bahrain") {
+                            catbackimg = "B-Flour.jpg";
+                        }
+                      else if (url == "natural-confectionery-mix-supplier-bahrain") {
+                            catbackimg = "B-Confectionery.jpg";
+                        }
+                      else if (url == "gluten-free-bakery-ingredients-supplier-bahrain") {
+                            catbackimg = "B-GF.jpg";
+                        }
+                      else if (url == "custard-cream-mix-supplier-bahrain") {
+                            catbackimg = "B-Cream.jpg";
+                        }
+                      else if (url == "imported-cake-baking-essentials-supplier-bahrain") {
+                            catbackimg = "B-Essentials.jpg";
+                        }
+                      else if (url == "egg-free-confectionery-mix-supplier-bahrain") {
+                            catbackimg = "B-Veg.jpg";
+                        }
+                      else if (url == "bread-improvers-and-conditioners-supplier-bahrain") {
+                            catbackimg = "B-Roggi.jpg";
+                        }
+                      else if (url == "custard-cream-premix-supplier-bahrain") {
+                            catbackimg = "B-Creme-and-Custards.jpg";
+                        }
+                        else if (url == "baking-powder-supplier-bahrain") {
+                            catbackimg = "B-Baking.jpg";
+                        }
+                        else if (url == "cookie-mixes-supplier-bahrain") {
+                            catbackimg = "B-Cookies.jpg";
+                        }
+                        else {
+                            catbackimg = "Sb2.jpg";
+                        }
+                      var imageUrl = "/Content/images/header/" + catbackimg;//"B-Roggi.jpg";
+                      $("#page-title").css("background-image", "url(" + imageUrl + ")");
+                      $("#h1Title").text(response[0].Title);
+                      $("#spanOneline").text(response[0].Oneline);
+                      $("#liCatname").text(response[0].Catname);
+                      $("#PcatDesc").text(response[0].Catdesc);
+                        ////_divPartialView.style = "";
+                        ////$("#divWaiting").addClass("display-none");
+                        //$("#shop").html(response).removeAttr("style");
+                        //$("#shop .product").removeAttr("style");
+
+
+                    }
+            });
+
+        }
+           function activecat(url) {
+               ;debugger
+
+               //var url = $(location).attr('href'),
+                   //parts = url.split("/"),
+                   last_part = url;//parts[parts.length - 1];
+            //alert(last_part);
+
+            var c = $(".sidebar ul li").length;
+
+            for (var i = 1; i <= c; i++) {
+
+                var ele = $(".sidebar ul li:nth-child(" + i + ") a");
+                //ele = ele[0].href;
+                var href = ele[0].href.split("/"),
+                    last_seg = href[href.length - 1];
+
+
+                if (last_seg == last_part){
+                    $(".sidebar ul li:nth-child(" + i + ")").addClass("active");
+                }
+                else {
+                    $(".sidebar ul li:nth-child(" + i + ")").removeClass();
+
+                }
+            }
+        }
+    </script>
+}
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/header/@catbackimg'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1 id="h1Title">@ViewContext.ViewBag.Title</h1>
+        <span id="spanOneline">@ViewContext.ViewBag.Oneline</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="liCatname">@ViewContext.ViewBag.Catname</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+        ============================================= -->
+<section id="content">
+
+    <div class="content-wrap pt-5">
+
+        <div class="container clearfix">
+            @if (Convert.ToString(ViewContext.ViewBag.Catdesc) != "")
+            {
+                <div class="cat-des"><p id="PcatDesc">@ViewContext.ViewBag.Catdesc</p></div>
+            }
+            @*<div class="cat-des"><p>@ViewContext.ViewBag.Catdesc</p></div>*@
+            <!-- Post Content
+            ============================================= -->
+            <div class="postcontent nobottommargin col_last">
+                @*We offer wide range of bread essentials to supplement your high quality bread baking needs. This range includes ingredients such as Maize decor, Rustic decor, Flax seeds, Sunflower seeds, Sesame seeds, oats flakes and many more. We source only the highest quality ingredients that clear our stringent quality and consistency standards for optimum baking.*@
+
+                <!-- Shop
+                ============================================= -->
+                <div id="shop" class="shop product-3 grid-container clearfix" data-layout="fitRows">
+
+
+
+                </div><!-- #shop end -->
+
+            </div><!-- .postcontent end -->
+            <!-- Sidebar
+            ============================================= -->
+            <div class="sidebar nobottommargin">
+                <div class="sidebar-widgets-wrap">
+                    <div id="catcher">
+                    </div>
+                    <div id="cat-side" class="widget widget_links clearfix">
+
+                        <h4>Shop Categories </h4>
+                        <ul>
+                            @foreach (var item in ViewData["catli"] as List<CommonStruct>)
+                            {
+                                string title = "";
+                                string img = "http://b2b.swissbake.ch/" + Convert.ToString(item.PrdCategory_Image);
+                                var tcount = item.PrdCategory_Name.ToString().Length;
+                                if (tcount > 35)
+                                {
+                                    title = @Convert.ToString(item.PrdCategory_Name).Substring(0, 35) + "...";
+                                }
+                                else
+                                {
+                                    title = @Convert.ToString(item.PrdCategory_Name);
+                                }
+
+                                @*<li><a href="@item.PrdCategory_Seourl" onclick="return get('@item.PrdCategory_Seourl','@Session["U_Id"]');">@title</a></li>*@
+                                <li><a href="@item.PrdCategory_Seourl" onclick="return get('@item.PrdCategory_Seourl');">@title</a></li>
+
+                                @*<li><a href="@item.PrdCategory_Seourl" >@title</a></li>*@
+                            }
+
+                            @*<li><a href="#">High Fibre Bread</a></li>
+                                <li><a href="#">Multigrain Bread</a></li>
+                                <li><a href="#">German Rye Bread</a></li>
+                                <li><a href="#">Baguettes</a></li>
+                                <li><a href="#">Speciality Bread Varieties</a></li>
+                                <li><a href="#">Morning Soft Bread</a></li>
+                                <li><a href="#">Health & Wellness Bread</a></li>
+                                <li><a href="#">Pizza Ingredients</a></li>
+                                <li><a href="#">Bread Decors</a></li>
+                                <li><a href="#">Bread Improvers & Concentrates</a></li>
+                                <li><a href="#">Speciality Flours</a></li>
+                                <li><a href="#">Confectionery Mixes</a></li>
+                                <li><a href="#">Gluten Free</a></li>
+                                <li><a href="#">Creams & Custards</a></li>
+                                <li><a href="#">Cake Essentials</a></li>
+                                <li><a href="#">Vegetarian Confectionery</a></li>
+                                <li><a href="#">Baking Powder</a></li>*@
+                        </ul>
+
+                    </div>
+
+                    @*<div class="widget clearfix">
+
+                            <h4>Recent Items</h4>
+                            <div id="post-list-footer">
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="~/Content/images/others/rye-bread.png" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD29.99</li><li><del>BHD150.49</del></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="~/Content/images/others/Churro.png" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD23.99</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="~/Content/images/others/cup-cake.png" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD19.99</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="widget clearfix">
+
+                            <h4>Last Viewed Items</h4>
+                            <div class="widget-last-view">
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD15</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD19</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD34.99</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="widget clearfix">
+
+                            <h4>Popular Items</h4>
+                            <div id="Popular-item">
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD21</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD19.99</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="Image"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">ALL PURPOSE GLUTEN FREE CAKE MIX</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li class="color">BHD14.99</li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>*@
+
+
+                </div>
+            </div><!-- .sidebar end -->
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

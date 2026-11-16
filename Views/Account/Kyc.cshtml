@@ -1,0 +1,341 @@
+﻿@using System.Data;
+@model DataSet
+@{
+    ViewBag.Title = "KYC Documents";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+<style>
+    .jconfirm .jconfirm-box div.jconfirm-content-pane {
+        margin-bottom: 0;
+    }
+
+    .jconfirm-closeIcon {
+        display: none !important;
+    }
+
+    label.error {
+        position: absolute;
+        left: 10px;
+        bottom: -22px;
+        font-size: 12px;
+    }
+    @@media screen and (max-width:374px){
+        label.error {
+            bottom: -20px;
+            font-size:10.5px;
+        }
+    }
+
+</style>
+@*<link href="~/Content/css/custom3.css" rel="stylesheet" />*@
+@Styles.Render("~/Content/Rev")
+}
+
+@section foot{
+    @*<script src="~/Content/js/account.js"></script>*@
+
+
+<script src="~/Content/js/register/jquery.validate.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $(".form-control-file").on("change", function () {
+            
+            if (this.value != "" && this.value != undefined){
+                $(this).parent().parent().children("a").addClass("d-none");
+                $(this).parent().parent().children("label.text-danger").remove();
+                //$(this.parentNode.parentNode.children("")).remove();
+                $('<label class="text-success" title="Selected"><i class="fas fa-check-circle"></i></label>').appendTo(this.parentNode.parentNode);
+                //$(this).parent().insertAfter();
+            }
+            else {
+                $(this).parent().parent().children("a").addClass("d-none");
+                $(this).parent().parent().children("label.text-success").remove();
+                $('<label class="text-danger" title="Selected"><i class="fas fa-times-circle"></i></label>').appendTo(this.parentNode.parentNode);
+            }
+
+        });
+
+
+
+        // Code for the Validator
+        var form = $('form');
+        var error = $('.form-group', form);
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                if (re.test(value)){
+
+                }
+                else {
+                    $("label.text-success").remove();
+                }
+                return this.optional(element) || re.test(value);
+            },
+            "This is invalid"
+        );
+
+
+
+        var $validator = $('form').validate({
+            //doNotHideMessage: true, //this option enables to show the error/success messages on tab switch.
+            //errorElement: 'span', //default input error message container
+            //errorClass: 'error-block1', // default input error message class
+            //focusInvalid: false, // do not focus the last invalid input
+            rules: {
+                file1: {
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                },
+                file2: {
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                },
+                file3: {
+                    regex: /\.(docx|doc|pdf|jpg)$/
+                }
+
+            },
+
+            messages: {
+                
+                file1: {
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                },
+                file2: {
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                },
+                file3: {
+                    regex: "Please upload (DOCX | PDF | DOC | JPG)"
+                }
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "typeoption") { // for uniform radio buttons, insert the after the given container
+                    error.insertAfter("#show-error");
+                }
+                //else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
+                //    error.insertAfter("#form_payment_error");
+                //}
+                else {
+                    error.insertAfter(element.parent()); // for other inputs, just perform default behavior
+                }
+                //element.parent().removeClass("btn-file");
+                //error.insertAfter(element.parent().parent().children("a"));
+                //setTimeout(function () {
+                //    element.parent().addClass("btn-file");
+                //},10);
+                
+                
+            },
+            //success: function (label) {
+            //    if (label.attr("for") == "typeoption") { // for checkboxes and radio buttons, no need to show OK icon
+            //        label.remove(); // remove error label here
+            //    }
+            //},
+            submitHandler: function (form) {
+                var $valid = $('form').valid();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+
+                    return false;
+                }
+                else {
+                    
+                    var cont = 0;
+                    for (var i = 0; i <= $(".form-control-file").length; i++){
+                        if ($(".form-control-file")(i).val() != ""){
+                            cont = cont + 1
+                        }
+                        
+                    }
+
+                    if (cont > 0){
+                        $("button[type=submit]").text("Saving...").attr("disabled", "disabled");
+                        $("button[type=reset]").attr("disabled", "disabled");
+                    //angular.element(document.getElementById('content')).scope().submitForm();
+                    //angular.element(document.getElementById('content')).scope().$apply();
+                    form.submit()
+                    }
+                    else {
+                        $.confirm({
+                            backgroundDismiss: false,
+                            title: false,
+                            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">Please choose atleast 1 file.</label></div>',
+                            buttons: false
+
+                        });
+                        setTimeout(function () {
+                            $('.jconfirm-closeIcon').click();
+                        }, 5000);
+                    }
+                    
+                }
+                //add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
+            }
+        });
+
+        @Html.Raw(ViewBag.error)
+
+
+    });
+
+
+    function sucess() {
+        $.confirm({
+            backgroundDismiss: false,
+            title: false,
+            content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">The document updated successfully.</label></div>',
+            buttons: false
+        });
+        setTimeout(function () {
+            $('.jconfirm-closeIcon').click();
+        }, 5000);
+    }
+
+</script>
+<script src="~/Content/js/account.js"></script>
+@Scripts.Render("~/bundles/Rev")
+
+
+}
+
+@Html.Partial("_AccountMenu")
+
+@if (Model?.Tables["Tb2"]?.Rows!=null&&Model.Tables["Tb2"].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables["Tb2"].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                    
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model?.Tables["Tb2"]?.Rows?.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-lg-1">This section allows you to update your KYC related document.</p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="content">
+
+        <div class="content-wrap">
+
+            <div class="container clearfix">
+
+                <div class="row clearfix">
+
+                    <div class="col-md-8 m-auto pr-0">
+
+                        <div class="heading-block">
+                            <h4>UPLOAD KYC DOCUMENTS</h4>
+                        </div>
+
+                        @using (Html.BeginForm("Kyc", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+
+                            
+                            <div class="form-group row position-relative mb-4">
+                                <label for="" class="col-12">User Photo ID  :<br /><small>(We accept Personal PAN Card or AADHAR Card)</small></label>
+                                @*@(Model.Tables[0].Rows[0]["Doc_Id"].ToString() == "" ? "" : Model.Tables[0].Rows[0]["Doc_Id"])*@
+                                @Html.Hidden("doc1", Model.Tables[0].Rows[2]["Doc_Id"])
+                                @Html.Hidden("docmg1", Model.Tables[0].Rows[2]["Doc_Path"])
+                                <label class="btn-file col-3">
+                                    <span style="position: absolute;left: 0;width:100%;z-index: 9;">ATTACH</span>
+                                    <input type="file" class="form-control-file op-0" id="file1" name="file1">
+                                </label>
+                                @if (Model.Tables[0].Rows[2]["Doc_Path"].ToString() != "") { <a href="@Model.Tables[0].Rows[2]["Doc_Path"].ToString()" target="_blank" class="text-dark mr-lg-3" title="View"><i class="fa fa-file" aria-hidden="true"></i></a> }
+                            </div>
+                            <div class="form-group row position-relative mb-4">
+                                <label for="" class="col-12">Company Proof  :<br /><small>(We accept MOA, AOA or VAT registration certificate)</small></label>
+                                @Html.Hidden("doc2", Model.Tables[0].Rows[1]["Doc_Id"])
+                                @Html.Hidden("docmg2", Model.Tables[0].Rows[1]["Doc_Path"])
+                                <label class="btn-file col-3">
+                                    <span style="position: absolute;left: 0;width:100%;z-index: 9;">ATTACH</span>
+                                    <input type="file" class="form-control-file op-0" id="file2" name="file2">
+                                </label>
+                                @if (Model.Tables[0].Rows[1]["Doc_Path"].ToString() != "") { <a href="@Model.Tables[0].Rows[1]["Doc_Path"].ToString()" target="_blank" class="text-dark mr-lg-3" title="View"><i class="fa fa-file" aria-hidden="true"></i></a> }
+                            </div>
+                            <div class="form-group row position-relative mb-4">
+                                <label for="" class="col-12">Owner/Promoter/Proprietor Address Proof  :<br /><small>(We accept AADHAR CARD for any one owner or director)</small></label>
+                                @Html.Hidden("doc3", Model.Tables[0].Rows[0]["Doc_Id"])
+                                @Html.Hidden("docmg3", Model.Tables[0].Rows[0]["Doc_Path"])
+                                <label class="btn-file col-3">
+                                    <span style="position: absolute;left: 0;width:100%; z-index: 9;">ATTACH</span>
+                                    <input type="file" class="form-control-file op-0" id="file3" name="file3">
+                                </label>
+                                @if (Model.Tables[0].Rows[0]["Doc_Path"].ToString() != "") { <a href="@Model.Tables[0].Rows[0]["Doc_Path"].ToString()" target="_blank" class="text-dark mr-lg-3" title="View"><i class="fa fa-file" aria-hidden="true"></i></a> }
+                                
+                            </div>
+
+                            <div class="col_full nobottommargin">
+                                <button type="submit" class="button  nomargin apply save" value="apply">Save</button>
+                                @*<a href="/account/index" class="button  nomargin cancel" value="Cancel">Cancel</a>*@
+                            </div>
+
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>

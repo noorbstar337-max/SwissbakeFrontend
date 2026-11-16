@@ -1,0 +1,141 @@
+﻿@*using System.Web.HttpRequestBase;*@
+@using System.Web.Http;
+
+@{
+    ViewBag.Title = "Thank You";
+}
+
+
+@section head{
+    <style>
+        .heading-block span {
+            font-size: 18px !important;
+        }
+    </style>
+}
+
+@section scripts{
+    @*<script>
+            $(document).ready(function () {
+                var s = 10;
+                setInterval(function () {
+                    $("#secs").html(s);
+                    if (s == 0){
+                        location.href = "/";
+                    }
+                    s--;
+
+                }, 1000)
+            })
+        </script>*@
+    @*<script>
+            window.onload = function () {
+                var returnUrl = localStorage.getItem("returnPage");
+                if (returnUrl) {
+                    setTimeout(function () {
+                        localStorage.removeItem("returnPage");
+                        window.location.href = returnUrl;
+                    }, 5000); // Redirect after 5 seconds
+                }
+            };
+        </script>*@
+    <script>
+        $(document).ready(function () {
+            var s = 10;
+            var returnUrl = localStorage.getItem("returnPage") || "/"; // Default to home if not found
+
+            var timer = setInterval(function () {
+                $("#secs").html(s);
+                if (s == 0) {
+                    localStorage.removeItem("returnPage");
+                    window.location.href = returnUrl;
+                    clearInterval(timer);
+                }
+                s--;
+            }, 1000);
+        });
+    </script>
+
+
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>Thank You!</h1>
+        @*<ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Thank</li>
+            </ol>*@
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+============================================= -->
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="col_one_third nobottommargin">
+                <div class=" center">
+                    <img src="~/Content/images/TH1.jpg" />
+                </div>
+            </div>
+
+            <div class="col_two_third -link-red nobottommargin col_last">
+
+                <div class="heading-block nobottomborder">
+                    <h1>Thank You!</h1><br />
+                    <p>
+
+                        @if (!string.IsNullOrEmpty(Request.Params["f"]) && Request.Params["f"].Length > 0)
+                        {
+                            <span>Congratulations !! You are successfully registered. <br /> You can now login using your credentials<br /></span>
+                        }
+                        else
+                        {
+                            <span> We have received your request. Our team shall contact you shortly.<br /></span>
+                        }
+
+
+                        Need further assistance? Contact us at support@swissbake.bh or WhatsApp us on +973 33550511
+                    </p>
+                    @*<h4>We can't seem to find the page you were looking for.</h4>*@
+                    <small>You will be redirected to the home page in&nbsp; <b id="secs">10</b> &nbsp;seconds.</small>
+                    <span>Here are some helpful links:</span>
+                </div>
+                <div class="line m-0"></div>
+                <div class="col_one_third widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col_one_third widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/category">Product</a></li>
+                        <li><a href="/blogcategory/All">Blog</a></li>
+                        <li><a href="/recipe">Recipe</a></li>
+                    </ul>
+                </div>
+
+                <div class="col_one_third col_last widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/faq">Faq</a></li>
+                        @*<li><a href="/career">Career</a></li>*@
+                        <li><a href="/Swissbake-Brochure-Bahrain.pdf">Company Catalogue</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

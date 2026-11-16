@@ -1,0 +1,276 @@
+﻿@using SwissbakeIn.Entities;
+@using SwissbakeIn.App_Start;
+@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "PAYMENT HISTORY";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    <link href="~/Content/css/components/bs-datatable.css" rel="stylesheet" />
+    @Styles.Render("~/Content/Rev")
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/components/bs-datatable.js"></script>
+    @Scripts.Render("~/bundles/Rev")
+    <script>
+        var revapi;
+
+
+        $(document).ready(function () {
+            $('#datatable1').dataTable({
+                "aaSorting": [],
+                //"order": [[0, "desc"]],
+                "oLanguage": {
+                    "sEmptyTable": "No record found"
+                }
+            });
+            //getOrder($("select[name=Year]").val(), $("#type").val());
+            $('select[name=Year]').change(function () {
+                $('button[name=yearsubmit]').click();
+                //getOrder($("select[name=Year]").val(), $("#type").val());
+            });
+
+
+
+            revapi = $("#rev_slider").revolution({
+                sliderType: "standard",
+                sliderLayout: "fullwidth",
+                delay: 5000,
+                navigation: {
+                    arrows: { enable: true }
+                },
+                gridwidth: 1230,
+                gridheight: 300
+            });
+            revapi = $("#rev_slider2").revolution({
+                sliderType: "standard",
+                sliderLayout: "fullwidth",
+                delay: 5000,
+                navigation: {
+                    arrows: { enable: true }
+                },
+                gridwidth: 1230,
+                gridheight: 300
+            });
+
+            var thcount = $(".table thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 1; i < thcount + 1; i++) {
+                var th = $(".table thead th:nth-child(" + i + ")").text();
+                if (th != '') {
+                    styl = styl + ".table tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl + "</style>");
+
+
+
+        });
+
+    </script>
+
+}
+
+@Html.Partial("_AccountMenu")
+
+
+<!-- Content
+        ============================================= -->
+@if (Model.Tables[1].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables[1].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+                    <!-- SLIDE  -->
+                    @*<li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img6.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>
+                        <!-- SLIDE  -->
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <img src="~/content/images/sbimg/img7.png" alt="" width="1920" height="1280">
+                            <!-- LAYER NR. 1 -->
+                            <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                            data-x="left" data-hoffset="80"
+                            data-y="top" data-voffset="450"
+                            data-whitespace="normal"
+                            data-transform_idle="o:1;"
+                            data-transform_in="o:0"
+                            data-transform_out="o:0"
+                            data-start="500">
+
+                            </div>
+                        </li>*@
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model.Tables[1].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-lg-1">This page will show you details of all the payments made against past purchases.</p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="row" style="padding:15px">
+                <div class="heading-block col-md-9">
+                    <h4>@ViewBag.Title</h4>
+                </div>
+                @*<div class="col-md-2 cryr">
+                        <span class="year">Year</span>
+                    </div>*@
+
+                @*<div class="col-md-2 yrdp">
+                        <div class="form-group">
+                            <select class="form-control" id="">
+                                <option>2018</option>
+                                <option>2017</option>
+                                <option>2016</option>
+                                <option>2015</option>
+                                <option>2014</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                <div class="col-md-3">
+                    <span class="year cryr">Year</span>
+                    <div class="form-group yrdp">
+                        <form action="" method="post">
+                            <input type="text" id="type" style="display:none;" value="@ViewBag.mode" />
+                            <select class="form-control" id="" name="Year">
+                                @foreach (var item in ViewData["Year"] as List<CommonStruct>)
+                                {
+                                    if (ViewBag.sltyear == item.Datetime)
+                                    {
+                                        <option selected vlaue="@item.Datetime">@item.Datetime</option>
+                                    }
+                                    else if (item.Datetime == @DateTime.Now.Year.ToString())
+                                    {
+                                        <option selected vlaue="@item.Datetime">@item.Datetime</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Datetime">@item.Datetime</option>
+                                    }
+
+                                }
+                                @*<option>2018</option>
+                                    <option>2017</option>
+                                    <option>2016</option>
+                                    <option>2015</option>
+                                    <option>2014</option>*@
+                            </select>
+                            <button name="yearsubmit" type="submit" class="d-none"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive myordertbl">
+                <table id="datatable1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Payment Date</th>
+                            <th>Amount</th>
+                            <th>Payment Mode</th>
+                            @*<th>Pay Now</th>*@
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Tables.Count > 0)
+                        {
+                            foreach (DataRow row in Model.Tables[0].Rows)
+                            {
+                                <tr>
+                                    <td>@row["Payment_Date"]</td>
+                                    <td>BHD @Helper.InPrice(Convert.ToDouble(row["Payment_Amount"]))</td>
+                                    <td>@row["otherinfo"]</td>
+                                    @*<td><button type="submit" class="paynow">Pay Now!</button></td>*@
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

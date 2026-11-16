@@ -1,0 +1,1229 @@
+﻿@using System.Data;
+@using SwissbakeIn.App_Start;
+@model DataSet
+@{
+    ViewBag.Title = "Cart";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet" />
+    <style>
+        .jconfirm .jconfirm-box div.jconfirm-content-pane {
+            margin-bottom: 0;
+        }
+
+        .jconfirm .jconfirm-box .jconfirm-buttons button {
+            border-radius: 0px;
+        }
+        /*.jconfirm-closeIcon {
+            display: none !important;
+        } cart pan - VAT popup close icon  */
+
+        label.error {
+            font-size: 10px;
+        }
+
+        .cart_tbl tbody td:nth-child(6):before {
+            line-height: 2.7;
+        }
+
+
+        @@media screen and (max-width:660px) {
+            #btn-Credit {
+                width: 100%;
+                margin: 0 0 2rem 0;
+            }
+
+            .checkoutbtn {
+                width: 100%;
+            }
+        }
+    </style>
+    <style>
+        /* For Firefox */
+        input[type='number'] {
+            -moz-appearance: textfield;
+        }
+        /* Webkit browsers like Safari and Chrome */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+
+
+
+        @@media screen and (max-width:640px) {
+            .table-responsive tbody tr td {
+                padding-left: 100px !important;
+            }
+
+            .cart_tbl tbody td:nth-child(1):before {
+                content: '\01F69A';
+                color: red;
+                filter: grayscale(1);
+            }
+        }
+    </style>
+}
+
+@section foot{
+
+    <script src="~/Content/js/register/jquery.validate.min.js"></script>
+    <script src="~/Content/js/bind/cart.js"></script>
+    <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>
+    @*<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    @*<script src="~/Content/js/jspdf.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+
+            $(function () {
+                var dtToday = new Date();
+
+                var month = dtToday.getMonth() + 1;
+                var day = dtToday.getDate();
+                var year = dtToday.getFullYear();
+                if (month < 10)
+                    month = '0' + month.toString();
+                if (day < 10)
+                    day = '0' + day.toString();
+
+                var minDate = year + '-' + month + '-' + day;
+                $('#PODate').val(minDate);
+
+
+                $('#PODate').attr('min', minDate);
+            });
+
+            $("#copypo").click(function () {
+
+                //  $("p").clone().appendTo("body");
+                var date = $('#PODate').val();
+                var num = $('#PONum').val();
+                if ($('#PODate').val() == '' || $('#PONum').val() == '') {
+                    alert('Please fill all fields.')
+                }
+                else {
+
+
+                    alert('Please allow pop up and copy the content of Purchase order from pop up and email us at orders@swissbake.ch');
+                    var printContents = $("#POMain").clone();
+                    var myWindow = window.open("", "popup", "width=1000,height=600,scrollbars=yes,resizable=yes," +
+                        "toolbar=no,directories=no,location=no,menubar=no,status=no,left=0,top=0");
+                    var doc = myWindow.document;
+                    doc.open();
+                    ////  $(printContents).find(".tCheckboxes").remove();
+                    //  var button = "<input type='button' id='btnPrint' value='Print' style='float: right;' onclick='window.print();'/>";
+                    //   $(printContents).append($(button));
+                    doc.write($(printContents).html());
+                    doc.close();
+                }
+            });
+
+
+            @Html.Raw(ViewBag.error)
+
+            var thcount = $(".cart_tbl thead th").length;
+
+            var styl = "<style>"
+
+            for (var i = 2; i < thcount+1; i++){
+                var th = $(".cart_tbl thead th:nth-child(" + i + ")").text();
+                if (th != ''){
+                    styl = styl + ".cart_tbl tbody td:nth-child(" + i + "):before{content:'" + th + "'} ";
+                }
+
+            }
+
+            $("head").append(styl+"</style>");
+
+
+
+
+
+        });
+
+        function sucess() {
+            $.confirm({
+                backgroundDismiss: false,
+                title: false,
+                content: '<div class="checkbox" style="text-align:center;"><label style="font-size: 15px;">We have received your request, we will get back to you soon.</label></div>',
+                buttons: false
+            });
+            setTimeout(function () {
+                $('.jconfirm-closeIcon').click();
+            }, 5000);
+        }
+
+
+    </script>
+    <script>
+
+        //function DownloadPO() {
+        //    html2canvas(document.getElementById("POMain"), {
+        //        onrendered: function (canvas) {
+
+        //            var img = canvas.toDataURL("image/jpeg");
+        //            var doc = new jsPDF();
+        //            doc.addImage(img, 'JPEG', 0, 0);
+        //            doc.save('Sample PO.pdf');
+
+        //        }
+        //    });
+        //}
+
+
+
+    </script>
+
+
+}
+
+
+@section Req{
+    <input type="text" id="cont" class="d-none" />
+    <div class="side-req d-none">
+        <div class="widget clearfix">
+
+            <h4>Request for sample</h4>
+            <div class="mt-3">
+
+                <form id="reqest-form" action="Request" method="post">
+                    <input name="redirect" id="redirect" class="d-none" value="@Request.Url.AbsolutePath" />
+                    <div class="row">
+                       
+                    </div>
+                    <button type="submit" class="btn bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</button>
+                </form>
+
+                @*<a href="/login" class="bg-success pt-2 pb-2 pl-5 pr-5 text-white">Submit Request</a>*@
+            </div>
+        </div>
+
+    </div>
+
+
+
+}
+
+
+
+
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>My Cart</h1>
+        <span>
+            This page shows you all the items that are currently added to your cart. You can modify your cart items
+            and place your order from here.
+        </span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">My Cart</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+============================================= -->
+<section id="content">
+    @if (Session["OrderProduct"] == null)
+    {
+        <div class="mt-3 text-center">
+            <img src="~/content/images/others/empty-cart.png" width="500" /><br />
+            <h5 class="mb-5">Your shopping cart is empty!</h5>
+
+        </div>
+    }
+    else
+    {
+
+
+
+
+        <div class="content-wrap" id="cart" ng-controller="cart">
+
+            <div class="container clearfix">
+                <div class="row">
+                    <div class="col-md-12 text-uppercase"><div class="order-summ">Order Summary</div></div>
+                    @*<div class="col-md-4 text-center text-md-left">
+                            <div class="pt-2 pb-2">
+                                <a href="tel:+917447331888"><b class="p-2 bg-light primary-color text-center">ORDER <i class="icon-call"></i> : +91 744 733 1888</b></a>
+                            </div>
+                        </div>*@
+                    @*<div class="col-md-4 offset-md-4">
+                            <div class="pt-2 pb-2 text-center text-md-right">
+                                <button type="button" id="btn-whtsap" onclick="Whatsapp();"><b class="p-2 bg-success text-white text-center"><i class="fab fa-whatsapp mr-1"></i> ORDER ON WHATSAPP</b></button>
+                            </div>
+                        </div>*@
+                </div>
+                <div class="table-responsive cart_tbl">
+                    <table class="table cart text-center">
+                        <thead>
+                            <tr>
+                                <th class="cart-product-delstatus">
+                                    <i class="fas fa-truck"></i>
+                                </th>
+                                <th class="cart-product-proname">Product</th>
+                                <th class="cart-product-code">Code</th>
+                                <th class="cart-product-sku">SKU</th>
+                                <th class="cart-product-rkg">Rate/Kg</th>
+                                <th class="cart-product-nop">No. of Pack</th>
+                                <th class="cart-product-kgs">Kgs</th>
+                                <th class="cart-product-gst">VAT</th>
+                                <th class="cart-product-amt">Amount</th>
+                                <th class="cart-product-del">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cart_item" ng-repeat="S in cart">
+                                <td class="cart-product">
+                                    @*<div class="cart-product" ng-if="StateName =='Maharashtra'  || StateName ==  'Gujarat' || StateName ==  'Goa' || StateName ==  'Telangana'">
+
+                                            <img  ng-src="{{(S.Qty > S.Etcstring2) ? '/Content/images/delay.png' : '/Content/images/pending.png'}}" />
+
+                                        </div>
+                                        <div class="cart-product" ng-if="StateName ==  'Punjab' || StateName ==  'Haryana' || StateName ==  'Delhi' || StateName ==  'Uttar Pradesh'">
+
+                                            <img ng-src="{{(S.Qty > S.Etcstring3) ? '/Content/images/delay.png' : '/Content/images/pending.png'}}" />
+
+                                        </div>
+                                        <div class="cart-product" ng-if="StateName <>'Maharashtra'  || StateName <>  'Gujarat' || StateName <>  'Goa' || StateName <>  'Telangana' || StateName <>  'Punjab' || StateName <>  'Haryana' || StateName <>  'Delhi' || StateName <>  'Uttar Pradesh'">
+
+                                            <img src="~/Content/images/delay.png" />
+
+                                        </div>*@
+
+                                    <img ng-if="StateName =='Maharashtra'  || StateName ==  'Gujarat' || StateName ==  'Goa' || StateName ==  'Telangana'" ng-src="{{(S.Qty > S.Etcstring2) ? '/Content/images/delay.png' : '/Content/images/pending.png'}}" />
+                                    <img ng-if="StateName ==  'Punjab' || StateName ==  'Haryana' || StateName ==  'Delhi' || StateName ==  'Uttar Pradesh'" ng-src="{{(S.Qty > S.Etcstring3) ? '/Content/images/delay.png' : '/Content/images/pending.png'}}" />
+                                    <img ng-if="StateName !='Maharashtra'  && StateName !=  'Gujarat' && StateName !=  'Goa' && StateName !=  'Telangana' && StateName !=  'Punjab' && StateName !=  'Haryana' && StateName !=  'Delhi' && StateName !=  'Uttar Pradesh'" ng-src="~/Content/images/delay.png" />
+                                    @*<img ng-if="StateName =='Other'" ng-src="~/Content/images/delay.png" />*@
+                                </td>
+                                <td class="cart-proname">
+                                    <a href="{{S.href}}">{{S.Product_Name}}</a>
+                                </td>
+
+                                <td class="cart-code">
+                                    <span>{{S.Product_Code}}</span>
+                                </td>
+
+                                <td class="cart-sku">
+                                    <span>{{S.unit}}</span>
+                                </td>
+
+                                <td class="cart-rkg">
+                                    <span>BHD {{S.Product_Rate | number : 3}}</span>
+                                </td>
+
+
+                                <td class="cart-nop">
+                                    <input type="number" min="1" max="999" class="pack-box" @*maxlength="3"*@ ng-maxlength="3" ng-disabled="S.Product_linkas  == 'Sample'" @*ng-model="pack" ng-change="maketotal()"*@ ng-model="S.Qty" ng-blur="onChange(cart,S)" @*ng-keyup="onChange(cart,S)"*@ ng-value="{{S.Qty | number:0}}" onkeypress="return Qtynumkey(this);" />
+
+                                </td>
+
+                                <td class="cart-kgs" data-weight="{{S.TotalWeight}}" data-categoryid="{{S.Product_Category_Id}}">
+                                    <span>{{S.TotalWeight >= 1 ? (S.TotalWeight|number:2) : (S.TotalWeight*1000|number:2)}} {{S.TotalWeight >= 1 ? "KG" : "GM"}}</span>
+                                </td>
+
+                                <td class="cart-gst">
+                                    <span>BHD {{S.vatinr | number : 3}}</span>
+                                    <span>({{S.vatper | number : 3}}%)</span>
+
+                                </td>
+
+                                <td class="cart-amt">
+                                    <span>BHD {{S.Amount | number : 3}}</span>
+                                </td>
+
+                                <td class="cart-del">
+                                    <a class="remove" title="Remove this item"><i class="icon-trash2 text-danger" style="cursor:pointer;" ng-click="removeRow(S.Product_Id)"></i></a>
+                                    @*<input type="button" value="X" class="btn btn-xs btn-danger" ng-click="removeRow(S.Product_Id)">*@
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                    <div class="border-light-gray"></div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-9 col-md-7">
+                        <div class="delline mt-lg-5 mt-md-3 m-2 p-2">
+                            <p class="m-0">
+                                Estimated Delivery Time: &nbsp; &nbsp; &nbsp;
+                                <span>
+                                    4 to 6 Working Days
+                                </span>&nbsp; &nbsp; &nbsp;
+                               
+                                <br />
+                                Your order may be dispatched in multiple parts, subject to stock of ordered products:
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-5">
+                        <table class="w-100">
+                            <tbody style="background: #e8e8e8;">
+                                <tr>
+                                    <td class="subtotal text-left p-2 pl-md-3"><strong>Sub Total</strong></td>
+                                    <td colspan="2" class="total_sub text-right p-2">BHD {{ getSTotal1 | number : 3}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="gsttotal text-left p-2 pl-md-3"><strong>VAT Total <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="VAT Total"></i></strong></td>
+                                    <td colspan="2" class="total_gst p-2 text-right">BHD {{ getVatTotal1 | number : 3}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="grandtotal text-left p-2 pl-md-3"><strong>Grand Total</strong></td>
+                                    <td colspan="2" class="total_grand p-2 text-right">BHD {{ getTotal1 | number : 3}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="border-light-gray"></div>
+                <div class="clear"></div>
+
+                <form id="orderform" action="/placeorder" method="post">
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="card events-meta">
+                                <div class="changeaddr">
+                                    <span>BILLING ADDRESS</span>
+                                    @*<button type="button" class="btn btn-primary changeaddrbtn" data-toggle="modal" data-target="#addresspopupmodel">Change</button>*@
+                                </div>
+                                <div class="card-body">
+                                    <ul class="portfolio-meta nobottommargin">
+                                        <li><span>{{fillbilladdr.CompName}}</span></li>
+                                        <li>
+                                            {{fillbilladdr.Address}},{{fillbilladdr.City}},{{fillbilladdr.State}}-{{fillbilladdr.Pin}}.
+                                        </li>
+                                        <li>{{fillbilladdr.CountryName}}</li>
+                                        <li>Phone no. {{fillbilladdr.Telephone}}</li>
+                                        <li>VAT : {{fillbilladdr.Gst}}</li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card events-meta">
+                                <div class="changeaddr">
+                                    <span>SHIPPING ADDRESS</span>
+                                    <button type="button" class="btn btn-primary changeaddrbtn" data-toggle="modal" data-target="#addresspopupmodel">Change</button>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="portfolio-meta nobottommargin">
+                                        <li><span>{{filladdr.CompName}}</span></li>
+                                        <li>
+                                            {{filladdr.Address}},{{filladdr.City}},{{filladdr.State}}-{{filladdr.Pin}}.
+                                        </li>
+                                        <li>{{filladdr.CountryName}}</li>
+                                        <li>Phone no. {{filladdr.Telephone}}</li>
+                                        <li>VAT : {{filladdr.Gst}}</li>
+
+
+                                        @*<li class="w-75 font-weight-bold">
+                                                {{A.CompName}}
+                                            </li>
+                                            <li>
+                                                {{A.Address}},{{A.City}}-{{A.Pin}}.
+                                            </li>
+                                            <li>{{A.Country}}</li>
+                                            <li>{{A.Telephone}}</li>
+                                            <li>{{A.Gst}}</li>*@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 comments-cart">
+
+                            @*<b>Order instructions / Comments (optional)</b>*@
+                            <textarea rows="1" name="ODComment" class="w-100 mt-2 p-2" placeholder="Order instructions / Comments (optional)"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- p style="color:#d70002; text-align:justify; margin-bottom:0;">
+                                <small>
+                                    !! DISCLAIMER - TERMS OF SHIPMENT !!<br />
+                                    Please note that owing to the complications created in logistics within Bahrain as a result of the lockdown, we are not offering any assurance on the condition of delivered goods or the timeline of delivery. Goods will be shipped under sole risk and responsibility of the buyer. No returns, order cancellations, exchanges or refunds shall be entertained against this order.
+                                </small>
+                            </p-->
+                        </div>
+                        <div class="col-md-6">
+                            @*<div class="purchaseinput">
+                                    <div class="form-group">
+                                        <label for="">YOUR PURCHASE ORDER NO.(IF ANY)</label>
+                                        <input type="text" class="sm-form-control" id="txtpono" name="txtpono"  placeholder="">
+                                    </div>
+                                </div>*@
+
+                            <div class="mt-2 ">
+
+                                @if (Model.Tables[1].Rows.Count > 0)
+                                {
+                                    if (Convert.ToInt32(Model.Tables[1].Rows[0]["dueDays"]) <= 0)
+                                    {
+                                        if ((Model.Tables[1].Rows[0]["Acc_ApplyCredit"]).ToString() == "True")
+                                        {
+                                            <button type="button" id="btn-Credit" class="button m-lg-0 float-lg-left ">Apply for Credit</button>
+                                        }
+                                    }
+                                }
+                                <div class="float-lg-right">
+
+                                    <!--<div class="paymode mr-lg-2 float-lg-left">
+                                        <div class="form-group">-->
+                                    @*<label for="">MODE OF PAYMENT</label>*@
+                                    <!--<select class="sm-form-control" id="ddmodeofpayment" name="ddmodeofpayment" ng-model="payment" ng-init="payment='Online Payment'">
+                                                <option selected value="Online Payment">Online Payment</option>
+
+                                                if (Model.Tables[1].Rows.Count > 0)
+                                                {
+                                                    if (Convert.ToBoolean(Model.Tables[1].Rows[0]["Acc_ShowCheque"]) == true && 1 == 2)
+                                                    {
+                                                        <option ng-option value="Cheque">Cheque</option>
+                                                    }
+                                                    if (Convert.ToBoolean(Model.Tables[1].Rows[0]["Acc_BankTransfer"]) == true && 1 == 2)
+                                                    {
+                                                        <option ng-option value="Bank Transfer">Bank Transfer (NEFT/RTGS)</option>
+                                                    }
+
+
+                                                    if (Convert.ToInt32(Model.Tables[1].Rows[0]["dueDays"]) > 0)
+                                                    {
+                                                        <option ng-option value="Credit Account">Credit Account (Purchase Order)</option>
+
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                    <div class="proceedshop text-center float-lg-right">
+                                        <div class="">
+                                            @*<button type="button" id="req-quo" class="button notopmargin button-light float-lg-left 
+                                            side-panel-trigger m-0">Request Quote</button>*@
+                                            <button type="submit" class="button notopmargin float-lg-right checkoutbtn m-0">Place Order</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        @*<div class="col-md-12">
+                                <span class="float-lg-right">Place order & proceed for the payment.</span>
+                            </div>*@
+                    </div>
+                </form>
+                <div class="row mt-5" style="background: #efefef;padding: 25px 0;" ng-if="payment == 'Cheque' || payment == 'Bank Transfer'">
+                    <div class="col-md-12 bankdetails">
+                        <span style="color: #d70002;">Bank Details</span>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card events-meta nobgcolor">
+                                    <div class="card-body">
+                                        <ul class="portfolio-meta nobottommargin">
+                                            <li><span> Bank Name:</span>ICICI Bank</li>
+                                            <li><span>Account Name:</span>Swiss Bake Ingredients Pvt Ltd</li>
+                                            <li><span> Account No:</span>041405004504</li>
+                                            <li><span> IFSC code:</span>ICIC0000414</li>
+                                            <li><span> Branch:</span>Worli</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card events-meta nobgcolor">
+                                    <div class="card-body">
+                                        <ul class="portfolio-meta nobottommargin">
+                                            <li><span> Bank Name:</span>Kotak Mahindra Bank</li>
+                                            <li><span> Account Name:</span>Swiss Bake Ingredients Pvt Ltd</li>
+                                            <li><span> Account No:</span>7411221116</li>
+                                            <li><span> IFSC code:</span>KKBK0001348</li>
+                                            <li><span> Branch:</span>Mumbai central</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="instruction mt-5">
+
+
+                    <p>Your order will only be processed on receipt of payment. In case your requirement is urgent, kindly contact us on <a href="mailto:support@swissbake.bh"> support@swissbake.bh </a> or call us on +973 77990501</p>
+                </div>
+
+
+                @if (Model.Tables[2].Rows.Count > 0)
+                {
+
+                    <div class="line"></div>
+                    <div class="container mt-5">
+                        <div id="shop" class="col_full">
+
+                            <h4>RECOMMENDED PRODUCTS</h4>
+
+                            <div id="oc-product" class="shop relate-prod relproducts owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                                @foreach (DataRow row in Model.Tables[2].Rows)
+                                {
+                                    string title = "", onelinedesc = "";
+                                    var tcount = row["Product_Name"].ToString().Length;
+
+                                    if (tcount > 35)
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]);
+                                    }
+                                    var Ocount = row["Product_Usage"].ToString().Length;
+                                    if (Ocount > 35)
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                    }
+                                    <div class="oc-item">
+                                        @*<div class="product iproduct clearfix relate-product">
+                                            <div class="product-image" ng-class="{new :  @row["Product_New"].ToString() == 'True'  }" >*@
+                                        <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix relate-product new" : "product iproduct clearfix relate-product")">
+                                            <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+                                                @*{{S.TotalWeight >= 1 ? "KG" : "GM"}}*@
+
+
+                                                @*<a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                                <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })"><img src="@ViewBag.Domain@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>
+                                                @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                                <div class="product-overlay">
+                                                    @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                    @if (Session["U_Id"] == null)
+                                                    {
+                                                        <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product-desc center">
+
+
+                                                <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                                <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                                <div class="product-price">
+                                                    @if (Session["U_Id"] == null)
+                                                    {
+                                                        <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                        {
+                                                            if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                            {
+                                                                if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                                {
+
+                                                                    if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                    {
+                                                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                    else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                    {
+                                                                        <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                                                }
+
+
+
+                                                            }
+                                                            else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                            {
+                                                                <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                            }
+                                                            @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                                                }*@
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["Product_Rate"]))</ins> <span class="off d-none"></span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                            }*@
+                                                        @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                    }
+                                                </div>
+                                                <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+
+
+
+                @if (Model.Tables[3].Rows.Count > 0)
+                {
+                    <div class="line mt-3 mb-3"></div>
+                    <div class="container mt-5">
+                        <div id="shop" class="col_full">
+
+                            <h4>RECENTLY VIEWED PRODUCTS </h4>
+
+                            <div id="oc-product" class="shop relate-prod relproducts owl-carousel product-carousel carousel-widget" data-margin="30" data-pagi="false" data-autoplay="5000" data-items-xs="1" data-items-md="2" data-items-lg="3" data-items-xl="4">
+
+
+                                @foreach (DataRow row in Model.Tables[3].Rows)
+                                {
+                                    string title = "", onelinedesc = "";
+                                    var tcount = row["Product_Name"].ToString().Length;
+
+                                    if (tcount > 35)
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        title = @Convert.ToString(row["Product_Name"]);
+                                    }
+                                    var Ocount = row["Product_Usage"].ToString().Length;
+                                    if (Ocount > 35)
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]).Substring(0, 35) + "...";
+                                    }
+                                    else
+                                    {
+                                        onelinedesc = @Convert.ToString(row["Product_Usage"]);
+                                    }
+                                    <div class="oc-item">
+                                        @*<div class="product iproduct clearfix relate-product">
+                                            <div class="product-image" ng-class="{'new' :  @row["Product_New"].ToString() == 'True'  }">*@
+                                        <div class=" @(row["Product_New"].ToString() == "True" ? "product iproduct clearfix relate-product new" : "product iproduct clearfix relate-product")">
+                                            <div class=" @(Convert.ToInt32(row["Product_AccId"]) > 0 ? "product-image excl" : "product-image")">
+
+
+                                                @*<a href="#"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" alt="ALL PURPOSE GLUTEN FREE CAKE MIX"></a>*@
+                                                <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })"><img src="@ViewBag.Domain@row["Product_MainImage"]" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>
+                                                @*<a href="@Url.RouteUrl("detail", new { Curl = row["PrdCategory_Seourl"], Purl = row["Product_Seourl"] })"><img src="http://swissbake.bh/Admin/images/ProductShrtImg/241016072005CornBread_Small.jpg" title="@row["Product_Name"]" alt="@row["Product_Name"]"></a>*@
+
+
+                                                <div class="product-overlay">
+                                                    @*<a href="/detail" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>*@
+                                                    @if (Session["U_Id"] == null)
+                                                    {
+                                                        <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-info-circle"></i><span> Know More</span></a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })" class="add-to-cart"><i class="fas fa-shopping-bag"></i><span> Buy Now</span></a>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="product-desc center">
+
+
+                                                <div class="product-title"><h3><a href="@Url.RouteUrl("detail", new { Purl = row["Product_Seourl"] })">@title</a></h3></div>
+                                                <div class="grid-1-line-desc"><span>@onelinedesc</span></div>
+                                                <div class="product-price">
+                                                    @if (Session["U_Id"] == null)
+                                                    {
+                                                        <a href="/login" class="lg-fr-prcng"><i class="fas fa-lock"></i> &nbsp; Login for pricing</a>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        if (Convert.ToDouble(row["Discount_MinQty"]) == 0)
+                                                        {
+                                                            if (Convert.ToDouble(row["Discount_Discount"]) > 0)
+                                                            {
+                                                                if (Convert.ToDouble(row["Discount_Discount"]) >= Convert.ToDouble(row["DistDiscount_Discount"]) && Convert.ToDouble(row["DistDiscount_Discount"]) > 0)
+                                                                {
+
+                                                                    if (Convert.ToDouble(row["Discount_Discount"]) == Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                    {
+                                                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                    else if (Convert.ToDouble(row["Discount_Discount"]) > Convert.ToDouble(row["DistDiscount_Discount"]))
+                                                                    {
+                                                                        <del> BHD @Helper.InPrice(Convert.ToDouble(row["Distdiscounted_Rate"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row["maxprice"])) </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+
+                                                                }
+
+
+
+                                                            }
+                                                            else if (Convert.ToDouble(row["Discount_Discount"]) < 0)
+                                                            {
+                                                                <del> </del><text>&nbsp;&nbsp;</text> <ins>  BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                            }
+                                                            @*else if (Convert.ToDouble(row.DistDiscount_Discount) > 0)
+                                                                {
+                                                                    <del> BHD @Helper.InPrice(Convert.ToDouble(row.Distdiscounted_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.discounted_Rate))</ins> <span class="off d-none"></span>
+                                                                }*@
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["Product_Rate"]))</ins> <span class="off d-none"></span>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row["discounted_Rate"]))</ins> <span class="off d-none"></span>
+                                                        }
+                                                        @*if (Convert.ToDouble(row.Rangeprice) < Convert.ToDouble(row.Product_Rate))
+                                                            {
+                                                                <del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del><text>&nbsp;&nbsp;</text>  <ins>  BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.Rangeprice))</ins> <span class="off d-none"></span>
+                                                            }*@
+                                                        @*<del> BHD @Helper.InPrice(Convert.ToDouble(row.Product_Rate)) </del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>
+                                                            <del></del> <ins>BHD @Helper.InPrice(Convert.ToDouble(row.minprice))</ins> <span class="off d-none"></span>*@
+
+                                                    }
+                                                </div>
+                                                <div class="pro-sku"><small>@row["Packing_Packing"] | Code - @row["Product_Code"]</small></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                }
+                <div class="clear"></div>
+            </div>
+
+        </div>
+
+        <button type="button" class="btn btn-primary changeaddrbtn d-none" id="Po-button" data-toggle="modal" data-target="#po-modal" data-backdrop="static" data-keyboard="false">Change</button>
+
+        <div class="modal fade" id="po-modal" role="dialog" ng-controller="PO">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-title">Purchase Order Required</span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        @*<div class="row">
+                                <div class="col-md-6 text-center">
+                                    <span>Attach PO</span>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <span>Send Email PO</span>
+                                </div>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form action="" method="post" id="PO-Form">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2" style="border-right:1px solid #e5e5e5;">
+                                            <span class="float-left mr-1 ml-2">Note :</span>
+                                            @*<small class="text-danger float-left" style="width:94%"> Attach your own P.O. OR Copy the content shown below and paste it in your compose email window. Send below content to orders@swissbake.ch with Subject line that includes your company name and the word P.O.</small>*@
+                                            <span class="float-left ml-2" style="width:94%;text-align: justify;"> Fill the details then Attach your own P.O. in attachment OR Change the method to 'Email Purchase Order' and copy the content from Copy PO tab and paste it in your compose email window. Send copied content to <a href="mailto:orders@swissbake.ch" style="color:#d70002">orders@swissbake.ch</a>  with Subject line that includes your company name and the word P.O. and click Place order.</span>
+                                        </div>
+                                        <div class="col-md-8  d-none">
+                                            <div class="Po-Preview" style="background:#fff;float:left;overflow:scroll;height:240px;width:100%;">
+                                                <div id="POMain" class="Po-Main" style="width: 8.27in;float:left;background:#fff;padding: 20px;">
+                                                    <div style="width:100%;text-align:center;margin-bottom:15px;">********** PURCHASE ORDER **********</div>
+                                                    <div class="po-hd" style="float: left;width: 100%;">
+                                                        <div class="lt-po-hd-blk float-left" style="float: left;width:50%;">
+                                                            <span style="text-decoration:underline">VENDOR</span><br />
+                                                            <b>Swiss Bake Ingredients Pvt. Ltd.</b><br />
+                                                            <div style="width:50%;line-height: 1;">
+                                                                <span style="font-size:12px;">
+                                                                    G-10 Parel Shivsmruti, Dr. E. Moses Road,
+                                                                    Worli, Mumbai 400018, Maharashtra, Bahrain.
+                                                                    022-249 44 101 / 022-249 44 104
+                                                                    Orders@swissbake.bh
+                                                                </span>
+                                                            </div><br />
+                                                        </div>
+                                                        <div class="rt-po-hd-blk text-left" style="float:right;width:50%;">
+                                                            <span>PO Number : {{PONumber}}</span><br />
+                                                            <span>PO Date : {{PODate | date }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="po-hd" style="float: left;width: 100%;">
+                                                        <div class="lt-po-hd-blk float-left" style="float: left;width:50%;">
+                                                            <span style="text-decoration:underline">BILL TO</span><br />
+                                                            <b>@Model.Tables[0].Rows[0]["AccAddr_Name"]</b><br />
+                                                            <div style="width:50%;line-height: 1;">
+                                                                <span style="font-size:12px;">
+                                                                    @Model.Tables[0].Rows[0]["AccAddr_Address"],
+                                                                    @Model.Tables[0].Rows[0]["AccAddr_City"]- @Model.Tables[0].Rows[0]["AccAddr_Pincode"], @Model.Tables[0].Rows[0]["StateName"].
+                                                                    @Model.Tables[0].Rows[0]["AccAddr_Telephone"]
+                                                                    @Model.Tables[0].Rows[0]["AccAddr_Email"]
+                                                                </span>
+                                                            </div><br />
+                                                        </div>
+                                                        <div class="rt-po-hd-blk float-right text-left" style="float:right;width:50%;">
+                                                            <span style="text-decoration:underline">DELIVER TO</span><br />
+                                                            <b>{{fillPoshipaddr.CompName}}</b><br />
+                                                            <div style="width:50%;line-height: 1;">
+                                                                <span style="font-size:12px;">
+                                                                    {{fillPoshipaddr.Address}},{{fillPoshipaddr.City}},
+                                                                    {{fillPoshipaddr.State}}-{{fillPoshipaddr.Pin}}
+                                                                    {{filladdr.Telephone}}
+                                                                    {{filladdr.Email}}
+                                                                </span>
+                                                            </div><br />
+                                                        </div>
+                                                    </div>
+                                                    <div class="po-hd" style="float: left;width: 100%;">
+                                                        <div class="lt-po-hd-blk float-left" style="float: left;width:50%;">
+                                                            <span>Company VAT No. : {{fillPoshipaddr.Gst}}</span><br />
+                                                            <span>Company State : {{fillPoshipaddr.State}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:left;margin:15px 0 0;">
+                                                        Dear Swiss Bake Ingredients Pvt. Ltd.,<br /><br />
+                                                        Kindly accept and process our purchase order as per details provided,
+                                                    </div>
+                                                    <div class="po-body" style="float: left;width: 100%;margin-top: 25px;">
+                                                        <table style="width: 100%;border-bottom: 1px solid #e1e1e1;border-collapse: collapse;">
+                                                            <thead>
+                                                                <tr style="border-bottom: 1px solid #e1e1e1;">
+                                                                    <th style="text-align: center;background: #b9161c;color: #fff;">Sr. No</th>
+                                                                    <th style="text-align: center;background: #b9161c;color: #fff;">PRODUCT NAME</th>
+                                                                    <th style="text-align: center;background: #b9161c;color: #fff;">ORDERED QTY</th>
+                                                                    <th style="text-align: center;background: #b9161c;color: #fff;">ORDERED QTY(KG)</th>
+                                                                    <th style="text-align: center;background: #b9161c;color: #fff;">TOTAL AMOUNT</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr style="border-bottom: 1px solid #e1e1e1;" ng-repeat="S in POcart">
+                                                                    <td style="text-align:center">{{$index + 1}}</td>
+                                                                    <td style="text-align:center">{{S.Product_Name}}</td>
+                                                                    <td style="text-align:center">{{S.Qty | number:0}}</td>
+                                                                    <td style="text-align:center">{{S.TotalWeight >= 1 ? S.TotalWeight : S.TotalWeight*1000}} {{S.TotalWeight >= 1 ? "KG" : "GM"}}</td>
+                                                                    <td style="text-align:right">BHD{{S.Amount | currency:"":0}}</td>
+                                                                </tr>
+                                                                @*<tr style="border-bottom: 1px solid #e1e1e1;">
+                                                                        <td style="text-align:center">1</td>
+                                                                        <td style="text-align:center">Italian Pizza Bread Mix</td>
+                                                                        <td style="text-align:center">500</td>
+                                                                        <td style="text-align:right">23,100</td>
+                                                                    </tr>*@
+
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <td colspan="3">SUB TOTAL</td>
+                                                                    <td style="text-align:center"><b>{{POTotalWeight >= 1 ? POTotalWeight : POTotalWeight*1000}} {{POTotalWeight >= 1 ? "KG" : "GM"}}</b></td>
+                                                                    <td style="text-align:right"><b>BHD{{ getSTotal1 | currency:"":0}}</b></td>
+                                                                </tr>
+                                                                @*<tr>
+                                                                    <td colspan="3">FREIGHT AMOUNT</td>
+                                                                    <td></td>
+                                                                    <td style="text-align:right">+ BHD{{freight | currency:"":0}}</td>
+                                                                </tr>*@
+                                                                <tr>
+                                                                    <td colspan="3">TOTAL VAT</td>
+                                                                    <td></td>
+                                                                    <td style="text-align:right">+ BHD{{ getVatTotal1 | currency:"":0}}</td>
+                                                                </tr>
+
+                                                                <tr style="border-top: 1px solid #e1e1e1;">
+                                                                    <td colspan="3">AMOUNT PAYABLE</td>
+                                                                    <td></td>
+                                                                    <td style="text-align:right"><b>BHD{{ getTotal1 | currency:"":0}}</b></td>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:left;margin:15px 0 0;">
+                                                        Amount Chargeable in words : {{POwordsamount}} Only
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:left;margin:15px 0 0;">
+                                                        Terms of Payment : @Model.Tables[1].Rows[0]["Acc_dueDays"]<br />
+                                                        Terms of Delivery : 15 Days from P.O. Date<br />
+                                                        Deliver To : Above Delivery Address<br />
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:left;margin:15px 0 0;">
+                                                        Approved & Authorized by,<br />
+                                                        @Model.Tables[1].Rows[0]["Contact_ContactPerson"]<br />
+                                                        @Model.Tables[1].Rows[0]["Acc_Name"]<br />
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:center;margin:15px 0 0;">
+                                                        ***This is a digitally authenticated document and does not require company seal ***
+                                                    </div>
+                                                    <div style="float:left;width:100%;text-align:left;margin:15px 0 0;">
+                                                        Thank You,<br /><br />
+                                                        @Model.Tables[1].Rows[0]["Contact_ContactPerson"]<br />
+                                                        @Model.Tables[1].Rows[0]["Acc_Name"]<br />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 ">
+                                            <div class="form-group mb-1 row">
+                                                <div class="col-lg-4">
+                                                    <label class="pt-2 mt-1">Method: </label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <select name="Mode" style="float: left;" class="sm-form-control">
+                                                        @*<option value="">Select Method</option>*@
+                                                        <option value="2">Attach Purchase Order</option>
+                                                        <option value="1">Email Purchase Order</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group mb-1 row">
+                                                <div class="col-lg-4">
+                                                    <label class="pt-2 mt-1">PO Number: </label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="text" class="sm-form-control" ng-model="PONumber" id="PONum" name="PONum" placeholder="PO Number" />
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group mb-1 row">
+                                                <div class="col-lg-4">
+                                                    <label class="pt-2 mt-1">PO Date: </label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="date" class="sm-form-control" ng-model="PODate" id="PODate" name="PODate" placeholder="PO Date" onkeypress="return false" />
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group mb-1 row">
+                                                <div class="col-lg-4">
+                                                    <label class="pt-2 mt-1" id="lblPoAttach" name="lblPoAttach">PO Attach: </label>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input type="file" name="PoAttach" id="PoAttach" class="sm-form-control" />
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group mb-1">
+                                                @*<button type="submit" id="download" class="button button-light">Email Po & Submit</button>*@
+                                                <button type="button" id='copypo' class="button button-blue   mr-0" ng-click="copypo()">Generate PO</button>
+                                                <button type="submit" class="button button-green float-right mr-0">Place Order</button>
+
+                                                @*<a id="PoDownload">Download</a>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="modal fade" id="addresspopupmodel" role="dialog" ng-controller="shippaddr">
+            <div class="modal-dialog model-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span class="modal-title">Address</span>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div ng-show="IsVisible">
+                            <span class="btn btn-info addnewbtn mb-3 ml-3" data-toggle="modal" data-target="#addnewaddrpopup" ng-click="ShowHide()">+ Add New Address</span>
+                            <div class="row">
+                                <div class="col-md-6" ng-repeat="A in Address">
+                                    <div class="card events-meta">
+                                        <div class="card-body">
+                                            <label>
+                                                <span class="addrediticons">
+                                                    <i class="fas fa-pencil-alt" style="color:  #2d98f3" ng-click="editAdd(A.Id)"></i>
+                                                    @*<i class="fas fa-trash-alt" style="color: #d70002;"></i>*@
+                                                </span>
+                                                <ul class="portfolio-meta nobottommargin">
+                                                    <li class="w-75 font-weight-bold">
+                                                        {{A.CompName}}
+                                                    </li>
+                                                    <li>
+                                                        {{A.Address}},{{A.City}}-{{A.Pin}}.
+                                                    </li>
+                                                    <li>{{A.Country}}</li>
+                                                    <li>{{A.Telephone}}</li>
+                                                    <li>{{A.Gst}}</li>
+                                                </ul>
+
+                                                <span class="deladdr" ng-if="selecteid==A.Id" data-dismiss="modal">
+                                                    <strong>Selected Delivery Address</strong>
+                                                </span>
+
+                                                <span class="deladdr" ng-if="selecteid!=A.Id" ng-click="selectAdd(A.Id)">
+                                                    <strong>Delivery on this Address</strong>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="secondaddrpopup mt-3" ng-show="IsHidden">
+                            <div class="mb-3">
+                                <span class="modal-title" style="color: #d70002;">Add New Address</span>
+                            </div>
+                            <form id="billing-shipping-form" name="billing-shipping-form" class="nobottommargin" method="POST" ng-init="CId=@Session["U_Id"].ToString()">
+                                <div class="mb-3">
+                                    <button type="reset" class="btn btn-primary cancelbtn" ng-click="ShowHide()">Cancel</button>
+                                </div>
+                                <input type="text" class="d-none" ng-model="mode" />
+                                <input type="text" class="d-none" ng-model="add.Id" />
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="shipping-form-Name">Shipping Name:</label>
+                                        <input type="text" id="Name" name="Name" ng-model="add.CompName" class="sm-form-control" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="shipping-form-email">Email Address:</label>
+                                        <input type="email" id="Email" name="Email" ng-model="add.Email" class="sm-form-control" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        
+                                        <label for="shipping-form-phone">Mobile:</label>
+                                        <select name="BI_countryCode" id="BI_countryCode" class="custom-select" width="25%" style="float:left;">
+                                            <option selected="selected" value="973">+973 </option>
+                                            <option value="971">+971</option>
+                                            <option value="974">+974</option>
+                                            <option value="965">+965</option>
+                                            <option value="968">+968</option>
+                                            <option value="966">+966</option>
+                                            <option value="964">+964</option>
+                                            <option value="967">+967</option>
+                                        </select>
+                                        <input type="text" id="Tele" maxlength="10" name="Tele" width="70%" style="float:right;" ng-model="add.Telephone" class="sm-form-control" onkeypress="return numkey(this);" />
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="shipping-form-street">Address:</label>
+                                        <input type="text" id="Address" name="Address" ng-model="add.Address" class="sm-form-control" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="shipping-form-pin">Pin Code:</label>
+                                        <input type="text" id="Pin" name="Pin" ng-model="add.Pin" class="sm-form-control" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="shipping-form-city">City / Town:</label>
+                                        <input type="text" id="City" name="City" ng-model="add.City" class="sm-form-control" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="shipping-form-country">Country:</label>
+                                        @Html.DropDownList("country", (SelectList)ViewBag.cntrylist, new { @class = "sm-form-control", @disabled = "disabled" })
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label for="shipping-form-gst">VAT No:</label>
+                                        <input type="text" id="Gst" name="Gst" ng-model="add.Gst" class="sm-form-control" />
+                                    </div>
+                                </div>
+
+                                <div style="float: right">
+                                    <button class="btn btn-primary savebtn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+
+</section><!-- #content end -->

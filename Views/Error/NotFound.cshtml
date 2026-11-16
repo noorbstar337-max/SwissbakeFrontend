@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Not Found";
+}
+
+
+@section head{
+    <style>
+        .heading-block span {
+            font-size: 18px !important;
+        }
+    </style>
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>Page Not Found</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a>System Pages</a></li>
+            <li class="breadcrumb-item active" aria-current="page">404</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+<!-- Content
+============================================= -->
+<section id="content">
+
+    <div class="content-wrap">
+
+        <div class="container clearfix">
+
+            <div class="col_one_third nobottommargin">
+                <div class=" center">
+                    <img src="~/Content/images/others/404 - 2.png" />
+                </div>
+            </div>
+
+            <div class="col_two_third -link-red nobottommargin col_last">
+
+                <div class="heading-block nobottomborder">
+                    <h1>SOMETHING'S WENT WRONG</h1>
+                    @*<h4>We can't seem to find the page you were looking for.</h4>*@
+                    <span>We can't seem to find the page you were looking for. Here are some helpful links:</span>
+                </div>
+                <div class="line m-0"></div>
+                <div class="col_one_third widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col_one_third widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/category">Product</a></li>
+                        <li><a href="/blogcategory/All">Blog</a></li>
+                        <li><a href="/recipe">Recipe</a></li>
+                    </ul>
+                </div>
+
+                <div class="col_one_third col_last widget_links topmargin nobottommargin">
+                    <ul class="text-center">
+                        <li><a href="/faq">Faq</a></li>
+                        <li><a href="/career">Career</a></li>
+                        <li><a href="/brochure">Company Catalogue</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section><!-- #content end -->

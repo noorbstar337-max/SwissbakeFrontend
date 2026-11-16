@@ -1,0 +1,320 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Quick Order";
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+}
+
+
+@section head{
+    <link href="~/Content/css/custom3.css" rel="stylesheet" />
+    <link href="~/Content/css/components/bs-datatable.css" rel="stylesheet" />
+    <style>
+
+        .tooltip {
+            display: inline-block;
+            position: relative;
+            /*border-bottom: 1px dotted #666;*/
+            text-align: left;
+            opacity:1;
+            z-index:1;
+        }
+
+            .tooltip .bottom {
+                min-width: 200px;
+                top: 40px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                padding: 10px 20px;
+                color: #444444;
+                background-color: #EEEEEE;
+                font-weight: normal;
+                font-size: 13px;
+                border-radius: 8px;
+                position: absolute;
+                z-index: 99999999;
+                box-sizing: border-box;
+                box-shadow: 0 1px 8px rgba(0,0,0,0.5);
+                display: none;
+            }
+
+            .tooltip:hover .bottom {
+                display: block;
+            }
+
+            .tooltip .bottom i {
+                position: absolute;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -12px;
+                width: 24px;
+                height: 12px;
+                overflow: hidden;
+            }
+
+                .tooltip .bottom i::after {
+                    content: '';
+                    position: absolute;
+                    width: 12px;
+                    height: 12px;
+                    left: 50%;
+                    transform: translate(-50%,50%) rotate(45deg);
+                    background-color: #EEEEEE;
+                    box-shadow: 0 1px 8px rgba(0,0,0,0.5);
+                }
+
+
+    </style>
+
+@Styles.Render("~/Content/Rev")
+
+}
+
+@section foot{
+    <script src="~/Content/js/account.js"></script>
+    <script src="~/Content/js/bind/quickorder.js"></script>
+    <script src="~/Content/js/components/bs-datatable.js"></script>
+@Scripts.Render("~/bundles/Rev")
+    @*<script>
+
+            $(document).ready(function () {
+                $('#datatable1').dataTable();
+            });
+
+        </script>*@
+    @*<style>
+        a.tooltip {
+            outline: none;
+        }
+
+            a.tooltip strong {
+                line-height: 30px;
+            }
+
+            a.tooltip:hover {
+                text-decoration: none;
+            }
+
+            a.tooltip span {
+                z-index: 10;
+                display: none;
+                padding: 10px 6px;
+                margin-left: 28px;
+                width: 300px;
+                line-height: 16px;
+            }
+
+            a.tooltip:hover span {
+                display: inline;
+                position: absolute;
+                color: #111;
+                border: 1px solid #DCA;
+                background: #fffAF0;
+            }
+
+        .callout {
+            z-index: 20;
+            position: absolute;
+            top: 7px;
+            border: 0;
+            left: -12px;
+        }
+
+        /*CSS3 extras*/
+        a.tooltip span {
+            border-radius: 4px;
+            box-shadow: 5px 5px 8px #CCC;
+        }
+
+        .width-10 {
+            width: 351px;
+            background: #B31616;
+        }
+
+        .width-12 {
+            width: 91px;
+        }
+
+        .width-2 {
+            border-bottom: 2px #777 solid;
+        }
+
+        .width-1 {
+            width: 91px;
+            border-bottom: 2px #777 solid;
+        }
+    </style>*@
+     
+}
+
+@Html.Partial("_AccountMenu")
+
+@if (Model.Tables[0].Rows.Count > 0)
+{
+
+    <section id="slider" class="slider-element revslider-wrap clearfix pt-9 mb-0">
+        <div class="rev_slider_wrapper topslider">
+            <!-- START REVOLUTION SLIDER 5.0 auto mode -->
+            <div id="rev_slider" class="rev_slider" data-version="5.0">
+                <ul>
+                    <!-- SLIDE  -->
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+                        string img = ViewBag.Domain + Convert.ToString(row["Banner_ImgPath"]);
+                        <li data-transition="fade">
+                            <!-- MAIN IMAGE -->
+                            <a class="rev-link" href="@row["Banner_Url"]">
+                                <img src="@img">
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption News-Title   tp-resizeme rs-parallaxlevel-0"
+                                     data-x="left" data-hoffset="80"
+                                     data-y="top" data-voffset="450"
+                                     data-whitespace="normal"
+                                     data-transform_idle="o:1;"
+                                     data-transform_in="o:0"
+                                     data-transform_out="o:0"
+                                     data-start="500">
+
+                                </div>
+                            </a>
+                        </li>
+
+                    }
+
+
+                </ul>
+            </div><!-- END REVOLUTION SLIDER -->
+        </div><!-- END REVOLUTION SLIDER WRAPPER -->
+
+    </section>
+}
+<section class="@(Model.Tables[0].Rows.Count > 0 ? "" : "pt-9")">
+    <div class="bg-light pt-3 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="welcome-name heading-block mb-2">
+                        <h4 class="mb-1">
+                            Welcome, @Session["U_Name"]
+                        </h4>
+                    </div>
+                    <p class="mb-lg-1">Quickly select and order products of your choice from this easy interface.</p>
+                    <a href="/account/index" class="btn-more-link float-lg-right">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="content" ng-controller="quickorder">
+
+    <div class="content-wrap quick-order">
+
+        <div class="container clearfix">
+
+            <div class="heading-block">
+                <h4>Quick Order</h4>
+            </div>
+
+            <div class="row btns-blk">
+                <div class="col-6 col-md-3 col-lg-2">
+                    <button  ng-class="type == 'recent' ? 'active w-100' : 'w-100'"  ng-click="recentProd()">Recent Products</button>
+                </div>
+                <div class="col-6 col-md-6 col-lg-2">
+                    <button ng-class="type == 'all' ? 'active w-100' : 'w-100'" ng-click="allProd()" >All Products</button>
+                </div>
+                <div class="col-12 col-md-6 col-lg-10 mt-3 mt-md-0">
+                    <div class="cartbtnblk float-md-right">
+                        <button class="btncart" ng-click="addtocart()">Add To Cart</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix mb-3"></div>
+            <div class="row">
+                <div class="col-md-4 col-lg-5 mb-3 mb-md-0">
+                    @*<select class="form-control w-100">
+                            <option>HIGH-FIBRE BREADS</option>
+                            <option>MULTIGRAIN BREADS</option>
+                            <option>VEGETARIAN CONFECTIONERY</option>
+                            <option>SPECIALITY BREAD VARIETIES</option>
+                        </select>*@
+
+                    @*<select class="form-control w-100"  >
+                        <option name="catlist"  ng-repeat="st in CatDDList"  ng-value="{{st.CatId}}">{{st.PrdCategory_Name}}</option>
+                    </select>*@
+                    <select class="form-control w-100"  ng-options="st as st.PrdCategory_Name for st in CatDDList " ng-model="category" ng-change="changecat()"></select>
+                  
+                   
+                    @*<select ng-model="b" ng-options="b.PrdCategory_Name for b in CatDDList"> </select>*@
+                    @*<select class="form-control w-100" ng-model="ccc" ng-options="catname as cat.PrdCategory_Name for cat in CatDDList"></select>*@
+                </div>
+                <div class="col-md-5 col-lg-5 mb-3 mb-md-0">
+                    <input type="text" ng-model="searchQuickPrd" class="form-control" placeholder="Search..." />
+                </div>
+                <div class="col-md-3 col-lg-2 mb-3 mb-md-0">
+                    <button type="button" class="btnfilter w-100">Apply Filter</button>
+                </div> 
+            </div>
+            <div class="clearfix mb-5"></div>
+            <div class="row">
+                <div class="col-lg-6" ng-repeat="Q in catPrd | filter:searchQuickPrd">
+                    <div class="row quick-pro-card">
+                        @*<div class="col-2 d-none d-lg-block">
+                                <img src="~/Content/images/sbimg/pro2.jpg" />
+                            </div>*@
+                        <div class="col-10">
+                            <h4 class="mb-1 pt-1"><a href=/product/{{Q.href}}>{{Q.Product_Name}}</a> <span>
+                                <a ng-if="Q.Product_Recipes != ''" href=@ViewBag.Domain{{Q.Product_Recipes}}><i class="fas fa-file-pdf"></i> <small>Leaflet</small></a>
+                                <a class="tooltip" href="#"><i class="fas fa-info-circle"></i> <small>Info</small>
+                                    <div class="bottom">
+                                        <b style="font-weight: bold;">Usage : </b>{{Q.Product_Usage}}<br />
+                                        <b style="font-weight: bold; text-align: justify;">Dosage : </b>{{Q.Product_Dosage}}
+                                    </div>
+                                </a>
+                                    
+                                    </span></h4>
+                            <p class="mb-1">{{Q.Product_Desc}}</p>
+
+                            <div class="calc-blk d-flex text-center">
+                                <span class="w-25 d-grid">No of pack: <input type="text" onkeypress="return Qtynumkey(this);" class="form-control text-center" tabindex="{{$index+1}}" ng-model="Q.Etcstring1" ng-blur="change($index)" @*ng-change="change($index)"*@ /></span>
+                                <span class="w-25 d-grid">Kgs: <strong class="font-weight-bold fnt-17" ng-bind="Q.TotalWeight| number:2"></strong></span>
+                                <span class="w-50 d-grid">Amount: <strong class="font-weight-bold fnt-17">BHD {{Q.Amount | number:3}}</strong></span>
+                            </div>
+                        </div>
+                        <div class="col-2 side-quick-info">
+                            <div class="row">
+                                <div class="col-12 text-center pt-pb-11">
+                                    <div class="d-grid">
+                                        <span>Rate / Kg</span>
+                                        <small>BHD {{Q.Product_Rate | number:3}}</small>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-12 text-center pt-pb-11">
+                                    <div class="d-grid">
+                                        <span>SKU</span>
+                                        <small ng-bind="Q.Packing_Packing"></small>
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center pt-pb-11">
+                                    <div class="d-grid">
+                                        <span>Code</span>
+                                        <small ng-bind="Q.Product_Code"></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

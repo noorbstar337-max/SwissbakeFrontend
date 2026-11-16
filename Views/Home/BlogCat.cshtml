@@ -1,0 +1,282 @@
+﻿@using System.Data
+@model DataSet
+@{
+
+    if (Request.Url.Segments[2].Replace("/", "") == "search")
+    {
+        ViewBag.Title = "Blog Search";
+    }
+    else
+    {
+        ViewBag.Title = (Model.Tables[1].Rows.Count > 0 ? Model.Tables[1].Rows[0]["BlogCat_Name"].ToString() : "No blog found");
+    }
+
+
+    if (HttpContext.Current.Request.Url.Host == "localhost")
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["localdomain"];
+    }
+    else
+    {
+        ViewBag.Domain = System.Configuration.ConfigurationManager.AppSettings["domain"];
+    }
+
+
+}
+
+@section seo{
+    <meta http-equiv="Last-Modified" content="4/23/2019 7:30:06 AM" />
+    @if (Model.Tables[0].Rows.Count > 0)
+    {
+        <meta property="og:title" content="@Model.Tables[0].Rows[0]["BlogCat_Seotitle"]" />
+        <meta name="Title" content="@Model.Tables[0].Rows[0]["BlogCat_Seotitle"]" />
+        <meta name="description" content="@Model.Tables[0].Rows[0]["BlogCat_Seodesc"]" />
+        <meta name="keywords" content="@Model.Tables[0].Rows[0]["BlogCat_Seokeywords"]" />
+        <meta property="og:description" content="@Model.Tables[0].Rows[0]["BlogCat_Seodesc"]" />
+        <meta property="og:url" content="http://uat.swissbake.bh/blogcategory/@Model.Tables[0].Rows[0]["BlogCat_Seourl"]" />
+        <meta property="twitter:title" content="@Model.Tables[0].Rows[0]["BlogCat_Seotitle"]" />
+        <meta property="twitter:description" content="@Model.Tables[0].Rows[0]["BlogCat_Seodesc"]" />
+        <meta property="og:image" content="@ViewBag.Domain@Model.Tables[0].Rows[0]["BlogCat_imgPath"]" />
+        <link rel="canonical" href="http://uat.swissbake.bh/blogcategory/@Model.Tables[0].Rows[0]["BlogCat_Seourl"]" />
+    }
+}
+
+@section foot{
+
+    <script>
+        $(document).ready(function () {
+            //Getting the URL dynamically
+            var url = $(location).attr('href');
+
+            // Getting the file name i.e last segment of URL (i.e. example.html)
+            var fn = url.split('/').reverse()[0];
+
+
+            // Getting the second last segment of URL (i.e. segment1)
+            var lm = url.split('/').reverse()[1];
+
+            if (lm == "search") {
+                $("#blgsearch").val(fn.replace("%20", " "));
+            }
+
+            $("#blgsearch").keypress(function (e) {
+                var keycode = (e.keyCode ? e.keyCode : e.which);
+                if (keycode == '13') {
+                    var srch = $("#blgsearch").val();
+                    location.href = "/blogcategory/search/" + srch;
+                }
+            });
+
+
+            $("#blogsearch").click(function () {
+
+                var srch = $("#blgsearch").val();
+                location.href = "/blogcategory/search/" + srch;
+            });
+        });
+    </script>
+
+}
+
+<!-- Page Title
+        ============================================= -->
+<section id="page-title" class="pt-11" style="background: url('/Content/images/sbimg/loginhead2.png'); background-size: 100%; background-repeat: no-repeat; background-position: bottom;">
+
+    <div class="container clearfix">
+        <h1>BLOG ARTICLES</h1>
+        <span>Articles covering bakery trends, insights, know-how and science behind baking.</span>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Request.Url.Segments[2].ToString().Replace("-", " ")</li>
+        </ol>
+    </div>
+
+</section><!-- #page-title end -->
+
+
+
+<section id="content" class="blogpage blgsecgrd">
+
+    <div class="content-wrap pt-0">
+
+        <div class="container clearfix">
+            <div class="@*blog-cat*@ row  mt-2 mb-4">
+                @foreach (DataRow r in Model.Tables[2].Rows)
+                {
+                    <div class="col-md-2 d-none">
+                        <a href="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })"><div class="@(Request.Url.AbsolutePath == "/blogcategory/"+ r["BlogCat_Seourl"] ? "Active" : "") pt-3 pb-3">@r["BlogCat_Name"]</div></a>
+                    </div>
+                }
+                <div class="col-lg-4 mb-2 mb-lg-0">
+                    <select class="form-control" onchange="window.location.href=this.value">
+                        <option value="@Url.RouteUrl("Categoryblog",new { url = "all" })" @(Request.Url.AbsolutePath == "/blogcategory/All" ? "selected" : "")>All</option>
+                        @foreach (DataRow r in Model.Tables[2].Rows)
+                        {
+                            <option value="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })" @(Request.Url.AbsolutePath == "/blogcategory/" + r["BlogCat_Seourl"] ? "selected" : "")>@r["BlogCat_Name"]</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-10 col-lg-7 pr-0 pr-md-3">
+                    <input type="text" id="blgsearch" class="form-control" placeholder="Blog Search..." />
+                </div>
+                <div class="col-2 col-lg-1 pl-0 pl-md-2">
+                    <button type="button" id="blogsearch" class="btn btn-search-red w-100"><i class="fas fa-search"></i> @*&nbsp;<span class="d-none d-md-block">Search</span>*@</button>
+                </div>
+            </div>
+
+            <!-- Post Content
+            ============================================= -->
+            <div class="postcontent nobottommargin col_last clearfix">
+
+                <!-- Posts
+                ============================================= -->
+                <div id="posts" class="post-grid grid-container grid-4 othblog clearfix" data-layout="fitRows">
+                    @{
+                        var i = 1;
+
+                    }
+                    @foreach (DataRow row in Model.Tables[0].Rows)
+                    {
+
+                        if (Model.Tables[0].Rows.Count > 0)
+                        {
+                            string title = "", Des = "";
+                            //string img = ViewBag.Domain + "/" + Convert.ToString(row["Blog_imgPath"]);
+                            string img = ViewBag.Domain;
+                            img = img.Remove(img.LastIndexOf('/'));
+                            img = img + Convert.ToString(row["Blog_imgPath"]);
+                            //string img = "/Content/images/sbimg/blog" + i + ".jpg";
+                            i++;
+                            var tcount = row["Blog_Name"].ToString().Length;
+                            var Dcount = row["Blog_ShortDesc"].ToString().Length;
+                            if (tcount > 28)
+                            {
+                                title = Convert.ToString(row["Blog_Name"]); //.Substring(0, 28) + "...";
+                                if (title.IndexOf(" ", 28) > 0)
+                                {
+                                    title = title.Substring(0, title.IndexOf(" ", 28)) + "...";
+                                }
+                            }
+                            else
+                            {
+                                title = Convert.ToString(row["Blog_Name"]);
+                            }
+                            if (Dcount > 150)
+                            {
+                                Des = Convert.ToString(row["Blog_ShortDesc"]); //.Substring(0, 170) + "...";
+                                Des = Des.Substring(0, Des.IndexOf(" ", 150)) + "...";
+                            }
+                            else
+                            {
+                                Des = Convert.ToString(row["Blog_ShortDesc"]);
+                            }
+                            <div class="entry clearfix">
+                                <div class="blog-card">
+                                    <div class="entry-image">
+                                        <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" title="@row["Blog_Name"]"><img class="" src="@img" alt="@row["Blog_Name"]"></a>
+                                    </div>
+                                    <ul class="entry-meta clearfix">
+                                        <li>@Convert.ToDateTime(row["Blog_Date"]).ToString("dd MMM yyyy") </li>
+
+                                    </ul>
+                                    <div class="entry-title">
+                                        <h2><a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })">@title</a></h2>
+                                    </div>
+
+                                    <div class="entry-content">
+                                        <p>@Des</p>
+                                    </div>
+                                    <div class="read-more-blk">
+                                        <a href="@Url.RouteUrl("Blogdetail", new { url = row["Blog_Seourl"] })" class="more-link">Read More <i class="fas fa-caret-right"></i> <i class="fas fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    }
+                    @if (Model.Tables[0].Rows.Count <= 0)
+                    {
+                        <h5 class="text-center w-100 mt-5">NO BLOGS FOUND</h5>
+                    }
+                </div><!-- #posts end -->
+
+
+            </div><!-- .postcontent end -->
+            <!-- Sidebar
+            ============================================= -->
+            @*<div class="sidebar nobottommargin clearfix">
+                    <div class="sidebar-widgets-wrap">
+
+                        <div class="widget clearfix">
+
+                            <h4>Categories</h4>
+                            <div id="post-list-footer">
+                                @foreach (DataRow r in Model.Tables[2].Rows)
+                                {
+                                <div class="spost clearfix">
+
+                                    <div class="entry-c">
+                                        <div class="list-values-content"><a href="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })">@r["BlogCat_Name"]</a></div>
+                                        @*<div class="list-values-value"><a href="@Url.RouteUrl("Categoryblog",new { url = r["BlogCat_Seourl"] })">(@r["BCount"])</a></div>
+                                    </div>
+                                </div>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        <div class="widget clearfix">
+
+                            <h4>Popular Posts</h4>
+                            <div id="post-list-footer">
+
+                                <div class="spost clearfix">
+
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">Lorem ipsum dolor sit amet, consectetur</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">Elit Assumenda vel amet dolorum quasi</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="spost clearfix">
+
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="#">Debitis nihil placeat, illum est nisi</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>*@<!-- .sidebar end -->
+
+        </div>
+
+    </div>
+
+</section>
